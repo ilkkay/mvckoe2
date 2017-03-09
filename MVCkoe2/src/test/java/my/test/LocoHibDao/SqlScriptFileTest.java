@@ -16,6 +16,7 @@ import org.junit.Test;
 
 public class SqlScriptFileTest extends DbConnectionTest {
 
+	// http://www.asjava.com/junit/junit-3-vs-junit-4-comparison/
     @Before
     public void testScriptFile(){
         Session session = em.unwrap(Session.class);
