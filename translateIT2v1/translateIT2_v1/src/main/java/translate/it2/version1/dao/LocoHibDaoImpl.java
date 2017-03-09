@@ -35,7 +35,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	public int save(Transu t) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
-        		Persistence.createEntityManagerFactory( "com.crud.one" ).
+        		Persistence.createEntityManagerFactory( "translate.it2.version1" ).
         		createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist( t );
@@ -49,7 +49,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	public Transu getTransuById(int id) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
-        		Persistence.createEntityManagerFactory( "com.crud.one" ).
+        		Persistence.createEntityManagerFactory( "translate.it2.version1" ).
         		createEntityManager();
         
         Transu t = entityManager.find(Transu.class, id);
@@ -62,7 +62,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	public int delete(int id) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
-        		Persistence.createEntityManagerFactory( "com.crud.one" ).
+        		Persistence.createEntityManagerFactory( "translate.it2.version1" ).
         		createEntityManager();
         entityManager.getTransaction().begin();
 	      
@@ -78,7 +78,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	public List<Transu> getTransus() {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
-        		Persistence.createEntityManagerFactory( "com.crud.one" ).
+        		Persistence.createEntityManagerFactory( "translate.it2.version1" ).
         		createEntityManager();
         entityManager.getTransaction().begin();
         List<Transu> result = entityManager.createQuery( "from Transu", Transu.class ).getResultList();

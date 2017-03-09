@@ -12,7 +12,7 @@ import translate.it2.version1.model.Transu;
 public class ISO8859Loader {
 	public static void init() throws IOException {
 	    try {
-	        ResourceBundle rb = ResourceBundle.getBundle("com.crud.dotcms");
+	        ResourceBundle rb = ResourceBundle.getBundle("translate.it2.version1.dotcms");
 	        Enumeration<String> keys = rb.getKeys();
 	        while(keys.hasMoreElements()) {
 	            String key = keys.nextElement();
@@ -29,7 +29,7 @@ public class ISO8859Loader {
 		List <String> srcSegmnts =new ArrayList<String>();
 		
 	    try {
-	        ResourceBundle rb = ResourceBundle.getBundle("com.crud.dotcms");
+	        ResourceBundle rb = ResourceBundle.getBundle("translate.it2.version1.dotcms");
 	        Enumeration<String> keys = rb.getKeys();
 	        while(keys.hasMoreElements()) {
 	            String key = keys.nextElement();
@@ -51,8 +51,8 @@ public class ISO8859Loader {
 		// tämä com.crud.dotcms_en tunnistus onnistuu vain serverillä? ei javan main:illä
 	    try {
 	    	int id=1;
-	        ResourceBundle rb = ResourceBundle.getBundle("com.crud.dotcms_en");
-	        ResourceBundle rb_fi = ResourceBundle.getBundle("com.crud.dotcms_fi");
+	        ResourceBundle rb = ResourceBundle.getBundle("translate.it2.version1.dotcms_en");
+	        ResourceBundle rb_fi = ResourceBundle.getBundle("translate.it2.version1.dotcms_fi");
 	        Enumeration<String> keys = rb.getKeys();
 	        while(keys.hasMoreElements()) {
 	            String key = keys.nextElement();
