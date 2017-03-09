@@ -1,0 +1,994 @@
+[18:41:38] starting VERY NEW application....
+[18:41:38] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[18:41:39] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[18:41:39] 
+    drop table if exists T_LOCO cascade
+[18:41:39] 
+    drop table if exists test cascade
+[18:41:39] 
+    drop table if exists Transu cascade
+[18:41:39] 
+    drop sequence hibernate_sequence
+[18:41:39] create sequence hibernate_sequence start 1 increment 1
+[18:41:39] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:41:39] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:41:39] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[18:41:39] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[18:41:39] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[18:41:39] 
+    select
+        nextval ('hibernate_sequence')
+[18:41:39] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[18:41:39] binding parameter [1] as [VARCHAR] - [super foo]
+[18:41:39] binding parameter [2] as [BIGINT] - [1]
+[18:44:26] starting VERY NEW application....
+[18:44:26] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[18:44:27] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[18:44:27] 
+    drop table if exists T_LOCO cascade
+[18:44:27] 
+    drop table if exists test cascade
+[18:44:27] 
+    drop table if exists Transu cascade
+[18:44:27] 
+    drop sequence hibernate_sequence
+[18:44:27] create sequence hibernate_sequence start 1 increment 1
+[18:44:27] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:44:27] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:44:27] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[18:44:27] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[18:44:27] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[18:44:27] 
+    select
+        nextval ('hibernate_sequence')
+[18:44:27] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[18:44:27] binding parameter [1] as [VARCHAR] - [super foo]
+[18:44:27] binding parameter [2] as [BIGINT] - [1]
+[18:47:45] starting VERY NEW application....
+[18:47:45] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[18:47:46] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[18:47:46] 
+    drop table if exists T_LOCO cascade
+[18:47:46] 
+    drop table if exists test cascade
+[18:47:46] 
+    drop table if exists Transu cascade
+[18:47:46] 
+    drop sequence hibernate_sequence
+[18:47:46] create sequence hibernate_sequence start 1 increment 1
+[18:47:46] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:47:46] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[18:47:46] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[18:47:46] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[18:47:46] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[18:47:46] 
+    select
+        nextval ('hibernate_sequence')
+[18:47:46] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[18:47:46] binding parameter [1] as [VARCHAR] - [super foo]
+[18:47:46] binding parameter [2] as [BIGINT] - [1]
+[10:42:45] starting VERY NEW application....
+[10:42:45] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:42:46] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[10:42:46] 
+    drop table if exists T_LOCO cascade
+[10:42:46] 
+    drop table if exists test cascade
+[10:42:46] 
+    drop table if exists Transu cascade
+[10:42:46] 
+    drop sequence hibernate_sequence
+[10:42:46] create sequence hibernate_sequence start 1 increment 1
+[10:42:46] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:42:46] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:42:46] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[10:42:46] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[10:42:46] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[10:42:46] 
+    select
+        nextval ('hibernate_sequence')
+[10:42:46] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[10:42:46] binding parameter [1] as [VARCHAR] - [super foo]
+[10:42:46] binding parameter [2] as [BIGINT] - [1]
+[10:48:22] starting TestLocoDblLoad....
+[10:48:22] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:48:23] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[10:48:23] 
+    drop table if exists T_LOCO cascade
+[10:48:23] 
+    drop table if exists test cascade
+[10:48:23] 
+    drop table if exists Transu cascade
+[10:48:23] 
+    drop sequence hibernate_sequence
+[10:48:23] create sequence hibernate_sequence start 1 increment 1
+[10:48:23] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:48:23] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:48:23] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[10:48:23] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[10:48:23] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[10:49:07] starting TestLocoDblLoad....
+[10:49:07] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:49:43] starting VERY NEW application....
+[10:49:43] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:51:30] starting VERY NEW application....
+[10:51:30] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:51:31] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[10:51:31] 
+    drop table if exists T_LOCO cascade
+[10:51:31] 
+    drop table if exists test cascade
+[10:51:31] 
+    drop table if exists Transu cascade
+[10:51:31] 
+    drop sequence hibernate_sequence
+[10:51:31] create sequence hibernate_sequence start 1 increment 1
+[10:51:31] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:51:31] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:51:31] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[10:51:31] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[10:51:31] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[10:51:31] 
+    select
+        nextval ('hibernate_sequence')
+[10:51:31] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[10:51:31] binding parameter [1] as [VARCHAR] - [super foo]
+[10:51:31] binding parameter [2] as [BIGINT] - [1]
+[10:51:46] starting TestLocoDblLoad....
+[10:51:46] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[10:51:47] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[10:51:47] 
+    drop table if exists T_LOCO cascade
+[10:51:47] 
+    drop table if exists test cascade
+[10:51:47] 
+    drop table if exists Transu cascade
+[10:51:47] 
+    drop sequence hibernate_sequence
+[10:51:47] create sequence hibernate_sequence start 1 increment 1
+[10:51:47] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:51:47] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[10:51:47] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[10:51:47] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[10:51:47] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[10:51:47] 
+    select
+        nextval ('hibernate_sequence')
+[10:51:47] 
+    select
+        nextval ('hibernate_sequence')
+[10:51:47] 
+    select
+        nextval ('hibernate_sequence')
+[10:51:47] 
+    /* insert com.crud.model.Loco
+        */ insert 
+        into
+            T_LOCO
+            (name, id) 
+        values
+            (?, ?)
+[10:51:47] binding parameter [1] as [VARCHAR] - [Name of Localized Language Object]
+[10:51:47] binding parameter [2] as [BIGINT] - [1]
+[10:51:47] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[10:51:47] binding parameter [1] as [BIGINT] - [null]
+[10:51:47] binding parameter [2] as [BOOLEAN] - [false]
+[10:51:47] binding parameter [3] as [VARCHAR] - [One]
+[10:51:47] binding parameter [4] as [VARCHAR] - [Yksi]
+[10:51:47] binding parameter [5] as [BOOLEAN] - [false]
+[10:51:47] binding parameter [6] as [INTEGER] - [2]
+[10:51:47] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[10:51:47] binding parameter [1] as [BIGINT] - [null]
+[10:51:47] binding parameter [2] as [BOOLEAN] - [false]
+[10:51:47] binding parameter [3] as [VARCHAR] - [Two]
+[10:51:47] binding parameter [4] as [VARCHAR] - [Kaksi]
+[10:51:47] binding parameter [5] as [BOOLEAN] - [false]
+[10:51:47] binding parameter [6] as [INTEGER] - [3]
+[10:51:47] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[10:51:47] binding parameter [1] as [BIGINT] - [1]
+[10:51:47] binding parameter [2] as [INTEGER] - [2]
+[10:51:47] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[10:51:47] binding parameter [1] as [BIGINT] - [1]
+[10:51:47] binding parameter [2] as [INTEGER] - [3]
+[11:08:04] starting ISO8859LocoDbLoader....
+[11:08:04] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:08:05] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:08:05] 
+    drop table if exists T_LOCO cascade
+[11:08:05] 
+    drop table if exists test cascade
+[11:08:05] 
+    drop table if exists Transu cascade
+[11:08:05] 
+    drop sequence hibernate_sequence
+[11:08:05] create sequence hibernate_sequence start 1 increment 1
+[11:08:05] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:08:05] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:08:05] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:08:05] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:08:06] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:08:06] 
+    select
+        nextval ('hibernate_sequence')
+[11:08:06] 
+    select
+        nextval ('hibernate_sequence')
+[11:08:06] 
+    select
+        nextval ('hibernate_sequence')
+[11:08:06] 
+    /* insert com.crud.model.Loco
+        */ insert 
+        into
+            T_LOCO
+            (name, id) 
+        values
+            (?, ?)
+[11:08:06] binding parameter [1] as [VARCHAR] - [Name of Localized Language Object]
+[11:08:06] binding parameter [2] as [BIGINT] - [1]
+[11:08:06] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:08:06] binding parameter [1] as [BIGINT] - [null]
+[11:08:06] binding parameter [2] as [BOOLEAN] - [false]
+[11:08:06] binding parameter [3] as [VARCHAR] - [One]
+[11:08:06] binding parameter [4] as [VARCHAR] - [Yksi]
+[11:08:06] binding parameter [5] as [BOOLEAN] - [false]
+[11:08:06] binding parameter [6] as [INTEGER] - [2]
+[11:08:06] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:08:06] binding parameter [1] as [BIGINT] - [null]
+[11:08:06] binding parameter [2] as [BOOLEAN] - [false]
+[11:08:06] binding parameter [3] as [VARCHAR] - [Two]
+[11:08:06] binding parameter [4] as [VARCHAR] - [Kaksi]
+[11:08:06] binding parameter [5] as [BOOLEAN] - [false]
+[11:08:06] binding parameter [6] as [INTEGER] - [3]
+[11:08:06] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:08:06] binding parameter [1] as [BIGINT] - [1]
+[11:08:06] binding parameter [2] as [INTEGER] - [2]
+[11:08:06] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:08:06] binding parameter [1] as [BIGINT] - [1]
+[11:08:06] binding parameter [2] as [INTEGER] - [3]
+[11:15:18] starting ISO8859LocoDbLoader....
+[11:15:18] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:15:19] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:15:20] 
+    drop table if exists T_LOCO cascade
+[11:15:20] 
+    drop table if exists test cascade
+[11:15:20] 
+    drop table if exists Transu cascade
+[11:15:20] 
+    drop sequence hibernate_sequence
+[11:15:20] create sequence hibernate_sequence start 1 increment 1
+[11:15:20] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:15:20] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:15:20] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:15:20] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:15:20] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:20:15] starting TestLocoDblLoad....
+[11:20:15] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:20:16] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:20:16] 
+    drop table if exists T_LOCO cascade
+[11:20:16] 
+    drop table if exists test cascade
+[11:20:16] 
+    drop table if exists Transu cascade
+[11:20:16] 
+    drop sequence hibernate_sequence
+[11:20:17] create sequence hibernate_sequence start 1 increment 1
+[11:20:17] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:20:17] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:20:17] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:20:17] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:20:17] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:20:17] 
+    select
+        nextval ('hibernate_sequence')
+[11:20:17] 
+    select
+        nextval ('hibernate_sequence')
+[11:20:17] 
+    select
+        nextval ('hibernate_sequence')
+[11:20:17] 
+    /* insert com.crud.model.Loco
+        */ insert 
+        into
+            T_LOCO
+            (name, id) 
+        values
+            (?, ?)
+[11:20:17] binding parameter [1] as [VARCHAR] - [Name of Localized Language Object]
+[11:20:17] binding parameter [2] as [BIGINT] - [1]
+[11:20:17] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:20:17] binding parameter [1] as [BIGINT] - [null]
+[11:20:17] binding parameter [2] as [BOOLEAN] - [false]
+[11:20:17] binding parameter [3] as [VARCHAR] - [One]
+[11:20:17] binding parameter [4] as [VARCHAR] - [Yksi]
+[11:20:17] binding parameter [5] as [BOOLEAN] - [false]
+[11:20:17] binding parameter [6] as [INTEGER] - [2]
+[11:20:17] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:20:17] binding parameter [1] as [BIGINT] - [null]
+[11:20:17] binding parameter [2] as [BOOLEAN] - [false]
+[11:20:17] binding parameter [3] as [VARCHAR] - [Two]
+[11:20:17] binding parameter [4] as [VARCHAR] - [Kaksi]
+[11:20:17] binding parameter [5] as [BOOLEAN] - [false]
+[11:20:17] binding parameter [6] as [INTEGER] - [3]
+[11:20:17] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:20:17] binding parameter [1] as [BIGINT] - [1]
+[11:20:17] binding parameter [2] as [INTEGER] - [2]
+[11:20:17] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:20:17] binding parameter [1] as [BIGINT] - [1]
+[11:20:17] binding parameter [2] as [INTEGER] - [3]
+[11:20:42] starting ISO8859LocoDbLoader....
+[11:20:42] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:20:43] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:20:43] 
+    drop table if exists T_LOCO cascade
+[11:20:43] 
+    drop table if exists test cascade
+[11:20:43] 
+    drop table if exists Transu cascade
+[11:20:43] 
+    drop sequence hibernate_sequence
+[11:20:43] create sequence hibernate_sequence start 1 increment 1
+[11:20:43] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:20:43] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:20:43] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:20:43] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:20:44] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:39:20] starting VERY NEW application....
+[11:39:20] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:39:21] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:39:21] 
+    drop table if exists T_LOCO cascade
+[11:39:21] 
+    drop table if exists test cascade
+[11:39:21] 
+    drop table if exists Transu cascade
+[11:39:21] 
+    drop sequence hibernate_sequence
+[11:39:21] create sequence hibernate_sequence start 1 increment 1
+[11:39:21] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:39:21] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:39:21] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:39:22] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:39:22] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:39:22] 
+    select
+        nextval ('hibernate_sequence')
+[11:39:22] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[11:39:22] binding parameter [1] as [VARCHAR] - [super foo]
+[11:39:22] binding parameter [2] as [BIGINT] - [1]
+[11:40:47] starting TestLocoDblLoad....
+[11:40:47] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:40:48] 
+    alter table Transu 
+        drop constraint FKf5th2rsuf798idx5bmeep9v5g
+[11:40:48] 
+    drop table if exists T_LOCO cascade
+[11:40:48] 
+    drop table if exists test cascade
+[11:40:48] 
+    drop table if exists Transu cascade
+[11:40:48] 
+    drop sequence hibernate_sequence
+[11:40:48] create sequence hibernate_sequence start 1 increment 1
+[11:40:48] 
+    create table T_LOCO (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:40:48] 
+    create table test (
+        id int8 not null,
+        name varchar(255),
+        primary key (id)
+    )
+[11:40:48] 
+    create table Transu (
+        id int4 not null,
+        reviewed boolean not null,
+        sourceSegm varchar(255),
+        targetSegm varchar(255),
+        translated boolean not null,
+        loco_id int8,
+        primary key (id)
+    )
+[11:40:48] 
+    alter table test 
+        add constraint UK_1chowmbf27f0cbp7on9ysvhjo unique (name)
+[11:40:48] 
+    alter table Transu 
+        add constraint FKf5th2rsuf798idx5bmeep9v5g 
+        foreign key (loco_id) 
+        references T_LOCO
+[11:40:48] 
+    select
+        nextval ('hibernate_sequence')
+[11:40:48] 
+    select
+        nextval ('hibernate_sequence')
+[11:40:48] 
+    select
+        nextval ('hibernate_sequence')
+[11:40:48] 
+    /* insert com.crud.model.Loco
+        */ insert 
+        into
+            T_LOCO
+            (name, id) 
+        values
+            (?, ?)
+[11:40:48] binding parameter [1] as [VARCHAR] - [Name of Localized Language Object]
+[11:40:48] binding parameter [2] as [BIGINT] - [1]
+[11:40:48] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:40:48] binding parameter [1] as [BIGINT] - [null]
+[11:40:48] binding parameter [2] as [BOOLEAN] - [false]
+[11:40:48] binding parameter [3] as [VARCHAR] - [One]
+[11:40:48] binding parameter [4] as [VARCHAR] - [Yksi]
+[11:40:48] binding parameter [5] as [BOOLEAN] - [false]
+[11:40:48] binding parameter [6] as [INTEGER] - [2]
+[11:40:48] 
+    /* insert com.crud.model.Transu
+        */ insert 
+        into
+            Transu
+            (loco_id, reviewed, sourceSegm, targetSegm, translated, id) 
+        values
+            (?, ?, ?, ?, ?, ?)
+[11:40:48] binding parameter [1] as [BIGINT] - [null]
+[11:40:48] binding parameter [2] as [BOOLEAN] - [false]
+[11:40:48] binding parameter [3] as [VARCHAR] - [Two]
+[11:40:48] binding parameter [4] as [VARCHAR] - [Kaksi]
+[11:40:48] binding parameter [5] as [BOOLEAN] - [false]
+[11:40:48] binding parameter [6] as [INTEGER] - [3]
+[11:40:48] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:40:48] binding parameter [1] as [BIGINT] - [1]
+[11:40:48] binding parameter [2] as [INTEGER] - [2]
+[11:40:48] 
+    /* create one-to-many row com.crud.model.Loco.transus */ update
+        Transu 
+    set
+        LOCO_ID=? 
+    where
+        id=?
+[11:40:48] binding parameter [1] as [BIGINT] - [1]
+[11:40:48] binding parameter [2] as [INTEGER] - [3]
+[11:22:30] starting VERY NEW application....
+[11:22:30] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:23:56] starting VERY NEW application....
+[11:23:56] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:24:25] starting VERY NEW application....
+[11:24:25] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:24:26] 
+    select
+        nextval ('hibernate_sequence')
+[11:24:26] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[11:24:26] binding parameter [1] as [VARCHAR] - [super foo]
+[11:24:26] binding parameter [2] as [BIGINT] - [107]
+[11:35:49] starting VERY NEW application....
+[11:35:49] Logging Provider: org.jboss.logging.Log4jLoggerProvider
+[11:35:50] 
+    select
+        nextval ('hibernate_sequence')
+[11:35:50] 
+    /* insert com.crud.model.TestEntity
+        */ insert 
+        into
+            test
+            (name, id) 
+        values
+            (?, ?)
+[11:35:50] binding parameter [1] as [VARCHAR] - [super foo]
+[11:35:50] binding parameter [2] as [BIGINT] - [108]
+[11:35:50] ERROR: duplicate key value violates unique constraint "uk_1chowmbf27f0cbp7on9ysvhjo"
+  Detail: Key (name)=(super foo) already exists.
+[11:35:50] cannot commit transaction
+javax.persistence.RollbackException: Error while committing the transaction
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:86)
+	at com.crud.TestEntityApp.main(TestEntityApp.java:38)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1692)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1602)
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:67)
+	... 1 more
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:112)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:111)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:97)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:207)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:45)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2921)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3421)
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:89)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:560)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:434)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:337)
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39)
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1295)
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:468)
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3135)
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2352)
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:485)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:147)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$100(JdbcResourceLocalTransactionCoordinatorImpl.java:38)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:231)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:65)
+	at org.hibernate.jpa.internal.TransactionImpl.commit(TransactionImpl.java:61)
+	... 1 more
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "uk_1chowmbf27f0cbp7on9ysvhjo"
+  Detail: Key (name)=(super foo) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2284)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2003)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:200)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:424)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:161)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:133)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:204)
+	... 19 more
