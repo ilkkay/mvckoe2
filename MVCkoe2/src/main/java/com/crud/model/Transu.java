@@ -1,6 +1,8 @@
 package com.crud.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +13,32 @@ import javax.persistence.ManyToOne;
  * a Translation Unit = { (untranslated) source segment, (translated) target segment } 
  */
 @Entity
-public class Transu {
+public class Transu implements Serializable{
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+
+	@ManyToOne
+	private Loco loco;
+	
+	private String targetSegm;
+	private String sourceSegm;
+	private boolean translated;
+	private boolean reviewed;
+	
+	public Transu(){
+		
+	}
+	
+	public Transu(int id, Loco loco, String targetSegm, String sourceSegm, boolean translated, boolean reviewed) {
+		super();
+		this.id = id;
+		this.loco = loco;
+		this.targetSegm = targetSegm;
+		this.sourceSegm = sourceSegm;
+		this.translated = translated;
+		this.reviewed = reviewed;
+	}
 	public String getTargetSegm() {
 		return targetSegm;
 	}
@@ -25,18 +52,6 @@ public class Transu {
 		this.sourceSegm = sourceSegm;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-
-	@ManyToOne
-	private Loco loco;
-	
-	private String targetSegm;
-	private String sourceSegm;
-	private boolean translated;
-	private boolean reviewed;
-	
 	public boolean isTranslated() {
 		return translated;
 	}

@@ -1,6 +1,7 @@
 package com.crud.model;
 
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -19,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="T_LOCO")
-public class Loco {
+public class Loco implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -30,6 +31,16 @@ public class Loco {
 	@JoinColumn(name="LOCO_ID")
 	private Collection<Transu> transus = new LinkedHashSet<Transu>();
 	
+	public Loco(){
+	}
+	
+	public Loco(Long id, String name, Collection<Transu> transus) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.transus = transus;
+	}
+
 	public Long getId() {
 		return id;
 	}
