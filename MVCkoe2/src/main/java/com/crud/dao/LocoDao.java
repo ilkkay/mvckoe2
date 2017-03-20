@@ -5,9 +5,9 @@ import java.util.List;
 import com.crud.model.Transu;
 
 public interface LocoDao extends Serializable{
-	public int save(Transu t);
-	public int update(Transu t);
-	public Transu getTransuById(int id);
-	public int delete(int id);
+	public long save(Transu t);
+	public long update(Transu t);
+	public Transu getTransuById(long id);
+	public long delete(long id);
 	public List<Transu> getTransus();
 }

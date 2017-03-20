@@ -21,7 +21,7 @@ import com.crud.model.Transu;
 public class LocoHibDaoImpl implements LocoDao {
 
 	@Override
-	public int update(Transu t) {
+	public long update(Transu t) {
 		// TODO Auto-generated method stub
 		// id ei saa olla alustettu, mutta yhteen sopivuuden vuoksi
 		Transu tmp_t = new Transu();
@@ -32,7 +32,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	}
 
 	@Override
-	public int save(Transu t) {
+	public long save(Transu t) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
         		Persistence.createEntityManagerFactory( "com.crud.one" ).
@@ -46,7 +46,7 @@ public class LocoHibDaoImpl implements LocoDao {
 
 	// https://www.tutorialspoint.com/jpa/jpa_entity_managers.htm
 	@Override
-	public Transu getTransuById(int id) {
+	public Transu getTransuById(long id) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
         		Persistence.createEntityManagerFactory( "com.crud.one" ).
@@ -59,7 +59,7 @@ public class LocoHibDaoImpl implements LocoDao {
 	}
 
 	@Override
-	public int delete(int id) {
+	public long delete(long id) {
 		// TODO Auto-generated method stub
         EntityManager entityManager = 
         		Persistence.createEntityManagerFactory( "com.crud.one" ).
@@ -67,7 +67,7 @@ public class LocoHibDaoImpl implements LocoDao {
         entityManager.getTransaction().begin();
 	      
         Transu t = entityManager.find(Transu.class, id);
-        int tmp_id = t.getId();
+        long tmp_id = t.getId();
 	    entityManager.remove( t );
 	    entityManager.getTransaction( ).commit( );
 	    entityManager.close( );

@@ -6,12 +6,13 @@ import java.util.List;
 
 import com.crud.util.ISO8859Loader;
 import com.crud.model.Transu;
+import static java.lang.Math.toIntExact;
 
 public class LocoMemDaoImpl implements LocoDao{
 	private List <Transu> transus = null;
 	private boolean isInitialized=false;
 	
-	public int save(Transu t){
+	public long save(Transu t){
 		if (transus == null){
 			try {
 			    	transus=ISO8859Loader.getTransus();
@@ -20,26 +21,26 @@ public class LocoMemDaoImpl implements LocoDao{
 			        e.printStackTrace();
 			}
 		}
-		int largestId=transus.get((transus.size()-1)).getId()+1;
+		long largestId=transus.get((transus.size()-1)).getId()+1;
 		t.setId(largestId);
 		transus.add(t);
 		return t.getId();
 	}
 	
-	public int update(Transu t){	
-		int index = getListPosition(t.getId());
+	public long update(Transu t){	
+		int index = (int)(getListPosition((int)(t.getId())));
 		transus.set(index, t);
 		return t.getId();
 	}
 
-	public int delete(int id){
-		int index = getListPosition(id);
+	public long delete(long id){
+		int index = getListPosition(toIntExact(id));
 		transus.remove(index);
 		return id;
 	}
 	
-	public Transu getTransuById(int id){
-		int index = getListPosition(id);
+	public Transu getTransuById(long id){
+		int index = getListPosition(toIntExact(id));
 		Transu t=transus.get(index);
 		return(t);
 	}

@@ -30,7 +30,7 @@ public class LocoController {
     LocoHibDaoImpl locoDaoDb;
     
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	private static final boolean USE_DB=false;
+	private static final boolean USE_DB=true;
 	
     @RequestMapping("/")  
     public ModelAndView showindex(){  

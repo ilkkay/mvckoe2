@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Save or create a new translation unit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h2>Translation unit</h2>
+    <form action="#" th:action="@{/viewtransu}" th:object="${transu}" method="post">
+    	<input type="hidden" th:field="*{id}" />
+        <p>Source: <input type="text" th:field="*{sourceSegm}" /></p>
+        <p>Target: <input type="text" th:field="*{targetSegm}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</body>
+</html>
