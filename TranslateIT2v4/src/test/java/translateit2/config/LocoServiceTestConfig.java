@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
 import translateit2.service.LocoServiceImpl;
@@ -42,4 +43,5 @@ public class LocoServiceTestConfig {
     LocoServiceImpl locoService(){
         return new LocoServiceImpl();
     }
+    
 }

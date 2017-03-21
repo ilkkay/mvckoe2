@@ -8,9 +8,11 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import translateit2.config.LocoServiceTestConfig;
 import translateit2.persistence.dao.LocoRepository;
@@ -20,17 +22,18 @@ import translateit2.persistence.model.Transu;
 //https://springframework.guru/integration-testing-with-spring-and-junit/
 //https://springframework.guru/mockito-mock-vs-spy-in-spring-boot-tests/
 //https://dzone.com/articles/mockito-mock-vs-spy-in-spring-boot-tests
+//https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm
 
-//@SpringBootConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {LocoServiceTestConfig.class})
 public class LocoServiceImplMockTest {
 
+	@Autowired
     private LocoServiceImpl locoServiceImpl;
 
-    @Mock
     private LocoRepository locoRepository;
     
-    @Mock
+
     private Loco loco;
     
     private void loadLocoData(LocoServiceImpl locoService){
@@ -65,9 +68,13 @@ public class LocoServiceImplMockTest {
     }
     
     @Test
+    public void testGetProduct(){
+        LocoDto locoDto = locoService.getProduct(1L);
+        assertEquals(product.getDescription(), "This is a test product");
+    }
+    
+    @Test
     public void shouldReturnProjectName_whenGetLocoByIdIsCalled() throws Exception {
-    	
-    	Iterable <Loco> locos = locoRepository.findAll();
     	
     	Loco loco = locoServiceImpl.getLocoById(3L);
     	// Act    

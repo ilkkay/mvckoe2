@@ -39,6 +39,8 @@ public class Transu implements Serializable{
 	}
 	*/
 	
+	private int rowId;
+	
 	@Column(columnDefinition="TEXT")
 	private String targetSegm;
 	@Column(columnDefinition="TEXT")
@@ -77,6 +79,12 @@ public class Transu implements Serializable{
 	}
 	public void setSourceSegm(String sourceSegm) {
 		this.sourceSegm = sourceSegm;
+	}
+	public int getRowId() {
+		return rowId;
+	}
+	public void setRowId(int rowId) {
+		this.rowId = rowId;
 	}	
 	
 }

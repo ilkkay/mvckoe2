@@ -45,7 +45,8 @@ public class Loco implements Serializable{
 	    }
 	}
 	*/
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true, mappedBy="loco")
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, 
+			orphanRemoval = true, mappedBy="loco")
 	private Set<Transu> transus = new HashSet<Transu>();	
 	
 	public Set<Transu> getTransus() {
@@ -120,9 +121,14 @@ public class Loco implements Serializable{
 	}
 
 	public Transu getTransuByRowId(long rowId){
-		return transus.stream().filter(t->rowId==t.getId())
+		return transus.stream().filter(t->rowId==t.getRowId())
 		.findAny()									// If 'findAny' then return found
 		.orElse(null);								// If not found, return null
 	}
 	
+	public Transu getTransuBySrcSegment(String segment){
+		return transus.stream().filter(t->segment.equals(t.getSourceSegm()))
+		.findAny()									// If 'findAny' then return found
+		.orElse(null);								// If not found, return null
+	}
 }
