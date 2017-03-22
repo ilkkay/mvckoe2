@@ -66,13 +66,7 @@ public class LocoServiceImplMockTest {
         locoServiceImpl.setLocoRepo(locoRepository);
         loadLocoData(locoServiceImpl);
     }
-    
-    @Test
-    public void testGetProduct(){
-        LocoDto locoDto = locoService.getProduct(1L);
-        assertEquals(product.getDescription(), "This is a test product");
-    }
-    
+        
     @Test
     public void shouldReturnProjectName_whenGetLocoByIdIsCalled() throws Exception {
     	

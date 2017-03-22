@@ -16,4 +16,6 @@ public interface TransuService {
     public Iterable<Transu> getAllTransus();
 
     public Iterable<Transu> getTransusByLocoId(final long locoId);
+    
+    public Transu getTransuByLocoIdAndRowId(final long locoId,final Integer rowId);
 }

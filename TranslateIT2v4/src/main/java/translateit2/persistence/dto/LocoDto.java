@@ -5,7 +5,7 @@ import java.util.Set;
 
 import translateit2.persistence.model.Transu;
 
-public class LocoDto {
+public class LocoDto extends AbstractLocoDto{
 	private Long id;
 	
 	private String name;
@@ -67,5 +67,11 @@ public class LocoDto {
 		return transus.stream().filter(t->rowId==t.getRowId())
 		.findAny()									// If 'findAny' then return found
 		.orElse(null);								// If not found, return null
+	}
+
+	@Override
+	public boolean isNil() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -8,10 +8,11 @@ import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
 import translateit2.service.LocoServiceImpl;
+import translateit2.service.TransuServiceImpl;
  
 @Configuration
 public class LocoServiceTestConfig {
-	
+/*
 	@Bean
 	InitializingBean loadLocoData(LocoServiceImpl locoService){
 		return ()->{
@@ -37,11 +38,15 @@ public class LocoServiceTestConfig {
 	    	locoService.createLoco(l);
 		};
 	}
-
- 
+*/
     @Bean
     LocoServiceImpl locoService(){
         return new LocoServiceImpl();
+    }
+    
+    @Bean
+    TransuServiceImpl transuService(){
+        return new TransuServiceImpl();
     }
     
 }

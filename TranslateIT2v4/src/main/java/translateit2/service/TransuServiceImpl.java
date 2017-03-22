@@ -1,5 +1,7 @@
 package translateit2.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import translateit2.persistence.dao.TransuRepository;
 import translateit2.persistence.model.Transu;
 
 @Service
+@Transactional //
 public class TransuServiceImpl {
     @Autowired
     private TransuRepository transuRepo;
@@ -46,12 +49,11 @@ public class TransuServiceImpl {
     }
     
     public Iterable<Transu> getTransusByLocoId(final long locoId) {
-    	/*
-    	List<Transu> orderedList=(List<Transu>) transuRepo.findByLocoId(locoId);
-    	orderedList.stream().sorted((o1, o2)->Long.compare(o1.getId(),o2.getId())).
-                collect(Collectors.toList());
-    	return orderedList;
-    	*/
         return transuRepo.findByLocoId(locoId);
+    }
+    
+    public Transu getTransuByLocoIdAndRowId(final long locoId,
+    		final Integer rowId) {
+        return transuRepo.findByLocoIdAndRowId(locoId,rowId);
     }
 }

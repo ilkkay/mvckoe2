@@ -21,16 +21,8 @@ import translateit2.persistence.model.Transu;
 
 @Service
 @Transactional // we don't need this annotation <= CrudRepository
-public class LocoServiceImpl implements LocoService{	
-	private Loco perLoco;
-	
-    public Loco getPerLoco() {
-		return perLoco;
-	}
-	public void setPerLoco(Loco perLoco) {
-		this.perLoco = perLoco;
-	}
-	
+public class Loco2ServiceImpl implements Loco2Service{	
+
 	@Autowired
     private LocoRepository locoRepo;
     // private PagingLocoRepository locoRepo;
@@ -46,29 +38,28 @@ public class LocoServiceImpl implements LocoService{
     private ModelMapper modelMapper;
     
     
-	public LocoServiceImpl() {
+	public Loco2ServiceImpl() {
         super();
     }
 
 	public Loco updateLoco(final Loco entity) {
-    	perLoco = locoRepo.save(entity);
-    	return perLoco ;
+    	return locoRepo.save(entity);
     }
     @Override
-	public LocoDto updateLocoDto() {
+	public LocoDto updateLocoDto(final LocoDto locoDto) {
+    	Loco perLoco = getLocoByProjectName(locoDto.getProjectName());
     	perLoco =  locoRepo.save(perLoco);
     	return convertToDto(perLoco);
     }
     
     
 	public Loco createLoco(final Loco entity) {
-    	perLoco = locoRepo.save(entity);
-        return perLoco;
+        return locoRepo.save(entity);
     }
 	@Override
-	public LocoDto createLocoDto(LocoDto entity) {
+	public LocoDto createLocoDto(final LocoDto entity) {
 		// TODO Auto-generated method stub
-    	perLoco = locoRepo.save(convertToEntity(entity));
+    	Loco perLoco = locoRepo.save(convertToEntity(entity));
 		return convertToDto(perLoco); 
 	}
 	
@@ -99,26 +90,28 @@ public class LocoServiceImpl implements LocoService{
     
     public LocoDto getLocoDtoByProjectName(String projectName){
     	Loco loco = locoRepo.findByProjectName(projectName);
-    	//if (loco==null) return new NullLocoDto();
 		return convertToDto(loco);
 	
     }
     
-    public Transu getTransuById(long Id){
+    public Transu getTransuById(long Id, final LocoDto locoDto) {
+		Loco perLoco = getLocoById(locoDto.getId());
 		return perLoco.getTransus().
 				stream().filter(t->Id==t.getId())
 				.findAny()									
 				.orElse(null);								
 	}
     
-    public TransuDto getTransuDtoByRowId(int rowId){
+    public TransuDto getTransuDtoByRowId(int rowIdLocoDto, final LocoDto locoDto) {
+		Loco perLoco = getLocoById(locoDto.getId());
     		return copyTransuToDto(perLoco.getTransus().
-    				stream().filter(t->rowId==t.getRowId())
+    				stream().filter(t->rowIdLocoDto==t.getRowId())
     				.findAny()									
     				.orElse(null));								
     	}
     
-	public List<Transu> listAllTransus() {
+	public List<Transu> listAllTransus(final LocoDto locoDto) {
+		Loco perLoco = getLocoById(locoDto.getId());
 	    Set <Transu> transus = perLoco.getTransus();
 		List<Transu> transuList = new ArrayList<Transu>(); 
 		for (Transu transu : transus){
@@ -127,17 +120,9 @@ public class LocoServiceImpl implements LocoService{
 		return transuList;
     }
 	
-	private TransuDto copyTransuToDto(Transu t){
-		TransuDto dto = new TransuDto();
-		dto.setId(t.getId());
-		dto.setLoco(0);
-		dto.setRowId(t.getRowId());
-		dto.setSourceSegm(t.getSourceSegm());
-		dto.setTargetSegm(t.getTargetSegm());
-		return dto;
-	}
 	
-	public List<TransuDto> listAllTransuDtos() {
+	public List<TransuDto> listAllTransuDtos(final LocoDto locoDto) {
+		Loco perLoco = getLocoById(locoDto.getId());
 	    Set <Transu> transus = perLoco.getTransus();
 		List<TransuDto> transuDtos = new ArrayList<TransuDto>(); 
 		for (Transu t : transus){
@@ -146,14 +131,6 @@ public class LocoServiceImpl implements LocoService{
 		return transuDtos;
     }
 
-	/*
-    private AbstractLocoDto convertToDto(Loco loco) {
-    	if (loco == null) return new NullLocoDto();
-        LocoDto locoDto = modelMapper.map(loco, LocoDto.class);
-        return locoDto;
-    }
-    */
-	
     private LocoDto convertToDto(Loco loco) {
     	if (loco == null) return null;
         LocoDto locoDto = modelMapper.map(loco, LocoDto.class);
@@ -163,33 +140,66 @@ public class LocoServiceImpl implements LocoService{
     private Loco convertToEntity(LocoDto locoDto) {
         Loco loco = modelMapper.map(locoDto, Loco.class);
       
-        if (locoDto.getId() != null) {
-            Loco oldLoco = getLocoById(locoDto.getId());
-        }
         return loco;
     }
     
+    private Transu convertToEntity(TransuDto transuDto) {
+        Transu transu = modelMapper.map(transuDto, Transu.class);
+      
+        return transu;
+    }
     
     @Override
 	public void updateTransuDto(TransuDto transuDto){
+    	Loco perLoco = getLocoById(transuDto.getLoco());
+    	/*
     	Transu curTransu = perLoco.getTransuByRowId(transuDto.getRowId());
     	curTransu.setRowId(transuDto.getRowId());
     	curTransu.setSourceSegm(transuDto.getSourceSegm());
     	curTransu.setTargetSegm(transuDto.getTargetSegm());
+    	*/
+    	Transu curTransu = convertToEntity(transuDto);
+    	
     	curTransu.setLoco (perLoco);
     }
     
-    @Override
-	public void createTransuDto(TransuDto transuDto){
-    	Transu curTransu = new Transu(); //perLoco.getTransuByRowId(transuDto.getRowId());
+
+	private TransuDto copyTransuToDto(Transu t){
+		TransuDto dto = new TransuDto();
+		dto.setId(t.getId());
+		dto.setLoco(0);
+		dto.setRowId(t.getRowId());
+		dto.setSourceSegm(t.getSourceSegm());
+		dto.setTargetSegm(t.getTargetSegm());
+		return dto;
+	}
+
+	/*
+	private TransuDto copyDtoToTransu(TransuDto dto){
+		Transu t = new Transu();
+		t.setId(dto.getId());
+		t.setRowId(dto.getRowId());
+		t.setSourceSegm(dto.getSourceSegm());
+		t.setTargetSegm(t.getTargetSegm());
+		return dto;
+	}
+*/
+	@Override
+	public void createTransuDto(TransuDto transuDto, LocoDto locoDto){
+		/*
+    	Transu curTransu = new Transu(); 
     	curTransu.setRowId(transuDto.getRowId());
     	curTransu.setSourceSegm(transuDto.getSourceSegm());
     	curTransu.setTargetSegm(transuDto.getTargetSegm());
+    	*/
+		Loco perLoco = getLocoById(locoDto.getId());
+    	Transu curTransu = convertToEntity(transuDto);
     	curTransu.setLoco (perLoco);
     }
     
     @Override
 	public void removeTransuDto(TransuDto transuDto){
+    	Loco perLoco = getLocoById(transuDto.getLoco()); //
     	Transu curTransu = perLoco.getTransuByRowId(transuDto.getRowId());
     	curTransu.setLoco(null);
     	curTransu = null;

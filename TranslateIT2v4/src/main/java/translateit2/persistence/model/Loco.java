@@ -2,6 +2,7 @@ package translateit2.persistence.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -52,6 +53,12 @@ public class Loco implements Serializable{
 	public Set<Transu> getTransus() {
 		///return Collections.unmodifiableSet(transus);
 		return (transus);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Transu> getTransusSorted() {
+		return (List<Transu>) transus.stream().sorted((t1, t2) 
+				-> Integer.compare(t1.getRowId(),t2.getRowId()));
 	}
 
 	public void setTransus(Set<Transu> transus) {
