@@ -1,9 +1,5 @@
 package translateit2.persistence.model;
 import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.PreRemove;
 
 /**
  * a Translation Unit = { (untranslated) source segment, (translated) target segment } 
@@ -31,14 +24,7 @@ public class Transu implements Serializable{
 	@ManyToOne	
 	@JoinColumn(name="LOCO_ID")
 	private Loco loco;
-	
-	/*
-	@PreRemove
-	public void preRemove(){
-	    setLoco(null);
-	}
-	*/
-	
+		
 	private int rowId;
 	
 	@Column(columnDefinition="TEXT")

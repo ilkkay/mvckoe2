@@ -3,8 +3,6 @@ package translateit2.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -12,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import translateit2.persistence.dao.LocoRepository;
-import translateit2.persistence.dto.AbstractLocoDto;
 import translateit2.persistence.dto.LocoDto;
-import translateit2.persistence.dto.NullLocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
@@ -84,6 +80,7 @@ public class LocoServiceImpl implements LocoService{
 	public Iterable<Loco> listAllLocos() {
         return locoRepo.findAll();
     }
+	@Override
 	public List<LocoDto> listAllLocoDtos() {
 		List<LocoDto> locoDtos = new ArrayList<LocoDto>(); 
 		for (Loco loco : locoRepo.findAll()){
@@ -97,7 +94,8 @@ public class LocoServiceImpl implements LocoService{
         return locoRepo.findByProjectName(projectName);
     }
     
-    public LocoDto getLocoDtoByProjectName(String projectName){
+    @Override
+	public LocoDto getLocoDtoByProjectName(String projectName){
     	Loco loco = locoRepo.findByProjectName(projectName);
     	//if (loco==null) return new NullLocoDto();
 		return convertToDto(loco);
@@ -111,7 +109,8 @@ public class LocoServiceImpl implements LocoService{
 				.orElse(null);								
 	}
     
-    public TransuDto getTransuDtoByRowId(int rowId){
+    @Override
+	public TransuDto getTransuDtoByRowId(int rowId){
     		return copyTransuToDto(perLoco.getTransus().
     				stream().filter(t->rowId==t.getRowId())
     				.findAny()									
@@ -137,6 +136,7 @@ public class LocoServiceImpl implements LocoService{
 		return dto;
 	}
 	
+	@Override
 	public List<TransuDto> listAllTransuDtos() {
 	    Set <Transu> transus = perLoco.getTransus();
 		List<TransuDto> transuDtos = new ArrayList<TransuDto>(); 

@@ -1,17 +1,22 @@
 package translateit2.persistence.dto;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
+
+import javax.persistence.Transient;
 
 import translateit2.persistence.model.Transu;
 
-public class LocoDto extends AbstractLocoDto{
+public class LocoDto {
 	private Long id;
 	
 	private String name;
 	private String projectName;
 	private String origFilename;
 	private String targetFilename;
+	private Locale origLocale;
+	private Locale targetLocale;
 	
 	private Set<Transu> transus = new HashSet<Transu>();
 
@@ -69,9 +74,21 @@ public class LocoDto extends AbstractLocoDto{
 		.orElse(null);								// If not found, return null
 	}
 
-	@Override
-	public boolean isNil() {
-		// TODO Auto-generated method stub
-		return false;
+	public Locale getOrigLocale() {
+		return origLocale;
 	}
+
+	public void setOrigLocale(Locale origLocale) {
+		this.origLocale = origLocale;
+	}
+
+	public Locale getTargetLocale() {
+		return targetLocale;
+	}
+
+	public void setTargetLocale(Locale targetLocale) {
+		this.targetLocale = targetLocale;
+	}
+	
+	
 }
