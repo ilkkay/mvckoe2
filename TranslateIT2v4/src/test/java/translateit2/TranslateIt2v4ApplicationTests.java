@@ -126,10 +126,10 @@ public class TranslateIt2v4ApplicationTests {
     	transuDto.setSourceSegm("SourceSegm 4");
     	transuDto.setTargetSegm("TargetSegm 4");
     	transuDto.setRowId(4);
-    	locoDto = loco2Service.createTransuDto(transuDto,locoDto);
+    	locoDto = loco2Service.createTransuDto(transuDto,locoDto.getId());
     	
     	// receive values
-    	transuDto=loco2Service.getTransuDtoByRowId(4,locoDto);
+    	transuDto=loco2Service.getTransuDtoByRowId(4,locoDto.getId());
     	long storedId=transuDto.getId();
     	String storedStr=transuDto.getSourceSegm();
     	
@@ -157,13 +157,13 @@ public class TranslateIt2v4ApplicationTests {
     	int locoCountStart = loco2Service.listAllTransuDtos(locoDto).size();
 		
 		// update row line 3
-    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(3,locoDto);    	
+    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(3,locoDto.getId());    	
     	transuDto.setSourceSegm("Thats the way");
     	transuDto.setTargetSegm("Oh yeaah");
     	locoDto = loco2Service.updateTransuDto(transuDto);
     	
     	// receive values
-    	transuDto = loco2Service.getTransuDtoByRowId(3,locoDto);
+    	transuDto = loco2Service.getTransuDtoByRowId(3,locoDto.getId());
     	long storedId=transuDto.getId();
     	String storedStr=transuDto.getSourceSegm();
     	
@@ -190,7 +190,7 @@ public class TranslateIt2v4ApplicationTests {
     	int locoCountStart = loco2Service.listAllTransuDtos(locoDto).size();
 
     	// remove the first row
-    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(1,locoDto);
+    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(1,locoDto.getId());
     	locoDto = loco2Service.removeTransuDto(transuDto);
     	
     	int locoCount = loco2Service.listAllTransuDtos(locoDto).size();

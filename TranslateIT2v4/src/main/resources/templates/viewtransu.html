@@ -8,9 +8,10 @@
 <h2>Translation Units List</h2>  
 
 <table border="2" width="70%" cellpadding="2">  
-<tr><th>Id</th><th>Source</th><th>Target</th><th>Translate</th><th>Delete</th></tr>    
+<tr><th>ID</th><th>Row</th><th>Source</th><th>Target</th><th>Translate</th><th>Delete</th></tr>    
    <tr th:each="transu : ${transus}">
    		<td th:text="${transu.id}"></td>
+   		<td th:text="${transu.rowId}"></td>
    		<!-- 
    		<td th:text="${transu.translated}? 'yes' : 'no'"></td>
    		 -->
@@ -23,8 +24,8 @@
    <td><a href="missing.html" th:href="@{/deletetransu(transuId=${transu.id})}">Delete</a></td> 
     --> 
     
-   <td><a href="transueditform.html" th:href="@{/edittransu(transuId=${transu.id})}">Translate</a></td>
-   <td><a href="missing.html" th:href="@{/deletetransu/{transuId}/(transuId=${transu.id})}">Delete</a></td>
+   <td><a href="transueditform.html" th:href="@{/edittransu(transuId=${transu.rowId})}">Translate</a></td>
+   <td><a href="missing.html" th:href="@{/deletetransu/{transuId}/(transuId=${transu.rowId})}">Delete</a></td>
    </tr>
    </table>  
    

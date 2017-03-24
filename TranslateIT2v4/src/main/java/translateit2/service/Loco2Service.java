@@ -14,9 +14,9 @@ public interface Loco2Service {
     public LocoDto getLocoDtoById(final long id);
     public LocoDto getLocoDtoByProjectName(String projectName);
     
-    public LocoDto createTransuDto(TransuDto transuDto,LocoDto locoDto);
+    public LocoDto createTransuDto(TransuDto transuDto,final long locoId);
     public LocoDto updateTransuDto(TransuDto transuDto);
     public List<TransuDto> listAllTransuDtos(final LocoDto entity);
-    public TransuDto getTransuDtoByRowId(int rowId, final LocoDto locoDto);
+    public TransuDto getTransuDtoByRowId(int rowId, final long locoId);
     public LocoDto removeTransuDto(TransuDto transuDto);    
 }

@@ -37,15 +37,6 @@ public class Loco implements Serializable{
 	@Transient
 	private Locale targetLocale;
 	
-	/*
-	@PreRemove
-	public void preRemove(){
-	    List<Transu> tempList = new ArrayList(transus);
-	    for(Transu t : tempList){
-	        t.setLoco(null); 
-	    }
-	}
-	*/
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, 
 			orphanRemoval = true, mappedBy="loco")
 	private Set<Transu> transus = new HashSet<Transu>();	

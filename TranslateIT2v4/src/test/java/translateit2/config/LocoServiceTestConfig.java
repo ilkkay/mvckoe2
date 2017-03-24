@@ -43,17 +43,17 @@ public class LocoServiceTestConfig {
     	transuDto.setSourceSegm("SourceSegm 1");
     	transuDto.setTargetSegm("TargetSegm 1");
     	transuDto.setRowId(1);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto);
+    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
     	
     	transuDto.setSourceSegm("SourceSegm 2");
     	transuDto.setTargetSegm("TargetSegm 2");
     	transuDto.setRowId(2);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto);
+    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
     	
     	transuDto.setSourceSegm("SourceSegm 3");
     	transuDto.setTargetSegm("TargetSegm 3");
     	transuDto.setRowId(3);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto);
+    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
     	
     	locoDto = loco2Service.updateLocoDto(locoDto);
     	

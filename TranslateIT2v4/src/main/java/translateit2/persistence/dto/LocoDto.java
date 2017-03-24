@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import translateit2.persistence.model.Transu;
 
@@ -18,6 +19,7 @@ public class LocoDto {
 	private Locale origLocale;
 	private Locale targetLocale;
 	
+	//TODO: => dto
 	private Set<Transu> transus = new HashSet<Transu>();
 
 	public Long getId() {
@@ -28,6 +30,7 @@ public class LocoDto {
 		this.id = id;
 	}
 
+	@NotNull
 	public String getName() {
 		return name;
 	}

@@ -3,6 +3,10 @@ package translateit2.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +37,7 @@ public class Loco2ServiceImpl implements Loco2Service{
 	public Loco2ServiceImpl() {
         super();        
     }
-
+	
     @Override
 	public LocoDto updateLocoDto(final LocoDto locoDto) {
     	Loco perLoco = locoRepo.save(convertToEntity(locoDto));
@@ -42,6 +46,11 @@ public class Loco2ServiceImpl implements Loco2Service{
     
 	@Override
 	public LocoDto createLocoDto(final LocoDto entity) {
+		// TODO: validate add valid annotation
+		// https://spring.io/guides/gs/validating-form-input/
+		// JSR-303 annotation + hibernate validator 
+		// http://www.journaldev.com/2668/spring-validation-example-mvc-validator
+		// https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/
     	Loco perLoco = locoRepo.save(convertToEntity(entity));
 		return convertToDto(perLoco); 
 	}
@@ -56,11 +65,15 @@ public class Loco2ServiceImpl implements Loco2Service{
         return convertToDto(locoRepo.findOne(id));
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
 	public List<LocoDto> listAllLocoDtos() {
 		List<LocoDto> locoDtos = new ArrayList<LocoDto>(); 		
 		locoRepo.findAll().forEach(l->locoDtos.add(convertToDto(l)));		
-		return locoDtos;
+		
+		return (List<LocoDto>) locoDtos.stream().sorted((t1, t2) 
+				-> t1.getProjectName().compareTo(t2.getProjectName()))
+				.collect(Collectors.toList());
     }
     @Override
 	public List<LocoDto> listInOrderAllLocoDtos() {
@@ -76,41 +89,44 @@ public class Loco2ServiceImpl implements Loco2Service{
     }
     
     @Override
-    public TransuDto getTransuDtoByRowId(int rowId, final LocoDto locoDto) {
-		Loco perLoco = getLocoById(locoDto.getId());
+    public TransuDto getTransuDtoByRowId(int rowId, final long locoId) {
+		//Loco perLoco = getLocoById(locoDto.getId());
+		Loco perLoco = getLocoById(locoId);
 	    Set <Transu> transus = perLoco.getTransus();
 	    return convertToDto(transus.stream().filter(t->rowId == t.getRowId())
 	    		.findAny().orElse(null));
     }
 	
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
 	public List<TransuDto> listAllTransuDtos(final LocoDto locoDto) {
 		Loco perLoco = getLocoById(locoDto.getId());
 	    Set <Transu> transus = perLoco.getTransus();
 		List<TransuDto> transuDtos = new ArrayList<TransuDto>(); 
 		for (Transu t : transus){
 			transuDtos.add(convertToDto(t));
-		}	
-		return transuDtos;
+		}
+		
+		return (List<TransuDto>) transuDtos.stream().sorted((t1, t2) 
+				-> Integer.compare(t1.getRowId(),t2.getRowId()))
+				.collect(Collectors.toList());		
     }
     
     @Override
 	public LocoDto updateTransuDto(TransuDto transuDto){
     	Loco perLoco = getLocoById(transuDto.getLoco());
     	
+    	// destination null
     	Transu curTransu = perLoco.getTransuByRowId(transuDto.getRowId()); // Id() ??
-    	// multiple representation of the same entity =>
-    	curTransu.setLoco(null); curTransu = null;
-    	Transu newTransu = convertToEntity(transuDto);
-    	newTransu.setLoco(perLoco); 
+    	convertToEntity(transuDto,curTransu);
     	
     	perLoco=locoRepo.save(perLoco);
     	return convertToDto(perLoco);
     }
     
 	@Override
-	public LocoDto createTransuDto(TransuDto transuDto, LocoDto locoDto){
-		Loco perLoco = getLocoById(locoDto.getId());
+	public LocoDto createTransuDto(TransuDto transuDto, final long locoId){
+		Loco perLoco = getLocoById(locoId);
 		
 		Transu curTransu = convertToEntity(transuDto);
     	curTransu.setLoco (perLoco);
@@ -155,5 +171,9 @@ public class Loco2ServiceImpl implements Loco2Service{
     private Transu convertToEntity(TransuDto transuDto) {
         Transu transu = modelMapper.map(transuDto, Transu.class);      
         return transu;
-    }    
+    } 
+    
+    private void convertToEntity(TransuDto transuDto,Transu transu) {
+        modelMapper.map(transuDto, transu);              
+    }
 }

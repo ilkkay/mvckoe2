@@ -31,10 +31,10 @@ public class LocoMapperTest {
 	@Test
 	public void test() {
 		modelMapper.validate();
-	}
+	}	
 	
     @Test
-    public void shouldMapUserEntity() {
+    public void map_loco_return_name_projectname() {
 
         // given
         final Loco loco = new Loco();

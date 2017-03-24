@@ -1,6 +1,10 @@
-package translateit2;
+package translateit2.web;
 import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
+import translateit2.persistence.dto.LocoDto;
+import translateit2.persistence.dto.TransuDto;
+import translateit2.persistence.model.Transu;
+import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 import translateit2.util.ISO8859Checker;
@@ -18,7 +22,11 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -26,15 +34,13 @@ import java.util.stream.Collectors;
 public class FileLoaderController {
 
     private final StorageService storageService;
-    private TransuServiceImpl transuService;
-    private LocoServiceImpl locoService;
+    private Loco2ServiceImpl loco2Service;
 
     @Autowired
     public FileLoaderController(StorageService storageService, 
-    		TransuServiceImpl transuService, LocoServiceImpl locoService) {
+    		TransuServiceImpl transuService, Loco2ServiceImpl loco2Service) {
         this.storageService = storageService;
-        this.transuService = transuService;
-        this.locoService = locoService;
+        this.loco2Service = loco2Service;
     }
 
     @GetMapping("/upload")
@@ -94,51 +100,34 @@ public class FileLoaderController {
                    
         /*
          * get segments tags (property keys) and segments (property values)
+         * 
          */
-        /*
-    	Loco l = new Loco();
-    	l.setProjectName("Translate IT 2");
-    	l.setName("Ilkka");
-    	
-    	Transu transu = null;
-    	transu = new Transu();
-    	transu.setSourceSegm("sourceSegm 1");
-    	transu.setTargetSegm("targetSegm 1");
-    	transu.setLoco(l);
-    	
-    	transu = new Transu();
-    	transu.setSourceSegm("sourceSegm 2");
-    	transu.setTargetSegm("targetSegm 2");
-    	transu.setLoco(l);
-    	
-    	transu = new Transu();
-    	transu.setSourceSegm("sourceSegm 3");
-    	transu.setTargetSegm("targetSegm 3");
-    	transu.setLoco(l);
-
-    	locoService.createLoco(l);
-    	*/
-    	/*
-        LinkedHashSet<Transu> transut = new LinkedHashSet<Transu>();
-        Loco loco  = new Loco("Translate IT 2",transut);
-    	loco.setName("Ilkka");
+        
     	Path filePath = storageService.load(file.getOriginalFilename());
         String lngFileLocation=filePath.toAbsolutePath().toString();        
         LinkedHashMap<String,String> map=ISO8859Loader.getPropSegments(lngFileLocation);
+
+		LocoDto locoDto = new LocoDto();
+		locoDto.setProjectName("Translate IT 2");
+		locoDto.setName("Ilkka");
+		locoDto=loco2Service.createLocoDto(locoDto);
         
         // testing ...
         int i=0;
-        LinkedHashMap<String,String> map2 = new LinkedHashMap<String,String>();
+        TransuDto transuDto = null;
         for (Map.Entry<String,String> entry : map.entrySet())
         {
-        	map2.put(entry.getKey(), entry.getValue());
-        	i++;
-        	if (i>=20) break;
+        	if (++i>=20) break;
+        	
+        	transuDto = new TransuDto();        	
+        	transuDto.setSourceSegm(entry.getKey());
+        	transuDto.setTargetSegm(entry.getValue());
+        	transuDto.setRowId(i);
+        	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+        	
         }
-        
-        map2.forEach((k,v)->transut.add(new Transu(k,v,loco)));
-        locoService.createLoco(loco);
-		*/
+        locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+                
             	
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
@@ -152,4 +141,3 @@ public class FileLoaderController {
     }
 
 }
-

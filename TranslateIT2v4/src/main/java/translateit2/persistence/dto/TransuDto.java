@@ -10,7 +10,7 @@ import translateit2.persistence.model.Transu;
 public class TransuDto {
 	private long id;
 
-	private long loco;
+	private long loco; // TODO => locoId
 	
 	private int rowId;
 	

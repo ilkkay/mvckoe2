@@ -1,4 +1,4 @@
-package translateit2;
+package translateit2.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import translateit2.fileloader.storage.StorageService;
+import translateit2.persistence.dto.LocoDto;
+import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
+import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 @Controller
 public class TranslateMainController {	
     
-	private Loco loco; 
+	private LocoDto locoDto; 
 
     private StorageService storageService;
     @Autowired
@@ -32,10 +35,10 @@ public class TranslateMainController {
         this.transuService = transuService;
     }
     
-    private LocoServiceImpl locoService;    
+    private Loco2ServiceImpl loco2Service;    
     @Autowired
-    public void setLocoService(LocoServiceImpl locoService) {
-        this.locoService = locoService;
+    public void setLoco2Service(Loco2ServiceImpl loco2Service) {
+        this.loco2Service = loco2Service;
     }
     
     @GetMapping("/")
@@ -54,16 +57,10 @@ public class TranslateMainController {
     	// http://stackoverflow.com/questions/271526/avoiding-null-statements
     	// http://softwaregarden.io/avoiding-null-checks-in-java/
     	// https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm
-    	if (loco==null)	
-    		loco = locoService.getLocoByProjectName("Translate IT 2");
-    	
-    	model.addAttribute("transus",transuService.getTransusByLocoId(loco.getId()));	
-    	
-    	// doesn't work at all
-    	//model.addAttribute("transus",transuService.getTransusInOrderByLocoId(locoId));	
-    	
-    	//loco.getTransus() is not in order <= Set <Transu> ...
-    	//model.addAttribute("transus",loco.getTransus());	
+    	if (locoDto==null)	
+    		locoDto = loco2Service.getLocoDtoByProjectName("Translate IT 2");
+   
+    	model.addAttribute("transus",loco2Service.listAllTransuDtos(locoDto));	
         return "viewtransu";
     }
     
@@ -76,35 +73,23 @@ public class TranslateMainController {
     
     // add new item or create a new one !!!
     @PostMapping("/viewtransu")
-    public String updateTransList(Model model, @ModelAttribute Transu transu) {
-    	if (transu.getId() != 0){
-    		//transuService.update(transu);
-    		transu.setLoco(loco);
-    		locoService.updateLoco(loco);
+    public String updateTransList(Model model, @ModelAttribute TransuDto transuDto) {
+    	if (transuDto.getId() != 0){
+        	locoDto = loco2Service.updateTransuDto(transuDto);
     	}
     	else{
-    		//transuService.create(transu);
-    		transu.setLoco(loco);
-    		locoService.createLoco(loco);
+    		locoDto = loco2Service.createTransuDto(transuDto,locoDto.getId());
     	}
 
-    	    	
-    	// doesn't work at all
-    	// model.addAttribute("transus",loco.getTransus());
-    	
-    	// update won't work
-    	//model.addAttribute("transus",transuService.getTransusByLocoId(loco.getId()));
-    	
-    	//this does show all anyhow
-    	model.addAttribute("transus",transuService.getAllTransus());
+    	model.addAttribute("transus",loco2Service.listAllTransuDtos(locoDto));
         return "viewtransu";
     }
     
     @GetMapping("/edittransu")
     public String editTransu(@RequestParam(value="transuId", required=false, 
     		defaultValue="1") int id, Model model) {
-    	Transu t = transuService.getTransuById((long)(id));
-    	model.addAttribute("transu",t);	
+    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(id,locoDto.getId());
+    	model.addAttribute("transu",transuDto);	
         return "transueditform";
     }
     
@@ -113,19 +98,10 @@ public class TranslateMainController {
     
     @GetMapping("/deletetransu/{transuId}")
     public String deleteTransuById(@PathVariable("transuId") int id, Model model) {
-    	Transu t = transuService.getTransuById((long)(id));
-    	t.setLoco(null);
-    	loco.removeTransu(t);
-    	locoService.updateLoco(loco);
-    	//model.addAttribute("transus",loco.getTransus());
+    	TransuDto transuDto=loco2Service.getTransuDtoByRowId(id,locoDto.getId());
+    	locoDto = loco2Service.removeTransuDto(transuDto);
     	
-    	//this will hide updates, but they show up after a new update/save
-    	//transuService.deleteTransu((long)(id));    	
-    	model.addAttribute("transus",transuService.getTransusByLocoId(loco.getId()));	
-
-    	//this does show all anyhow
-    	//model.addAttribute("transus",transuService.getAllTransus());
-    	return "viewtransu";
+    	return "redirect:/viewtransu";
     }
     
     /*
