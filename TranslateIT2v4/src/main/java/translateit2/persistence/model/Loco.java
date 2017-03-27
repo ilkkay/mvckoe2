@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,8 @@ public class Loco implements Serializable{
 	private Long id;
 	
 	private String name;
+	
+	@Column(unique=true)
 	private String projectName;
 	private String origFilename;
 	private String targetFilename;

@@ -19,5 +19,7 @@ public interface StorageService {
     Resource loadAsResource(String file);
 
     void deleteAll();
+    
+    String getFileType(Path lngFile);
 
 }

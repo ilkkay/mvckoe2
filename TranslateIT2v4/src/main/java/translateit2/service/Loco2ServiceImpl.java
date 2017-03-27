@@ -1,11 +1,15 @@
 package translateit2.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +20,17 @@ import translateit2.persistence.dto.LocoMapper;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
+import translateit2.validator.LocoValidator;
 
 @Service
 public class Loco2ServiceImpl implements Loco2Service{	
 
+	@Autowired
+    private Validator validator;
+	
+	//@Autowired
+    //private LocoValidator locoValidator;
+	
 	@Autowired
     private LocoMapper modelMapper;
 	
@@ -45,13 +56,14 @@ public class Loco2ServiceImpl implements Loco2Service{
     }
     
 	@Override
-	public LocoDto createLocoDto(final LocoDto entity) {
-		// TODO: validate add valid annotation
-		// https://spring.io/guides/gs/validating-form-input/
-		// JSR-303 annotation + hibernate validator 
-		// http://www.journaldev.com/2668/spring-validation-example-mvc-validator
-		// https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/
-    	Loco perLoco = locoRepo.save(convertToEntity(entity));
+	public LocoDto createLocoDto(final LocoDto entity) {		
+		Set<ConstraintViolation<LocoDto>> violations = validator.validate(entity);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+				    new HashSet<ConstraintViolation<?>>(violations));
+		}
+		
+		Loco perLoco = locoRepo.save(convertToEntity(entity));
 		return convertToDto(perLoco); 
 	}
 	

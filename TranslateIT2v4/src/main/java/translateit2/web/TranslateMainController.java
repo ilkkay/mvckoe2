@@ -1,8 +1,11 @@
 package translateit2.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,14 +69,20 @@ public class TranslateMainController {
     
     @GetMapping("/transuform")
     public String createTransu( Model model) {
-    	Transu t = new Transu();
-    	model.addAttribute("transu",t);	
+    	TransuDto dto = new TransuDto();
+    	model.addAttribute("transudto",dto);	
         return "transueditform";
     }
     
     // add new item or create a new one !!!
     @PostMapping("/viewtransu")
-    public String updateTransList(Model model, @ModelAttribute TransuDto transuDto) {
+    public String updateTransList(Model model, @Valid @ModelAttribute("transudto") TransuDto transuDto,
+    		BindingResult bindingResult) {
+    	
+        if (bindingResult.hasErrors()) {
+            return "transueditform";
+        }
+        
     	if (transuDto.getId() != 0){
         	locoDto = loco2Service.updateTransuDto(transuDto);
     	}
@@ -89,12 +98,10 @@ public class TranslateMainController {
     public String editTransu(@RequestParam(value="transuId", required=false, 
     		defaultValue="1") int id, Model model) {
     	TransuDto transuDto=loco2Service.getTransuDtoByRowId(id,locoDto.getId());
-    	model.addAttribute("transu",transuDto);	
+    	model.addAttribute("transudto",transuDto);	
         return "transueditform";
     }
     
-    
-    // Spring MVC: Beginner's Guide Google books
     
     @GetMapping("/deletetransu/{transuId}")
     public String deleteTransuById(@PathVariable("transuId") int id, Model model) {

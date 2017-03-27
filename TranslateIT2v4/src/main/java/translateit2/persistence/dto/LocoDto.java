@@ -4,16 +4,25 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import translateit2.persistence.model.Transu;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import translateit2.persistence.model.Transu;
+import translateit2.validator.LocoConstraint;
+
+@LocoConstraint
 public class LocoDto {
 	private Long id;
 	
+	@NotEmpty
 	private String name;
+	
+	@NotEmpty
 	private String projectName;
+	
 	private String origFilename;
 	private String targetFilename;
 	private Locale origLocale;

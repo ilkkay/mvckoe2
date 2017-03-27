@@ -1,21 +1,23 @@
 package translateit2.persistence.dto;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import translateit2.persistence.model.Loco;
-import translateit2.persistence.model.Transu;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class TransuDto {
 	private long id;
 
-	private long loco; // TODO => locoId
+	private long loco; // TODO: => locoId
 	
 	private int rowId;
 	
+	@NotEmpty
 	private String targetSegm;
+	
+	@NotNull
 	private String sourceSegm;
+	
 	public long getId() {
 		return id;
 	}
