@@ -2,11 +2,13 @@ package translateit2.persistence.dto;
 
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,13 +22,22 @@ public class LocoDto {
 	@NotEmpty
 	private String name;
 	
-	@NotEmpty
+    @Size(
+            min = 5,
+            max = 35,
+            message = "The project name '${validatedValue}' must be between {min} and {max} characters long"
+    )
 	private String projectName;
 	
 	private String origFilename;
 	private String targetFilename;
 	private Locale origLocale;
 	private Locale targetLocale;
+	
+	public LocoDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	//TODO: => dto
 	private Set<Transu> transus = new HashSet<Transu>();

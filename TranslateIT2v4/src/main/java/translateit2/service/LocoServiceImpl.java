@@ -91,12 +91,12 @@ public class LocoServiceImpl implements LocoService{
     }
         
 	public Loco getLocoByProjectName(String projectName) {
-        return locoRepo.findByProjectName(projectName);
+        return locoRepo.findByProjectName(projectName).get();
     }
     
     @Override
 	public LocoDto getLocoDtoByProjectName(String projectName){
-    	Loco loco = locoRepo.findByProjectName(projectName);
+    	Loco loco = locoRepo.findByProjectName(projectName).get();
     	//if (loco==null) return new NullLocoDto();
 		return convertToDto(loco);
 	

@@ -16,7 +16,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 //import javax.ejb.EJBException;
 
 import translateit2.persistence.dto.LocoDto;
+import translateit2.persistence.dto.TransuDto;
 import translateit2.service.Loco2ServiceImpl;
+import translateit2.validator.Messages;
 
 // TODO: validate add valid annotation
 // https://spring.io/guides/gs/validating-form-input/
@@ -55,6 +57,41 @@ public class LocoExceptionIntegrationTests {
 			locoDto.setProjectName("");
 			locoDto.setName("Pekka");	
 			locoDto=loco2Service.createLocoDto(locoDto);			
+		}
+        catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
+		
+		int count = loco2Service.listAllLocoDtos().size();
+		assertThat(count, is(2));
+	}
+	
+	@Test
+	public void create_locodto_with_existing_projectname() throws Exception{
+		try{
+	        LocoDto locoDto = new LocoDto();
+			locoDto.setProjectName("Translate IT 2");
+			locoDto.setName(Messages.getString("LocoValidator.test_name"));	
+			locoDto=loco2Service.createLocoDto(locoDto);			
+		}
+        catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
+		
+		int count = loco2Service.listAllLocoDtos().size();
+		assertThat(count, is(2));
+	}
+
+	@Test
+	public void create_locodto_with_empty_and_null_segment() throws Exception{
+		try{
+			LocoDto locoDto = loco2Service.getLocoDtoByProjectName("Translate IT 2");
+	    	TransuDto transuDto = new TransuDto();
+
+	    	transuDto.setSourceSegm("");
+	    	transuDto.setTargetSegm(null);
+	    	transuDto.setRowId(4);
+	    	locoDto = loco2Service.createTransuDto(transuDto,locoDto.getId());			
 		}
         catch(ConstraintViolationException  e){
         	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));

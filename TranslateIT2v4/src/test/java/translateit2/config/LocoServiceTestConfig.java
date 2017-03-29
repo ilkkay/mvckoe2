@@ -32,6 +32,7 @@ public class LocoServiceTestConfig {
 		locoDto.setName("Ilkka");
 		locoDto=loco2Service.createLocoDto(locoDto);
     	
+		
     	System.out.println("Initializing Bean loadLocoData()");
     	int count = loco2Service.listAllLocoDtos().size();
     	System.out.println("Loco lines in db " + count);
@@ -55,13 +56,15 @@ public class LocoServiceTestConfig {
     	transuDto.setRowId(3);
     	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
     	
-    	locoDto = loco2Service.updateLocoDto(locoDto);
+    	
+    	//locoDto = loco2Service.updateLocoDto(locoDto);
     	
     	// Empty project
 		locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 4");
 		locoDto.setName("Jukka");
 		locoDto=loco2Service.createLocoDto(locoDto);
+		
 		};
 	}
 

@@ -5,6 +5,9 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import translateit2.validator.TransuConstraint;
+
+@TransuConstraint
 public class TransuDto {
 	private long id;
 
@@ -12,10 +15,10 @@ public class TransuDto {
 	
 	private int rowId;
 	
-	@NotEmpty
+	@NotEmpty (message = "{TransuDto.target_not_empty}")
 	private String targetSegm;
-	
-	@NotNull
+
+	@NotNull (message = "{TransuDto.source_not_null}")
 	private String sourceSegm;
 	
 	public long getId() {

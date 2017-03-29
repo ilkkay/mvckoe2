@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 // https://github.com/hellokoding/jpa-onetomany-springboot-maven-mysql/commit/b307db68fa39c3a6fde51f0e73a9b94430ea3ca9
 
@@ -28,10 +29,12 @@ public class Loco implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@NotNull
 	private String name;
 	
 	@Column(unique=true)
 	private String projectName;
+	
 	private String origFilename;
 	private String targetFilename;
 	

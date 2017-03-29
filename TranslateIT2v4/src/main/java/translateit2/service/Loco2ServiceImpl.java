@@ -3,6 +3,7 @@ package translateit2.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,7 @@ public class Loco2ServiceImpl implements Loco2Service{
 
 	@Autowired
     private Validator validator;
-	
-	//@Autowired
-    //private LocoValidator locoValidator;
-	
+		
 	@Autowired
     private LocoMapper modelMapper;
 	
@@ -51,6 +49,11 @@ public class Loco2ServiceImpl implements Loco2Service{
 	
     @Override
 	public LocoDto updateLocoDto(final LocoDto locoDto) {
+		Set<ConstraintViolation<LocoDto>> violations = validator.validate(locoDto);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+				    new HashSet<ConstraintViolation<?>>(violations));
+		}
     	Loco perLoco = locoRepo.save(convertToEntity(locoDto));
     	return convertToDto(perLoco);
     }
@@ -96,8 +99,8 @@ public class Loco2ServiceImpl implements Loco2Service{
     
     @Override
     public LocoDto getLocoDtoByProjectName(String projectName){
-    	Loco loco = locoRepo.findByProjectName(projectName);
-		return convertToDto(loco);	
+    	Optional <Loco> loco = locoRepo.findByProjectName(projectName);
+		return convertToDto(loco.get());	
     }
     
     @Override
@@ -126,6 +129,12 @@ public class Loco2ServiceImpl implements Loco2Service{
     
     @Override
 	public LocoDto updateTransuDto(TransuDto transuDto){
+		Set<ConstraintViolation<TransuDto>> violations = validator.validate(transuDto);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+				    new HashSet<ConstraintViolation<?>>(violations));
+		}
+		
     	Loco perLoco = getLocoById(transuDto.getLoco());
     	
     	// destination null
@@ -138,6 +147,12 @@ public class Loco2ServiceImpl implements Loco2Service{
     
 	@Override
 	public LocoDto createTransuDto(TransuDto transuDto, final long locoId){
+		Set<ConstraintViolation<TransuDto>> violations = validator.validate(transuDto);
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+				    new HashSet<ConstraintViolation<?>>(violations));
+		}
+		
 		Loco perLoco = getLocoById(locoId);
 		
 		Transu curTransu = convertToEntity(transuDto);

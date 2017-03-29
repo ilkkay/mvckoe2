@@ -6,11 +6,13 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
-@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-//@Constraint(validatedBy=TransuConstraintValidator.class)
-
+@Target(ElementType.TYPE)
+@Constraint(validatedBy = TransuValidator.class)
 public @interface TransuConstraint {
-
+    String message() default "Invalid translation unit (transu)";
+    Class<?>[] groups() default { };
+    Class<? extends Payload>[] payload() default { };
 }
