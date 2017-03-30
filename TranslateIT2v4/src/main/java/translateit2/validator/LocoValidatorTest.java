@@ -20,8 +20,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.metadata.PropertyDescriptor;
-
 import org.junit.Before;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -49,26 +47,28 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	
 	
 	@Test
-	public void update_with_existing_projectname_return_ok() {
-		long dtoLocoId = 1L;
-		long receivedLocoId = 1l;
+	public void existing_entity_with_existing_projectname_return_ok() {
 		
-		// then (Loco => LocoDto) is assumed
+		// GIVEN: an existing loco l
+		// ASSUMED: conversion from Loco to LocoDto
+		long receivedLocoId = 1l;
 		Loco l = new Loco();
 		l.setProjectName("Translate IT 2");
 		l.setName("Ilkka");
 		l.setId(receivedLocoId);
 		
-		// get with an existing project name
+		// WHEN: get it with an existing project name
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.of(l));
 		
+		// validate an existing entity 
+		long dtoLocoId = 1L;
 		LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 2");
 		locoDto.setId(dtoLocoId);
-
-		Set<ConstraintViolation<LocoDto>> constraintViolations = null;
-		constraintViolations = validator.validate(locoDto);
+		Set<ConstraintViolation<LocoDto>> constraintViolations 
+			= validator.validate(locoDto);
 		
+		// THEN: assert that violation is NOT found
 		boolean foundViolation=false;
 		for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
 			String message = constraintViolation.getMessage();
@@ -79,11 +79,12 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 					foundViolation=true;
 		}
 		
-		assertThat(foundViolation, is(equalTo(false)));	}
+		assertThat(foundViolation, is(equalTo(false)));	
+	}
 	
 	
 	@Test
-	public void create_with_existing_projectname_return_violation() {
+	public void new_entity_with_existing_projectname_return_violation() {
 		long dtoLocoId = 0L;
 		long receivedLocoId = 1l;
 		
@@ -117,7 +118,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	}
 	
 	@Test
-	public void create_with_too_short_projectname() {
+	public void new_entity_with_too_short_projectname_return_violation() {
 		// just checking values
 		javax.validation.metadata.BeanDescriptor beanDesc = validator.getConstraintsForClass(LocoDto.class);
 		beanDesc.getConstraintDescriptors().stream().forEach(p->System.out.println(p));	
@@ -125,24 +126,28 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		System.out.println(mockRepo.getClass().toString());
 		// finished checking
 		
+		long dtoLocoId = 0L;
 		LocoDto locoDto = new LocoDto();
 		// update with too short project name
 		when(mockRepo.findByProjectName("Proj")).thenReturn(Optional.empty());
 		locoDto.setProjectName("Proj");
 		locoDto.setName("Jukka");
-		locoDto.setId(0L);
+		locoDto.setId(dtoLocoId);
 		Set<ConstraintViolation<LocoDto>> constraintViolations = validator.validate(locoDto);
 		
+		boolean foundViolation=false;
 		for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
 			String message = constraintViolation.getMessage();
-			System.out.println(message);
+			if ("projectName".equals(constraintViolation.getPropertyPath().toString()))
+				if (message.contains("characters long"))
+					foundViolation=true;
 		}		 
-		assertEquals(1,constraintViolations.size());
+		assertThat(foundViolation, is(equalTo(true)));
 	}
 	
 
 	@Test
-	public void update_with_empty_name(){		
+	public void existing_entity_with_empty_name_return_violation(){		
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
 		when(mockRepo.findByName("")).thenReturn(null);
 		
@@ -151,38 +156,46 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		locoDto.setName("");
 		locoDto.setId(1L);
 
-		 Set<ConstraintViolation<LocoDto>> constraintViolations
-		 	= validator.validate(locoDto);
-		 
-		 for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
-			 String message = constraintViolation.getMessage();
-			 System.out.println(message);
-		 }
-		 
-		 assertEquals(1,constraintViolations.size());
-	}
-	
-
-	 @Test
-	 public void update_with_name_having_no_permission() {
-		when(mockRepo.findByProjectName("Translate IT 3")).thenReturn(Optional.empty());
- 
-		LocoDto locoDto = new LocoDto();
-		locoDto.setProjectName("Translate IT 3");
-		locoDto.setName("Pekka");
-		locoDto.setId(1L);
-	  		 
 		Set<ConstraintViolation<LocoDto>> constraintViolations
-		 = validator.validate(locoDto);
+			= validator.validate(locoDto);
 		 
+		boolean foundViolation=false;
 		for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
 			String message = constraintViolation.getMessage();
-			System.out.println(message);
+			if ("name".equals(constraintViolation.getPropertyPath().toString()))
+				if (message.contains("may not be empty"))
+					foundViolation=true;
+		}		 
+		assertThat(foundViolation, is(equalTo(true)));
+
+	}
+	
+	
+	 @Test
+	 public void existing_entity_with_name_having_no_permission_return_violation() {
+		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
+		when(mockRepo.findByName("Pekka")).thenReturn(null);
+			
+		LocoDto locoDto = new LocoDto();
+		locoDto.setProjectName("Translate IT 2");
+		locoDto.setName("Pekka");
+		locoDto.setId(1L);
+
+		Set<ConstraintViolation<LocoDto>> constraintViolations
+			= validator.validate(locoDto);
+		
+		boolean foundViolation=false;
+		for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
+			String message = constraintViolation.getMessage();
+			if ("name".equals(constraintViolation.getPropertyPath().toString()))
+				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.no_create_permission"))))
+					foundViolation=true;
 		}
 		 
-		assertEquals(1,constraintViolations.size());
+		assertThat(foundViolation, is(equalTo(true)));
 	 }
 
+	 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {	    

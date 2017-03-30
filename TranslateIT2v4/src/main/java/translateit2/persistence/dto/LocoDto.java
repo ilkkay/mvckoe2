@@ -1,18 +1,14 @@
 package translateit2.persistence.dto;
 
 import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import translateit2.persistence.model.Transu;
 import translateit2.validator.LocoConstraint;
 
 @LocoConstraint
@@ -29,18 +25,27 @@ public class LocoDto {
     )
 	private String projectName;
 	
+    //NotBlank
 	private String origFilename;
+    
+    //NotBlank
 	private String targetFilename;
-	private Locale origLocale;
-	private Locale targetLocale;
+	
+	@Pattern(regexp="[a-z]{2}_[A-Z]{2}$")
+	private String origLocale;
+	
+	@Pattern(regexp="[a-z]{2}_[A-Z]{2}$")
+	private String targetLocale;
 	
 	public LocoDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	//TODO: => dto
-	private Set<Transu> transus = new HashSet<Transu>();
+	// TODO: => transu => transuDto
+	// A new problem arises. convertToEntity(locoDto)maps locoID(long) to null
+	// when it should be mapped to the current loco object
+	private Set<TransuDto> transus = new HashSet<TransuDto>();
 
 	public Long getId() {
 		return id;
@@ -83,35 +88,33 @@ public class LocoDto {
 		this.targetFilename = targetFilename;
 	}
 
-	public Set<Transu> getTransus() {
+	public Set<TransuDto> getTransus() {
 		return transus;
 	}
 
-	public void setTransus(Set<Transu> transus) {
+	public void setTransus(Set<TransuDto> transus) {
 		this.transus = transus;
 	}
 	
-	public Transu getTransuByRowId(long rowId){
+	public TransuDto getTransuByRowId(long rowId){
 		return transus.stream().filter(t->rowId==t.getRowId())
 		.findAny()									// If 'findAny' then return found
 		.orElse(null);								// If not found, return null
 	}
 
-	public Locale getOrigLocale() {
+	public String getOrigLocale() {
 		return origLocale;
 	}
 
-	public void setOrigLocale(Locale origLocale) {
+	public void setOrigLocale(String origLocale) {
 		this.origLocale = origLocale;
 	}
 
-	public Locale getTargetLocale() {
+	public String getTargetLocale() {
 		return targetLocale;
 	}
 
-	public void setTargetLocale(Locale targetLocale) {
+	public void setTargetLocale(String targetLocale) {
 		this.targetLocale = targetLocale;
-	}
-	
-	
+	}	
 }

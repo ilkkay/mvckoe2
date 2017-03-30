@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
-import translateit2.persistence.model.Loco;
-import translateit2.persistence.model.Transu;
 import translateit2.service.Loco2ServiceImpl;
-import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 @Controller

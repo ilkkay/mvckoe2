@@ -35,7 +35,6 @@ public class LocoMapperTest {
 	
     @Test
     public void map_loco_return_name_projectname() {
-
         // given
         final Loco loco = new Loco();
         loco.setName("John Doe");

@@ -1,11 +1,8 @@
 package translateit2.validator;
 
-import java.lang.annotation.Annotation;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 
 public class TransuValidator implements ConstraintValidator<TransuConstraint, TransuDto> {
@@ -27,7 +24,7 @@ public class TransuValidator implements ConstraintValidator<TransuConstraint, Tr
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(Messages.getString("Must contain atleast 2 characters"))
 			.addPropertyNode("targetSegm") 
-			.addConstraintViolation(); //$NON-NLS-1$
+			.addConstraintViolation(); 
 			}
 		
 		if ((value !=null) && (value.getSourceSegm() != null) &&
@@ -36,7 +33,7 @@ public class TransuValidator implements ConstraintValidator<TransuConstraint, Tr
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(Messages.getString("Must contain atleast 2 characters"))
 			.addPropertyNode("sourceSegm") 
-			.addConstraintViolation(); //$NON-NLS-1$
+			.addConstraintViolation(); 
 			}
 		
 		return isValid;

@@ -11,7 +11,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import translateit2.fileloader.storage.StorageProperties;
 import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
-import translateit2.validator.LocoValidator;
 
 @SpringBootApplication 
 @EnableConfigurationProperties(StorageProperties.class) 
@@ -25,10 +24,6 @@ public class TranslateIt2v4Application {
 	}
 
 	/*
-	 * 
-	 *<bean id="validator"
-    class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
-	/*
 	 * http://sivalabs.in/2016/03/how-springboot-autoconfiguration-magic/
 	 */				   
 	
@@ -37,12 +32,6 @@ public class TranslateIt2v4Application {
 		return new LocalValidatorFactoryBean();
 	}
 	
-	/*
-	@Bean
-	public LocoValidator locoValidator() {
-		return new LocoValidator();
-	}
-	*/
 	/*
 	 * With CommandLineRunner you can perform tasks after all Spring Beans 
 	 * are created and the Application Context has been created.

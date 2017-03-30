@@ -12,6 +12,8 @@ import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.model.Loco;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
+
+// the following is IMPORTANT contains node issues etc. 
 // https://access.redhat.com/webassets/avalon/d/red-hat-jboss-enterprise-application-platform/7.0.0/javadocs/org/hibernate/validator/internal/engine/constraintvalidation/ConstraintValidatorContextImpl.html
 public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDto> {
 
@@ -38,26 +40,27 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
     	if(l.isPresent() && (l.get().getId() != value.getId())) {
     		isValid = false;
     		context.disableDefaultConstraintViolation();
-    		context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.project_exists_already")  )
-    			.addPropertyNode("projectName") .addConstraintViolation(); //$NON-NLS-1$
+    		context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.project_exists_already"))
+    			.addPropertyNode("projectName").addConstraintViolation(); //$NON-NLS-1$
     	}
 
     	// TODO: remove this is just for testing ...
     	// Pekka user has no permission
-    	if(Messages.getString("LocoValidator.test_name").equals(value.getName())) { //$NON-NLS-1$
+    	if("Pekka".equals(value.getName())) { //$NON-NLS-1$
     		isValid = false;
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.no_create_permission")  ).addConstraintViolation(); //$NON-NLS-1$
+            context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.no_create_permission"))
+            	.addPropertyNode("name").addConstraintViolation(); //$NON-NLS-1$
         }    	    
     	    	
     	// TODO: remove this is just for testing ...
     	// name property is unique
     	Loco l2 = locoRepo.findByName(value.getName());    	
-    	if(l2 != null) {
+    	if((l2 != null) && (l2.getId() != value.getId())) {
     		isValid = false;
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(Messages.getString("Name already exists"))
-            .addPropertyNode("name") .addConstraintViolation(); //$NON-NLS-1$
+            context.buildConstraintViolationWithTemplate("Name already exists")
+            	.addPropertyNode("name").addConstraintViolation(); //$NON-NLS-1$
         }    	
     	
     	return isValid ;

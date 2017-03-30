@@ -131,14 +131,17 @@ public class TranslateIt2v4ApplicationTests {
     	// receive values
     	transuDto=loco2Service.getTransuDtoByRowId(4,locoDto.getId());
     	long storedId=transuDto.getId();
+    	long storedLocoId=transuDto.getLoco();
     	String storedStr=transuDto.getSourceSegm();
     	
     	Transu received = transuService.getTransuByLocoIdAndRowId(
     			locoDto.getId(),new Integer(4));
     	long receivedId = received.getId();
+    	long receivedLocoId = received.getLoco().getId();
     	String receivedStr=received.getSourceSegm();
     	
     	assertEquals(receivedId, storedId);
+    	assertEquals(receivedLocoId, storedLocoId);
     	assertThat(storedStr, is("SourceSegm 4"));
     	assertThat(receivedStr, is("SourceSegm 4"));
     	
@@ -165,14 +168,17 @@ public class TranslateIt2v4ApplicationTests {
     	// receive values
     	transuDto = loco2Service.getTransuDtoByRowId(3,locoDto.getId());
     	long storedId=transuDto.getId();
+    	long storedLocoId=transuDto.getLoco();
     	String storedStr=transuDto.getSourceSegm();
     	
     	Transu received = transuService.getTransuByLocoIdAndRowId(
     			locoDto.getId(),new Integer(3));
     	long receivedId = received.getId();
+    	long receivedLocoId = received.getLoco().getId();
     	String receivedStr=received.getSourceSegm();
     	
     	assertEquals(receivedId, storedId);
+    	assertEquals(receivedLocoId, storedLocoId);
     	assertThat(receivedStr, is("Thats the way"));
     	
     	// line count in data base
@@ -184,7 +190,7 @@ public class TranslateIt2v4ApplicationTests {
     	assertThat(locoCount, is(locoCountStart));    	
 	}
 	
-	@Test
+	//@Test
 	public void remove_TransuDto_return_decrement_by_one(){
 		LocoDto locoDto = loco2Service.getLocoDtoByProjectName("Translate IT 2");
     	int locoCountStart = loco2Service.listAllTransuDtos(locoDto).size();

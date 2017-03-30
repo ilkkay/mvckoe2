@@ -7,21 +7,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.LocoMapper;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
-import translateit2.validator.LocoValidator;
 
 @Service
 public class Loco2ServiceImpl implements Loco2Service{	
@@ -54,12 +51,18 @@ public class Loco2ServiceImpl implements Loco2Service{
 			throw new ConstraintViolationException(
 				    new HashSet<ConstraintViolation<?>>(violations));
 		}
-    	Loco perLoco = locoRepo.save(convertToEntity(locoDto));
+		// TODO: problem with perloco.transus.loco is null when it should be perloco
+    	final Loco tmpLoco = convertToEntity(locoDto);
+    	tmpLoco.getTransus().forEach(t->t.setLoco (tmpLoco));
+    	Loco perLoco = locoRepo.save(tmpLoco);
+    	
     	return convertToDto(perLoco);
     }
     
 	@Override
-	public LocoDto createLocoDto(final LocoDto entity) {		
+	public LocoDto createLocoDto(final LocoDto entity) {
+		// TODO: get rid of this part
+		
 		Set<ConstraintViolation<LocoDto>> violations = validator.validate(entity);
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
@@ -86,7 +89,7 @@ public class Loco2ServiceImpl implements Loco2Service{
 		List<LocoDto> locoDtos = new ArrayList<LocoDto>(); 		
 		locoRepo.findAll().forEach(l->locoDtos.add(convertToDto(l)));		
 		
-		return (List<LocoDto>) locoDtos.stream().sorted((t1, t2) 
+		return locoDtos.stream().sorted((t1, t2) 
 				-> t1.getProjectName().compareTo(t2.getProjectName()))
 				.collect(Collectors.toList());
     }
@@ -122,7 +125,7 @@ public class Loco2ServiceImpl implements Loco2Service{
 			transuDtos.add(convertToDto(t));
 		}
 		
-		return (List<TransuDto>) transuDtos.stream().sorted((t1, t2) 
+		return transuDtos.stream().sorted((t1, t2) 
 				-> Integer.compare(t1.getRowId(),t2.getRowId()))
 				.collect(Collectors.toList());		
     }

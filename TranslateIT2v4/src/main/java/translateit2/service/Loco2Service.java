@@ -16,7 +16,7 @@ public interface Loco2Service {
     
     public LocoDto createTransuDto(TransuDto transuDto,final long locoId);
     public LocoDto updateTransuDto(TransuDto transuDto);
+    public LocoDto removeTransuDto(TransuDto transuDto);    
     public List<TransuDto> listAllTransuDtos(final LocoDto entity);
     public TransuDto getTransuDtoByRowId(int rowId, final long locoId);
-    public LocoDto removeTransuDto(TransuDto transuDto);    
 }

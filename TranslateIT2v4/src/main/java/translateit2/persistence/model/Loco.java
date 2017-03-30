@@ -3,7 +3,6 @@ package translateit2.persistence.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 // https://github.com/hellokoding/jpa-onetomany-springboot-maven-mysql/commit/b307db68fa39c3a6fde51f0e73a9b94430ea3ca9
 
@@ -29,19 +27,19 @@ public class Loco implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@NotNull
 	private String name;
 	
 	@Column(unique=true)
 	private String projectName;
 	
+	@Transient	
 	private String origFilename;
-	private String targetFilename;
-	
 	@Transient
-	private Locale origLocale;
+	private String targetFilename;	
 	@Transient
-	private Locale targetLocale;
+	private String origLocale;
+	@Transient
+	private String targetLocale;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, 
 			orphanRemoval = true, mappedBy="loco")
@@ -108,19 +106,19 @@ public class Loco implements Serializable{
 		this.targetFilename = targetFilename;
 	}
 
-	public Locale getOrigLocale() {
+	public String getOrigLocale() {
 		return origLocale;
 	}
 
-	public void setOrigLocale(Locale origLocale) {
+	public void setOrigLocale(String origLocale) {
 		this.origLocale = origLocale;
 	}
 
-	public Locale getTargetLocale() {
+	public String getTargetLocale() {
 		return targetLocale;
 	}
 
-	public void setTargetLocale(Locale targetLocale) {
+	public void setTargetLocale(String targetLocale) {
 		this.targetLocale = targetLocale;
 	}
 

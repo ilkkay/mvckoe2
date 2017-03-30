@@ -1,5 +1,7 @@
 package translateit2.config;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +32,11 @@ public class LocoServiceTestConfig {
 		LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 2");
 		locoDto.setName("Ilkka");
-		locoDto=loco2Service.createLocoDto(locoDto);
-    	
+		try {
+			locoDto=loco2Service.createLocoDto(locoDto);
+		} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
 		
     	System.out.println("Initializing Bean loadLocoData()");
     	int count = loco2Service.listAllLocoDtos().size();
@@ -44,26 +49,43 @@ public class LocoServiceTestConfig {
     	transuDto.setSourceSegm("SourceSegm 1");
     	transuDto.setTargetSegm("TargetSegm 1");
     	transuDto.setRowId(1);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
-    	
+    	try {
+    		locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+		} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
     	transuDto.setSourceSegm("SourceSegm 2");
     	transuDto.setTargetSegm("TargetSegm 2");
     	transuDto.setRowId(2);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
-    	
+    	try {
+    		locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+		} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
     	transuDto.setSourceSegm("SourceSegm 3");
     	transuDto.setTargetSegm("TargetSegm 3");
     	transuDto.setRowId(3);
-    	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+    	try {
+    		locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
+		} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
     	
-    	
-    	//locoDto = loco2Service.updateLocoDto(locoDto);
-    	
+    	try {
+    		locoDto = loco2Service.updateLocoDto(locoDto);    		
+    	} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+    	}
+        
     	// Empty project
 		locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 4");
 		locoDto.setName("Jukka");
-		locoDto=loco2Service.createLocoDto(locoDto);
+		try {
+			locoDto=loco2Service.createLocoDto(locoDto);
+		} catch(ConstraintViolationException  e){
+        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+        }
 		
 		};
 	}

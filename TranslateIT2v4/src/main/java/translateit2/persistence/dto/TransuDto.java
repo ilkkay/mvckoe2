@@ -1,10 +1,8 @@
 package translateit2.persistence.dto;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
+import org.hibernate.validator.constraints.NotBlank;
 import translateit2.validator.TransuConstraint;
 
 @TransuConstraint
@@ -13,9 +11,10 @@ public class TransuDto {
 
 	private long loco; // TODO: => locoId
 	
+	@Max(10000)
 	private int rowId;
 	
-	@NotEmpty (message = "{TransuDto.target_not_empty}")
+	@NotBlank (message = "{TransuDto.target_not_empty}")
 	private String targetSegm;
 
 	@NotNull (message = "{TransuDto.source_not_null}")
