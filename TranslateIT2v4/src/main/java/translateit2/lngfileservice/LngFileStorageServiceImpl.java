@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import translateit2.fileloader.storage.FileSystemStorageService;
+import translateit2.lngfileservice.defformat.DefaultLngStorageImpl;
+import translateit2.lngfileservice.iso8859.ISO8859StorageImpl;
+import translateit2.lngfileservice.xliff.XLIFFStorageImpl;
 
 // https://stormpath.com/blog/spring-boot-dependency-injection
 // https://stormpath.com/blog/spring-boot-default-starters

@@ -1,6 +1,7 @@
 package translateit2.validator;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -22,17 +23,20 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.junit.Before;
 import org.mockito.runners.MockitoJUnitRunner;
-
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.model.Loco;
-
+import translateit2.util.Messages;
+// https://gist.github.com/digulla/5884162
 @RunWith(MockitoJUnitRunner.class)
 public class LocoValidatorTest implements ConstraintValidatorFactory {
     @Mock
     private LocoRepository mockRepo;
 	
 	private static Validator validator;
+	
+	private Messages messages;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -43,12 +47,60 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 
 	    ValidatorFactory factory = config.buildValidatorFactory();
 	    validator = factory.getValidator();
+	    
+	    ReloadableResourceBundleMessageSource messageSource = 
+	    		new ReloadableResourceBundleMessageSource();
+	    messageSource.setBasename("classpath:messages");
+	    messageSource.setDefaultEncoding("ISO-8859-1");	    
+	    
+	    messages = new Messages(messageSource);
+	    messages.init(null);
 	}
 	
-	
 	@Test
-	public void existing_entity_with_existing_projectname_return_ok() {
+	public void test_messages() {
+		String s = null;
 		
+		s = messages.get("LocoValidator.name_exists");
+		System.out.println(s);;
+		//assertThat("Name already exists",is(equalTo(s)));
+		
+		s = messages.get("LocoValidator.no_create_permission");
+		System.out.println(s);;
+		//assertThat("Pekka has not required permission for this operation",is(equalTo(s)));
+		
+		s = messages.get("LocoValidator.project_exists_already");
+		System.out.println(s);;
+		//assertThat("Project name exists already",is(equalTo(s)));
+		
+		s = messages.get("LocoValidator.entity_missing");
+		System.out.println(s);;
+		//assertThat("Entity is missing",is(equalTo(s)));
+		
+		s = messages.get("LocoValidator.name_exists");
+		System.out.println(s);;
+		//assertThat("Name already exists",is(equalTo(s)));
+		
+		s = messages.get("LocoValidator.test_name");
+		System.out.println(s);;
+		//assertThat("Pekka",is(equalTo(s)));
+		
+		String[] args = {"Translate IT 2", "5","35"};
+		s=messages.get("LocoDto.projectName.size",args);
+		System.out.println(s);;
+		
+		s = messages.get("TransuDto.source_not_null");
+		System.out.println(s);;
+		s = messages.get("TransuDto.target_not_empty");
+		System.out.println(s);
+		String[] args2 = {"5"};
+		s = messages.get("TransuDto.segment_size",args2);
+		System.out.println(s);;
+	}
+	
+
+	//@Test
+	public void dontFailToUpdateProjectName_IfExistingEntity() {		
 		// GIVEN: an existing loco l
 		// ASSUMED: conversion from Loco to LocoDto
 		long receivedLocoId = 1l;
@@ -64,6 +116,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		long dtoLocoId = 1L;
 		LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 2");
+		locoDto.setName("Ilkka");
 		locoDto.setId(dtoLocoId);
 		Set<ConstraintViolation<LocoDto>> constraintViolations 
 			= validator.validate(locoDto);
@@ -75,16 +128,16 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 			System.out.println(constraintViolation.getPropertyPath().toString() + 
 								": " + message);
 			if ("projectName".equals(constraintViolation.getPropertyPath().toString()))
-				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.project_exists_already"))))
+				if (message.equalsIgnoreCase((messages.get("LocoValidator.project_exists_already"))))
 					foundViolation=true;
 		}
 		
 		assertThat(foundViolation, is(equalTo(false)));	
 	}
 	
-	
-	@Test
-	public void new_entity_with_existing_projectname_return_violation() {
+
+	//@Test
+	public void failToCreateProjectName_IfExistingEntity() {
 		long dtoLocoId = 0L;
 		long receivedLocoId = 1l;
 		
@@ -110,15 +163,15 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 			System.out.println(constraintViolation.getPropertyPath().toString() + 
 								": " + message);
 			if ("projectName".equals(constraintViolation.getPropertyPath().toString()))
-				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.project_exists_already"))))
+				if (message.equalsIgnoreCase((messages.get("LocoValidator.project_exists_already"))))
 					foundViolation=true;
 		}
 		
 		assertThat(foundViolation, is(equalTo(true)));
 	}
 	
-	@Test
-	public void new_entity_with_too_short_projectname_return_violation() {
+	//@Test
+	public void failToCreateEntity_ifProjectNameShort() {
 		// just checking values
 		javax.validation.metadata.BeanDescriptor beanDesc = validator.getConstraintsForClass(LocoDto.class);
 		beanDesc.getConstraintDescriptors().stream().forEach(p->System.out.println(p));	
@@ -146,8 +199,8 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	}
 	
 
-	@Test
-	public void existing_entity_with_empty_name_return_violation(){		
+	//@Test
+	public void failToUpdateEntity_ifNameMissing(){		
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
 		when(mockRepo.findByName("")).thenReturn(null);
 		
@@ -170,9 +223,8 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 
 	}
 	
-	
-	 @Test
-	 public void existing_entity_with_name_having_no_permission_return_violation() {
+	 //@Test
+	 public void failToCreateEntity_ifRequiredPermissionMissing() {
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
 		when(mockRepo.findByName("Pekka")).thenReturn(null);
 			
@@ -188,7 +240,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		for(ConstraintViolation<LocoDto> constraintViolation : constraintViolations){
 			String message = constraintViolation.getMessage();
 			if ("name".equals(constraintViolation.getPropertyPath().toString()))
-				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.no_create_permission"))))
+				if (message.equalsIgnoreCase(messages.get("LocoValidator.no_create_permission")))
 					foundViolation=true;
 		}
 		 
@@ -201,7 +253,8 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {	    
 	    try {
 		    if (key == LocoValidator.class) 
-		        return (T) new LocoValidator(mockRepo);		    
+		        return (T) new LocoValidator(mockRepo,messages);		    
+	        	//return (T) new LocoValidator(mockRepo,messages, 5, 35);		    
 		    else
 		    	return key.newInstance();
 		} catch (InstantiationException e) {
@@ -219,8 +272,5 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	public void releaseInstance(ConstraintValidator<?, ?> arg0) {
 		// TODO Auto-generated method stub
 		
-	}
-	  
-
-
+	}	  
 }

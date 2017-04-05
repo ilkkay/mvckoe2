@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
+import translateit2.service.Loco2Service;
 import translateit2.service.Loco2ServiceImpl;
  
 @Configuration
@@ -20,9 +21,9 @@ public class LocoServiceTestConfig {
 	 * configuration classes must be static
 	 */
 
-	private Loco2ServiceImpl loco2Service;    
+	private Loco2Service loco2Service;    
     @Autowired
-    public void setLoco2Service(Loco2ServiceImpl loco2Service) {
+    public void setLoco2Service(Loco2Service loco2Service) {
         this.loco2Service = loco2Service;
     }
     

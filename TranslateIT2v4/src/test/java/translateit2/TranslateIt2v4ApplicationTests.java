@@ -18,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Transu;
+import translateit2.service.Loco2Service;
 import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
@@ -30,9 +31,9 @@ import translateit2.service.TransuServiceImpl;
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class TranslateIt2v4ApplicationTests {    
-    private Loco2ServiceImpl loco2Service;    
+    private Loco2Service loco2Service;    
     @Autowired
-    public void setLoco2Service(Loco2ServiceImpl loco2Service) {
+    public void setLoco2Service(Loco2Service loco2Service) {
         this.loco2Service = loco2Service;
     }
     

@@ -9,17 +9,22 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
 import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.LocoMapper;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
+import translateit2.validator.LocoValidator;
 
+@Validated
 @Service
 public class Loco2ServiceImpl implements Loco2Service{	
 
@@ -45,30 +50,24 @@ public class Loco2ServiceImpl implements Loco2Service{
     }
 	
     @Override
-	public LocoDto updateLocoDto(final LocoDto locoDto) {
+	public LocoDto updateLocoDto(@Valid final LocoDto locoDto) {
+    	/*
 		Set<ConstraintViolation<LocoDto>> violations = validator.validate(locoDto);
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
 				    new HashSet<ConstraintViolation<?>>(violations));
 		}
-		// TODO: problem with perloco.transus.loco is null when it should be perloco
-    	final Loco tmpLoco = convertToEntity(locoDto);
-    	tmpLoco.getTransus().forEach(t->t.setLoco (tmpLoco));
-    	Loco perLoco = locoRepo.save(tmpLoco);
+		*/
+		// TODO: problem with perloco.transus.loco is null when it should be perloco  	
     	
-    	return convertToDto(perLoco);
+		Loco perLoco = getLocoById(locoDto.getId());    	
+    	convertToEntity(locoDto,perLoco);
+    	perLoco.getTransus().forEach(t->t.setLoco (perLoco));
+    	return convertToDto(locoRepo.save(perLoco));
     }
     
 	@Override
-	public LocoDto createLocoDto(final LocoDto entity) {
-		// TODO: get rid of this part
-		
-		Set<ConstraintViolation<LocoDto>> violations = validator.validate(entity);
-		if (!violations.isEmpty()) {
-			throw new ConstraintViolationException(
-				    new HashSet<ConstraintViolation<?>>(violations));
-		}
-		
+	public LocoDto createLocoDto(@Valid final LocoDto entity) {
 		Loco perLoco = locoRepo.save(convertToEntity(entity));
 		return convertToDto(perLoco); 
 	}
@@ -131,13 +130,14 @@ public class Loco2ServiceImpl implements Loco2Service{
     }
     
     @Override
-	public LocoDto updateTransuDto(TransuDto transuDto){
+	public LocoDto updateTransuDto(@Valid TransuDto transuDto){
+    	/*
 		Set<ConstraintViolation<TransuDto>> violations = validator.validate(transuDto);
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
 				    new HashSet<ConstraintViolation<?>>(violations));
 		}
-		
+		*/
     	Loco perLoco = getLocoById(transuDto.getLoco());
     	
     	// destination null
@@ -149,13 +149,14 @@ public class Loco2ServiceImpl implements Loco2Service{
     }
     
 	@Override
-	public LocoDto createTransuDto(TransuDto transuDto, final long locoId){
+	public LocoDto createTransuDto(@Valid TransuDto transuDto, final long locoId){
+		/*
 		Set<ConstraintViolation<TransuDto>> violations = validator.validate(transuDto);
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
 				    new HashSet<ConstraintViolation<?>>(violations));
 		}
-		
+		*/
 		Loco perLoco = getLocoById(locoId);
 		
 		Transu curTransu = convertToEntity(transuDto);
@@ -205,5 +206,9 @@ public class Loco2ServiceImpl implements Loco2Service{
     
     private void convertToEntity(TransuDto transuDto,Transu transu) {
         modelMapper.map(transuDto, transu);              
+    }
+    
+    private void convertToEntity(LocoDto locoDto,Loco loco) {
+        modelMapper.map(locoDto, loco);              
     }
 }

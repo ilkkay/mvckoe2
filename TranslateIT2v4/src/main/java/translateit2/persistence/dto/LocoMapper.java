@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
+import translateit2.persistence.model.Loco;
 import translateit2.persistence.model.Transu;
 
 @Component
@@ -19,7 +20,9 @@ public class LocoMapper extends ModelMapper {
 	PropertyMap<TransuDto, Transu> transuMap2 = new PropertyMap<TransuDto, Transu>() {
 		@Override
 		protected void configure() {
-			skip().setLoco(null);
+			//skip().setLoco(null);
+			Loco loco = null;
+			skip().setLoco(loco);
 		}
 	};
 	

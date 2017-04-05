@@ -14,7 +14,10 @@ public class TransuDto {
 	@Max(10000)
 	private int rowId;
 	
-	@NotBlank (message = "{TransuDto.target_not_empty}")
+	// Sic! Messages have been transfered from ValidationMessages.properties 
+	// to Messages.properties file. See main() section.
+	//@NotBlank (message = "{TransuDto.target_not_empty}")
+	@NotBlank (message = "{TransuDto.segment_size}")
 	private String targetSegm;
 
 	@NotNull (message = "{TransuDto.source_not_null}")

@@ -6,10 +6,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.model.Loco;
+import translateit2.util.Messages;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
 
@@ -20,11 +22,21 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
 	@Autowired
     private LocoRepository locoRepo;
 	
-	public LocoValidator(LocoRepository locoRepo) {
+    @Autowired
+    Messages messages;
+    
+    public LocoValidator(LocoRepository locoRepo, Messages messages) {
 		this.locoRepo = locoRepo;
+		this.messages = messages;
 	}
+
+    @Value("${ProjectNameMinSize}")
+	private Integer ProjectNameMinSize=5; // for testing purposes
 	
-    @Override
+	@Value("${ProjectNameMaxSize}")
+	private Integer ProjectNameMaxSize=35; // for testing purposes
+
+	@Override
     public void initialize(final LocoConstraint constraintAnnotation) {
 
     }
@@ -35,22 +47,36 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
     	
     	boolean isValid = true;
    
+		if ((value !=null) && (value.getProjectName() != null) &&
+				((value.getProjectName().length()<ProjectNameMinSize)
+					|| (value.getProjectName().length()>ProjectNameMaxSize))){
+			isValid = false;
+			String[] args = {value.getProjectName(), ProjectNameMinSize.toString(),
+					ProjectNameMaxSize.toString()};
+			context.buildConstraintViolationWithTemplate(
+					messages.get("LocoDto.projectName.size",args))
+						.addPropertyNode("projectName") 
+						.addConstraintViolation(); 
+			}
+    			
     	// project name is unique but if you do an update then project name will be the same
     	Optional <Loco> l = locoRepo.findByProjectName(value.getProjectName());
     	if(l.isPresent() && (l.get().getId() != value.getId())) {
     		isValid = false;
     		context.disableDefaultConstraintViolation();
-    		context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.project_exists_already"))
-    			.addPropertyNode("projectName").addConstraintViolation(); //$NON-NLS-1$
+    		String s = messages.get("LocoValidator.project_exists_already");
+            context.buildConstraintViolationWithTemplate(s)
+            	.addPropertyNode("projectName").addConstraintViolation(); //$NON-NLS-1$
     	}
 
     	// TODO: remove this is just for testing ...
     	// Pekka user has no permission
     	if("Pekka".equals(value.getName())) { //$NON-NLS-1$
     		isValid = false;
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(Messages.getString("LocoValidator.no_create_permission"))
-            	.addPropertyNode("name").addConstraintViolation(); //$NON-NLS-1$
+    		String s = messages.get("LocoValidator.no_create_permission");
+            context.disableDefaultConstraintViolation();            
+            context.buildConstraintViolationWithTemplate(s)
+        		.addPropertyNode("name").addConstraintViolation(); //$NON-NLS-1$
         }    	    
     	    	
     	// TODO: remove this is just for testing ...
@@ -59,7 +85,8 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
     	if((l2 != null) && (l2.getId() != value.getId())) {
     		isValid = false;
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Name already exists")
+            String s = messages.get("LocoValidator.name_exists");
+            context.buildConstraintViolationWithTemplate(s)
             	.addPropertyNode("name").addConstraintViolation(); //$NON-NLS-1$
         }    	
     	

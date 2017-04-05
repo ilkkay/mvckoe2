@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
+import translateit2.service.Loco2Service;
 import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
@@ -35,9 +36,9 @@ public class TranslateMainController {
         this.transuService = transuService;
     }
     
-    private Loco2ServiceImpl loco2Service;    
+    private Loco2Service loco2Service;    
     @Autowired
-    public void setLoco2Service(Loco2ServiceImpl loco2Service) {
+    public void setLoco2Service(Loco2Service loco2Service) {
         this.loco2Service = loco2Service;
     }
     

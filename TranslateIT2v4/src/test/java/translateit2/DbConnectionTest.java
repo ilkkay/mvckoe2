@@ -1,5 +1,7 @@
 package translateit2;
 
+import static org.junit.Assert.fail;
+
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
@@ -25,6 +27,7 @@ public class DbConnectionTest {
 	@Test
 	public void test() {
 		System.out.println("in test");
+		fail("test");
 	}
 	
     @AfterClass

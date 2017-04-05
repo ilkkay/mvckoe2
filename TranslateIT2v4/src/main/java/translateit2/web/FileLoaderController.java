@@ -4,6 +4,7 @@ import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Transu;
+import translateit2.service.Loco2Service;
 import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
@@ -34,11 +35,11 @@ import java.util.stream.Collectors;
 public class FileLoaderController {
 
     private final StorageService storageService;
-    private Loco2ServiceImpl loco2Service;
+    private Loco2Service loco2Service;
 
     @Autowired
     public FileLoaderController(StorageService storageService, 
-    		TransuServiceImpl transuService, Loco2ServiceImpl loco2Service) {
+    		TransuServiceImpl transuService, Loco2Service loco2Service) {
         this.storageService = storageService;
         this.loco2Service = loco2Service;
     }
@@ -72,6 +73,7 @@ public class FileLoaderController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
                 .body(file);
     }
+    
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) throws IOException {
@@ -125,9 +127,7 @@ public class FileLoaderController {
         	transuDto.setRowId(i);
         	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
         	
-        }
-        locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
-                
+        }                        
             	
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");

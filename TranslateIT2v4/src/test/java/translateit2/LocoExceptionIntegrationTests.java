@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -20,8 +21,18 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
+import translateit2.service.Loco2Service;
 import translateit2.service.Loco2ServiceImpl;
-import translateit2.validator.Messages;
+import translateit2.validator.LocoValidator;
+import translateit2.util.Messages;
+
+import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.junit.Assert.fail;
 
 
 // http://www.journaldev.com/2668/spring-validation-example-mvc-validator
@@ -31,41 +42,48 @@ import translateit2.validator.Messages;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
-
 public class LocoExceptionIntegrationTests {
-    private Loco2ServiceImpl loco2Service;    
+    private Loco2Service loco2Service;    
     @Autowired
-    public void setLoco2Service(Loco2ServiceImpl loco2Service) {
+    public void setLoco2Service(Loco2Service loco2Service) {
         this.loco2Service = loco2Service;
     }
     
-
+    @Autowired
+    Messages messages;
     
+    @Test
+    public void create_locodto_with_too_short_projectname() throws Exception {
+    	LocoDto locoDto = new LocoDto();
+    	locoDto.setProjectName("prj");
+    	locoDto.setName("Ilkka");	
+    	try {
+    		locoDto=loco2Service.createLocoDto(locoDto);
+    		fail("No Constraint Violation Exception thrown"); 
+    	} catch(ConstraintViolationException  e) {  		
+    		assertThat(e.getConstraintViolations().stream()
+    			.filter(v->v.getMessage().contains("characters long")).count()
+    				, is(equalTo(1L)));
+    		
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains("Name already exists")).count()
+        				, is(equalTo(1L)));   		
+    	}
+    }
+        
 	@Test
-	public void create_locodto_with_empty_projectname() throws Exception{
-		// TODO: insert assertj.core.api and use java 8 style i.e 
-		// assertThatExceptionOfType(ConstraintViolationException.class)
-		// .isThrownBy(() -> loco2Service.createLocoDto(locoDto)
-		// .matches(e -> e.getConstraintViolations().size() == 1)
-		// .matches(e -> e.getConstraintViolations().stream()
-		// .allMatch(v -> v.getMessage().contains("characters long"))));
-		
+	public void create_locodto_with_empty_projectname() throws Exception {
 		LocoDto locoDto = new LocoDto();
-		locoDto.setProjectName("");
+		locoDto.setProjectName("prj");
 		locoDto.setName("Ilkka");	
-		boolean foundViolation=false;
 		try {
-			locoDto=loco2Service.createLocoDto(locoDto);		
-		} catch(ConstraintViolationException  e) {        	
-        	Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();    		
-    		for(ConstraintViolation<?> constraintViolation : constraintViolations){
-    			String message = constraintViolation.getMessage();
-    			if ("projectName".equals(constraintViolation.getPropertyPath().toString()))
-    				if (message.contains("characters long"))
-    					foundViolation=true;
-    		}		 
-		}
-		assertThat(foundViolation, is(equalTo(true)));			
+			locoDto=loco2Service.createLocoDto(locoDto);	
+			fail("No Constraint Violation Exception thrown"); 
+		} catch(ConstraintViolationException  e) {
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains("characters long")).count()
+        				, is(equalTo(1L)));  	 
+		}			
 	}
 	
 	@Test
@@ -73,73 +91,57 @@ public class LocoExceptionIntegrationTests {
         LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("");
 		locoDto.setName("Pekka");
-		boolean foundViolation=false;
-		try{
-			locoDto=loco2Service.createLocoDto(locoDto);			
-		} catch(ConstraintViolationException  e){
-        	Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();    		
-    		for(ConstraintViolation<?> constraintViolation : constraintViolations){
-    			String message = constraintViolation.getMessage();
-    			if ("name".equals(constraintViolation.getPropertyPath().toString()))
-    				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.no_create_permission"))))
-    					foundViolation=true;
-    		}
-        }
 		
-		assertThat(foundViolation, is(equalTo(true)));	
+		try{
+			locoDto=loco2Service.createLocoDto(locoDto);	
+			fail("No Constraint Violation Exception thrown");
+		} catch(ConstraintViolationException  e){
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains(
+        					messages.get("LocoValidator.no_create_permission")))
+        						.count(), is(equalTo(1L))); 
+        }
 	}
 	
 	@Test
 	public void create_locodto_with_existing_projectname() throws Exception{
-		boolean foundViolation=false;
+        LocoDto locoDto = new LocoDto();
+		locoDto.setProjectName("Translate IT 2");
+		locoDto.setName(messages.get("LocoValidator.test_name"));	
+
 		try{
-	        LocoDto locoDto = new LocoDto();
-			locoDto.setProjectName("Translate IT 2");
-			locoDto.setName(Messages.getString("LocoValidator.test_name"));	
-			locoDto=loco2Service.createLocoDto(locoDto);			
+			locoDto=loco2Service.createLocoDto(locoDto);
+			fail("No Constraint Violation Exception thrown");
 		}
         catch(ConstraintViolationException  e){
-        	Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();    		
-    		for(ConstraintViolation<?> constraintViolation : constraintViolations){
-    			String message = constraintViolation.getMessage();
-    			if ("projectName".equals(constraintViolation.getPropertyPath().toString()))
-    				if (message.equalsIgnoreCase((Messages.getString("LocoValidator.project_exists_already"))))
-    					foundViolation=true;
-    		}
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains(
+        					messages.get("LocoValidator.project_exists_already")))
+        						.count(), is(equalTo(1L))); 
         }
-		
-		assertThat(foundViolation, is(equalTo(true)));
 	}
 
 	@Test
 	public void create_locodto_with_empty_and_null_segment() throws Exception{
-		try{
-			LocoDto locoDto = loco2Service.getLocoDtoByProjectName("Translate IT 2");
-	    	TransuDto transuDto = new TransuDto();
+    	TransuDto transuDto = new TransuDto();
+    	transuDto.setSourceSegm("");
+    	transuDto.setTargetSegm(null);
+    	transuDto.setRowId(4);
 
-	    	transuDto.setSourceSegm("");
-	    	transuDto.setTargetSegm(null);
-	    	transuDto.setRowId(4);
-	    	locoDto = loco2Service.createTransuDto(transuDto,locoDto.getId());			
+    	try{
+			LocoDto locoDto = loco2Service.getLocoDtoByProjectName("Translate IT 2");
+	    	locoDto = loco2Service.createTransuDto(transuDto,locoDto.getId());		    	
+	    	fail("No Constraint Violation Exception thrown");
 		}
         catch(ConstraintViolationException  e){
-        	e.getConstraintViolations().forEach(m->System.out.println(m.getMessage()));
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains("segment cannot be empty")).count()
+        				, is(equalTo(1L)));  
+    		
+    		assertThat(e.getConstraintViolations().stream()
+        			.filter(v->v.getMessage().contains("Must contain atleast")).count()
+        				, is(equalTo(1L)));  
         }
-		
-		int count = loco2Service.listAllLocoDtos().size();
-		assertThat(count, is(2));
 	}
 	
-	/*
-	@Test(expected=DataIntegrityViolationException.class)
-	public void create_locodto_with_existing_projectname_return_exception(){		
-        LocoDto locoDto = new LocoDto();
-		locoDto.setProjectName("Translate IT 2");
-		locoDto.setName("Pekka");	
-		locoDto=loco2Service.createLocoDto(locoDto);
-		
-		int count = loco2Service.listAllLocoDtos().size();
-		assertThat(count, is(2));
-	}
-	*/
 }

@@ -1,5 +1,7 @@
 package translateit2.persistence.dto;
 
+// Annotation + Message Key + Default Text
+// http://www.silverbaytech.com/2013/04/16/custom-messages-in-spring-validation/
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import translateit2.validator.LocoConstraint;
@@ -15,26 +18,36 @@ import translateit2.validator.LocoConstraint;
 public class LocoDto {
 	private Long id;
 	
-	@NotEmpty
+	@NotBlank
 	private String name;
 	
-    @Size(
-            min = 5,
+	
+	@NotBlank
+	/*
+    @Size(  min = 5,
             max = 35,
-            message = "The project name '${validatedValue}' must be between {min} and {max} characters long"
+            message = "The project name '${validatedValue}'" 
+    				+ "must be between "
+    				+ "{min} and {max}"
+    				+ "characters long"
     )
+    */
 	private String projectName;
 	
-    //NotBlank
-	private String origFilename;
+    // TODO: 
+    // @NotNull,@NotBlank and @NotEmpty will be validated 
+    // and since bean loadLocoData() don't initialize => exception
+    @Size(min = 10) // not to be used alone???
+    private String origFilename;
     
-    //NotBlank
+    @Size(min = 10)
 	private String targetFilename;
 	
 	@Pattern(regexp="[a-z]{2}_[A-Z]{2}$")
 	private String origLocale;
 	
-	@Pattern(regexp="[a-z]{2}_[A-Z]{2}$")
+	//@NotNull
+    @Pattern(regexp="[a-z]{2}_[A-Z]{2}$") // not to be used alone???
 	private String targetLocale;
 	
 	public LocoDto() {
