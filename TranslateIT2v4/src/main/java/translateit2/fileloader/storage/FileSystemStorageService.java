@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -54,13 +55,13 @@ public class FileSystemStorageService implements StorageService {
             	File dir = new File(absTgtParent.toString());
             	dir.mkdir();
             	System.out.println("Upload directory " + absTgtParent.toString() + " is missing.");
-                //Paths.get(absTgtParent.toString());
             }
             if (!Files.exists(absTgtParent)) {
                 throw new StorageException("Upload directory " + absTgtParent.toString() + 
                 		" was missing and could not be recreated");
             }
             
+            /*
             if (Files.exists(target)) {
                 File t = new File(target.toString());
                 boolean success = Files.deleteIfExists(t.toPath());
@@ -69,26 +70,19 @@ public class FileSystemStorageService implements StorageService {
                 		" existed already and could not be removed");
                 }
             }
+            */
             /*
              */
             Path outFilePath = this.rootLocation.resolve(file.getOriginalFilename());           
-            //Files.copy(file.getInputStream(), outFilePath);
-                        
+            //Files.copy(file.getInputStream(), outFilePath,StandardCopyOption.REPLACE_EXISTING);
+            
+            
         	String tmpFilenameStr="temp.properties"; 
         	Path dir = outFilePath.getParent();        
             Path fn = outFilePath.getFileSystem().getPath(tmpFilenameStr);
             Path tmpFilePath = (dir == null) ? fn : dir.resolve(fn);
             
-            if (Files.exists(tmpFilePath)) {
-                File t = new File(tmpFilePath.toString());
-                boolean success = Files.deleteIfExists(t.toPath());
-                if (!success) {
-                	throw new StorageException("File " + tmpFilePath.toString() + 
-                		" existed already and could not be removed");
-                }
-            }
-            
-            Files.copy(file.getInputStream(), tmpFilePath);            
+            Files.copy(file.getInputStream(), tmpFilePath,StandardCopyOption.REPLACE_EXISTING);            
             ISO8859Loader.copyISO8859toUTF8(tmpFilePath.toString(), outFilePath.toString());
             
         } catch (IOException e) {

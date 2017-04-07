@@ -6,11 +6,8 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 
-import translateit2.lngfileservice.LngFileStorage;
-
 import javax.annotation.PostConstruct;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 @Component
@@ -25,49 +22,37 @@ public class Messages {
 
 	private MessageSourceAccessor accessor; 
     
+    // what does this MessageSourceAccessor really do
+    // except setting locale ????
     @PostConstruct
-    private void init() {
+    private void init() { // default is finnish for gui
         accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
     }
     
-    // what does this MessageSourceAccessor really do??
+    // tests will be using english
     public void init(Locale locale) {
-    	accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
+    	accessor = new MessageSourceAccessor(messageSource, locale);
     }
     
     public String get(String code,String[] args){
     	String msg = null;
     	try {
-    		msg = accessor.getMessage(code);
+    		msg = accessor.getMessage(code, args);
     	} catch (NoSuchMessageException e) {
     		return "Text not implemented for " + code;	
     	}
 
-    	if (args.length>0){
-        	msg = String.format(msg, (Object[])args);        	
-    	}
     	return msg;
     }
     
-    // http://stackoverflow.com/questions/4659929/how-to-use-utf-8-in-resource-properties-with-resourcebundle
     public String get(String code){
     	String msg = null;
     	try {
-    		msg = accessor.getMessage(code);
+    		msg = accessor.getMessage(code); // which one to use ???
+    		//msg = messageSource.getMessage(code, null, Locale.ENGLISH);
     	} catch (NoSuchMessageException e) {
     		return "Text not implemented for " + code;	
-    	}
-    	
-    	/*
-    	byte b1[] = accessor.getMessage(code).getBytes();
-    	byte b2[] = messageSource.getMessage(code, null, new Locale("fi")).getBytes();
-
-		try {
-			msg = new String(accessor.getMessage(code).getBytes("iso-8859-1"),"utf-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		*/
+    	}    
 
     	return msg;
     }

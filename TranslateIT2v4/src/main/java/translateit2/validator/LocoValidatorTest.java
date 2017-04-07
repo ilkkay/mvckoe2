@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,6 +29,8 @@ import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.model.Loco;
 import translateit2.util.Messages;
+
+// JUnit 4 Rule to run individual tests with a different default locale
 // https://gist.github.com/digulla/5884162
 @RunWith(MockitoJUnitRunner.class)
 public class LocoValidatorTest implements ConstraintValidatorFactory {
@@ -52,38 +55,33 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	    		new ReloadableResourceBundleMessageSource();
 	    messageSource.setBasename("classpath:messages");
 	    messageSource.setDefaultEncoding("ISO-8859-1");	    
+	    messageSource.setFallbackToSystemLocale(false);
 	    
 	    messages = new Messages(messageSource);
-	    messages.init(null);
+	    messages.init(Locale.ENGLISH);
 	}
 	
 	@Test
-	public void test_messages() {
+	public void test_messages() throws NoSuchFieldException, SecurityException {
 		String s = null;
 		
 		s = messages.get("LocoValidator.name_exists");
 		System.out.println(s);;
-		//assertThat("Name already exists",is(equalTo(s)));
 		
 		s = messages.get("LocoValidator.no_create_permission");
 		System.out.println(s);;
-		//assertThat("Pekka has not required permission for this operation",is(equalTo(s)));
 		
 		s = messages.get("LocoValidator.project_exists_already");
 		System.out.println(s);;
-		//assertThat("Project name exists already",is(equalTo(s)));
 		
 		s = messages.get("LocoValidator.entity_missing");
 		System.out.println(s);;
-		//assertThat("Entity is missing",is(equalTo(s)));
 		
 		s = messages.get("LocoValidator.name_exists");
 		System.out.println(s);;
-		//assertThat("Name already exists",is(equalTo(s)));
 		
 		s = messages.get("LocoValidator.test_name");
 		System.out.println(s);;
-		//assertThat("Pekka",is(equalTo(s)));
 		
 		String[] args = {"Translate IT 2", "5","35"};
 		s=messages.get("LocoDto.projectName.size",args);
@@ -95,11 +93,12 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		System.out.println(s);
 		String[] args2 = {"5"};
 		s = messages.get("TransuDto.segment_size",args2);
-		System.out.println(s);;
+		System.out.println(s);		
+
 	}
 	
 
-	//@Test
+	@Test
 	public void dontFailToUpdateProjectName_IfExistingEntity() {		
 		// GIVEN: an existing loco l
 		// ASSUMED: conversion from Loco to LocoDto
@@ -136,7 +135,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	}
 	
 
-	//@Test
+	@Test
 	public void failToCreateProjectName_IfExistingEntity() {
 		long dtoLocoId = 0L;
 		long receivedLocoId = 1l;
@@ -170,7 +169,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		assertThat(foundViolation, is(equalTo(true)));
 	}
 	
-	//@Test
+	@Test
 	public void failToCreateEntity_ifProjectNameShort() {
 		// just checking values
 		javax.validation.metadata.BeanDescriptor beanDesc = validator.getConstraintsForClass(LocoDto.class);
@@ -199,7 +198,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	}
 	
 
-	//@Test
+	@Test
 	public void failToUpdateEntity_ifNameMissing(){		
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
 		when(mockRepo.findByName("")).thenReturn(null);
@@ -223,7 +222,7 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 
 	}
 	
-	 //@Test
+	 @Test
 	 public void failToCreateEntity_ifRequiredPermissionMissing() {
 		when(mockRepo.findByProjectName("Translate IT 2")).thenReturn(Optional.empty());
 		when(mockRepo.findByName("Pekka")).thenReturn(null);
@@ -254,7 +253,6 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 	    try {
 		    if (key == LocoValidator.class) 
 		        return (T) new LocoValidator(mockRepo,messages);		    
-	        	//return (T) new LocoValidator(mockRepo,messages, 5, 35);		    
 		    else
 		    	return key.newInstance();
 		} catch (InstantiationException e) {

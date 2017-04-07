@@ -19,19 +19,9 @@ public class LocoDto {
 	private Long id;
 	
 	@NotBlank
-	private String name;
-	
+	private String name;	
 	
 	@NotBlank
-	/*
-    @Size(  min = 5,
-            max = 35,
-            message = "The project name '${validatedValue}'" 
-    				+ "must be between "
-    				+ "{min} and {max}"
-    				+ "characters long"
-    )
-    */
 	private String projectName;
 	
     // TODO: 

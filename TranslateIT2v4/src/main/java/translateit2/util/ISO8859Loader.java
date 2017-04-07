@@ -1,7 +1,7 @@
 package translateit2.util;
 
 
-import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,11 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -28,79 +27,27 @@ import translateit2.persistence.model.Transu;
 
 public class ISO8859Loader {
 	
-    @SuppressWarnings("unused")
-	public static void copyISO8859toUTF8(String srcFileLocationStr, String dstFileLocationStr) {
-        InputStream stream = null;
-        InputStreamReader isr = null;
-        OutputStream outputStream = null;
-        Writer outputStreamWriter = null;
+	// http://javarevisited.blogspot.fi/2014/04/how-to-convert-byte-array-to-inputstream-outputstream-java-example.html
+	public static InputStream ISO8859toUTF8Stream(Path propPath) throws IOException {
+		//Path _propPath = Paths.get("d:\\test.properties");
+		byte[] inData = Files.readAllBytes(propPath);		
+		String iso8859str = new String(inData,"ISO-8859-1");
+		String utf8str = new String(iso8859str.getBytes(),"UTF-8");
+		byte[] outData = utf8str.getBytes(); 				
+		InputStream newStream = new ByteArrayInputStream(outData);
+
+		return newStream;
+	}
+	
+	public static void copyISO8859toUTF8(String srcFileLocationStr, 
+			String dstFileLocationStr) throws IOException {
+		Path srcFilePath = Paths.get(srcFileLocationStr);
+		Path dstFilePath = Paths.get(dstFileLocationStr);
         
-        try {
-			outputStream= new FileOutputStream(dstFileLocationStr);
-		} catch (FileNotFoundException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-        
-        try {
-			outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-		} catch (UnsupportedEncodingException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-        
-        try {
-			stream = new FileInputStream(srcFileLocationStr);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
-        try {
-			isr = new InputStreamReader(stream,"ISO-8859-1");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-        BufferedReader bufRdr  = new BufferedReader(isr);
-        String line;
-        try {
-			while ((line = bufRdr.readLine()) != null) {
-			    //System.out.println(line);
-			    outputStreamWriter.write(line+"\n");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				isr.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stream.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				outputStreamWriter.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				outputStream.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-    }
-    
+		List<String> lines = Files.readAllLines(srcFilePath, StandardCharsets.ISO_8859_1 );
+		Files.write(dstFilePath, lines, StandardCharsets.UTF_8);
+	}
+
 	public static String initTargetLanguageFile(Path srcPath, 
     		String propFilename, Locale tgtLocale) throws IOException{
     	
@@ -122,6 +69,7 @@ public class ISO8859Loader {
         
         try {
         	stream = new FileInputStream(srcFileLocationStr);
+        	//stream = ISO8859toUTF8Stream(srcPath);
         } catch (Exception e) {
         	e.printStackTrace();
         }

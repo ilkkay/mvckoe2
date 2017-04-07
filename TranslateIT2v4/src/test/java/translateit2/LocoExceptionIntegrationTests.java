@@ -5,33 +5,26 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
+import java.util.Locale;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+
 
 //import javax.ejb.EJBException;
 
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.service.Loco2Service;
-import translateit2.service.Loco2ServiceImpl;
-import translateit2.validator.LocoValidator;
+import translateit2.util.ISO8859Loader;
 import translateit2.util.Messages;
 
-import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.Assert.fail;
 
 
@@ -40,8 +33,7 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = TranslateIt2v4Application.class)
-@WebAppConfiguration
+@SpringBootTest(classes = IntegrationTestMockApplication.class)
 public class LocoExceptionIntegrationTests {
     private Loco2Service loco2Service;    
     @Autowired
@@ -51,6 +43,24 @@ public class LocoExceptionIntegrationTests {
     
     @Autowired
     Messages messages;
+    
+    @Before
+    public void setup() {
+    	Locale.setDefault(Locale.ENGLISH);	// for javax validation
+    	messages.init(Locale.ENGLISH);   	// for custom validation 	
+    }
+    /*
+    @Test
+    public void isoTest() {
+    	try {
+			ISO8859Loader.ISO8859toUTF8Stream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+    */
     
     @Test
     public void create_locodto_with_too_short_projectname() throws Exception {
@@ -124,7 +134,7 @@ public class LocoExceptionIntegrationTests {
 	@Test
 	public void create_locodto_with_empty_and_null_segment() throws Exception{
     	TransuDto transuDto = new TransuDto();
-    	transuDto.setSourceSegm("");
+    	transuDto.setSourceSegm("1"); // must contain atlest ... and not empty
     	transuDto.setTargetSegm(null);
     	transuDto.setRowId(4);
 
@@ -135,12 +145,17 @@ public class LocoExceptionIntegrationTests {
 		}
         catch(ConstraintViolationException  e){
     		assertThat(e.getConstraintViolations().stream()
-        			.filter(v->v.getMessage().contains("segment cannot be empty")).count()
+        			.filter(v->v.getMessage().contains(
+        					"may not be null"))
+        					//messages.getPart("javax.validation.constraints.NotNull")))
+        					.count()
         				, is(equalTo(1L)));  
     		
     		assertThat(e.getConstraintViolations().stream()
-        			.filter(v->v.getMessage().contains("Must contain atleast")).count()
-        				, is(equalTo(1L)));  
+        			.filter(v->v.getMessage().contains(
+        					"must be between"))
+        				.count()
+        				, is(equalTo(1L))); 
         }
 	}
 	

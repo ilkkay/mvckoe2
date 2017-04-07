@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.service.Loco2Service;
-import translateit2.service.Loco2ServiceImpl;
  
 @Configuration
 public class LocoServiceTestConfig { 

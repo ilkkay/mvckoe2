@@ -16,7 +16,6 @@ import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.service.Loco2Service;
-import translateit2.service.Loco2ServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 @Controller
@@ -24,16 +23,12 @@ public class TranslateMainController {
     
 	private LocoDto locoDto; 
 
-    private StorageService storageService;
     @Autowired
     public void setStorageService(StorageService storageService) {
-        this.storageService = storageService;
     }
     
-    private TransuServiceImpl transuService;
     @Autowired
     public void setTransuService(TransuServiceImpl transuService) {
-        this.transuService = transuService;
     }
     
     private Loco2Service loco2Service;    
