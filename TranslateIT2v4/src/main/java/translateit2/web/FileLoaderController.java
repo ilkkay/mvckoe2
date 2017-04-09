@@ -1,4 +1,5 @@
 package translateit2.web;
+import translateit2.fileloader.storage.StorageException;
 import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
@@ -11,6 +12,7 @@ import translateit2.util.ISO8859Loader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,36 +76,48 @@ public class FileLoaderController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) throws IOException {
 
+    	/*
+    	 * Upload language file
+    	 * lngFileService.storeFile(file);
+    	 */
         storageService.store(file);
         
         /*
-         * client should do this kind of sanity checks
+         * check format validity
+         * lngFileService.checkValidity(originalFilename);
          */
         String propFilename = ISO8859Checker.sanityCheck(file.getOriginalFilename());
         if (propFilename == null)
-        	throw new IOException(); // redirect to error page locale missing 
+			throw new StorageException("The language code is missing from the filename: "
+					 + file.getOriginalFilename());
         
         Predicate<String> p = (String ext) -> { return ext.equals("properties"); };
         
         Locale locale = ISO8859Checker.getLocaleFromString(
         		file.getOriginalFilename(), ext -> ext.equals("properties"));
         if (locale == null)
-        	throw new IOException(); // redirect to error page locale missing       	
+			throw new StorageException("This is not a valid properties file: "
+					 + file.getOriginalFilename());  	
 
         /*
          * create initial target language file
+         * lngFileService.createTargetLanguageFile(dstPath,originalFilename,locale);
          */
         ISO8859Loader.initTargetLanguageFile(storageService.load(file.getOriginalFilename()),
         		propFilename, null);
+        
+        /*
+         * Get locoId of current localization project
+         */
                    
         /*
          * get segments tags (property keys) and segments (property values)
-         * 
+         * lngFileService.uploadToDb(targetLanguageFile,locoId);
          */
         
     	Path filePath = storageService.load(file.getOriginalFilename());
         String lngFileLocation=filePath.toAbsolutePath().toString();        
-        LinkedHashMap<String,String> map=ISO8859Loader.getPropSegments(lngFileLocation);
+        LinkedHashMap<String,String> map=(LinkedHashMap<String, String>) ISO8859Loader.getPropSegments(lngFileLocation);
 
 		LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 2");
@@ -115,7 +129,7 @@ public class FileLoaderController {
         TransuDto transuDto = null;
         for (Map.Entry<String,String> entry : map.entrySet())
         {
-        	if (++i>=20) break;
+        	if (++i>=21) break;
         	
         	transuDto = new TransuDto();        	
         	transuDto.setSourceSegm(entry.getKey());
@@ -132,8 +146,22 @@ public class FileLoaderController {
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+    	return errorPage(exc);
     }
-
+    
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity<?> handleStorage(StorageException exc) {
+    	return errorPage(exc);
+    }
+    
+    private ResponseEntity<String> errorPage(StorageException exc){
+    	ResponseEntity<String> errorResponse = null;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("HeaderKey", "HeaderData");
+        errorResponse =  new ResponseEntity<String>(
+            "<h2>File upload error</h2>" + exc.getLocalizedMessage(), responseHeaders,
+            HttpStatus.CREATED);    	
+    	return errorResponse;
+    }
 }

@@ -35,9 +35,6 @@ public class LngFileServiceFactoryImplTest {
 	
 	private LngFileServiceFactory lngFileServiceFactory = null;
 	
-	//@Mock
-	//private LngFileServiceFactory lngFileServiceFactory;
-	
 	@Mock 
 	private ISO8859Storage mockIso8859Storage;
 	

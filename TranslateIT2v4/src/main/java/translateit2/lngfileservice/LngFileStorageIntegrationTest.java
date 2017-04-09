@@ -33,6 +33,9 @@ import translateit2.lngfileservice.xliff.XLIFFStorageImpl;
 public class LngFileStorageIntegrationTest {
 
 	@Autowired
+	LngFileServiceFactoryImpl lngFileServiceFactory;
+	
+	@Autowired
 	LngFileServiceFactoryImpl2 lngFileServiceFactory2;
 
 	@Autowired
@@ -53,6 +56,7 @@ public class LngFileStorageIntegrationTest {
 		service = lngFileServiceProvider.getService("xliffService");	
 		assertThat(service.get(), instanceOf(XLIFFStorageImpl.class));
 		
+		// voi hajota
 		service = lngFileServiceProvider.getService("defaultLngStorageImpl");	
 		assertThat(service.get(), instanceOf(DefaultLngStorageImpl.class));
 		
@@ -69,29 +73,29 @@ public class LngFileStorageIntegrationTest {
 	public void getFactoryService_cached() {
 		LngFileStorage service  = null;
 		
-		service = LngFileServiceFactoryImpl.getService("XLIFF");
+		service = lngFileServiceFactory.getService("XLIFF").get();
 		assertThat(service.getGreetings(), is(equalTo("XLIFFServiceImpl")));
 		assertThat(service, instanceOf(XLIFFStorageImpl.class));
 		
-		service = LngFileServiceFactoryImpl.getService("ISO8859");
+		service = lngFileServiceFactory.getService("ISO8859").get();
 		assertThat(service.getGreetings(), is(equalTo("ISO8859ServiceImpl")));
 		assertThat(service, instanceOf(ISO8859StorageImpl.class));
 		
-		service = LngFileServiceFactoryImpl.getService("Default");
+		service = lngFileServiceFactory.getService("Default").get();
 		assertThat(service.getGreetings(), is(equalTo("DefaultLngServiceImpl")));
 		assertThat(service, instanceOf(DefaultLngStorageImpl.class));
 				
 		try {
-			service = LngFileServiceFactoryImpl.getService("PO");
+			service = lngFileServiceFactory.getService("PO").get();
 			fail("No exception was thrown");
 		} catch (Exception e) {
-			assertThat(e).hasMessageContaining("Unknown service type");
+			assertThat(e).hasMessageContaining("No value present");
 		}
 		
 		Path p = service.getPath("dotcms_en.properties");		
-		assertThat(p.getParent().toString(), is(equalTo("upload-dir2")));
+		assertThat(p.getParent().toString(), is(equalTo("upload-dir3")));
 		
-		LngFileServiceFactoryImpl.listFormatsSupported().stream()
+		lngFileServiceFactory.listFormatsSupported().stream()
 			.forEach(System.out::println);
 	}
 	
@@ -118,27 +122,24 @@ public class LngFileStorageIntegrationTest {
 		}
 		
 		Path p = service.getPath("dotcms_en.properties");		
-		assertThat(p.getParent().toString(), is(equalTo("upload-dir2")));
+		assertThat(p.getParent().toString(), is(equalTo("upload-dir3")));
 		
-		LngFileServiceFactoryImpl.listFormatsSupported().stream()
-			.forEach(System.out::println);
+		lngFileServiceFactory2.listFormatsSupported().
+			forEach(System.out::println);
 	}
 	
 	// https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
 	@Test
 	public void failToUpLoad_ifFormatNotSupported() {
-		
-		boolean exceptionThrown=false;
+
 		try {
 			LngFileStorage service = 
-					LngFileServiceFactoryImpl.getService("xxx");
+					lngFileServiceFactory.getService("xxx").get();
+			fail("No exception was thrown");
 		} catch (Exception e) {
-			exceptionThrown=true;
 			assertThat(e)
             	.isInstanceOf(RuntimeException.class);
 		}
-		
-		assertThat(exceptionThrown, is(equalTo(true)));
 		
 	}
 

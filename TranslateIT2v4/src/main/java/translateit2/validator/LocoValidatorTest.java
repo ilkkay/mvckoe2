@@ -95,6 +95,8 @@ public class LocoValidatorTest implements ConstraintValidatorFactory {
 		s = messages.get("TransuDto.segment_size",args2);
 		System.out.println(s);		
 
+		s = messages.get("javax.validation.constraints.NotNull.message");
+		System.out.println(s);
 	}
 	
 

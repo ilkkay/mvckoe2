@@ -12,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
@@ -31,12 +34,27 @@ import static org.junit.Assert.fail;
 // http://www.journaldev.com/2668/spring-validation-example-mvc-validator
 // https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/
 
-
+@ConfigurationProperties(prefix = "test.translateit2")
+@TestPropertySource("test.properties")
+//@TestPropertySource(properties = {"ProjectNameMaxSize = 666","ProjectNameMinSize = 3"})
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = IntegrationTestMockApplication.class)
+@SpringBootTest(classes = TranslateIt2v4Application.class)
 public class LocoExceptionIntegrationTests {
-    private Loco2Service loco2Service;    
-    @Autowired
+    private Loco2Service loco2Service;
+    
+	private Integer projectNameMaxSize;
+	
+	private Integer projectNameMinSize;
+	
+	public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+		this.projectNameMaxSize = projectNameMaxSize;
+	}
+
+	public void setProjectNameMinSize(Integer projectNameMinSize) {
+		this.projectNameMinSize = projectNameMinSize;
+	}
+
+	@Autowired
     public void setLoco2Service(Loco2Service loco2Service) {
         this.loco2Service = loco2Service;
     }
@@ -49,20 +67,24 @@ public class LocoExceptionIntegrationTests {
     	Locale.setDefault(Locale.ENGLISH);	// for javax validation
     	messages.init(Locale.ENGLISH);   	// for custom validation 	
     }
-    /*
+   
     @Test
     public void isoTest() {
+    	System.out.println("ProjectNameMaxSize: " + projectNameMaxSize);
+    	System.out.println("ProjectNameMinSize: " + projectNameMinSize);
+    	/*
     	try {
 			ISO8859Loader.ISO8859toUTF8Stream();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
     	
     }
-    */
     
-    @Test
+    
+    //@Test
     public void create_locodto_with_too_short_projectname() throws Exception {
     	LocoDto locoDto = new LocoDto();
     	locoDto.setProjectName("prj");
@@ -81,7 +103,7 @@ public class LocoExceptionIntegrationTests {
     	}
     }
         
-	@Test
+    //@Test
 	public void create_locodto_with_empty_projectname() throws Exception {
 		LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("prj");
@@ -96,7 +118,7 @@ public class LocoExceptionIntegrationTests {
 		}			
 	}
 	
-	@Test
+	//@Test
 	public void create_locodto_with_Pekka_name() throws Exception{
         LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("");
@@ -113,7 +135,7 @@ public class LocoExceptionIntegrationTests {
         }
 	}
 	
-	@Test
+	//@Test
 	public void create_locodto_with_existing_projectname() throws Exception{
         LocoDto locoDto = new LocoDto();
 		locoDto.setProjectName("Translate IT 2");

@@ -5,6 +5,7 @@ package translateit2.persistence.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,6 +31,10 @@ public class LocoDto {
     @Size(min = 10) // not to be used alone???
     private String origFilename;
     
+	private String format;
+
+	private String version;	
+	
     @Size(min = 10)
 	private String targetFilename;
 	
@@ -119,5 +124,22 @@ public class LocoDto {
 
 	public void setTargetLocale(String targetLocale) {
 		this.targetLocale = targetLocale;
-	}	
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
 }

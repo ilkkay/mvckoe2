@@ -37,25 +37,25 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file) throws StorageException {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
             InputStream in = file.getInputStream();
-            Path target = this.rootLocation.resolve(file.getOriginalFilename());      
-            /*
-             */            
 			if (in == null) {
-				throw new FileNotFoundException("file not found");
-			}	
+				throw new StorageException("File:" + file.getOriginalFilename() + " not found");
+			}
+			Path target = this.rootLocation.resolve(file.getOriginalFilename());      
 			Path absTgtParent = target.toAbsolutePath().getParent();
             File f = new File(absTgtParent.toString());
             if (!f.isDirectory()) {
             	File dir = new File(absTgtParent.toString());
             	dir.mkdir();
-            	System.out.println("Upload directory " + absTgtParent.toString() + " is missing.");
             }
+
+            // if (!Files.isDirectory(path))
+            //		Files.createDirectory(path);
             if (!Files.exists(absTgtParent)) {
                 throw new StorageException("Upload directory " + absTgtParent.toString() + 
                 		" was missing and could not be recreated");
@@ -74,9 +74,9 @@ public class FileSystemStorageService implements StorageService {
             /*
              */
             Path outFilePath = this.rootLocation.resolve(file.getOriginalFilename());           
-            //Files.copy(file.getInputStream(), outFilePath,StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), outFilePath,StandardCopyOption.REPLACE_EXISTING);
             
-            
+           /*
         	String tmpFilenameStr="temp.properties"; 
         	Path dir = outFilePath.getParent();        
             Path fn = outFilePath.getFileSystem().getPath(tmpFilenameStr);
@@ -84,6 +84,7 @@ public class FileSystemStorageService implements StorageService {
             
             Files.copy(file.getInputStream(), tmpFilePath,StandardCopyOption.REPLACE_EXISTING);            
             ISO8859Loader.copyISO8859toUTF8(tmpFilePath.toString(), outFilePath.toString());
+            */
             
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);

@@ -1,6 +1,8 @@
 package translateit2.lngfileservice.xliff;
 
 import java.nio.file.Path;
+import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,17 +32,44 @@ public class XLIFFStorageImpl implements XLIFFStorage{
 		return fileStorage.load(filename);
 	}
 
+	@Override
+	public boolean isFormatSupported(LngFileFormat format) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	@Override
-	public void upLoadToDb(MultipartFile file) {
+	public void storeFile(MultipartFile file) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public boolean isFileFormatSupported(LngFileFormat fileFormat) {
+	public void checkValidity(Path uploadedLngFile, long locoId) {
 		// TODO Auto-generated method stub
-		return false;
+		
+	}
+
+
+	@Override
+	public String createTargetLngFile(Path dstDir, String originalFilename, Locale locale) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void uploadToDb(Path targetLngFile, long locoId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Stream<Path> downloadFromDb(long locoId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

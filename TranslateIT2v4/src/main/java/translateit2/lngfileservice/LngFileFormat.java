@@ -1,20 +1,20 @@
 package translateit2.lngfileservice;
 
 public class LngFileFormat {
-	private String filename;
+	private String origFilename;
 	private String format;
 	private String version;
 	
-	public LngFileFormat(String filename, String format, String version) {
+	public LngFileFormat(String origFilename, String format, String version) {
 		super();
-		this.filename = filename;
+		this.origFilename = origFilename;
 		this.format = format;
 		this.version = version;
 	}
 
-	public LngFileFormat(String filename) {
+	public LngFileFormat(String origFilename) {
 		super();
-		this.filename = filename;
+		this.origFilename = origFilename;
 	}
 
 	public String getFormat() {

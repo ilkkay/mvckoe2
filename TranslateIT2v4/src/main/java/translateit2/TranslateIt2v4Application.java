@@ -14,6 +14,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import translateit2.fileloader.storage.StorageProperties;
@@ -28,7 +29,6 @@ public class TranslateIt2v4Application {
 	// => *.run(appArgs);
 	
 	public static void main(String[] args) {		
-		
 		SpringApplication.run(TranslateIt2v4Application.class, args);
 	}
 
@@ -39,6 +39,8 @@ public class TranslateIt2v4Application {
 	// Implementation of LocaleResolver that uses a locale attribute 
 	// in the user’s session in case of a custom setting, with a fallback 
 	// to the specified default locale or the request’s accept-header locale”
+
+	  
 	@Bean
 	public LocaleResolver localeResolver() {
 	    SessionLocaleResolver slr = new SessionLocaleResolver();

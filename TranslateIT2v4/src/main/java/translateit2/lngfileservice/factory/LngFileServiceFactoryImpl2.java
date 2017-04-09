@@ -25,12 +25,20 @@ public class LngFileServiceFactoryImpl2 implements LngFileServiceFactory {
 	   private List<LngFileStorage> storageServices;
 	   
 	   public Optional<LngFileStorage> getService(String type) {	
-		   Optional<LngFileStorage> o = Optional.<LngFileStorage>empty();
+		   Optional<LngFileStorage> empty = Optional.<LngFileStorage>empty();
 		   
-		   // type must be an unique field in corresponding entity
-		   return storageServices.stream().filter(s -> type.equals(s.getType()))
-		   	.findFirst();
-		   	//.orElseThrow(() -> new RuntimeException("Unknown service type: " + type));		
+		   Optional<LngFileStorage> service =
+				   storageServices.stream().filter(s -> type.equals(s.getType()))
+				   		.findFirst();
+		   if (service.isPresent())
+			   return service;
+		   else
+			   return empty;
+		   
+		   // type must be an unique field in the corresponding entity
+		   //return storageServices.stream().filter(s -> type.equals(s.getType()))
+		   //	.findFirst();
+		   	//		.orElse(empty);
 	   }
 	    
 	   public List<String> listFormatsSupported() {	    	
@@ -42,12 +50,5 @@ public class LngFileServiceFactoryImpl2 implements LngFileServiceFactory {
 	        return formats;
 	   }
 
-	   /*
-	@Override
-	public Optional<LngFileStorage> getService(String type) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}	
-	*/   
 }
 

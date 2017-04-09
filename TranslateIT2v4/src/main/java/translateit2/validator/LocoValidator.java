@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import translateit2.persistence.dao.LocoRepository;
 import translateit2.persistence.dto.LocoDto;
@@ -17,6 +18,7 @@ import translateit2.util.Messages;
 
 // the following is IMPORTANT contains node issues etc. 
 // https://access.redhat.com/webassets/avalon/d/red-hat-jboss-enterprise-application-platform/7.0.0/javadocs/org/hibernate/validator/internal/engine/constraintvalidation/ConstraintValidatorContextImpl.html
+@ConfigurationProperties(prefix = "translateit2.")
 public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDto> {
 
 	@Autowired
@@ -30,11 +32,18 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
 		this.messages = messages;
 	}
 
-    @Value("${ProjectNameMinSize}")
-	private Integer ProjectNameMinSize=5; // for testing purposes
+    // autowired validation settings object    
+	private Integer projectNameMinSize=5; // for testing purposes
 	
-	@Value("${ProjectNameMaxSize}")
-	private Integer ProjectNameMaxSize=35; // for testing purposes
+	private Integer projectNameMaxSize=35; // for testing purposes
+	
+	public void setProjectNameMinSize(Integer projectNameMinSize) {
+		this.projectNameMinSize = projectNameMinSize;
+	}
+
+	public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+		this.projectNameMaxSize = projectNameMaxSize;
+	}
 
 	@Override
     public void initialize(final LocoConstraint constraintAnnotation) {
@@ -48,11 +57,11 @@ public class LocoValidator implements ConstraintValidator<LocoConstraint, LocoDt
     	boolean isValid = true;
    
 		if ((value !=null) && (value.getProjectName() != null) &&
-				((value.getProjectName().length()<ProjectNameMinSize)
-					|| (value.getProjectName().length()>ProjectNameMaxSize))){
+				((value.getProjectName().length()<projectNameMinSize)
+					|| (value.getProjectName().length()>projectNameMaxSize))){
 			isValid = false;
-			String[] args = {value.getProjectName(), ProjectNameMinSize.toString(),
-					ProjectNameMaxSize.toString()};
+			String[] args = {value.getProjectName(), projectNameMinSize.toString(),
+					projectNameMaxSize.toString()};
 			context.buildConstraintViolationWithTemplate(
 					messages.get("LocoDto.projectName.size",args))
 						.addPropertyNode("projectName") 

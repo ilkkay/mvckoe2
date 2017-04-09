@@ -5,22 +5,33 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import translateit2.persistence.dto.TransuDto;
 import translateit2.util.Messages;
 
 // validator example
 // https://www.mkyong.com/spring-mvc/spring-mvc-form-handling-example/
+@ConfigurationProperties(prefix = "translateit2")
 public class TransuValidator implements ConstraintValidator<TransuConstraint, TransuDto> {
 	@Autowired
 	Messages messages;
 
-	@Value("${SegmentMinSize}")
-	private Integer SegmentMinSize=5;	// for testing
+	//@Value("${translateit2.segmentMinSize}")
+	private Integer segmentMinSize=5;	// for testing
 	
-	@Value("${SegmentMaxSize}")
-	private Integer SegmentMaxSize=25;	// for testing
+	//@Value("${translateit2.segmentMaxSize}")
+	private Integer segmentMaxSize=25;	// for testing
 	
+	public void setSegmentMinSize(Integer segmentMinSize) {
+		this.segmentMinSize = segmentMinSize;
+	}
+
+	public void setSegmentMaxSize(Integer segmentMaxSize) {
+		this.segmentMaxSize = segmentMaxSize;
+	}
+
+
 	@Override
 	public void initialize(TransuConstraint arg0) {
 		// TODO Auto-generated method stub		
@@ -36,11 +47,11 @@ public class TransuValidator implements ConstraintValidator<TransuConstraint, Tr
 		
 		// source segment cannot be null or empty string
 		if ((value.getSourceSegm() != null) &&
-				((value.getSourceSegm().length()<SegmentMinSize) ||
-					(value.getSourceSegm().length()>SegmentMaxSize))){
+				((value.getSourceSegm().length()<segmentMinSize) ||
+					(value.getSourceSegm().length()>segmentMaxSize))){
 			isValid = false;
 			context.disableDefaultConstraintViolation();
-			String[] args = {SegmentMinSize.toString(), SegmentMaxSize.toString()};
+			String[] args = {segmentMinSize.toString(), segmentMaxSize.toString()};
 			context.buildConstraintViolationWithTemplate(
 					messages.get("TransuDto.segment_size",args))
 				.addPropertyNode("sourceSegm") 
@@ -49,9 +60,9 @@ public class TransuValidator implements ConstraintValidator<TransuConstraint, Tr
 		
 		// TODO: target can be empty, but some upper limit should be set
 		if ((value.getTargetSegm() != null) &&
-				(value.getTargetSegm().length()>SegmentMaxSize)){
+				(value.getTargetSegm().length()>segmentMaxSize)){
 			isValid = false;
-			String[] args = {SegmentMinSize.toString(), SegmentMaxSize.toString()};
+			String[] args = {segmentMinSize.toString(), segmentMaxSize.toString()};
 			context.buildConstraintViolationWithTemplate(
 					messages.get("TransuDto.segment_size",args))
 				.addPropertyNode("targetSegm") 

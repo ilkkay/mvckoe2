@@ -35,6 +35,10 @@ public class Loco implements Serializable{
 	@Transient	
 	private String origFilename;
 	@Transient
+	private String format;
+	@Transient
+	private String version;	
+	@Transient
 	private String targetFilename;	
 	@Transient
 	private String origLocale;
@@ -120,6 +124,22 @@ public class Loco implements Serializable{
 
 	public void setTargetLocale(String targetLocale) {
 		this.targetLocale = targetLocale;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	public Transu getTransuByRowId(long rowId){
