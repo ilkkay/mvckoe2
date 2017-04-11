@@ -1,4 +1,4 @@
-package translateit2.persistence.test;
+package translateit2.persistence.booktest;
 
 /**
  *  localized object: loco (TYPE=TARGET)

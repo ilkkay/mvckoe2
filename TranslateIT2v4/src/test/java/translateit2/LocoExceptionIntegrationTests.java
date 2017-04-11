@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
-import translateit2.service.Loco2Service;
+import translateit2.service.LocoService;
 import translateit2.util.ISO8859Loader;
 import translateit2.util.Messages;
 
@@ -40,7 +40,7 @@ import static org.junit.Assert.fail;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 public class LocoExceptionIntegrationTests {
-    private Loco2Service loco2Service;
+    private LocoService loco2Service;
     
 	private Integer projectNameMaxSize;
 	
@@ -55,7 +55,7 @@ public class LocoExceptionIntegrationTests {
 	}
 
 	@Autowired
-    public void setLoco2Service(Loco2Service loco2Service) {
+    public void setLoco2Service(LocoService loco2Service) {
         this.loco2Service = loco2Service;
     }
     

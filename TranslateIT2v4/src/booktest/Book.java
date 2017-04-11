@@ -1,4 +1,4 @@
-package translateit2.persistence.test;
+package translateit2.persistence.booktest;
 
 import java.io.Serializable;
 
@@ -10,28 +10,28 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class EBook extends Work implements Serializable{
+public class Book extends Work implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	private String readerType;
+	private String publisher;
 	
-	public EBook() {
+	public Book() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public EBook(Long id, String name) {
+	public Book(Long id, String name) {
 		super(id, name);
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getReaderType() {
-		return readerType;
+	public String getPublisher() {
+		return publisher;
 	}
 
-	public void setReaderType(String readerType) {
-		this.readerType = readerType;
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
 	}
 	
 }

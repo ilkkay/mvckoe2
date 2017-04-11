@@ -1,4 +1,7 @@
 target/
+uploadir-2/
+uploadir-3/
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

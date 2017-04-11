@@ -1,4 +1,4 @@
-package translateit2.persistence.test;
+package translateit2.persistence.booktest;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 
 import translateit2.TranslateIt2v4Application;
 import translateit2.persistence.dao.LocoRepository;
-import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 @SpringBootApplication 

@@ -1,4 +1,4 @@
-package translateit2.persistence.test;
+package translateit2.persistence.booktest;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -6,6 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+
+/**
+*  work:
+*  project id
+*  locale
+*  translated segments +id = transu
+*  filename
+*/  
 
 @Entity
 @Inheritance

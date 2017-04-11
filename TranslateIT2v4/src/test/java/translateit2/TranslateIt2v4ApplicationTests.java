@@ -18,8 +18,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
 import translateit2.persistence.model.Transu;
-import translateit2.service.Loco2Service;
-import translateit2.service.Loco2ServiceImpl;
+import translateit2.service.LocoService;
+import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 //https://springframework.guru/integration-testing-with-spring-and-junit/
@@ -31,9 +31,9 @@ import translateit2.service.TransuServiceImpl;
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class TranslateIt2v4ApplicationTests {    
-    private Loco2Service loco2Service;    
+    private LocoService loco2Service;    
     @Autowired
-    public void setLoco2Service(Loco2Service loco2Service) {
+    public void setLoco2Service(LocoService loco2Service) {
         this.loco2Service = loco2Service;
     }
     

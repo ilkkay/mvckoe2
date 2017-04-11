@@ -4,7 +4,7 @@ import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
 import translateit2.persistence.dto.LocoDto;
 import translateit2.persistence.dto.TransuDto;
-import translateit2.service.Loco2Service;
+import translateit2.service.LocoService;
 import translateit2.service.TransuServiceImpl;
 import translateit2.util.ISO8859Checker;
 import translateit2.util.ISO8859Loader;
@@ -33,11 +33,11 @@ import java.util.stream.Collectors;
 public class FileLoaderController {
 
     private final StorageService storageService;
-    private Loco2Service loco2Service;
+    private LocoService loco2Service;
 
     @Autowired
     public FileLoaderController(StorageService storageService, 
-    		TransuServiceImpl transuService, Loco2Service loco2Service) {
+    		TransuServiceImpl transuService, LocoService loco2Service) {
         this.storageService = storageService;
         this.loco2Service = loco2Service;
     }

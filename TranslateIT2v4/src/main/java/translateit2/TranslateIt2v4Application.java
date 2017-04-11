@@ -18,7 +18,6 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import translateit2.fileloader.storage.StorageProperties;
-import translateit2.service.LocoServiceImpl;
 import translateit2.service.TransuServiceImpl;
 
 @SpringBootApplication 
@@ -95,8 +94,7 @@ public class TranslateIt2v4Application {
 	 * are created and the Application Context has been created.
 	 */
 	@Bean
-	public CommandLineRunner demo(TransuServiceImpl transuService,
-			LocoServiceImpl locoService, ModelMapper modelMapper) {
+	public CommandLineRunner demo(TransuServiceImpl transuService, ModelMapper modelMapper) {
 		return (args) -> {	
 		};
 	}
