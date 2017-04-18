@@ -5,7 +5,7 @@ import javax.persistence.Column;
 public class ProjectDto {
 	private long id;
 	
-	private Long person;
+	private Long personId;
 	
 	private String manager;
 
@@ -19,12 +19,12 @@ public class ProjectDto {
 	
 	private String projectName;
 
-	public Long getPerson() {
-		return person;
+	public Long getPersonId() {
+		return personId;
 	}
 
-	public void setPerson(Long person) {
-		this.person = person;
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 
 	public String getProjectName() {

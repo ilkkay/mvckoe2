@@ -22,8 +22,8 @@ public class WorkMapper extends ModelMapper {
 	PropertyMap<Transu2, TransuDto2> map = new PropertyMap<Transu2, TransuDto2>() {
 		@Override
 		protected void configure() {
-			map().setWork(source.getWork().getId());	
-			map().setPerson(source.getPerson().getId());
+			map().setWorkId(source.getWork().getId());	
+			map().setPersonId(source.getPerson().getId());
 		}
 	};
 
@@ -59,7 +59,7 @@ public class WorkMapper extends ModelMapper {
 		@Override
 		protected void configure() {
 			// TODO Auto-generated method stub
-			map().setTranve(source.getTranve().getId());	
+			map().setTranveId(source.getTranve().getId());	
 		}
 	};
 
@@ -74,7 +74,7 @@ public class WorkMapper extends ModelMapper {
 	PropertyMap<Tranve, TranveDto> map7 = new PropertyMap<Tranve, TranveDto>() {
 		@Override
 		protected void configure() {
-			map().setProject(source.getProject().getId());			
+			map().setProjectId(source.getProject().getId());			
 		}
 	};
 
@@ -90,7 +90,7 @@ public class WorkMapper extends ModelMapper {
 		@Override
 		protected void configure() {
 			// TODO Auto-generated method stub
-			map().setPerson(source.getPerson().getId());
+			map().setPersonId(source.getPerson().getId());
 		}
 	};
 

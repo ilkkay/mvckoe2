@@ -1,8 +1,12 @@
 package translateit2.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import translateit2.persistence.dao.Transu2Repository;
@@ -24,10 +28,18 @@ public class Transu2ServiceImpl {
     	transuRepo.save(entity);
     }
     
+    public void update(final List <Transu2> entities) {
+    	transuRepo.save(entities);
+    }
+    
     public void create(final Transu2 entity) {
     	transuRepo.save(entity);
     }
 
+    public void create(final List <Transu2> entities) {
+    	transuRepo.save(entities);
+    }
+    
     public Transu2 getTransuById(final long id) {
         return transuRepo.findOne(id);
     }
@@ -40,22 +52,30 @@ public class Transu2ServiceImpl {
     	transuRepo.delete(id);
     }
     
+    public void deleteTransu(final List <Transu2> entities) {
+    	transuRepo.delete(entities);
+    }
+    
     public Iterable<Transu2> getAllTransus() {
     	return transuRepo.findByOrderByIdAsc();
     	//return transuRepo.findAll();
     }
 
-    public Iterable<Transu2> getTransusOrderByLocoId(final long locoId) {
+    public Iterable<Transu2> getTransusOrderByWorkId(final long workId) {
     	// error: ParameterBinder.binding
-    	return transuRepo.findByOrderByWorkIdAsc(locoId);
+    	return transuRepo.findByOrderByWorkIdAsc(workId);
     }
     
-    public Iterable<Transu2> getTransusByLocoId(final long locoId) {
-        return transuRepo.findByWorkId(locoId);
+    public Iterable<Transu2> getTransusByWorkId(final long workId) {
+        return transuRepo.findByWorkId(workId);
     }
     
-    public Transu2 getTransuByWorkIdAndRowId(final long locoId,
+    public Transu2 getTransuByWorkIdAndRowId(final long workId,
     		final Integer rowId) {
-        return transuRepo.findByWorkIdAndRowId(locoId,rowId);
+        return transuRepo.findByWorkIdAndRowId(workId,rowId);
+    }
+    
+    Page<Transu2> getTransusPage(final int startPage, final int endPage) {
+    	return transuRepo.findAll(new PageRequest(startPage, endPage));
     }
 }

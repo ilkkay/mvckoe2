@@ -21,6 +21,16 @@ public class WorkDto {
 		// TODO Auto-generated constructor stub
 	}
 
+	private String version;	
+	
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
 	public Long getId() {
 		return id;
 	}

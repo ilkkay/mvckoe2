@@ -1,5 +1,13 @@
 package translateit2.util;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
 
@@ -69,8 +77,8 @@ public final class ISO8859Checker
         // get application name end position
         int appIndex = localeString.indexOf('_');
 
-        // Extract language
         int languageIndex = localeString.indexOf('_',appIndex + 1);
+        
         String language = null;
         if (languageIndex == -1)
         {
@@ -82,9 +90,19 @@ public final class ISO8859Checker
         {
             language = localeString.substring(appIndex + 1, languageIndex);
         }        
+
+        // Extract language which is exactly two characters long
+        if (languageIndex - appIndex != 3)
+        	return null;
         
         // Extract country
         int countryIndex = localeString.indexOf('_', languageIndex + 1);
+        if (countryIndex == -1) countryIndex = localeString.indexOf('.', languageIndex + 1);
+        
+        // Extract country which is exactly two characters long
+        if (countryIndex - languageIndex != 3)
+        	return null;
+        
         String country = null;
         if (countryIndex == -1)
         {
@@ -102,5 +120,23 @@ public final class ISO8859Checker
         	//return new Locale(language, language.toUpperCase());
         }
     }
+    
+    public static boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws IOException {
+		try {
+			Files.readAllLines(uploadedLngFile, charset);
+			// isCorrectCharset(uploadedLngFile,StandardCharsets.UTF_8 ); 
+			// isCorrectCharset(uploadedLngFile,StandardCharsets.ISO_8859_1 );
+		} catch (MalformedInputException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new IOException("Unexpected exception thrown while testing UTF-8 encoding");
+		}
+		return true; // if charset == UTF8 and no exceptions => file is UTF8 encoded 
+		
+	}
+
 }
 

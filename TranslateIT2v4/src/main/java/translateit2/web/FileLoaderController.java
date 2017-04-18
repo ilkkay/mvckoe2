@@ -86,11 +86,13 @@ public class FileLoaderController {
          * check format validity
          * lngFileService.checkValidity(originalFilename);
          */
+        
+        
         String propFilename = ISO8859Checker.sanityCheck(file.getOriginalFilename());
         if (propFilename == null)
 			throw new StorageException("The language code is missing from the filename: "
 					 + file.getOriginalFilename());
-        
+       
         Predicate<String> p = (String ext) -> { return ext.equals("properties"); };
         
         Locale locale = ISO8859Checker.getLocaleFromString(

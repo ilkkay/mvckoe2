@@ -1,15 +1,15 @@
 package translateit2.persistence.dto;
 
+import translateit2.util.LngFileType;
+
 public class TranveDto extends WorkDto{
-	private long project; // TODO: => projectId
+	private long projectId; 
 
 	private String format;
 
 	private String filename;
 
-	private String version;	
-
-	private String type;	
+	private LngFileType type;	
 	
 	private String fid;
 	
@@ -21,24 +21,16 @@ public class TranveDto extends WorkDto{
 		this.fid = fid;
 	}
 	
-	public String getType() {
+	public LngFileType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(LngFileType type) {
 		this.type = type;
 	}
 	
 	public String getFormat() {
 		return format;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public void setFormat(String format) {
@@ -53,11 +45,11 @@ public class TranveDto extends WorkDto{
 		this.filename = filename;
 	}
 
-	public long getProject() {
-		return project;
+	public long getProjectId() {
+		return projectId;
 	}
 
-	public void setProject(long project) {
-		this.project = project;
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
 	}	
 }

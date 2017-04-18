@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import translateit2.persistence.model2.Work;
 
@@ -17,6 +18,7 @@ import translateit2.persistence.model2.Work;
 
 // http://stackoverflow.com/questions/13687613/jpa-deleting-bidirectional-association-from-inverse-side
 @Entity
+@Table(name="transu2")
 public class Transu2 implements Serializable{
 	private static final long serialVersionUID = 1L;
 

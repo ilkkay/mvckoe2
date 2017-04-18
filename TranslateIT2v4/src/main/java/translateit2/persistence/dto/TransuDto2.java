@@ -10,9 +10,9 @@ import translateit2.persistence.model2.Person;
 public class TransuDto2 {
 	private long id;
 
-	private long work; // TODO: => locoId
+	private long workId; 
 	
-	private long person; // TODO: => personId
+	private long personId; 
 	
 	private String segmentId;
 	
@@ -30,11 +30,11 @@ public class TransuDto2 {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getWork() {
-		return work;
+	public long getWorkId() {
+		return workId;
 	}
-	public void setWork(long work) {
-		this.work = work;
+	public void setWorkId(long workId) {
+		this.workId = workId;
 	}
 	public int getRowId() {
 		return rowId;
@@ -56,10 +56,10 @@ public class TransuDto2 {
 		this.segment = segment;
 	}
 	
-	public long getPerson() {
-		return person;
+	public long getPersonId() {
+		return personId;
 	}
-	public void setPerson(long person) {
-		this.person = person;
+	public void setPersonId(long personId) {
+		this.personId = personId;
 	}
 }

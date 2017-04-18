@@ -1,4 +1,4 @@
-package translateit2.lngfileservice.iso8859;
+package translateit2.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +24,7 @@ import translateit2.util.LngFileType;
 import translateit2.util.Messages;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ISO8859StorageTest {
+public class ISO8859utilTest {
 	private Messages messages;
 	
 	private ISO8859util iso8859util;

@@ -4,8 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import translateit2.util.LngFileType;
 
 /**  
  *   
@@ -26,9 +30,8 @@ public class Tranve extends Work implements Serializable{
 
 	private String filename;
 
-	private String version;	
-
-	private String type;
+	@Enumerated(EnumType.STRING)
+	private LngFileType type;
 	
 	private String fid;
 	
@@ -40,11 +43,11 @@ public class Tranve extends Work implements Serializable{
 		this.fid = fid;
 	}
 
-	public String getType() {
+	public LngFileType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(LngFileType type) {
 		this.type = type;
 	}
 
@@ -62,14 +65,6 @@ public class Tranve extends Work implements Serializable{
 
 	public void setFilename(String filename) {
 		this.filename = filename;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public Project getProject() {

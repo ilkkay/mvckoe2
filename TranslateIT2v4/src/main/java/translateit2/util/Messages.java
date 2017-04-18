@@ -1,5 +1,6 @@
 package translateit2.util;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -48,8 +49,7 @@ public class Messages {
     public String get(String code){
     	String msg = null;
     	try {
-    		msg = accessor.getMessage(code); // which one to use ???
-    		//msg = messageSource.getMessage(code, null, Locale.ENGLISH);
+    		msg = accessor.getMessage(code); 
     	} catch (NoSuchMessageException e) {
     		return "Text not implemented for " + code;	
     	}    
@@ -57,4 +57,33 @@ public class Messages {
     	return msg;
     }
 
+    // Segment size must be between {0} and {1} characters
+    public String getPart(String code){
+    	String msg = null;
+    	try {
+    		msg = accessor.getMessage(code); 
+    	} catch (NoSuchMessageException e) {
+    		return "Text not implemented for " + code;	
+    	}  
+    	
+    	String parts[] = msg.split("[{]");    	
+    	if (parts.length == 1)
+    		return msg;
+    	
+    	int maxLen = -1;
+    	String maxStr = "";
+    	for (String s : parts) {
+    		if (s.length() > maxLen) {
+    			maxStr = s;
+    			maxLen = s.length(); 
+    		}
+    	}
+    	
+    	parts = maxStr.split("[}]");
+    	if (parts.length == 1)
+    		return maxStr;
+    	else
+    		return parts[1];
+    }
+    
 }

@@ -3,7 +3,9 @@ package translateit2.persistence.dto;
 import javax.persistence.Transient;
 
 public class Loco2Dto extends WorkDto{
-	private long tranve; // TODO: => tranveId
+	private long tranveId; 
+	
+	private long group_Id; // just a thought for testing
 	
 	@Transient
 	private long versionId;
@@ -26,12 +28,20 @@ public class Loco2Dto extends WorkDto{
 		this.translator = translator;
 	}
 
-	public long getTranve() {
-		return tranve;
+	public long getTranveId() {
+		return tranveId;
 	}
 
-	public void setTranve(long tranve) {
-		this.tranve = tranve;
+	public void setTranveId(long tranveId) {
+		this.tranveId = tranveId;
+	}
+	
+	public long getGroup_id() {
+		return group_Id;
+	}
+
+	public void setGroup_id(long group_id) {
+		this.group_Id = group_id;
 	}
 	
 }

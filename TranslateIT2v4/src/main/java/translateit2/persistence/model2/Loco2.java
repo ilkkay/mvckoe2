@@ -9,11 +9,15 @@ package translateit2.persistence.model2;
  */ 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table
@@ -22,9 +26,12 @@ public class Loco2 extends Work implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne //(cascade=CascadeType.ALL)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	private Tranve tranve;
 
+	private long group_id; // just a thought for testing
+	
 	@Transient
 	private long versionId;
 
@@ -53,4 +60,14 @@ public class Loco2 extends Work implements Serializable{
 	public void setTranve(Tranve tranve) {
 		this.tranve = tranve;
 	}
+
+	public long getGroup_id() {
+		return group_id;
+	}
+
+	public void setGroup_id(long group_id) {
+		this.group_id = group_id;
+	}
+	
+	
 }

@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -33,12 +34,41 @@ import translateit2.persistence.model.Transu;
 
 public class ISO8859Loader {
 		
-	/**
-	 * 
-	 * @param inputFileStr
-	 * @return
-	 * @throws IOException
-	 */
+	public static HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
+    		throws IOException{
+    	
+    	InputStreamReader isr = null;    	
+    	InputStream stream = null;
+    	HashMap<String, String> map = new LinkedHashMap<String, String>();
+		OrderedProperties srcProp = new OrderedProperties();
+
+		try {
+			stream = new FileInputStream(inputPath.toString());
+			//isr = new InputStreamReader(stream,"UTF-8");
+			isr = new InputStreamReader(stream,charset);
+			srcProp.load(isr); 
+			Set<String> keys = srcProp.stringPropertyNames();
+			// checks for at least one (ASCII) alphanumeric character.
+			map = keys.stream().filter(k -> k.toString().matches(".*\\w.*"))  
+					.collect(Collectors.toMap (
+							k -> k.toString(),k -> srcProp.getProperty(k),
+	                       (v1,v2)->v1,LinkedHashMap::new));
+			
+			map.forEach((k,v)->System.out.println(k + "\n" + v));
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new IOException("Error loading reading property file.", e);
+		} 
+    	finally {
+    		stream.close();
+			isr.close();
+		}
+    	
+		return map;
+    }
+
 	public static HashMap<String, String> getPropSegments(String inputFileStr)
     		throws IOException{
     	
@@ -218,17 +248,24 @@ public class ISO8859Loader {
 	// are encoded as a multi-byte sequence.
 	
 	@Test
-	public void isoTest() {
+	public boolean isoTest() throws IOException {
+		boolean isUTF_8;
+		//Path uploadedLngFile = Paths.get("d:\\messages_fi_utf8.properties");
+		Path uploadedLngFile = Paths.get("d:\\messages_fi.properties");
+		
 		try {
-			isISO8859File("d:\\messages_fi_utf8.properties");
+			List<String> lines = Files.readAllLines(uploadedLngFile, StandardCharsets.UTF_8 ); 
+			// StandardCharsets.ISO_8859_1 );
 		} catch (MalformedInputException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(); // iso8859-1 read as UTF-8
+			return false;
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new IOException("Unexpected exception thrown in testing UTF-8 encoding");
 		}
+		return true; // UTF8 read as UTF8 and no exceptions
+		
 	}
 
 	
