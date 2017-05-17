@@ -2,11 +2,9 @@ package translateit2.util;
 
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,21 +16,20 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import translateit2.persistence.model.Transu;
+//
+// just for testing
+//
 
-public class ISO8859Loader {
+public class ISO8859TestLoader {
 		
 	public static HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
     		throws IOException{
@@ -169,7 +166,7 @@ public class ISO8859Loader {
         return tgtFileLocationStr;
     }
 
-
+	/*
 	public static List<Transu> testGetTransus() throws IOException {
 		List <Transu> transus =new ArrayList<Transu>();
 		
@@ -197,6 +194,7 @@ public class ISO8859Loader {
 	    
 	    return transus;
 	}
+	*/
 	// http://javarevisited.blogspot.fi/2014/04/how-to-convert-byte-array-to-inputstream-outputstream-java-example.html
 	public static InputStream ISO8859toUTF8Stream(Path propPath) throws IOException {
 		byte[] inData = Files.readAllBytes(propPath);		

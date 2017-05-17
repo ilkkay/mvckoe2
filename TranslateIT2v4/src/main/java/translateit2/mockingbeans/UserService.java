@@ -3,6 +3,8 @@ package translateit2.mockingbeans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//just for testing
+
 @Service
 public class UserService {
  

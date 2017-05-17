@@ -1,4 +1,4 @@
-package translateit2.lngfileservice.iso8859;
+package translateit2.validator;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -17,20 +17,21 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import translateit2.fileloader.storage.StorageException;
-import translateit2.persistence.dto.TranveDto;
-import translateit2.service.WorkService;
-import translateit2.util.ISO8859util;
-import translateit2.util.LngFileType;
+import translateit2.lngfileservice.LngFileFormat;
+import translateit2.lngfileservice.LngFileType;
+import translateit2.persistence.dto.ProjectDto;
+import translateit2.persistence.dto.WorkDto;
+import translateit2.service.ProjectService;
 import translateit2.util.Messages;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ISO8859StorageTest {
+public class ISO8859ValidatorTest {
 	private Messages messages;
-	
-	private ISO8859util iso8859util;
+
+	private LngFileValidator iso8859validator;
 
 	@Mock
-	WorkService workService;
+	ProjectService projectService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -44,19 +45,18 @@ public class ISO8859StorageTest {
 
 		messages = new Messages(messageSource);
 		messages.init(Locale.ENGLISH);
-		
-		iso8859util = new ISO8859util();
-		iso8859util.setMessages(messages);
-		iso8859util.setWorkService(workService);
+
+		iso8859validator = new ISO8859ValidatorImpl();
+		((ISO8859ValidatorImpl) iso8859validator).setMessages(messages);
+		((ISO8859ValidatorImpl) iso8859validator).setProjectService(projectService);
 	}
 
 	@Test
 	public void failFileName_IfFileExtensionMissing() {
 		Path uploadedLngFile=Paths.get("d:\\test_fi.propertiesXXX");
-		long locoId=0;
 
 		try {
-			iso8859util.checkFileExtension(uploadedLngFile, locoId);
+			iso8859validator.checkFileExtension(uploadedLngFile);
 			fail ("No exception thrown");
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
@@ -66,7 +66,7 @@ public class ISO8859StorageTest {
 
 		uploadedLngFile=Paths.get("d:\\test_fi.properties");
 		try {
-			iso8859util.checkFileExtension(uploadedLngFile, locoId);
+			iso8859validator.checkFileExtension(uploadedLngFile);
 		} catch (StorageException e) {
 			fail ("Exception was thrown when it shoud have not");
 		}
@@ -74,21 +74,11 @@ public class ISO8859StorageTest {
 
 	@Test
 	public void failFileName_IfLocaleIsMissing() {
-		TranveDto tranveDto = null;
-		// WHEN: get tranveDto using respective tranveId)
-		tranveDto = new TranveDto();
-		tranveDto.setId(1L);
-		tranveDto.setFormat("properties");
-		tranveDto.setType(LngFileType.ISO8859_1);
-		
+		// WHEN language code is missing from filename
 		Path uploadedLngFile=Paths.get("d:\\test.properties");
-		// WHEN expect ???
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
 
-		long locoId = 1L;
-		
 		try {
-			iso8859util.checkFileNameFormat(uploadedLngFile, locoId);
+			iso8859validator.checkFileNameFormat(uploadedLngFile);
 			fail ("No exception thrown");
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
@@ -96,23 +86,34 @@ public class ISO8859StorageTest {
 					,is(equalTo(true)));
 		}
 
+		// WHEN using correct file naming = application name + language
 		uploadedLngFile=Paths.get("d:\\test_fi.properties");
 		try {
-			iso8859util.checkFileNameFormat(uploadedLngFile, locoId);
+			iso8859validator.checkFileNameFormat(uploadedLngFile);
 		} catch (StorageException e) {
 			fail ("Exception was thrown when it shoud have not");
 		}
 
+		// WHEN using correct file naming = application name + language + country
 		uploadedLngFile=Paths.get("d:\\test_fi_FI.properties");
 		try {
-			iso8859util.checkFileNameFormat(uploadedLngFile, locoId);
+			iso8859validator.checkFileNameFormat(uploadedLngFile);
 		} catch (StorageException e) {
 			fail ("Exception was thrown when it shoud have not");
 		}
 
+		// WHEN using correct file naming = application name + language + country
+		uploadedLngFile=Paths.get("d:\\dotcms_fi_FI-utf8.properties");
+		try {
+			iso8859validator.checkFileNameFormat(uploadedLngFile);
+		} catch (StorageException e) {
+			fail ("Exception was thrown when it shoud have not");
+		}
+		
+		// WHEN locale has more than two characters in country
 		uploadedLngFile=Paths.get("d:\\messages_fi_utf8.properties");
 		try {
-			iso8859util.checkFileNameFormat(uploadedLngFile, locoId);
+			iso8859validator.checkFileNameFormat(uploadedLngFile);
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
 					(messages.getPart("FileStorageService.code_missing"))
@@ -122,20 +123,28 @@ public class ISO8859StorageTest {
 
 	@Test
 	public void failFileName_IfNoKeyValuePairsInTranve() {
-		TranveDto tranveDto = null;
-		// WHEN: get tranveDto using respective tranveId)
-		tranveDto = new TranveDto();
-		tranveDto.setId(1L);
-		tranveDto.setFormat("properties");
-		tranveDto.setType(LngFileType.UTF_8);
+		// given project ...
+		final long projectId = 666L;
+		ProjectDto prj = new ProjectDto();
+		prj.setName("Translate IT 2"); 
+		prj.setFormat(LngFileFormat.PROPERTIES);
+		prj.setType(LngFileType.ISO8859_1);
+		prj.setId(projectId);
 
-		// WHEN expect ISO8859
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
+		// and Work
+		long workId = 1L;
+		WorkDto work = new WorkDto();
+		work.setProjectId(prj.getId());
+		work.setId(workId);	
+		
+		// WHEN expect UTF-8 and WHEN file has no key/value pairs
+		Path uploadedLngFile=Paths.get("d:\\empty-test_fi-utf8.properties");
+		when(projectService.getWorkDtoById(1L)).thenReturn(work);
+		when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
 		// THEN throw exception if the upload file contains only empty or comment lines
-		Path uploadedLngFile=Paths.get("d:\\empty-test_fi-utf8.properties");
 		try {
-			iso8859util.checkEmptyFile(uploadedLngFile, 1L);
+			iso8859validator.checkEmptyFile(uploadedLngFile, 1L);
 			fail ("No exception thrown");
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
@@ -146,22 +155,30 @@ public class ISO8859StorageTest {
 
 	@Test
 	public void failFileName_IfEncodingNotSameAsInTranve() {
-		TranveDto tranveDto = null;
-		// WHEN: get tranveDto using respective tranveId)
-		tranveDto = new TranveDto();
-		tranveDto.setId(1L);
-		tranveDto.setFilename("dotcms");
-		tranveDto.setLocale("en_EN");
-		tranveDto.setFormat("properties");
-		tranveDto.setType(LngFileType.ISO8859_1);
+		// given project ...
+		ProjectDto prj = null;
+		WorkDto work = null;
+		final long projectId = 666L;
+		prj = new ProjectDto();
+		prj.setName("Translate IT 2"); 
+		prj.setFormat(LngFileFormat.PROPERTIES);
+		prj.setType(LngFileType.ISO8859_1);
+		prj.setId(projectId);
+
+		// and Work
+		long workId = 1L;
+		work = new WorkDto();
+		work.setProjectId(prj.getId());
+		work.setId(workId);		
 
 		// WHEN expect ISO8859
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
+		when(projectService.getWorkDtoById(1L)).thenReturn(work);
+		when(projectService.getProjectDtoById(666L)).thenReturn(prj);;
 
 		// THEN throw exception if the upload file is UTF-8
 		Path uploadedLngFile=Paths.get("d:\\messages_fi-UTF8.properties");
 		try {
-			iso8859util.checkFileCharSet(uploadedLngFile, 1L);
+			iso8859validator.checkFileCharSet(uploadedLngFile, 1L);
 			fail ("No exception thrown");
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
@@ -171,16 +188,24 @@ public class ISO8859StorageTest {
 		}
 
 		// WHEN expect UTF-8 
-		tranveDto = new TranveDto();
-		tranveDto.setId(2L);
-		tranveDto.setType(LngFileType.UTF_8);
+		prj = new ProjectDto();
+		prj.setName("Translate IT 2"); 
+		prj.setFormat(LngFileFormat.PROPERTIES);
+		prj.setType(LngFileType.UTF_8);
+		prj.setId(projectId);
 
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
+		// and Work
+		workId = 2L;
+		work = new WorkDto();
+		work.setProjectId(prj.getId());
+		work.setId(workId);	
 
+		when(projectService.getWorkDtoById(2L)).thenReturn(work);
+		when(projectService.getProjectDtoById(666L)).thenReturn(prj);;
 		// THEN throw exception if the upload file is ISO8859
 		uploadedLngFile=Paths.get("d:\\messages_fi.properties");
 		try {
-			iso8859util.checkFileCharSet(uploadedLngFile, 2L);
+			iso8859validator.checkFileCharSet(uploadedLngFile, 2L);
 			fail ("No exception thrown");
 		} catch (StorageException e) {
 			assertThat(e.getMessage().contains
@@ -190,33 +215,49 @@ public class ISO8859StorageTest {
 		}
 
 		// WHEN expect UTF-8 
-		tranveDto = new TranveDto();
-		tranveDto.setId(3L);
-		tranveDto.setType(LngFileType.UTF_8);
+		prj = new ProjectDto();
+		prj.setName("Translate IT 2"); 
+		prj.setFormat(LngFileFormat.PROPERTIES);
+		prj.setType(LngFileType.UTF_8);
+		prj.setId(projectId);
 
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
+		// and Work
+		workId = 3L;
+		work = new WorkDto();
+		work.setProjectId(prj.getId());
+		work.setId(workId);	
+
+		when(projectService.getWorkDtoById(3L)).thenReturn(work);
+		when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
 		// THEN don't throw any exception if the upload file is UTF-8
 		uploadedLngFile=Paths.get("d:\\messages_fi-UTF8.properties");
 		try {
-			iso8859util.checkFileCharSet(uploadedLngFile, 3L);
+			iso8859validator.checkFileCharSet(uploadedLngFile, 3L);
 		} catch (StorageException e) {
 			fail ("An exception was thrown");
 		}
-
+		
 		// WHEN expect ISO8859 
-		tranveDto = new TranveDto();
-		tranveDto.setId(4L);
-		tranveDto.setType(LngFileType.ISO8859_1);
+		prj = new ProjectDto();
+		prj.setName("Translate IT 2"); 
+		prj.setFormat(LngFileFormat.PROPERTIES);
+		prj.setType(LngFileType.ISO8859_1);
+		prj.setId(projectId);
 
-		when(workService.getTranveDtoById(tranveDto.getId())).thenReturn(tranveDto);
+		// and Work
+		workId = 3L;
+		work = new WorkDto();
+		work.setProjectId(prj.getId());
+		work.setId(workId);	
+
+		when(projectService.getWorkDtoById(4L)).thenReturn(work);
+		when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
 		// THEN don't throw any exception if the upload file is ISO8859 
 		uploadedLngFile=Paths.get("d:\\messages_fi.properties");
 		try {
-			iso8859util.checkFileCharSet(uploadedLngFile, 4L);
-			//iso8859util.checkValidity(uploadedLngFile, 4L);
-
+			iso8859validator.checkFileCharSet(uploadedLngFile, 4L);
 		} catch (StorageException e) {
 			fail ("An exception was thrown");
 		}

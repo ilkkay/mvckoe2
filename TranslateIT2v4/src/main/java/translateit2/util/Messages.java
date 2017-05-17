@@ -1,6 +1,5 @@
 package translateit2.util;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -11,6 +10,14 @@ import javax.annotation.PostConstruct;
 
 import java.util.Locale;
 
+/**
+ *
+ * Used widely in this project for localizing messages and in unit testing
+ * for asserting that the exception returned was a correct one.
+ * 
+ * @author Ilkka
+ *
+ */
 @Component
 public class Messages {
     
@@ -23,8 +30,6 @@ public class Messages {
 
 	private MessageSourceAccessor accessor; 
     
-    // what does this MessageSourceAccessor really do
-    // except setting locale ????
     @PostConstruct
     private void init() { // default is finnish for gui
         accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
@@ -57,7 +62,12 @@ public class Messages {
     	return msg;
     }
 
+    // Used in unit testing to check that the exception message is the one 
+    // we are expecting. The code returns only part of the message because
+    // of message parameters we cannot compare the whole message
+    //
     // Segment size must be between {0} and {1} characters
+    // 
     public String getPart(String code){
     	String msg = null;
     	try {

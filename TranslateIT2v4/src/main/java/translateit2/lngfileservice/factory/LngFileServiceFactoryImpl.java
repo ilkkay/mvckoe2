@@ -3,6 +3,7 @@ package translateit2.lngfileservice.factory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +13,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import translateit2.fileloader.storage.StorageException;
+import translateit2.lngfileservice.LngFileFormat;
 import translateit2.lngfileservice.LngFileStorage;
 
 @Service
@@ -22,36 +25,32 @@ public class LngFileServiceFactoryImpl implements LngFileServiceFactory {
 	@Autowired
 	private List<LngFileStorage> storageServices;
 
-	// no need for static
-	private final Map<String, LngFileStorage> lngStorageServiceCache = 
+	private final Map<LngFileFormat, LngFileStorage> lngStorageServiceCache = 
 			new HashMap<>();
 
 	@PostConstruct
 	public void initLngServiceCache() {
-		storageServices.forEach(s->lngStorageServiceCache.put(s.getType(), s));
+		storageServices.forEach(s->lngStorageServiceCache.put(s.getFileFormat(),s));
 	}
 
-	public Optional<LngFileStorage> getService(String type) {	
-		Optional<LngFileStorage> service =
-				storageServices.stream().filter(s -> type.equals(s.getType()))
-					.findFirst();
-		if (service.isPresent())
-			return service;
-		else
+	public Optional<LngFileStorage> getService(LngFileFormat type) {
+		Map<LngFileFormat, LngFileStorage>  services =
+				lngStorageServiceCache.entrySet().stream()
+				.filter(p -> p.getValue().getFileFormat().equals(type))
+				.collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+		
+		if (services.size() == 1)
+			return Optional.of((LngFileStorage) services.get(type));
+		else 
 			return Optional.<LngFileStorage>empty();
-
-		// type must be an unique field in the corresponding entity
-		//return storageServices.stream().filter(s -> type.equals(s.getType()))
-		//	.findFirst();
-		//		.orElse(empty);
+			//throw new StorageException("Did not find exactly one service for type " + type);
 	}
 
-	public List<String> listFormatsSupported() {	    	
-		List<String> formats = 
+	public List<LngFileFormat> listFormatsSupported() {	    	
+		List<LngFileFormat> formats = 
 				lngStorageServiceCache.entrySet().stream()
 				.map(x -> x.getKey())
 				.collect(Collectors.toList());
-
 		return formats;
-	}	
+	}
 }

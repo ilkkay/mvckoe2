@@ -1,5 +1,7 @@
 package translateit2.lngfileservice.xliff;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -18,14 +20,8 @@ public class XLIFFStorageImpl implements XLIFFStorage{
 	FileSystemStorageService fileStorage;
 	
 	@Override
-	public String getType() {
-		return "XLIFF";
-	}
-	
-	
-	@Override
-	public String getGreetings() {
-		return "XLIFFServiceImpl";
+	public LngFileFormat getFileFormat() {
+		return LngFileFormat.XLIFF;
 	}
 	
 	public Path getPath(String filename) {
@@ -40,35 +36,49 @@ public class XLIFFStorageImpl implements XLIFFStorage{
 
 
 	@Override
-	public void storeFile(MultipartFile file) {
+	public Path storeFile(MultipartFile file) {
 		// TODO Auto-generated method stub
+		return null;
 		
 	}
 
 
 	@Override
-	public void checkValidity(Path uploadedLngFile, long locoId) {
+	public String checkValidity(Path uploadedLngFile, long locoId) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
-
 	@Override
-	public String createTargetLngFile(Path dstDir, String originalFilename, Locale locale) {
+	public Stream<Path> downloadFromDb(long locoId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public void uploadToDb(Path targetLngFile, long locoId) {
+	public Path downloadTargetLngFile(Path dstDir, long workId) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void uploadSourceToDb(Path uploadedLngFile, long workId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public Stream<Path> downloadFromDb(long locoId) {
+	public void uploadTargetToDb(Path uploadedLngFile, long workId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Path createSkeletonLngFile(Path storedOriginalFile, long workId) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

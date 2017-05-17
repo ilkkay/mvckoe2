@@ -1,35 +1,17 @@
 package translateit2.lngfileservice;
 
-public class LngFileFormat {
-	private String origFilename;
-	private String format;
-	private String version;
+public enum LngFileFormat {
+	// http://crunchify.com/why-and-for-what-should-i-use-enum-java-enum-examples/
+	XLIFF(0), PROPERTIES(1), DEFAULT(2), PO(3);
+	private int value;
+	private String types[] = {"xliff", "properties","default","po"};
 	
-	public LngFileFormat(String origFilename, String format, String version) {
-		super();
-		this.origFilename = origFilename;
-		this.format = format;
-		this.version = version;
-	}
-
-	public LngFileFormat(String origFilename) {
-		super();
-		this.origFilename = origFilename;
-	}
-
-	public String getFormat() {
-		return format;
-	}
-
-	public void setFormat(String format) {
-		this.format = format;
-	}
-
-	public LngFileFormat(String format, String version) {
-		super();
-		this.format = format;
-		this.version = version;
+	private LngFileFormat(int value) {
+		this.value = value;
 	}
 	
+	public String toString() {
+		return types[value];
+	}
 	
 }

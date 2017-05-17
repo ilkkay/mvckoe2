@@ -2,12 +2,13 @@ package translateit2.web;
 import translateit2.fileloader.storage.StorageException;
 import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
-import translateit2.persistence.dto.LocoDto;
-import translateit2.persistence.dto.TransuDto;
-import translateit2.service.LocoService;
-import translateit2.service.TransuServiceImpl;
-import translateit2.util.ISO8859Checker;
-import translateit2.util.ISO8859Loader;
+import translateit2.lngfileservice.LngFileFormat;
+import translateit2.lngfileservice.LngFileStorage;
+import translateit2.lngfileservice.factory.LngFileServiceFactory;
+import translateit2.persistence.dto.ProjectDto;
+import translateit2.persistence.dto.WorkDto;
+import translateit2.persistence.model.Status;
+import translateit2.service.ProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,147 +24,158 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.Predicate;
+import java.util.List;
 import java.util.stream.Collectors;
 
+//
+//TODO: This is not any more in use. This was used with html pages found in resources/templates folder
+//The upload path works but the download is not in use because restApi uses at the moment the same path
+//Rename the download url if need to use html pages
+//
 @Controller
 public class FileLoaderController {
+	private final StorageService storageService;
+	private ProjectService projectService;
+	private LngFileServiceFactory lngFileServiceFactory;
 
-    private final StorageService storageService;
-    private LocoService loco2Service;
+	@Autowired
+	public FileLoaderController(StorageService storageService, 
+			ProjectService projectService,
+			LngFileServiceFactory lngFileServiceFactory) {
+		this.storageService = storageService;
+		this.projectService = projectService;
+		this.lngFileServiceFactory = lngFileServiceFactory;
+	}
 
-    @Autowired
-    public FileLoaderController(StorageService storageService, 
-    		TransuServiceImpl transuService, LocoService loco2Service) {
-        this.storageService = storageService;
-        this.loco2Service = loco2Service;
-    }
+	@GetMapping("/upload_source")
+	public String listUploadedSourceFiles(Model model) throws IOException {
+		model.addAttribute("destination","source");
+		return "uploadForm";
+	}
 
-    @GetMapping("/upload")
-    public String listUploadedFiles(Model model) throws IOException {
-        return "uploadForm";
-    }
+	@GetMapping("/upload_target")
+	public String listUploadedTargetFiles(Model model) throws IOException {
+		model.addAttribute("destination","target");
+		return "uploadForm";
+	}
 
-    @GetMapping("/download")
-    public String downloadFile(Model model) throws IOException {
-    	model.addAttribute("message","Download translation");
-        model.addAttribute("files", storageService
-                .loadAll()
-                .map(path ->
-                        MvcUriComponentsBuilder
-                                .fromMethodName(FileLoaderController.class, 
-                                		"serveFile", path.getFileName().toString())
-                                .build().toString())
-                .collect(Collectors.toList()));
-        return "download";
-    }
-    
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+	@GetMapping("/mock2download") //just for testing !!
+	public String downloadFile2(Model model) throws IOException {
+		model.addAttribute("message","Download translation");
+		model.addAttribute("files", storageService
+				.loadAll()
+				.map(path ->
+				MvcUriComponentsBuilder
+				.fromMethodName(FileLoaderController.class, 
+						"serveFile", path.getFileName().toString())
+				.build().toString())
+				.collect(Collectors.toList()));
+		return "download";
+	}
+	
+	@GetMapping("/mockDownload") //downloadFromDb
+	public String downloadFile(Model model) throws IOException {
+		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
+		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+		WorkDto work = works.get(0);
+		LngFileStorage lngStorageService = lngFileServiceFactory.getService(prj.getFormat()).get();
 
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
-                .body(file);
-    }
-    
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) throws IOException {
+		model.addAttribute("message","Download translation");
+		model.addAttribute("files", lngStorageService
+				.downloadFromDb(work.getId())
+				.map(path ->
+				MvcUriComponentsBuilder
+				.fromMethodName(FileLoaderController.class, 
+						"serveFile", path.getFileName().toString())
+				.build().toString())
+				.collect(Collectors.toList()));
+		
+		work = projectService.getWorkDtoById(work.getId());
+		work.setStatus(Status.PENDING);
+		projectService.updateWorkDto(work);
+		return "download";
+	}
+	
+	@GetMapping("/mockFiles/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-    	/*
-    	 * Upload language file
-    	 * lngFileService.storeFile(file);
-    	 */
-        storageService.store(file);
-        
-        /*
-         * check format validity
-         * lngFileService.checkValidity(originalFilename);
-         */
-        
-        
-        String propFilename = ISO8859Checker.sanityCheck(file.getOriginalFilename());
-        if (propFilename == null)
-			throw new StorageException("The language code is missing from the filename: "
-					 + file.getOriginalFilename());
-       
-        Predicate<String> p = (String ext) -> { return ext.equals("properties"); };
-        
-        Locale locale = ISO8859Checker.getLocaleFromString(
-        		file.getOriginalFilename(), ext -> ext.equals("properties"));
-        if (locale == null)
-			throw new StorageException("This is not a valid properties file: "
-					 + file.getOriginalFilename());  	
+		Resource file = storageService.loadAsResource(filename);
+		ResponseEntity<Resource> response = null;
+		response = ResponseEntity
+				.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
+				.body(file);
+		return response;
+	}
 
-        /*
-         * create initial target language file
-         * lngFileService.createTargetLanguageFile(dstPath,originalFilename,locale);
-         */
-        ISO8859Loader.initTargetLanguageFile(storageService.load(file.getOriginalFilename()),
-        		propFilename, null);
-        
-        /*
-         * Get locoId of current localization project
-         */
-                   
-        /*
-         * get segments tags (property keys) and segments (property values)
-         * lngFileService.uploadToDb(targetLanguageFile,locoId);
-         */
-        
-    	Path filePath = storageService.load(file.getOriginalFilename());
-        String lngFileLocation=filePath.toAbsolutePath().toString();        
-        LinkedHashMap<String,String> map=(LinkedHashMap<String, String>) ISO8859Loader.getPropSegments(lngFileLocation);
+	private String uploadLanguageFile(MultipartFile file, 
+			String destination, RedirectAttributes redirectAttributes) 
+					throws IOException{
 
-		LocoDto locoDto = new LocoDto();
-		locoDto.setProjectName("Translate IT 2");
-		locoDto.setName("Ilkka");
-		locoDto=loco2Service.createLocoDto(locoDto);
-        
-        // testing ...
-        int i=0;
-        TransuDto transuDto = null;
-        for (Map.Entry<String,String> entry : map.entrySet())
-        {
-        	if (++i>=21) break;
-        	
-        	transuDto = new TransuDto();        	
-        	transuDto.setSourceSegm(entry.getKey());
-        	transuDto.setTargetSegm(entry.getValue());
-        	transuDto.setRowId(i);
-        	locoDto=loco2Service.createTransuDto(transuDto, locoDto.getId());
-        	
-        }                        
-            	
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
+		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+		WorkDto work = works.get(0);
+		LngFileStorage storageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		/*
+		 * Upload language file
+		 */
+		Path uploadedLngFile = storageService.storeFile(file);
 
-        return "redirect:/upload";
-    }
+		/*
+		 * check file format validity
+		 */
+		storageService.checkValidity(uploadedLngFile, work.getId());
 
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-    	return errorPage(exc);
-    }
-    
-    @ExceptionHandler(StorageException.class)
-    public ResponseEntity<?> handleStorage(StorageException exc) {
-    	return errorPage(exc);
-    }
-    
-    private ResponseEntity<String> errorPage(StorageException exc){
-    	ResponseEntity<String> errorResponse = null;
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("HeaderKey", "HeaderData");
-        errorResponse =  new ResponseEntity<String>(
-            "<h2>File upload error</h2>" + exc.getLocalizedMessage(), responseHeaders,
-            HttpStatus.CREATED);    	
-    	return errorResponse;
-    }
+		/*
+		 * upload file to database
+		 */ 
+		if(("source").equals(destination)){
+			storageService.uploadSourceToDb(uploadedLngFile, work.getId());
+			work = projectService.getWorkDtoById(work.getId());
+			work.setStatus(Status.NEW);
+			projectService.updateWorkDto(work);
+		}
+		else if(("target").equals(destination)){
+			storageService.uploadTargetToDb(uploadedLngFile, work.getId());
+			work = projectService.getWorkDtoById(work.getId());
+			work.setStatus(Status.OPEN);
+			projectService.updateWorkDto(work);
+		}
+		else
+			throw new StorageException("Unexpected error. Destination was neither source or target.");
+		
+		redirectAttributes.addFlashAttribute("message",
+				"You uploaded " + destination + " file:" + file.getOriginalFilename() + "!");      
+
+		
+		return "redirect:/upload" + "_" + destination;
+	}
+
+	@PostMapping("/upload")	public String handleFileSourceUpload(@RequestParam("file") MultipartFile file,
+			@RequestParam("destination") String destination,
+			RedirectAttributes redirectAttributes) throws IOException {
+
+		return uploadLanguageFile(file, destination, redirectAttributes);
+	}
+	
+	@ExceptionHandler(StorageFileNotFoundException.class)
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+		return errorPage(exc);
+	}
+
+	@ExceptionHandler(StorageException.class)
+	public ResponseEntity<?> handleStorage(StorageException exc) {
+		return errorPage(exc);
+	}
+
+	private ResponseEntity<String> errorPage(StorageException exc){
+		ResponseEntity<String> errorResponse = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("HeaderKey", "HeaderData");
+		errorResponse =  new ResponseEntity<String>(
+				"<h2>File upload error</h2>" + exc.getLocalizedMessage(), responseHeaders,
+				HttpStatus.CREATED);    	
+		return errorResponse;
+	}
 }

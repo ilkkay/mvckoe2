@@ -1,4 +1,4 @@
-package translateit2.util;
+package translateit2.validator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,26 +23,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.storage.StorageException;
-import translateit2.persistence.dto.TranveDto;
-import translateit2.service.WorkService;
+import translateit2.lngfileservice.LngFileType;
+import translateit2.persistence.dto.ProjectDto;
+import translateit2.service.ProjectService;
+import translateit2.util.Messages;
+import translateit2.util.OrderedProperties;
 
 @Component
-public class ISO8859util {
-	// TODO: public <= unit testing
-	private WorkService workService;
+public class ISO8859ValidatorImpl implements LngFileValidator {
+	private ProjectService projectService;
 	@Autowired
-	public void setWorkService(WorkService workService) {
-		this.workService = workService;
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
 	}
-
+	
 	private Messages messages;
 	@Autowired
 	public void setMessages(Messages messages) {
 		this.messages = messages;
 	}
 
-	// return application name other wise null
-	public String sanityCheck(String localeString)
+	// return application name otherwise null
+	private String sanityCheck(String localeString)
 	{
 		if (localeString == null) return null;
 		localeString = localeString.trim();
@@ -60,16 +62,16 @@ public class ISO8859util {
 
 	/**
 	 * Convert a string based locale into a Locale Object.
-	 * Accepts following forms
-	 *  "_{language}".
-	 *  "_{language}_{country}".
-	 *  "_{language}_{country}_{variant}"
-	 * "_{language}_{country}.properties".
+	 * Accepts following file naming forms
+	 *  "appname_{language}.extension"
+	 *  "appname_{language}_{country}.extension".
+	 *  "appname_{language}_{country}_{variant}.extension"
+	 *  "appname_{language}_{country}.extension"
 	 *  
 	 * @param localeString The String
 	 * @return the Locale
 	 */
-	public Locale getLocaleFromString(String localeString,Predicate<String> p)
+	private Locale getLocaleFromString(String localeString,Predicate<String> p)
 	{
 		if (localeString == null) return null;
 
@@ -106,7 +108,10 @@ public class ISO8859util {
 		if (countryIndex == -1) countryIndex = localeString.indexOf('.', languageIndex + 1);
 
 		// Extract country which is exactly two characters long
-		if (countryIndex - languageIndex != 3) return null;
+		// end if not return only language
+		if (countryIndex - languageIndex != 3) {
+			return new Locale(language, language.toUpperCase());			
+		}
 
 		String country = null;
 		if (countryIndex == -1)
@@ -120,30 +125,26 @@ public class ISO8859util {
 		{
 			// Assume all remaining is the variant so is "{language}_{country}_{variant}"
 			country = localeString.substring(languageIndex+1, countryIndex);
-			String variant = localeString.substring(countryIndex+1);
+			//String variant = localeString.substring(countryIndex+1);
 			return new Locale(language, country.toUpperCase());
 		}
 	}
 
-	public boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws StorageException {
+	private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws StorageException {
 		try {
 			Files.readAllLines(uploadedLngFile, charset);
-			// isCorrectCharset(uploadedLngFile,StandardCharsets.UTF_8 ); 
-			// isCorrectCharset(uploadedLngFile,StandardCharsets.ISO_8859_1 );
 		} catch (MalformedInputException e) {
-			// TODO Auto-generated catch block
-			return false;
+			return false; // do nothing is OK
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new StorageException("Unexpected exception thrown while testing charset ofa properties file");
 		}
 		return true; // if charset == UTF8 and no exceptions => file is UTF8 encoded 
-
 	}
 
 
-	public void checkFileExtension(Path uploadedLngFile, long tranveId) 
+	@Override
+	public void checkFileExtension(Path uploadedLngFile) 
 			throws StorageException {
 		// check extension
 		PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.properties");
@@ -153,43 +154,56 @@ public class ISO8859util {
 					+ " " + uploadedLngFile.getFileName());
 	}
 
-	public void checkFileNameFormat(Path uploadedLngFile, long tranveId) 
+	@Override
+	public String checkFileNameFormat(Path uploadedLngFile) 
 			throws StorageException {
+		String appName = null;
 		// check file name format i.e. appName_region_language*.properties 
-		// or just appName_language*.properties => reject 
-		if (ISO8859Checker.sanityCheck(uploadedLngFile.getFileName().toString())== null)
+		// or just appName_language*.properties => reject
+		appName = sanityCheck(uploadedLngFile.getFileName().toString());
+		if (appName == null)
 			throw new StorageException((messages.get("FileStorageService.code_missing"))
 					+ " " + uploadedLngFile.getFileName());
 
-		Locale locale = ISO8859Checker.getLocaleFromString(
+		Locale locale = getLocaleFromString(
 				uploadedLngFile.getFileName().toString(), ext -> ext.equals("properties"));
 		if (locale == null)
 			throw new StorageException((messages.get("FileStorageService.code_missing"))
 					+ " " + uploadedLngFile.getFileName());
+		
+		return appName;
+	}
+	
+	private LngFileType getExpectedFiletype(final long workId) {
+		final long projectId = projectService.getWorkDtoById(workId).getProjectId();
+		return projectService.getProjectDtoById(projectId).getType();
 	}
 
-	public void checkFileCharSet(Path uploadedLngFile, long tranveId) 
+	@Override
+	public void checkFileCharSet(Path uploadedLngFile, long workId) 
 			throws StorageException {
-		// check encoding iso8859-1 or UTF-8 is same as defined for the project version => reject
-		TranveDto tranveDto = workService.getTranveDtoById(tranveId);
-		LngFileType typeExpected = tranveDto.getType();
+		LngFileType typeExpected = getExpectedFiletype(workId);	
+			
 		boolean isUploadedUTF_8 = true;
 		try {
-			isUploadedUTF_8 = ISO8859Checker.isCorrectCharset(uploadedLngFile,StandardCharsets.UTF_8 );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			isUploadedUTF_8 = isCorrectCharset(uploadedLngFile,StandardCharsets.UTF_8 );
+		} catch (StorageException e) {
+			throw e;
 		}
 
 		boolean isUploadedISO8859 = false;
 		if (!isUploadedUTF_8)
 			try {
-				isUploadedISO8859 = ISO8859Checker.isCorrectCharset(uploadedLngFile,StandardCharsets.ISO_8859_1 );
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				isUploadedISO8859 = isCorrectCharset(uploadedLngFile,StandardCharsets.ISO_8859_1 );
+			} catch (StorageException e) {
+				throw e;
 			}
-
+		
+		// UTF-8 is identical to ISO8859 for the first 128 ASCII characters which
+		// include all the standard keyboard characters. After that, characters
+		// are encoded as a multi-byte sequence.
+		// if written in english it is both UTF-8 and ISO8859 encoded		
+		
 		// if typeExpected == ISO8859 and uploaded is UTF-8 => reject
 		if (typeExpected.equals(LngFileType.ISO8859_1) && isUploadedUTF_8)
 			throw new StorageException(messages.get("FileStorageService.false_ISO8859_encoding"));
@@ -201,31 +215,41 @@ public class ISO8859util {
 		//("The encoding is not same as defined for the version. It should be UTF-8.");		
 	}
 
-	public void checkEmptyFile(Path uploadedLngFile, long tranveId) 
-			throws StorageException {
-		TranveDto tranveDto = workService.getTranveDtoById(tranveId);
-		LngFileType typeExpected = tranveDto.getType();
+	public Charset getCharSet(long workId) {
+		LngFileType typeExpected = null;
+		final long projectId = projectService.getWorkDtoById(workId).getProjectId();
+		ProjectDto projectDto = projectService.getProjectDtoById(projectId);
+		typeExpected = projectDto.getType();
+
 		Charset charset = StandardCharsets.UTF_8;
 		if (typeExpected.equals(LngFileType.ISO8859_1)) charset = StandardCharsets.ISO_8859_1;
+		return charset;
+	}
+	
+	@Override
+	public void checkEmptyFile(Path uploadedLngFile, long workId) 
+			throws StorageException {
+		Charset charset = getCharSet(workId);
 		LinkedHashMap <String, String> segments  = null;
 		try {
-			segments = (LinkedHashMap<String, String>) ISO8859Loader.getPropSegments(uploadedLngFile,charset);
+			segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile,charset);
 		} catch (IOException e) { // 
 			throw new StorageException((messages.get("FileStorageService.not_read_properties_file"))
 					+ " " + uploadedLngFile.getFileName());
 		}
 		if (segments.isEmpty())
+			// Errors instanssi
 			throw new StorageException((messages.get("FileStorageService.empty_properties_file"))
 					+ " " + uploadedLngFile.getFileName());
 
 	}
-
-	public static HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
-			throws StorageException, IOException{
-
-		InputStreamReader isr = null;    	
-		InputStream stream = null;
-		HashMap<String, String> map = new LinkedHashMap<String, String>();
+	
+	private HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
+    		throws IOException{
+    	
+    	InputStreamReader isr = null;    	
+    	InputStream stream = null;
+    	HashMap<String, String> map = new LinkedHashMap<String, String>();
 		OrderedProperties srcProp = new OrderedProperties();
 
 		try {
@@ -237,22 +261,19 @@ public class ISO8859util {
 			map = keys.stream().filter(k -> k.toString().matches(".*\\w.*"))  
 					.collect(Collectors.toMap (
 							k -> k.toString(),k -> srcProp.getProperty(k),
-							(v1,v2)->v1,LinkedHashMap::new));
-
+	                       (v1,v2)->v1,LinkedHashMap::new));
+			
 			map.forEach((k,v)->System.out.println(k + "\n" + v));
-
+			
 		} catch (FileNotFoundException e) {
-			throw new StorageException("Did not find the property file:" + " " + inputPath.toString(), e);
+			throw new IOException("Error loading reading property file.", e);
 		} 
-		catch (IOException e) {
-			throw new StorageException("Error while reading property file:" + " " + inputPath.toString(), e);
-		} 
-		finally {
-			stream.close();
+    	finally {
+    		stream.close();
 			isr.close();
 		}
-
+    	
 		return map;
-	}
+    }
 
 }

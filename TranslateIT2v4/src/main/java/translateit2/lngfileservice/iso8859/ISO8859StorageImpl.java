@@ -1,15 +1,23 @@
 package translateit2.lngfileservice.iso8859;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.util.Collections;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +25,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import translateit2.fileloader.storage.FileSystemStorageService;
 import translateit2.fileloader.storage.StorageException;
 import translateit2.lngfileservice.LngFileFormat;
-import translateit2.persistence.dto.TranveDto;
-import translateit2.service.WorkService;
-import translateit2.util.ISO8859Checker;
-import translateit2.util.ISO8859Loader;
-import translateit2.util.ISO8859util;
-import translateit2.util.LngFileType;
+import translateit2.persistence.dto.ProjectDto;
+import translateit2.persistence.dto.UnitDto;
+import translateit2.persistence.dto.WorkDto;
+import translateit2.persistence.model.Source;
+import translateit2.persistence.model.State;
+import translateit2.persistence.model.Target;
+import translateit2.service.ProjectService;
 import translateit2.util.Messages;
+import translateit2.util.OrderedProperties;
+import translateit2.validator.ISO8859ValidatorImpl;
+import translateit2.validator.LngFileValidator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,10 +48,10 @@ public class ISO8859StorageImpl implements  ISO8859Storage {
 		this.fileStorage = fileStorage;
 	}
 
-	private WorkService workService;	
+	private ProjectService projectService;	
 	@Autowired
-	public void setWorkService(WorkService workService) {
-		this.workService = workService;
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
 	}
 
 	Messages messages;
@@ -48,22 +60,18 @@ public class ISO8859StorageImpl implements  ISO8859Storage {
 		this.messages = messages;
 	}
 
-	ISO8859util iso8859util;
+	LngFileValidator iso8859util;
 	@Autowired
-	public void setISO8859util(ISO8859util iso8859util) {
+	public void setISO8859util(ISO8859ValidatorImpl iso8859util) {
 		this.iso8859util = iso8859util;
 	}
 
 	@Override
-	public String getType() {
-		return "ISO8859";
+	public LngFileFormat getFileFormat() {
+		return LngFileFormat.PROPERTIES;
 	}
 
-	@Override
-	public String getGreetings() {
-		return "ISO8859ServiceImpl";
-	}
-
+	//TODO: remove used for testing at he moment
 	@Override
 	public Path getPath(String filename) {
 		return fileStorage.load(filename);
@@ -71,124 +79,301 @@ public class ISO8859StorageImpl implements  ISO8859Storage {
 
 	@Override
 	public boolean isFormatSupported(LngFileFormat format) {
-		// TODO Auto-generated method stub
-		return false;
+		return format.equals(LngFileFormat.PROPERTIES);
 	}
 
 	@Override
-	public void storeFile(MultipartFile file) {
-		// TODO Auto-generated method stub
-		fileStorage.store(file);					
+	public Path storeFile(MultipartFile file) {
+		return fileStorage.store(file);					
 	}
 
 	@Override
-	public void checkValidity(Path uploadedLngFile, long tranveId) 
+	public String checkValidity(Path uploadedLngFile, long workId) 
 			throws StorageException {
-
-		// validity checks for tranve
-		iso8859util.checkFileExtension(uploadedLngFile, tranveId); 
-		iso8859util.checkFileNameFormat(uploadedLngFile, tranveId); 
-		iso8859util.checkFileCharSet(uploadedLngFile, tranveId);
-		iso8859util.checkEmptyFile(uploadedLngFile, tranveId);
-
-		// validity checks for loco
-		// check if there are less untranslated segments in file than there are in db => reject
+		String appName = null;
+		iso8859util.checkFileExtension(uploadedLngFile); 
+		appName = iso8859util.checkFileNameFormat(uploadedLngFile); 
+		iso8859util.checkFileCharSet(uploadedLngFile, workId);
+		iso8859util.checkEmptyFile(uploadedLngFile, workId);
+		
+		return appName;
 	}
 
+	// TODO: this a general routine, not iso8859 specific, so it should be somewhere else
+	private void storeBackupFile(Path uploadedLngFile, long workId) throws IOException {
+		WorkDto work = projectService.getWorkDtoById(workId);
+		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
+		String fid = UUID.randomUUID().toString();
+		String bupFile = fid + "." + prj.getFormat().toString();
+		Path target = Paths.get(uploadedLngFile.getParent().toString(), bupFile );
+		//TODO: if old backup file exists, remove it
+		Files.copy(uploadedLngFile, target, StandardCopyOption.REPLACE_EXISTING);
+		work.setBackupFile(target.toString());
+		projectService.updateWorkDto(work);
+	}
+
+	/**
+	 * 
+	 * Creates upload a valid properties file (e.g. dotcms_en.properties)
+	 * 
+	 * @param uploadedLngFile a file copied from server's temporary storage to 
+	 * temporary directory. It is either UTF-8 or ISO8859-1 encoded-
+	 * @param workId work entity identifier
+	 * @return nothing
+	 * @throws StorageException if not able read file.
+	 */
 	@Override
-	public String createTargetLngFile(Path dstDir, String originalFilename, Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void uploadToDb(Path targetLngFile, long locoId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Stream<Path> downloadFromDb(long locoId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-}
-
-	/*
-	public void checkFileExtension(Path uploadedLngFile, long tranveId) 
-			throws StorageException {
-		// check extension
-		PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.properties");
-
-		if (!(matcher.matches(uploadedLngFile.getFileName()))) 
-			throw new StorageException((messages.get("FileStorageService.not_properties_file"))
-					+ " " + uploadedLngFile.getFileName());
-	}
-
-	public void checkFileNameFormat(Path uploadedLngFile, long tranveId) 
-			throws StorageException {
-		// check file name format i.e. appName_region_language*.properties 
-		// or just appName_language*.properties => reject 
-		if (iso8859util.sanityCheck(uploadedLngFile.getFileName().toString())== null)
-			throw new StorageException((messages.get("FileStorageService.code_missing"))
-					+ " " + uploadedLngFile.getFileName());
-
-		Locale locale = iso8859util.getLocaleFromString(
-				uploadedLngFile.getFileName().toString(), ext -> ext.equals("properties"));
-		if (locale == null)
-			throw new StorageException((messages.get("FileStorageService.code_missing"))
-					+ " " + uploadedLngFile.getFileName());
-	}
-
-	public void checkFileCharSet(Path uploadedLngFile, long tranveId) 
-			throws StorageException {
-		// check encoding iso8859-1 or UTF-8 is same as defined for the project version => reject
-		TranveDto tranveDto = workService.getTranveDtoById(tranveId);
-		LngFileType typeExpected = tranveDto.getType();
-		boolean isUploadedUTF_8 = true;
-		try {
-			isUploadedUTF_8 = iso8859util.isCorrectCharset(uploadedLngFile,StandardCharsets.UTF_8 );
-		} catch (StorageException e) {
-			throw e; 
-		}
-
-		boolean isUploadedISO8859 = false;
-		if (!isUploadedUTF_8)
-			try {
-				isUploadedISO8859 = iso8859util.isCorrectCharset(uploadedLngFile,StandardCharsets.ISO_8859_1 );
-			} catch (StorageException e) {
-				throw e; 
-			}
-
-		// if typeExpected == ISO8859 and uploaded is UTF-8 => reject
-		if (typeExpected.equals(LngFileType.ISO8859_1) && isUploadedUTF_8)
-			throw new StorageException(messages.get("FileStorageService.false_ISO8859_encoding"));
-		//("The encoding is not same as defined for the version. It should be ISO8859.");
-
-		// if typeExpected == UTF-8 and uploaded is ISO8859 => reject
-		if (typeExpected.equals(LngFileType.UTF_8) && isUploadedISO8859)
-			throw new StorageException(messages.get("FileStorageService.false_UTF8_encoding"));
-		//("The encoding is not same as defined for the version. It should be UTF-8.");		
-	}
-
-	public void checkEmptyFile(Path uploadedLngFile, long tranveId) 
-			throws StorageException {
-		TranveDto tranveDto = workService.getTranveDtoById(tranveId);
-		LngFileType typeExpected = tranveDto.getType();
-		Charset charset = StandardCharsets.UTF_8;
-		if (typeExpected.equals(LngFileType.ISO8859_1)) charset = StandardCharsets.ISO_8859_1;
+	public void uploadSourceToDb(Path uploadedLngFile, long workId) throws IOException {		
+		Charset charset =  iso8859util.getCharSet(workId);
 		LinkedHashMap <String, String> segments  = null;
 		try {
-			segments = (LinkedHashMap<String, String>) iso8859util.getPropSegments(uploadedLngFile,charset);
-		}catch (StorageException e) { // 
-			throw e; 
-		}catch (IOException e) { // 
+			segments = (LinkedHashMap<String, String>)getPropSegments(uploadedLngFile,charset);
+		} catch (IOException e) { // 
 			throw new StorageException((messages.get("FileStorageService.not_read_properties_file"))
 					+ " " + uploadedLngFile.getFileName());
 		}
-		if (segments.isEmpty())
-			throw new StorageException((messages.get("FileStorageService.empty_properties_file"))
-					+ " " + uploadedLngFile.getFileName());
 
+		storeBackupFile(uploadedLngFile, workId);
+
+		List<UnitDto> unitDtos = new ArrayList<UnitDto>();
+		int serialNum=1;
+		for (Map.Entry<String,String> entry : segments.entrySet())
+		{
+			UnitDto unit = new UnitDto();  
+			unit.setSerialNumber(serialNum);
+			unit.setSegmentKey(entry.getKey());
+			Source s = new Source();
+			s.setText(entry.getValue());
+			Target t = new Target();
+			t.setText("");
+			t.setSkeletonTag("TARGET_TAG_"+serialNum);
+			//TODO: this is business logic, so it should be somewhere else?
+			//On the other hand this update is rather slow.
+			t.setState(State.NEEDS_TRANSLATION);
+			unit.setSource(s);
+			unit.setTarget(t);
+			unitDtos.add(unit);
+			serialNum++;
+		} 
+		projectService.createUnitDtos(unitDtos, workId);
 	}
-*/
+
+	// TODO: there may be need for validating the target upload
+	// e.g. source file should exist with the same name
+	// and comply with the project specifications
+	@Override
+	public void uploadTargetToDb(Path uploadedLngFile, long workId) {		
+		Charset charset = iso8859util.getCharSet(workId);
+		LinkedHashMap <String, String> segments  = null;
+		try {
+			segments = (LinkedHashMap<String, String>)getPropSegments(uploadedLngFile,charset);
+		} catch (IOException e) { // 
+			throw new StorageException((messages.get("FileStorageService.not_read_properties_file"))
+					+ " " + uploadedLngFile.getFileName());
+		}
+
+		List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
+		for (UnitDto unit : unitDtos){ 
+			unit.getTarget().setText(segments.get(unit.getSegmentKey()));
+			//TODO: this is business logic, so it should be somewhere else?
+			//On the other hand this update is rather slow.
+			unit.getTarget().setState(State.TRANSLATED);
+		}
+
+		projectService.updateUnitDtos(unitDtos, workId);
+	}
+
+	@Override
+	public Stream<Path> downloadFromDb(final long workId) throws IOException {
+		Path dstDir = null; //default location
+		try {
+			dstDir = downloadTargetLngFile(dstDir, workId);
+		} catch (IOException e) {
+			throw new StorageException(e.getLocalizedMessage());
+		}
+
+		return Files.walk(dstDir); //TODO: at the moment, just testing
+	}
+
+	@Override
+	public Path downloadTargetLngFile(Path dstDir, final long workId) throws IOException { 		
+		Charset charset = iso8859util.getCharSet(workId);
+		WorkDto work =  projectService.getWorkDtoById(workId);	
+		List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
+		//TODO: could this be a private method storage services
+		//or should storageService be unaware of projectService
+		String tgtFilenameStr=work.getOriginalFile() + "_" + work.getLocale().toString()
+				+ ".properties";
+
+		// will NOT fail even if path is null or empty. It returns path where file resides.
+		if ((dstDir != null) && (!(Files.isDirectory(dstDir)))) {
+			Files.createDirectory(dstDir);
+		}
+
+		Path target = (dstDir == null) ? getPath(tgtFilenameStr) 
+				: dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
+
+		/* TODO: deleteIfExists: If the file does not exist, no exception is thrown. 
+		 * Failing silently is useful when you have multiple threads deleting files 
+		 * and you don't want to throw an exception.
+		 * 
+		 */
+		boolean success = Files.deleteIfExists(target);
+		if (!success) {
+			//throw new StorageException("File " + target.toAbsolutePath().toString() + 
+			//		" existed already and could not be removed");
+			// TODO: what now ???
+		}
+
+		Path storedOriginalFile = Paths.get(work.getBackupFile());
+		List<String> inLines = Files.readAllLines(storedOriginalFile, charset);
+		List<String> outLines = new ArrayList<String>();
+		Map <String, String> map = new HashMap<String,String>();
+		unitDtos.stream().forEach(dto->map.put(dto.getSegmentKey(), dto.getTarget().getText()));
+
+		boolean isFirstLine=true; // <= optional byte order mark (BOM)
+		for (String line : inLines) {
+			if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)){
+				outLines.add(line);
+				isFirstLine = false;
+			}
+			else if (isKeyValuePair (line)){
+				String key = getKey(line);
+				System.out.println(getKey(line)+"="+ map.get(key));
+				outLines.add(getKey(line)+"="+ map.get(key));		
+			}
+			else
+				throw new StorageException("Could not create file for download");
+		}
+		Files.write(target, outLines);
+
+		/* DONT REMOVE YET !!!
+		String tgtFileLocationStr = target.toString();
+		OutputStream out = null;
+		OutputStreamWriter osr = null;
+		OrderedProperties dstProp = new OrderedProperties();
+		try {
+			out = new FileOutputStream(tgtFileLocationStr);
+		} catch (Exception e) {
+			throw new StorageException((messages.get("FileStorageService.not_write_properties_file"))
+					+ " " + tgtFileLocationStr);
+		}
+		try {
+			osr = new OutputStreamWriter(out,charset);
+		} catch (Exception e) {
+			throw new StorageException((messages.get("FileStorageService.not_write_properties_file"))
+					+ " " + tgtFileLocationStr);
+		}		
+		unitDtos.forEach(unit->dstProp.setProperty(unit.getSegmentKey(),unit.getTarget().getText())); 
+		try {
+			dstProp.store(osr, "Translate IT 2");			
+		} catch (Exception e) {
+			throw new StorageException((messages.get("FileStorageService.not_write_properties_file"))
+					+ " " + tgtFileLocationStr + "\\n" + e.getLocalizedMessage());
+		} finally {
+			if (osr != null)
+				osr.close();
+			if (out != null)
+				out.close();
+		}
+		 */
+		return target;
+	}
+
+	private boolean isEmptyLine(String line) {
+		return line.isEmpty();
+	}
+
+	private boolean isCommentLine(String line) {
+		return (line.trim().startsWith("#") || line.trim().startsWith("<"));
+	}
+
+	private boolean isKeyValuePair (String line) {
+		if (getKey(line) != null)
+			return true;
+		else
+			return false;
+	}
+
+	private String getKey(String line) {
+		String parts[] = line.split("=");
+		if (parts.length < 2)
+			return null;
+		else
+			return parts[0].trim();
+	}
+
+	private HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
+			throws StorageException, IOException{
+
+		InputStreamReader isr = null;    	
+		InputStream stream = null;
+		HashMap<String, String> map = new LinkedHashMap<String, String>();
+		OrderedProperties srcProp = new OrderedProperties();
+
+		try {
+			stream = new FileInputStream(inputPath.toString());
+			isr = new InputStreamReader(stream,charset);
+			srcProp.load(isr); 
+			Set<String> keys = srcProp.stringPropertyNames();
+			// checks for at least one (ASCII) alphanumeric character.
+			map = keys.stream().filter(k -> k.toString().matches(".*\\w.*"))  
+					.collect(Collectors.toMap (
+							k -> k.toString(),k -> srcProp.getProperty(k),
+							(v1,v2)->v1,LinkedHashMap::new));
+		} catch (FileNotFoundException e) {
+			throw new StorageException((messages.get("FileStorageService.not_find_file"))
+					+ " " + inputPath.toString(), e);
+		} 
+		catch (IOException e) {			
+			throw new StorageException((messages.get("FileStorageService.not_read_properties_file"))
+					+ " " + inputPath.toString(), e);
+		} 
+		finally {
+			stream.close();
+			isr.close();
+		}
+
+		return map;
+	}
+
+// nothing useful beneath this line
+// --------------------------------	
+	@Override
+	public Path createSkeletonLngFile(Path storedOriginalFile, final long workId) throws IOException {
+		Path target = null;
+
+		Charset charset = iso8859util.getCharSet(workId);
+		List<String> in = Files.readAllLines(storedOriginalFile, charset);
+		List<String> out = new ArrayList<String>();
+		List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
+		Map <String, String> map = new HashMap<String,String>();
+
+		unitDtos.stream().forEach(dto->map.put(dto.getSegmentKey(), dto.getTarget().getSkeletonTag()));
+
+		boolean isFirstLine=true;
+		for (String line : in) {
+			if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)){
+				out.add(line);
+				isFirstLine = false;
+			}
+			else if (isKeyValuePair (line)){
+				String key = getKey(line);
+				String s =getKey(line)+"="+ map.get(key);
+				System.out.println(s);
+				out.add(s);
+			}
+			else
+				throw new StorageException("Could not make skeleton file");	
+		}
+
+		WorkDto work = projectService.getWorkDtoById(workId);
+		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
+		target = Paths.get(work.getSkeletonFile() + "." + prj.getFormat());
+		Files.write(target, out);
+
+		return target;
+	}
+
+	
+}

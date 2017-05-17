@@ -1,5 +1,7 @@
 package translateit2.lngfileservice.defformat;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
@@ -19,14 +21,10 @@ public class DefaultLngStorageImpl implements DefaultLngStorage {
 	FileSystemStorageService fileStorage;
 	
 	@Override
-	public String getType() {
-		return "Default";
+	public LngFileFormat getFileFormat() {
+		return LngFileFormat.DEFAULT;
 	}
 	
-	@Override
-	public String getGreetings() {
-		return "DefaultLngServiceImpl";
-	}
 	
 	@Override
 	public Path getPath(String filename) {
@@ -41,31 +39,44 @@ public class DefaultLngStorageImpl implements DefaultLngStorage {
 
 
 	@Override
-	public void storeFile(MultipartFile file) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void checkValidity(Path uploadedLngFile, long locoId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String createTargetLngFile(Path dstDir, String originalFilename, Locale locale) {
+	public Path storeFile(MultipartFile file) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void uploadToDb(Path targetLngFile, long locoId) {
+	public String checkValidity(Path uploadedLngFile, long locoId) {
+		// TODO Auto-generated method stub
+		return null;		
+	}
+
+
+	@Override
+	public Stream<Path> downloadFromDb(long locoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Path downloadTargetLngFile(Path dstDir, long workId) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void uploadSourceToDb(Path uploadedLngFile, long workId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Stream<Path> downloadFromDb(long locoId) {
+	public void uploadTargetToDb(Path uploadedLngFile, long workId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Path createSkeletonLngFile(Path storedOriginalFile, long workId) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

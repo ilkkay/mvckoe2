@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
 
+//just for testing
 
 // https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4
 // http://www.baeldung.com/injecting-mocks-in-spring

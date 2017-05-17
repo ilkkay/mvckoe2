@@ -1,5 +1,6 @@
 package translateit2.lngfileservice.factory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import translateit2.lngfileservice.LngFileFormat;
 import translateit2.lngfileservice.LngFileStorage;
 
-@Component
+//@Component
 public class LngFileServiceProvider implements ApplicationContextAware, LngFileServiceFactory {
 
     private ApplicationContext applicationContext;
@@ -24,6 +26,10 @@ public class LngFileServiceProvider implements ApplicationContextAware, LngFileS
         return applicationContext;
     }
  
+    private void printBeans() {
+        System.out.println(Arrays.asList(this.getContext()
+        		.getBeanDefinitionNames()));
+    }
 
     private Optional<LngFileStorage> castIntoOptional(Object obj) {
 	if (LngFileStorage.class.isInstance(obj))
@@ -33,15 +39,15 @@ public class LngFileServiceProvider implements ApplicationContextAware, LngFileS
     }
 
     @Override
-	public Optional<LngFileStorage> getService(String serviceName) {
+	public Optional<LngFileStorage> getService(LngFileFormat serviceName) {
     	LngFileStorage service = (LngFileStorage) applicationContext.
-    			getBean(serviceName);
+    			getBean(serviceName.toString());
     
     	return castIntoOptional(service);
     }
 
 	@Override
-	public List<String> listFormatsSupported() {
+	public List<LngFileFormat> listFormatsSupported() {
 		// TODO Auto-generated method stub
 		return null;
 	}

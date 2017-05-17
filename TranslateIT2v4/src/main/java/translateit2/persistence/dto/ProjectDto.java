@@ -1,13 +1,24 @@
 package translateit2.persistence.dto;
 
-import javax.persistence.Column;
+import java.util.Locale;
+
+import translateit2.lngfileservice.LngFileFormat;
+import translateit2.lngfileservice.LngFileType;
 
 public class ProjectDto {
 	private long id;
 	
-	private Long personId;
+	private long personId;
 	
-	private String manager;
+	private long infoId;
+	
+	private String name;
+	
+	private LngFileFormat format;
+
+	private LngFileType type;
+
+	private Locale sourceLocale;
 
 	public long getId() {
 		return id;
@@ -16,31 +27,54 @@ public class ProjectDto {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	private String projectName;
 
-	public Long getPersonId() {
+	public long getPersonId() {
 		return personId;
 	}
 
-	public void setPersonId(Long personId) {
+	public void setPersonId(long personId) {
 		this.personId = personId;
 	}
 
-	public String getProjectName() {
-		return projectName;
+	public long getInfoId() {
+		return infoId;
 	}
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public void setInfoId(long infoId) {
+		this.infoId = infoId;
 	}
 
-
-	public String getManager() {
-		return manager;
+	public String getName() {
+		return name;
 	}
 
-	public void setManager(String manager) {
-		this.manager = manager;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public LngFileFormat getFormat() {
+		return format;
+	}
+
+	public void setFormat(LngFileFormat format) {
+		this.format = format;
+	}
+
+	public LngFileType getType() {
+		return type;
+	}
+
+	public void setType(LngFileType type) {
+		this.type = type;
+	}
+
+	public Locale getSourceLocale() {
+		return sourceLocale;
+	}
+
+	public void setSourceLocale(Locale sourceLocale) {
+		this.sourceLocale = sourceLocale;
+	}
+	
+	
 }
