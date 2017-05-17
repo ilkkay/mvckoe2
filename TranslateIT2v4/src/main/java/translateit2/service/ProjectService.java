@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
@@ -12,8 +12,8 @@ import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
-import translateit2.persistence.model.Unit;
 
+@Validated
 public interface ProjectService {
 	/**
 	 * Person + Group + Info for testing => TODO: move to another service

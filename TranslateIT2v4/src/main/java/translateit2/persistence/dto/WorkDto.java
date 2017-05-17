@@ -3,9 +3,15 @@ package translateit2.persistence.dto;
 import java.time.LocalDate;
 import java.util.Locale;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import translateit2.persistence.model.Priority;
 import translateit2.persistence.model.Status;
+import translateit2.validator.WorkConstraint;
 
+@WorkConstraint
 public class WorkDto {
 	private Long id;
 	
@@ -13,8 +19,10 @@ public class WorkDto {
 
 	private long groupId;
 	
+	@NotNull
 	private Locale locale;
 	
+	@NotEmpty
 	private String version;
 	
 	private String originalFile;
@@ -25,6 +33,7 @@ public class WorkDto {
 	
 	private Status status;
 	
+	@NotNull
 	private Priority priority;
 	
 	private double progress;
@@ -33,6 +42,7 @@ public class WorkDto {
 
 	private LocalDate finished;
 	
+	@NotNull
 	private LocalDate deadLine;
 	
 	public Long getId() {

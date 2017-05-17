@@ -1,6 +1,6 @@
 target/
-uploadir-2/
-uploadir-3/
+translateIT2v4/uploadir-2/
+translateIT2v4/uploadir-3/
 
 !.mvn/wrapper/maven-wrapper.jar
 
@@ -25,3 +25,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+/upload-dir3/

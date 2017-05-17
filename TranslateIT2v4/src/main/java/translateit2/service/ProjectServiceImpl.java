@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.annotation.Validated;
 
 import translateit2.persistence.dao.InfoRepository;
 import translateit2.persistence.dao.PersonRepository;
@@ -35,6 +36,7 @@ import translateit2.persistence.model.TranslatorGroup;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
 
+@Validated
 @EnableTransactionManagement
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -172,7 +174,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Transactional
 	@Override
-	public ProjectDto updateProjectDto(ProjectDto project) {
+	public ProjectDto updateProjectDto(@Valid final ProjectDto project) {
 		Project perProject = projectRepo.findOne(project.getId());  
 		convertToEntity(project,perProject);
 		return convertToDto(projectRepo.save(perProject));
@@ -256,7 +258,7 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	@Transactional
 	@Override
-	public WorkDto createWorkDto(WorkDto entity) {
+	public WorkDto createWorkDto(@Valid final WorkDto entity) {
 		Work perWork = convertToEntity(entity);
 		//perWork.setGroup(groupRepo.findOne(entity.getGroupId()));
 		perWork.setProject(projectRepo.findOne(entity.getProjectId()));
@@ -267,7 +269,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Transactional
 	@Override
-	public WorkDto updateWorkDto(WorkDto work) {
+	public WorkDto updateWorkDto(@Valid final WorkDto work) {
 		Work perWork = workRepo.findOne(work.getId());  
 		convertToEntity(work,perWork);
 		return convertToDto(workRepo.save(perWork));

@@ -2,9 +2,13 @@ package translateit2.persistence.dto;
 
 import java.util.Locale;
 
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 import translateit2.lngfileservice.LngFileFormat;
 import translateit2.lngfileservice.LngFileType;
+import translateit2.validator.ProjectConstraint;
 
+@ProjectConstraint
 public class ProjectDto {
 	private long id;
 	
@@ -12,12 +16,20 @@ public class ProjectDto {
 	
 	private long infoId;
 	
+	@NotBlank	//The string is not null and the length is greater than zero
 	private String name;
-	
+
+	/*
+	 * @NotEmpty The CharSequence, Collection, Map or Array object 
+	 * cannot be null and not empty (size > 0).
+	 */
+	@NotNull
 	private LngFileFormat format;
 
+	@NotNull
 	private LngFileType type;
 
+	@NotNull
 	private Locale sourceLocale;
 
 	public long getId() {

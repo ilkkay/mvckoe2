@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +114,7 @@ public class RestProjectController {
 	// -------------------Create a Project-------------------------------------------
 
 	@RequestMapping(value = "/project/", method = RequestMethod.POST)
-	public ResponseEntity<?> createProject(@RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Project : {}", project);
 
 		ProjectDto prj = projectService.getProjectDtoById(project.getId());
@@ -140,7 +143,7 @@ public class RestProjectController {
 	// ------------------- Update a Project ------------------------------------------------
 //	@RequestMapping(value = "/project/{id:\\d+}", method = RequestMethod.PUT)
 	@RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateProject(@PathVariable("id") long id, @RequestBody ProjectDto project) {
+	public ResponseEntity<?> updateProject(@PathVariable("id") long id, @Valid @RequestBody ProjectDto project) {
 		ProjectDto prj = projectService.getProjectDtoById(id);
 		if (prj == null) {
 			logger.error("Unable to update. Project with id {} not found.", id);

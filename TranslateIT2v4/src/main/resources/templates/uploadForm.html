@@ -8,6 +8,10 @@
 	<div>
 		<form method="POST" enctype="multipart/form-data" action="/upload">
 			<table>
+			<!-- 
+				<td><input type="hidden" name="destination" value="source" /></td>
+			 -->
+				<td><input type="hidden" name="destination" th:value="${destination}"/></td>
 				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>
