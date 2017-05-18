@@ -18,7 +18,7 @@ import translateit2.util.Messages;
 
 // the following is IMPORTANT contains node issues etc. 
 // https://access.redhat.com/webassets/avalon/d/red-hat-jboss-enterprise-application-platform/7.0.0/javadocs/org/hibernate/validator/internal/engine/constraintvalidation/ConstraintValidatorContextImpl.html
-@ConfigurationProperties(prefix = "translateit2.")
+@ConfigurationProperties(prefix = "translateit2.validator")
 public class ProjectValidator implements ConstraintValidator<ProjectConstraint, ProjectDto> {
 
 	@Autowired
@@ -31,14 +31,22 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
 		this.projectRepo = projectRepo;
 		this.messages = messages;
 	}
+	
+	//TODO: autowired validation => settings object    
+	private Integer projectNameMinSize = 5; // for testing purposes
 
-	// autowired validation settings object    
-	private Integer projectNameMinSize=5; // for testing purposes
+	private Integer projectNameMaxSize = 35; // for testing purposes
 
-	private Integer projectNameMaxSize=35; // for testing purposes
+	public Integer getProjectNameMinSize() {
+		return projectNameMinSize;
+	}
 
 	public void setProjectNameMinSize(Integer projectNameMinSize) {
 		this.projectNameMinSize = projectNameMinSize;
+	}
+
+	public Integer getProjectNameMaxSize() {
+		return projectNameMaxSize;
 	}
 
 	public void setProjectNameMaxSize(Integer projectNameMaxSize) {

@@ -3,7 +3,9 @@ package translateit2.persistence.dto;
 import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
+
 import translateit2.lngfileservice.LngFileFormat;
 import translateit2.lngfileservice.LngFileType;
 import translateit2.validator.ProjectConstraint;
