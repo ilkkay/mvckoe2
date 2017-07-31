@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+D:\sw-tools\STS\translateit2testi\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3886967618.index
+4039977106.index
+152049687.index
+2637510858.index
+1415727958.index
+1294484144.index
