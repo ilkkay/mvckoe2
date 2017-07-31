@@ -1,6 +1,5 @@
 package translateit2.validator;
 
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -19,45 +18,43 @@ import translateit2.util.Messages;
 @ConfigurationProperties(prefix = "translateit2.")
 public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDto> {
 
-	@Autowired
-	private WorkRepository workRepo;
+    @Autowired
+    private WorkRepository workRepo;
 
-	@Autowired
-	Messages messages;
+    @Autowired
+    Messages messages;
 
-	public WorkValidator(ProjectRepository projectRepo, Messages messages) {
-		this.workRepo = workRepo;
-		this.messages = messages;
-	}
+    public WorkValidator(ProjectRepository projectRepo, Messages messages) {
+        this.workRepo = workRepo;
+        this.messages = messages;
+    }
 
-	// autowired validation settings object    
-	//private Integer projectNameMinSize=5; // for testing purposes
+    // autowired validation settings object
+    // private Integer projectNameMinSize=5; // for testing purposes
 
-	//private Integer projectNameMaxSize=35; // for testing purposes
+    // private Integer projectNameMaxSize=35; // for testing purposes
 
-	/*
-	public void setProjectNameMinSize(Integer projectNameMinSize) {
-		this.projectNameMinSize = projectNameMinSize;
-	}
+    /*
+     * public void setProjectNameMinSize(Integer projectNameMinSize) {
+     * this.projectNameMinSize = projectNameMinSize; }
+     * 
+     * public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+     * this.projectNameMaxSize = projectNameMaxSize; }
+     */
 
-	public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-		this.projectNameMaxSize = projectNameMaxSize;
-	}
-	 */
+    @Override
+    public boolean isValid(WorkDto value, ConstraintValidatorContext context) {
+        boolean isValid = true;
 
-	@Override
-	public boolean isValid(WorkDto value, ConstraintValidatorContext context) {
-		boolean isValid = true;
+        if (value == null)
+            return isValid;
 
-		if (value == null)
-			return isValid;
+        return isValid;
+    }
 
-		return isValid;
-	}
+    @Override
+    public void initialize(WorkConstraint constraintAnnotation) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void initialize(WorkConstraint constraintAnnotation) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 }

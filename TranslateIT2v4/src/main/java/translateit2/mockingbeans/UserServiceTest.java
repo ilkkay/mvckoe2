@@ -22,19 +22,19 @@ import translateit2.TranslateIt2v4Application;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MocksApplication.class)
 public class UserServiceTest {
- 
+
     @Autowired
     private UserService userService;
- 
+
     @Autowired
     private NameService nameService;
- 
+
     @Test
     public void NoMock_whenUserIdIsProvided_thenRetrievedNameIsCorrect() {
         String testName = userService.getUserName("SomeId");
         Assert.assertEquals(null, testName);
     }
-    
+
     @Test
     public void whenUserIdIsProvided_thenRetrievedNameIsCorrect() {
         Mockito.when(nameService.getUserName("SomeId")).thenReturn("Mock user name");

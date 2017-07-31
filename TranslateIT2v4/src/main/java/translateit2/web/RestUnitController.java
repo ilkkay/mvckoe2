@@ -45,213 +45,213 @@ import translateit2.service.ProjectService;
 @RestController
 @RequestMapping("/api")
 public class RestUnitController {
-	private final StorageService storageService;
-	private ProjectService projectService;
-	private LanguageFileServiceFactory languageFileServiceFactory;
-	
-	Statistics mockStat = new Statistics(); // TODO: this is a mock solution
-	boolean isMockStatInitialized = false;
+    private final StorageService storageService;
+    private ProjectService projectService;
+    private LanguageFileServiceFactory languageFileServiceFactory;
 
-	private void InitMockStat(final long workId) {
-		isMockStatInitialized = true;
+    Statistics mockStat = new Statistics(); // TODO: this is a mock solution
+    boolean isMockStatInitialized = false;
 
-		List<UnitDto> units =  projectService.listUnitDtos(workId);
-		long total = units.size();
-		long translated = 0; 
-		for (UnitDto unit : units ) {
-			if ((unit.getTarget().getState() == State.TRANSLATED) 
-					|| ((unit.getTarget().getState() == State.NEEDS_REVIEW)))translated++;
-		}
-		
-		mockStat.setReviewed(0L);
-		mockStat.setTotal(total);
-		mockStat.setTranslated(translated);
-		mockStat.setWorkId(workId);
-	}
-	
-	@Autowired
-	public RestUnitController(StorageService storageService, 
-			ProjectService projectService,
-			LanguageFileServiceFactory languageFileServiceFactory) {
-		this.projectService = projectService;
-		this.languageFileServiceFactory = languageFileServiceFactory;
-		this.storageService = storageService;
-	}
-	
-	public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
+    private void InitMockStat(final long workId) {
+        isMockStatInitialized = true;
 
-	@GetMapping("/files/{filename:.+}")
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        List<UnitDto> units = projectService.listUnitDtos(workId);
+        long total = units.size();
+        long translated = 0;
+        for (UnitDto unit : units) {
+            if ((unit.getTarget().getState() == State.TRANSLATED)
+                    || ((unit.getTarget().getState() == State.NEEDS_REVIEW)))
+                translated++;
+        }
 
-		Resource file = storageService.loadAsResource(filename);
-		ResponseEntity<Resource> response = null;
-		response = ResponseEntity
-				.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
-				.body(file);
-		return response;
-	}
+        mockStat.setReviewed(0L);
+        mockStat.setTotal(total);
+        mockStat.setTranslated(translated);
+        mockStat.setWorkId(workId);
+    }
 
-	
-	// -------------------Get path to download file------------------------------------------
-	@RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
-	public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id,
-			UriComponentsBuilder ucBuilder) {
-		// http://www.baeldung.com/spring-uricomponentsbuilder
-		logger.info("Creating url path for workId {}", id);
+    @Autowired
+    public RestUnitController(StorageService storageService, ProjectService projectService,
+            LanguageFileServiceFactory languageFileServiceFactory) {
+        this.projectService = projectService;
+        this.languageFileServiceFactory = languageFileServiceFactory;
+        this.storageService = storageService;
+    }
 
-		WorkDto work = projectService.getWorkDtoById(id); 	
-		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());		
-		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
+    public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
 
-		Stream<Path> paths = null;
-		try {
-			paths = storageService.downloadFromDb(id);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
- 	
-		// http://localhost:8080/files/dotcms_fi_FI.properties
-		String filename = "/api/files/" + paths.findFirst().get().getFileName().toString();
-	    UriComponents uriComponents = ucBuilder
-	    	      .scheme("http").host("localhost")
-	    	      .path(filename).build();
-				
-		return new ResponseEntity<>(uriComponents, HttpStatus.OK);
-	}
-	
-	
-	// -------------------Retrieve the Units by pages---------------------------------------------
-	@RequestMapping(value = "/work/{workId}/unit/{pageNum}", method = RequestMethod.GET)
-	public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId,
-			@PathVariable("pageNum") int pageNum) {
-		
-		int pageSize = 4;		
-		int pageIndex=pageNum - 1;
-		long pageCount = projectService.getUnitDtoCount(workId);
-		List <UnitDto> workUnits = projectService.getPage(workId,pageIndex,pageSize);
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-		if (workUnits.isEmpty()) {
-			return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
-		}
+        Resource file = storageService.loadAsResource(filename);
+        ResponseEntity<Resource> response = null;
+        response = ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+        return response;
+    }
 
-		Units unts = new Units();
-		unts.setUnits(workUnits);
-		unts.setPageCount(pageCount/4 + 1);
-		
-		if (!(isMockStatInitialized)) InitMockStat(workId);
-		unts.setStatistics(mockStat);
-		
-		return new ResponseEntity<>(unts, HttpStatus.OK);
-	}
+    // -------------------Get path to download
+    // file------------------------------------------
+    @RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
+    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
+        // http://www.baeldung.com/spring-uricomponentsbuilder
+        logger.info("Creating url path for workId {}", id);
 
-	// ------------------- Update a Unit ------------------------------------------------
-	@RequestMapping(value = "/work/unit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateUnit(@PathVariable("id") long id, @RequestBody UnitDto unit) {
-		logger.info("Updating Work with id {}", id);
+        WorkDto work = projectService.getWorkDtoById(id);
+        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
+        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
-		if (unit.getId() == null) {
-			logger.error("Unable to update unit. Unit with id {} not found.", unit.getId());
-			return new ResponseEntity<>(new CustomErrorType("Unable to update. Unit with id " + unit.getId() + " not found."),
-					HttpStatus.NOT_FOUND);
-		} 
+        Stream<Path> paths = null;
+        try {
+            paths = storageService.downloadFromDb(id);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		//TODO: update mock statistics
-		//	IF the target.Text is != empty AND current state is untranslated,
-		//		THEN increment translated value and set state translated
-			if((unit.getTarget().getText().trim().length() > 0) &&
-					((unit.getTarget().getState()== State.NEEDS_TRANSLATION)) || 
-						(unit.getTarget().getState()== State.NEW)){
-				Target t = unit.getTarget(); 
-				t.setState(State.TRANSLATED);
-				mockStat.setTranslated(mockStat.getTranslated() + 1);
-			} else { //	ELSE do nothing (state == translated)
-				int j = 1;
-			}
-		
-		//	IF target.Text.Trim() == empty AND current state is translated, 
-		//		THEN decrement translated value and set state untranslated
-			if((unit.getTarget().getText().trim().length() == 0) &&
-					(unit.getTarget().getState()== State.TRANSLATED)){
-				Target t = unit.getTarget(); 
-				t.setState(State.NEEDS_TRANSLATION);
-				mockStat.setTranslated(mockStat.getTranslated() - 1);
-			} else { //	ELSE do nothing (state == untranslated)
-				int j = 1;
-			}		
-		
-		List<UnitDto> newUnitDtos = new ArrayList<UnitDto>();
-		newUnitDtos.add (unit);
-		projectService.updateUnitDtos(newUnitDtos, id);
-		
-		unit = projectService.getUnitDtoById(unit.getId());
-		return new ResponseEntity<>(unit, HttpStatus.OK);
-	}
+        // http://localhost:8080/files/dotcms_fi_FI.properties
+        String filename = "/api/files/" + paths.findFirst().get().getFileName().toString();
+        UriComponents uriComponents = ucBuilder.scheme("http").host("localhost").path(filename).build();
 
-	// -------------------Retrieve Single Unit------------------------------------------
-	@RequestMapping(value = "/work/unit/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
-		logger.info("Fetching Unit with id {}", id);
+        return new ResponseEntity<>(uriComponents, HttpStatus.OK);
+    }
 
-		UnitDto unt = projectService.getUnitDtoById(id);
-		
-		if (unt == null) {
-			logger.error("Unit with id {} not found.", id);
-			return new ResponseEntity<> (new CustomErrorType("Unit with id " + id 
-					+ " not found"), HttpStatus.NOT_FOUND);
-		}
-				
-		return new ResponseEntity<>(unt, HttpStatus.OK);
-	}
-	
-	// -------------------Upload target file---------------------------------------------
-	// status code 404 (Not Found)
-	@RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
-	public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
-			@RequestParam(value = "file") MultipartFile file,HttpServletRequest request //({
-	 		,UriComponentsBuilder ucBuilder) {
-		
-		WorkDto work = projectService.getWorkDtoById(id); 	
-		if (work == null) {
-			logger.error("Unable to upload target file. Work with id {} not found.", id);
-			return new ResponseEntity<>(new CustomErrorType("Unable to upload target. Work with id " + id + " not found."),
-					HttpStatus.NOT_FOUND);
-		}	
-		
-		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());		
-		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
-		Path uploadedLngFile = null;
-		try {
-			/*
-			 * Upload language file
-			 */
-			uploadedLngFile = storageService.storeFile(file);
-			/*
-			 * check file format validity
-			 */
-			storageService.checkValidity(uploadedLngFile, work.getId());
-			/*
-			 * upload
-			 */
-			storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-		} catch (StorageException e) {
-			logger.error("Could not upload source language file for workId {}: ", id);
-			return new ResponseEntity<> (new CustomErrorType("Source language file for work with id " + id 
-					+ " have not been uploaded"), HttpStatus.NOT_FOUND);
-		}
-		
-		work = projectService.getWorkDtoById(work.getId());
-		work.setStatus(Status.OPEN);
-		work = projectService.updateWorkDto(work);
-		
-		//TODO: mock statistics
-		InitMockStat(work.getId());
-		//return new ResponseEntity<>(mockStat, HttpStatus.OK);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);	
-	}
-	
+    // -------------------Retrieve the Units by
+    // pages---------------------------------------------
+    @RequestMapping(value = "/work/{workId}/unit/{pageNum}", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId, @PathVariable("pageNum") int pageNum) {
+
+        int pageSize = 4;
+        int pageIndex = pageNum - 1;
+        long pageCount = projectService.getUnitDtoCount(workId);
+        List<UnitDto> workUnits = projectService.getPage(workId, pageIndex, pageSize);
+
+        if (workUnits.isEmpty()) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
+        }
+
+        Units unts = new Units();
+        unts.setUnits(workUnits);
+        unts.setPageCount(pageCount / 4 + 1);
+
+        if (!(isMockStatInitialized))
+            InitMockStat(workId);
+        unts.setStatistics(mockStat);
+
+        return new ResponseEntity<>(unts, HttpStatus.OK);
+    }
+
+    // ------------------- Update a Unit
+    // ------------------------------------------------
+    @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateUnit(@PathVariable("id") long id, @RequestBody UnitDto unit) {
+        logger.info("Updating Work with id {}", id);
+
+        if (unit.getId() == null) {
+            logger.error("Unable to update unit. Unit with id {} not found.", unit.getId());
+            return new ResponseEntity<>(
+                    new CustomErrorType("Unable to update. Unit with id " + unit.getId() + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        // TODO: update mock statistics
+        // IF the target.Text is != empty AND current state is untranslated,
+        // THEN increment translated value and set state translated
+        if ((unit.getTarget().getText().trim().length() > 0)
+                && ((unit.getTarget().getState() == State.NEEDS_TRANSLATION))
+                || (unit.getTarget().getState() == State.NEW)) {
+            Target t = unit.getTarget();
+            t.setState(State.TRANSLATED);
+            mockStat.setTranslated(mockStat.getTranslated() + 1);
+        } else { // ELSE do nothing (state == translated)
+            int j = 1;
+        }
+
+        // IF target.Text.Trim() == empty AND current state is translated,
+        // THEN decrement translated value and set state untranslated
+        if ((unit.getTarget().getText().trim().length() == 0) && (unit.getTarget().getState() == State.TRANSLATED)) {
+            Target t = unit.getTarget();
+            t.setState(State.NEEDS_TRANSLATION);
+            mockStat.setTranslated(mockStat.getTranslated() - 1);
+        } else { // ELSE do nothing (state == untranslated)
+            int j = 1;
+        }
+
+        List<UnitDto> newUnitDtos = new ArrayList<UnitDto>();
+        newUnitDtos.add(unit);
+        projectService.updateUnitDtos(newUnitDtos, id);
+
+        unit = projectService.getUnitDtoById(unit.getId());
+        return new ResponseEntity<>(unit, HttpStatus.OK);
+    }
+
+    // -------------------Retrieve Single
+    // Unit------------------------------------------
+    @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
+        logger.info("Fetching Unit with id {}", id);
+
+        UnitDto unt = projectService.getUnitDtoById(id);
+
+        if (unt == null) {
+            logger.error("Unit with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Unit with id " + id + " not found"), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(unt, HttpStatus.OK);
+    }
+
+    // -------------------Upload target
+    // file---------------------------------------------
+    // status code 404 (Not Found)
+    @RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
+            @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
+            , UriComponentsBuilder ucBuilder) {
+
+        WorkDto work = projectService.getWorkDtoById(id);
+        if (work == null) {
+            logger.error("Unable to upload target file. Work with id {} not found.", id);
+            return new ResponseEntity<>(
+                    new CustomErrorType("Unable to upload target. Work with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
+        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
+        Path uploadedLngFile = null;
+        try {
+            /*
+             * Upload language file
+             */
+            uploadedLngFile = storageService.storeFile(file);
+            /*
+             * check file format validity
+             */
+            storageService.checkValidity(uploadedLngFile, work.getId());
+            /*
+             * upload
+             */
+            storageService.uploadTargetToDb(uploadedLngFile, work.getId());
+        } catch (StorageException e) {
+            logger.error("Could not upload source language file for workId {}: ", id);
+            return new ResponseEntity<>(
+                    new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        work = projectService.getWorkDtoById(work.getId());
+        work.setStatus(Status.OPEN);
+        work = projectService.updateWorkDto(work);
+
+        // TODO: mock statistics
+        InitMockStat(work.getId());
+        // return new ResponseEntity<>(mockStat, HttpStatus.OK);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
 }

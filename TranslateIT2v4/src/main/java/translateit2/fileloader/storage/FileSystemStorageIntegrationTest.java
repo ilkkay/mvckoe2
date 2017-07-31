@@ -15,15 +15,16 @@ import translateit2.TranslateIt2v4Application;
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class FileSystemStorageIntegrationTest {
-	private FileSystemStorageService storage;
-	@Autowired
-	public void setLngFileServiceFactory(FileSystemStorageService storage) {
-		this.storage = storage;
-	}
-	
-	@Test
-	public void setUniQueFilePAht() {
-		Path p = storage.getUniquePath(".properties");
-		p = storage.getUniquePath(null);
-	}
+    private FileSystemStorageService storage;
+
+    @Autowired
+    public void setLngFileServiceFactory(FileSystemStorageService storage) {
+        this.storage = storage;
+    }
+
+    @Test
+    public void setUniQueFilePAht() {
+        Path p = storage.getUniquePath(".properties");
+        p = storage.getUniquePath(null);
+    }
 }

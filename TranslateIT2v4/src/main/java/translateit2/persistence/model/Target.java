@@ -7,102 +7,94 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Embeddable
 public class Target {
-	@Column(columnDefinition="TEXT")
-	private String text;
-	
-	@Column(columnDefinition="TEXT")
-	private String plural;
-	
-	private String skeletonTag;
-	
-	private boolean equivalent;
-	
-	State state; 
-	
-	// Alternatives alternatives;
-	
-	Comment comment;
-	
-	History history;
-	
-	Note note;
+    @Column(columnDefinition = "TEXT")
+    private String text;
 
-	public String getText() {
-		return text;
-	}
+    @Column(columnDefinition = "TEXT")
+    private String plural;
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    private String skeletonTag;
 
-	public String getPlural() {
-		return plural;
-	}
+    private boolean equivalent;
 
-	public void setPlural(String plural) {
-		this.plural = plural;
-	}
+    State state;
 
-	public String getSkeletonTag() {
-		return skeletonTag;
-	}
+    // Alternatives alternatives;
 
-	public void setSkeletonTag(String skeletonTag) {
-		this.skeletonTag = skeletonTag;
-	}
+    Comment comment;
 
-	public boolean isEquivalent() {
-		return equivalent;
-	}
+    History history;
 
-	public void setEquivalent(boolean equivalent) {
-		this.equivalent = equivalent;
-	}
+    Note note;
 
-	public State getState() {
-		return state;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public Comment getComment() {
-		return comment;
-	}
+    public String getPlural() {
+        return plural;
+    }
 
-	public void setComment(Comment comment) {
-		this.comment = comment;
-	}
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
 
-	public History getHistory() {
-		return history;
-	}
+    public String getSkeletonTag() {
+        return skeletonTag;
+    }
 
-	public void setHistory(History history) {
-		this.history = history;
-	}
+    public void setSkeletonTag(String skeletonTag) {
+        this.skeletonTag = skeletonTag;
+    }
 
-	public Note getNote() {
-		return note;
-	}
+    public boolean isEquivalent() {
+        return equivalent;
+    }
 
-	public void setNote(Note note) {
-		this.note = note;
-	}
-	
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("text",text)	
-				.append("plural",plural)
-				.append("state",state)
-				.append("equivalent",equivalent)	
-				.append("skeletonTag",skeletonTag)	
-				.append("comment",comment)	
-				.append("history",history)
-				.append("note",note).toString();
-	}
+    public void setEquivalent(boolean equivalent) {
+        this.equivalent = equivalent;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("text", text).append("plural", plural).append("state", state)
+                .append("equivalent", equivalent).append("skeletonTag", skeletonTag).append("comment", comment)
+                .append("history", history).append("note", note).toString();
+    }
 }
-
-

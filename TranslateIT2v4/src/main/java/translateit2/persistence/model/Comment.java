@@ -1,4 +1,5 @@
 package translateit2.persistence.model;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -7,14 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity (name="trComment")
-@Table (name="TR_COMMENT")
-public class Comment implements Serializable{
+@Entity(name = "trComment")
+@Table(name = "TR_COMMENT")
+public class Comment implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 }

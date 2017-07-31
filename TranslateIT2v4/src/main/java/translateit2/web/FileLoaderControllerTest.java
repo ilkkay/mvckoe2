@@ -28,98 +28,118 @@ import org.springframework.test.context.junit4.SpringRunner;
 //http://forum.spring.io/forum/spring-projects/web/70845-sending-post-parameters-with-resttemplate-requests
 
 @RunWith(SpringRunner.class)
-@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileLoaderControllerTest {
-	@LocalServerPort
-	private int port;
+    @LocalServerPort
+    private int port;
 
-	@Autowired
-	private TestRestTemplate restTemplate;
+    @Autowired
+    private TestRestTemplate restTemplate;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
 
-	@Before
-	public void setUp() throws Exception {
-	}
+    @Before
+    public void setUp() throws Exception {
+    }
 
-	// some HTTP codes:
-	// 302=Found, 405=Method Not Allowed, 201=Created, 500=internal server error 
-	// 400 Bad Request
-	@Test
-	public void shouldUploadFile() throws Exception {
-		String testFile="";
-		ClassPathResource resource = null;
-		MultiValueMap<String, Object> map = null;
-		ResponseEntity<String> response = null;
-		String responseBody = "";
+    // some HTTP codes:
+    // 302=Found, 405=Method Not Allowed, 201=Created, 500=internal server error
+    // 400 Bad Request
+    @Test
+    public void shouldUploadFile() throws Exception {
+        String testFile = "";
+        ClassPathResource resource = null;
+        MultiValueMap<String, Object> map = null;
+        ResponseEntity<String> response = null;
+        String responseBody = "";
 
-		// TODO: 500 internal server error <= javax.validation.ConstraintViolationException
+        // TODO: 500 internal server error <=
+        // javax.validation.ConstraintViolationException
 
-		// WHEN loading empty file
-		testFile="empty-testupload.txt";
-		resource = new ClassPathResource(testFile, getClass());
-		map = new LinkedMultiValueMap<String, Object>();
-		map.add("file", resource);  
-		map.add("destination", "source"); 
-		try {
-			response = this.restTemplate.postForEntity("/upload", map,  String.class);
-		} catch (HttpClientErrorException e) {
-			fail ("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
-		}
-		// THEN create error page
-		responseBody = response.getBody();
-		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED); // Error page was created
-		assertThat(responseBody.contains("error"),is(equalTo(true))); // Failed to store empty file 
+        // WHEN loading empty file
+        testFile = "empty-testupload.txt";
+        resource = new ClassPathResource(testFile, getClass());
+        map = new LinkedMultiValueMap<String, Object>();
+        map.add("file", resource);
+        map.add("destination", "source");
+        try {
+            response = this.restTemplate.postForEntity("/upload", map, String.class);
+        } catch (HttpClientErrorException e) {
+            fail("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
+        }
+        // THEN create error page
+        responseBody = response.getBody();
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED); // Error
+                                                                                       // page
+                                                                                       // was
+                                                                                       // created
+        assertThat(responseBody.contains("error"), is(equalTo(true))); // Failed
+                                                                       // to
+                                                                       // store
+                                                                       // empty
+                                                                       // file
 
-		// WHEN loading file without locale substring
-		testFile="testupload.txt";
-		resource = new ClassPathResource(testFile, getClass());
-		map = new LinkedMultiValueMap<String, Object>();
-		map.add("file", resource);        
-		map.add("destination", "source"); 
-		try {
-			response = this.restTemplate.postForEntity("/upload", map, String.class);
-		} catch (HttpClientErrorException e) {
-			fail ("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
-		}
-		// THEN create error page
-		responseBody = response.getBody();
-		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
-		assertThat(responseBody.contains("error"),is(equalTo(true))); // The language code is missing from the filename
+        // WHEN loading file without locale substring
+        testFile = "testupload.txt";
+        resource = new ClassPathResource(testFile, getClass());
+        map = new LinkedMultiValueMap<String, Object>();
+        map.add("file", resource);
+        map.add("destination", "source");
+        try {
+            response = this.restTemplate.postForEntity("/upload", map, String.class);
+        } catch (HttpClientErrorException e) {
+            fail("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
+        }
+        // THEN create error page
+        responseBody = response.getBody();
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
+        assertThat(responseBody.contains("error"), is(equalTo(true))); // The
+                                                                       // language
+                                                                       // code
+                                                                       // is
+                                                                       // missing
+                                                                       // from
+                                                                       // the
+                                                                       // filename
 
-		// WHEN loading file without properties extension
-		testFile="test_fi.txt";
-		resource = new ClassPathResource(testFile, getClass());
-		map = new LinkedMultiValueMap<String, Object>();
-		map.add("file", resource);        
-		map.add("destination", "source"); 
-		try {
-			response = this.restTemplate.postForEntity("/upload", map, String.class);
-		} catch (HttpClientErrorException e) {
-			fail ("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
-		}
-		// THEN create error page
-		responseBody = response.getBody();
-		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
-		assertThat(responseBody.contains("error"),is(equalTo(true))); // This is not a valid properties file
+        // WHEN loading file without properties extension
+        testFile = "test_fi.txt";
+        resource = new ClassPathResource(testFile, getClass());
+        map = new LinkedMultiValueMap<String, Object>();
+        map.add("file", resource);
+        map.add("destination", "source");
+        try {
+            response = this.restTemplate.postForEntity("/upload", map, String.class);
+        } catch (HttpClientErrorException e) {
+            fail("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
+        }
+        // THEN create error page
+        responseBody = response.getBody();
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.CREATED);
+        assertThat(responseBody.contains("error"), is(equalTo(true))); // This
+                                                                       // is not
+                                                                       // a
+                                                                       // valid
+                                                                       // properties
+                                                                       // file
 
-		// WHEN loading a proper file 
-		testFile = "dotcms_en.properties";
-		resource = new ClassPathResource(testFile, getClass());
-		map = new LinkedMultiValueMap<String, Object>();
-		map.add("file", resource);        
-		map.add("destination", "source"); 
-		try {
-			response = this.restTemplate.postForEntity("/upload", map, String.class);
-		} catch (HttpClientErrorException e) {
-			fail ("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
-		}
-		// THEN return FOUND http response
-		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);        
-		assertThat(response.getHeaders().getLocation().toString()).startsWith("http://localhost:" + this.port +"/upload");        
-	}
-
+        // WHEN loading a proper file
+        testFile = "dotcms_en.properties";
+        resource = new ClassPathResource(testFile, getClass());
+        map = new LinkedMultiValueMap<String, Object>();
+        map.add("file", resource);
+        map.add("destination", "source");
+        try {
+            response = this.restTemplate.postForEntity("/upload", map, String.class);
+        } catch (HttpClientErrorException e) {
+            fail("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
+        }
+        // THEN return FOUND http response
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
+        assertThat(response.getHeaders().getLocation().toString())
+                .startsWith("http://localhost:" + this.port + "/upload");
+    }
 
 }

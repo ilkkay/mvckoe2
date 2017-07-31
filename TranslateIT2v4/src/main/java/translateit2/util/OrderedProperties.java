@@ -26,28 +26,33 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 /**
- * This class provides an alternative to the JDK's {@link Properties} class. It fixes the design flaw of using
- * inheritance over composition, while keeping up the same APIs as the original class. Keys and values are
- * guaranteed to be of type {@link String}.
+ * This class provides an alternative to the JDK's {@link Properties} class. It
+ * fixes the design flaw of using inheritance over composition, while keeping up
+ * the same APIs as the original class. Keys and values are guaranteed to be of
+ * type {@link String}.
  * <p/>
  * This class is not synchronized, contrary to the original implementation.
  * <p/>
- * As additional functionality, this class keeps its properties in a well-defined order. By default, the order
- * is the one in which the individual properties have been added, either through explicit API calls or through
+ * As additional functionality, this class keeps its properties in a
+ * well-defined order. By default, the order is the one in which the individual
+ * properties have been added, either through explicit API calls or through
  * reading them top-to-bottom from a properties file.
  * <p/>
- * Also, an optional flag can be set to omit the comment that contains the current date when storing the
- * properties to a properties file.
+ * Also, an optional flag can be set to omit the comment that contains the
+ * current date when storing the properties to a properties file.
  * <p/>
- * Currently, this class does not support the concept of default properties, contrary to the original implementation.
+ * Currently, this class does not support the concept of default properties,
+ * contrary to the original implementation.
  * <p/>
- * <strong>Note that this implementation is not synchronized.</strong> If multiple threads access ordered
- * properties concurrently, and at least one of the threads modifies the ordered properties structurally, it
- * <em>must</em> be synchronized externally. This is typically accomplished by synchronizing on some object
- * that naturally encapsulates the properties.
+ * <strong>Note that this implementation is not synchronized.</strong> If
+ * multiple threads access ordered properties concurrently, and at least one of
+ * the threads modifies the ordered properties structurally, it <em>must</em> be
+ * synchronized externally. This is typically accomplished by synchronizing on
+ * some object that naturally encapsulates the properties.
  * <p/>
- * Note that the actual (and quite complex) logic of parsing and storing properties from and to a stream
- * is delegated to the {@link Properties} class from the JDK.
+ * Note that the actual (and quite complex) logic of parsing and storing
+ * properties from and to a stream is delegated to the {@link Properties} class
+ * from the JDK.
  *
  * @see Properties
  */
@@ -59,8 +64,9 @@ public final class OrderedProperties implements Serializable {
     private transient boolean suppressDate;
 
     /**
-     * Creates a new instance that will keep the properties in the order they have been added. Other than
-     * the ordering of the keys, this instance behaves like an instance of the {@link Properties} class.
+     * Creates a new instance that will keep the properties in the order they
+     * have been added. Other than the ordering of the keys, this instance
+     * behaves like an instance of the {@link Properties} class.
      */
     public OrderedProperties() {
         this(new LinkedHashMap<String, String>(), false);
@@ -98,8 +104,10 @@ public final class OrderedProperties implements Serializable {
      * the value of the property, or <tt>null</tt> if there was no property with
      * the specified key.
      *
-     * @param key the key of the property to remove
-     * @return the previous value of the property, or <tt>null</tt> if there was no property with the specified key
+     * @param key
+     *            the key of the property to remove
+     * @return the previous value of the property, or <tt>null</tt> if there was
+     *         no property with the specified key
      */
     public String removeProperty(String key) {
         return properties.remove(key);
@@ -108,7 +116,8 @@ public final class OrderedProperties implements Serializable {
     /**
      * Returns <tt>true</tt> if there is a property with the specified key.
      *
-     * @param key the key whose presence is to be tested
+     * @param key
+     *            the key whose presence is to be tested
      */
     public boolean containsProperty(String key) {
         return properties.containsKey(key);
@@ -179,7 +188,8 @@ public final class OrderedProperties implements Serializable {
     public void store(OutputStream stream, String comments) throws IOException {
         CustomProperties customProperties = new CustomProperties(this.properties);
         if (suppressDate) {
-            customProperties.store(new DateSuppressingPropertiesBufferedWriter(new OutputStreamWriter(stream, "8859_1")), comments);
+            customProperties.store(
+                    new DateSuppressingPropertiesBufferedWriter(new OutputStreamWriter(stream, "8859_1")), comments);
         } else {
             customProperties.store(stream, comments);
         }
@@ -275,7 +285,7 @@ public final class OrderedProperties implements Serializable {
     }
 
     @SuppressWarnings("unused")
-	private void readObjectNoData() throws InvalidObjectException {
+    private void readObjectNoData() throws InvalidObjectException {
         throw new InvalidObjectException("Stream data required");
     }
 
@@ -292,9 +302,11 @@ public final class OrderedProperties implements Serializable {
      * the same behavior as the given source.
      * <p/>
      * Note that the source instance and the copy instance will share the same
-     * comparator instance if a custom ordering had been configured on the source.
+     * comparator instance if a custom ordering had been configured on the
+     * source.
      *
-     * @param source the source to copy from
+     * @param source
+     *            the source to copy from
      * @return the copy
      */
     public static OrderedProperties copyOf(OrderedProperties source) {
@@ -324,7 +336,8 @@ public final class OrderedProperties implements Serializable {
         /**
          * Use a custom ordering of the keys.
          *
-         * @param comparator the ordering to apply on the keys
+         * @param comparator
+         *            the ordering to apply on the keys
          * @return the builder
          */
         public OrderedPropertiesBuilder withOrdering(Comparator<? super String> comparator) {
@@ -333,9 +346,12 @@ public final class OrderedProperties implements Serializable {
         }
 
         /**
-         * Suppress the comment that contains the current date when storing the properties.
+         * Suppress the comment that contains the current date when storing the
+         * properties.
          *
-         * @param suppressDate whether to suppress the comment that contains the current date
+         * @param suppressDate
+         *            whether to suppress the comment that contains the current
+         *            date
          * @return the builder
          */
         public OrderedPropertiesBuilder withSuppressDateInComment(boolean suppressDate) {
@@ -349,17 +365,17 @@ public final class OrderedProperties implements Serializable {
          * @return the new instance
          */
         public OrderedProperties build() {
-            Map<String, String> properties = (this.comparator != null) ?
-                    new TreeMap<String, String>(comparator) :
-                    new LinkedHashMap<String, String>();
+            Map<String, String> properties = (this.comparator != null) ? new TreeMap<String, String>(comparator)
+                    : new LinkedHashMap<String, String>();
             return new OrderedProperties(properties, suppressDate);
         }
 
     }
 
     /**
-     * Custom {@link Properties} that delegates reading, writing, and enumerating properties to the
-     * backing {@link OrderedProperties} instance's properties.
+     * Custom {@link Properties} that delegates reading, writing, and
+     * enumerating properties to the backing {@link OrderedProperties}
+     * instance's properties.
      */
     private static final class CustomProperties extends Properties {
 
@@ -397,9 +413,10 @@ public final class OrderedProperties implements Serializable {
     }
 
     /**
-     * Custom {@link BufferedWriter} for storing properties that will write all leading lines of comments except
-     * the last comment line. Using the JDK Properties class to store properties, the last comment
-     * line always contains the current date which is what we want to filter out.
+     * Custom {@link BufferedWriter} for storing properties that will write all
+     * leading lines of comments except the last comment line. Using the JDK
+     * Properties class to store properties, the last comment line always
+     * contains the current date which is what we want to filter out.
      */
     private static final class DateSuppressingPropertiesBufferedWriter extends BufferedWriter {
 

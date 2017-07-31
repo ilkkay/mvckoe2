@@ -1,43 +1,43 @@
 package translateit2.restapi;
 
 public class Statistics {
-	private long reviewed;
-	
-	private long translated;
-	
-	private long total;
-	
-	private long workId;
+    private long reviewed;
 
-	public long getReviewed() {
-		return reviewed;
-	}
+    private long translated;
 
-	public void setReviewed(long reviewed) {
-		this.reviewed = reviewed;
-	}
+    private long total;
 
-	public long getTranslated() {
-		return translated;
-	}
+    private long workId;
 
-	public void setTranslated(long translated) {
-		this.translated = translated;
-	}
+    public long getReviewed() {
+        return reviewed;
+    }
 
-	public long getTotal() {
-		return total;
-	}
+    public void setReviewed(long reviewed) {
+        this.reviewed = reviewed;
+    }
 
-	public void setTotal(long total) {
-		this.total = total;
-	}
+    public long getTranslated() {
+        return translated;
+    }
 
-	public long getWorkId() {
-		return workId;
-	}
+    public void setTranslated(long translated) {
+        this.translated = translated;
+    }
 
-	public void setWorkId(long workId) {
-		this.workId = workId;
-	}
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public long getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(long workId) {
+        this.workId = workId;
+    }
 }

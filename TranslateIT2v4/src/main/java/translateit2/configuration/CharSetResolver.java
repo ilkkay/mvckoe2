@@ -12,15 +12,15 @@ import translateit2.persistence.model.Project;
 
 @Component
 public class CharSetResolver {
-	@Autowired 
-	private ProjectRepository projectRepo;
+    @Autowired
+    private ProjectRepository projectRepo;
 
-	public Charset getProjectCharSet(long projectId) {
-		Project project = projectRepo.findOne(projectId);
-		LanguageFileType typeExpected = project.getType();
-		if (typeExpected.equals(LanguageFileType.ISO8859_1)) 
-			return StandardCharsets.ISO_8859_1;
-		else
-			return StandardCharsets.UTF_8;
-	}	
+    public Charset getProjectCharSet(long projectId) {
+        Project project = projectRepo.findOne(projectId);
+        LanguageFileType typeExpected = project.getType();
+        if (typeExpected.equals(LanguageFileType.ISO8859_1))
+            return StandardCharsets.ISO_8859_1;
+        else
+            return StandardCharsets.UTF_8;
+    }
 }

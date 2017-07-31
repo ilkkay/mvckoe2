@@ -13,6 +13,8 @@ import javax.validation.Payload;
 @Constraint(validatedBy = WorkValidator.class)
 public @interface WorkConstraint {
     String message() default "Invalid work entity";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

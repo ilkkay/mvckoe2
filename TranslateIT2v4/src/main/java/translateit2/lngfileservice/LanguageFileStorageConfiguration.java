@@ -11,12 +11,12 @@ import translateit2.lngfileservice.iso8859.Iso8859StorageImpl;
 
 //@Configuration
 public class LanguageFileStorageConfiguration {
-    //@Bean
+    // @Bean
     public Iso8859Storage iso8859Service() {
         return new Iso8859StorageImpl();
     }
-    
-    //@Bean
+
+    // @Bean
     public XLIFFStorage xliffService() {
         return new XLIFFStorageImpl();
     }

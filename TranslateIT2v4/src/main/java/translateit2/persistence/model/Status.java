@@ -1,4 +1,5 @@
 package translateit2.persistence.model;
+
 /*
 	When a work is first created, it automatically gets a status of NEW.
 	After saved for the first time, the status of the work changes to OPEN.
@@ -8,15 +9,15 @@ package translateit2.persistence.model;
 	Once the work is CLOSED, it becomes read-only (ARCHIVED). 
  */
 public enum Status {
-	NEW(0), OPEN(1), PENDING(2),CLOSED(3),ARCHIVED(4);
-	private int value;
-	private String types[] = {"new", "open","pending","closed","archived"};
-	
-	private Status(int value) {
-		this.value = value;
-	}
-	
-	public String toString() {
-		return types[value];
-	}
+    NEW(0), OPEN(1), PENDING(2), CLOSED(3), ARCHIVED(4);
+    private int value;
+    private String types[] = { "new", "open", "pending", "closed", "archived" };
+
+    private Status(int value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return types[value];
+    }
 }

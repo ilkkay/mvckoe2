@@ -24,14 +24,14 @@ public class DbConnectionTest {
         em = emf.createEntityManager();
     }
 
-	@Test
-	public void test() {
-		System.out.println("in test");
-		fail("test");
-	}
-	
+    @Test
+    public void test() {
+        System.out.println("in test");
+        fail("test");
+    }
+
     @AfterClass
-    public static void tearDown(){
+    public static void tearDown() {
         em.clear();
         em.close();
         emf.close();

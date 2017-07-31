@@ -25,31 +25,29 @@ public class LngFileServiceProvider implements ApplicationContextAware, Language
     public ApplicationContext getContext() {
         return applicationContext;
     }
- 
+
     private void printBeans() {
-        System.out.println(Arrays.asList(this.getContext()
-        		.getBeanDefinitionNames()));
+        System.out.println(Arrays.asList(this.getContext().getBeanDefinitionNames()));
     }
 
     private Optional<LanguageFileStorage> castIntoOptional(Object obj) {
-	if (LanguageFileStorage.class.isInstance(obj))
-		return Optional.of((LanguageFileStorage) obj);
-	else
-		return Optional.empty();
+        if (LanguageFileStorage.class.isInstance(obj))
+            return Optional.of((LanguageFileStorage) obj);
+        else
+            return Optional.empty();
     }
 
     @Override
-	public Optional<LanguageFileStorage> getService(LanguageFileFormat serviceName) {
-    	LanguageFileStorage service = (LanguageFileStorage) applicationContext.
-    			getBean(serviceName.toString());
-    
-    	return castIntoOptional(service);
+    public Optional<LanguageFileStorage> getService(LanguageFileFormat serviceName) {
+        LanguageFileStorage service = (LanguageFileStorage) applicationContext.getBean(serviceName.toString());
+
+        return castIntoOptional(service);
     }
 
-	@Override
-	public List<LanguageFileFormat> listFormatsSupported() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<LanguageFileFormat> listFormatsSupported() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

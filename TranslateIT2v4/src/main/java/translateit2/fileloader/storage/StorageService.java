@@ -21,10 +21,10 @@ public interface StorageService {
     Resource loadAsResource(String file);
 
     void deleteAll();
-    
-    //TODO: use of an external tool is assumed here 
+
+    // TODO: use of an external tool is assumed here
     Path getUniquePath(@NotNull String extension);
-    
+
     String getFileType(Path lngFile);
 
 }

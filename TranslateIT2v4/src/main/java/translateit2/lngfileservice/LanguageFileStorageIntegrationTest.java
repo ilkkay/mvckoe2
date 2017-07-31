@@ -21,52 +21,51 @@ import translateit2.languagefileservice.factory.LanguageFileServiceFactoryImpl;
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class LanguageFileStorageIntegrationTest {
-	
-	private LanguageFileServiceFactory languageFileServiceFactory;
-	@Autowired
-	public void setLngFileServiceFactory(LanguageFileServiceFactoryImpl lngFileServiceFactory) {
-		this.languageFileServiceFactory = lngFileServiceFactory;
-	}	
-	
-	@Test
-	public void getFactoryService_cached() {
-		LanguageFileStorage service  = null;
-		
-		service = languageFileServiceFactory.getService(LanguageFileFormat.XLIFF).get();
-		assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.XLIFF)));
-		
-		service = languageFileServiceFactory.getService(LanguageFileFormat.PROPERTIES).get();
-		assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.PROPERTIES)));
-		
-		service = languageFileServiceFactory.getService(LanguageFileFormat.DEFAULT).get();
-		assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
-				
-		try {
-			service = languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
-			fail("No exception was thrown");
-		} catch (Exception e) {
-			assertThat(e).hasMessageContaining("No value present");
-		}
-		
-		Path p = service.getPath("dotcms_en.properties");		
-		assertThat(p.getParent().toString(), is(equalTo("upload-dir3")));
-		
-		languageFileServiceFactory.listFormatsSupported().stream()
-			.forEach(System.out::println);
-	}
 
-	// https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
-	@Test
-	public void failToUpLoad_ifFormatNotSupported() {
+    private LanguageFileServiceFactory languageFileServiceFactory;
 
-		try {
-			languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
-			fail("No exception was thrown");
-		} catch (Exception e) {
-			assertThat(e)
-            	.isInstanceOf(RuntimeException.class);
-		}
-		
-	}
+    @Autowired
+    public void setLngFileServiceFactory(LanguageFileServiceFactoryImpl lngFileServiceFactory) {
+        this.languageFileServiceFactory = lngFileServiceFactory;
+    }
+
+    @Test
+    public void getFactoryService_cached() {
+        LanguageFileStorage service = null;
+
+        service = languageFileServiceFactory.getService(LanguageFileFormat.XLIFF).get();
+        assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.XLIFF)));
+
+        service = languageFileServiceFactory.getService(LanguageFileFormat.PROPERTIES).get();
+        assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.PROPERTIES)));
+
+        service = languageFileServiceFactory.getService(LanguageFileFormat.DEFAULT).get();
+        assertThat(service.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
+
+        try {
+            service = languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
+            fail("No exception was thrown");
+        } catch (Exception e) {
+            assertThat(e).hasMessageContaining("No value present");
+        }
+
+        Path p = service.getPath("dotcms_en.properties");
+        assertThat(p.getParent().toString(), is(equalTo("upload-dir3")));
+
+        languageFileServiceFactory.listFormatsSupported().stream().forEach(System.out::println);
+    }
+
+    // https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
+    @Test
+    public void failToUpLoad_ifFormatNotSupported() {
+
+        try {
+            languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
+            fail("No exception was thrown");
+        } catch (Exception e) {
+            assertThat(e).isInstanceOf(RuntimeException.class);
+        }
+
+    }
 
 }

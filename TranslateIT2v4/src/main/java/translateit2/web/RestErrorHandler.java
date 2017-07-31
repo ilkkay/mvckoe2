@@ -19,14 +19,14 @@ import translateit2.util.Messages;
 @RestControllerAdvice
 public class RestErrorHandler {
 
-	@Autowired
-	Messages messages;
-    
+    @Autowired
+    Messages messages;
+
     @Autowired
     public RestErrorHandler(Messages messages) {
         this.messages = messages;
     }
-    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -34,13 +34,13 @@ public class RestErrorHandler {
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         String errorMessage = "";
-        for (FieldError error : fieldErrors ) {
-        	errorMessage += error.getDefaultMessage() + " "; 
+        for (FieldError error : fieldErrors) {
+            errorMessage += error.getDefaultMessage() + " ";
         }
-        
-        CustomErrorType validationError =  new CustomErrorType(errorMessage);
-        
+
+        CustomErrorType validationError = new CustomErrorType(errorMessage);
+
         return validationError;
-        
+
     }
 }

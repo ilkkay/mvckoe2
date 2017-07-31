@@ -14,165 +14,156 @@ import translateit2.validator.WorkConstraint;
 
 @WorkConstraint
 public class WorkDto {
-	private Long id;
-	
-	private long projectId;
+    private Long id;
 
-	private long groupId;
-	
-	@NotNull
-	private Locale locale;
-	
-	@NotEmpty
-	private String version;
-	
-	private String originalFile;
-	
-	private String skeletonFile;
+    private long projectId;
 
-	private String backupFile;
-	
-	private Status status;
-	
-	@NotNull
-	private Priority priority;
-	
-	private double progress;
-	
-	private LocalDate started;
+    private long groupId;
 
-	private LocalDate finished;
-	    
-	@NotNull
-	private LocalDate deadLine;
-	
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    private Locale locale;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotEmpty
+    private String version;
 
-	public long getProjectId() {
-		return projectId;
-	}
+    private String originalFile;
 
-	public void setProjectId(long projectId) {
-		this.projectId = projectId;
-	}
+    private String skeletonFile;
 
-	public long getGroupId() {
-		return groupId;
-	}
+    private String backupFile;
 
-	public void setGroupId(long groupId) {
-		this.groupId = groupId;
-	}
+    private Status status;
 
-	public Locale getLocale() {
-		return locale;
-	}
+    @NotNull
+    private Priority priority;
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
+    private double progress;
 
-	public String getVersion() {
-		return version;
-	}
+    private LocalDate started;
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    private LocalDate finished;
 
-	public String getOriginalFile() {
-		return originalFile;
-	}
+    @NotNull
+    private LocalDate deadLine;
 
-	public void setOriginalFile(String originalFile) {
-		this.originalFile = originalFile;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getSkeletonFile() {
-		return skeletonFile;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setSkeletonFile(String skeletonFile) {
-		this.skeletonFile = skeletonFile;
-	}
+    public long getProjectId() {
+        return projectId;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public long getGroupId() {
+        return groupId;
+    }
 
-	public Priority getPriority() {
-		return priority;
-	}
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
+    }
 
-	public void setPriority(Priority priority) {
-		this.priority = priority;
-	}
+    public Locale getLocale() {
+        return locale;
+    }
 
-	public double getProgress() {
-		return progress;
-	}
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 
-	public void setProgress(double progress) {
-		this.progress = progress;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public LocalDate getStarted() {
-		return started;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public void setStarted(LocalDate started) {
-		this.started = started;
-	}
+    public String getOriginalFile() {
+        return originalFile;
+    }
 
-	public LocalDate getFinished() {
-		return finished;
-	}
+    public void setOriginalFile(String originalFile) {
+        this.originalFile = originalFile;
+    }
 
-	public void setFinished(LocalDate finished) {
-		this.finished = finished;
-	}
+    public String getSkeletonFile() {
+        return skeletonFile;
+    }
 
-	public LocalDate getDeadLine() {
-		return deadLine;
-	}
+    public void setSkeletonFile(String skeletonFile) {
+        this.skeletonFile = skeletonFile;
+    }
 
-	public void setDeadLine(LocalDate deadLine) {
-		this.deadLine = deadLine;
-	}
-	
-	public String getBackupFile() {
-		return backupFile;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public void setBackupFile(String backupFile) {
-		this.backupFile = backupFile;
-	}	
-	
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
+    public LocalDate getStarted() {
+        return started;
+    }
+
+    public void setStarted(LocalDate started) {
+        this.started = started;
+    }
+
+    public LocalDate getFinished() {
+        return finished;
+    }
+
+    public void setFinished(LocalDate finished) {
+        this.finished = finished;
+    }
+
+    public LocalDate getDeadLine() {
+        return deadLine;
+    }
+
+    public void setDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
+    }
+
+    public String getBackupFile() {
+        return backupFile;
+    }
+
+    public void setBackupFile(String backupFile) {
+        this.backupFile = backupFile;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-        		.append("id",id)
-        		.append("groupId",groupId)
-        		.append("projectId",projectId)
-        		.append("locale",locale)
-        		.append("version",version)
-        		.append("originalFile",originalFile)
-        		.append("skeletonFile",skeletonFile)
-        		.append("backupFile",backupFile)	
-        		.append("status",status)	
-        		.append("progress",progress)	
-        		.append("started",started)
-        		.append("finished",finished).toString();
+        return new ToStringBuilder(this).append("id", id).append("groupId", groupId).append("projectId", projectId)
+                .append("locale", locale).append("version", version).append("originalFile", originalFile)
+                .append("skeletonFile", skeletonFile).append("backupFile", backupFile).append("status", status)
+                .append("progress", progress).append("started", started).append("finished", finished).toString();
     }
 
 }

@@ -1,4 +1,5 @@
 package translateit2.persistence.model;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -16,43 +17,41 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Embeddable
 public class Source {
 
-    @Column(columnDefinition="TEXT")
-	private String text;
-	
-	@Column(columnDefinition="TEXT")
-	private String plural;
-	
-	private String skeletonTag;
-	
-	public String getText() {
-		return text;
-	}
+    @Column(columnDefinition = "TEXT")
+    private String text;
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    @Column(columnDefinition = "TEXT")
+    private String plural;
 
-	public String getPlural() {
-		return plural;
-	}
+    private String skeletonTag;
 
-	public void setPlural(String plural) {
-		this.plural = plural;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public String getSkeletonTag() {
-		return skeletonTag;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public void setSkeletonTag(String skeletonTag) {
-		this.skeletonTag = skeletonTag;
-	}
+    public String getPlural() {
+        return plural;
+    }
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("text",text)	
-				.append("plural",plural)
-				.append("skeletonTag",skeletonTag).toString();
-	}	
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
+
+    public String getSkeletonTag() {
+        return skeletonTag;
+    }
+
+    public void setSkeletonTag(String skeletonTag) {
+        this.skeletonTag = skeletonTag;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("text", text).append("plural", plural)
+                .append("skeletonTag", skeletonTag).toString();
+    }
 }

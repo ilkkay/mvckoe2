@@ -13,6 +13,8 @@ import javax.validation.Payload;
 @Constraint(validatedBy = ProjectValidator.class)
 public @interface ProjectConstraint {
     String message() default "Invalid project entity";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

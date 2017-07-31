@@ -4,5 +4,4 @@ import translateit2.lngfileservice.LanguageFileStorage;
 
 public interface Iso8859Storage extends LanguageFileStorage {
 
-
 }

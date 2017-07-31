@@ -13,6 +13,8 @@ import javax.validation.Payload;
 @Constraint(validatedBy = UnitValidator.class)
 public @interface UnitConstraint {
     String message() default "Invalid unit entity";
-    Class<?>[] groups() default { };
-    Class<? extends Payload>[] payload() default { };
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

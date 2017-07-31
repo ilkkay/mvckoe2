@@ -31,53 +31,49 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public Path store(MultipartFile file) throws StorageException {
-    	Path outFilePath = null;
+        Path outFilePath = null;
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
             InputStream in = file.getInputStream();
-			if (in == null) {
-				throw new StorageException("File:" + file.getOriginalFilename() + " not found");
-			}
-			Path target = this.rootLocation.resolve(file.getOriginalFilename()); 			
+            if (in == null) {
+                throw new StorageException("File:" + file.getOriginalFilename() + " not found");
+            }
+            Path target = this.rootLocation.resolve(file.getOriginalFilename());
 
             // if (!Files.isDirectory(path))
-            //		Files.createDirectory(path);
-			Path absTgtParent = target.toAbsolutePath().getParent();
-			 if (!Files.exists(absTgtParent)) 
-				 Files.createDirectory(target);
+            // Files.createDirectory(path);
+            Path absTgtParent = target.toAbsolutePath().getParent();
+            if (!Files.exists(absTgtParent))
+                Files.createDirectory(target);
 
             if (!Files.exists(absTgtParent)) {
-                throw new StorageException("Upload directory " + absTgtParent.toString() + 
-                		" was missing and could not be recreated");
+                throw new StorageException(
+                        "Upload directory " + absTgtParent.toString() + " was missing and could not be recreated");
             }
-            
-            /*
-            if (Files.exists(target)) {
-                boolean success = Files.deleteIfExists(target);
-                if (!success) {
-                	throw new StorageException("File " + target.toString() + 
-                		" existed already and could not be removed");
-                }
-            }
-            */
 
-            outFilePath = this.rootLocation.resolve(file.getOriginalFilename());           
-            Files.copy(file.getInputStream(), outFilePath,StandardCopyOption.REPLACE_EXISTING);            
-            
+            /*
+             * if (Files.exists(target)) { boolean success =
+             * Files.deleteIfExists(target); if (!success) { throw new
+             * StorageException("File " + target.toString() +
+             * " existed already and could not be removed"); } }
+             */
+
+            outFilePath = this.rootLocation.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
+
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
-        
+
         return outFilePath;
     }
-    
+
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
+            return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
                     .map(path -> this.rootLocation.relativize(path));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
@@ -95,10 +91,9 @@ public class FileSystemStorageService implements StorageService {
         try {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());
-            if(resource.exists() || resource.isReadable()) {
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 throw new StorageFileNotFoundException("Could not read file: " + filename);
 
             }
@@ -120,18 +115,18 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Could not initialize storage", e);
         }
     }
-    
+
     @Override
-    public String getFileType(Path lngFile){
-    	return "ISO8859";
+    public String getFileType(Path lngFile) {
+        return "ISO8859";
     }
-    
+
     @Override
     public Path getUniquePath(@NotNull String extension) {
-    	Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
-    	Path dirPath = Paths.get(LocalDate.now().toString());
-    	Path path = dirPath.resolve(fnamePath);
-    	path = path.resolveSibling(path.getFileName() + extension);    	
-    	return path;
+        Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
+        Path dirPath = Paths.get(LocalDate.now().toString());
+        Path path = dirPath.resolve(fnamePath);
+        path = path.resolveSibling(path.getFileName() + extension);
+        return path;
     }
 }

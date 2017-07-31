@@ -17,97 +17,92 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 
-@Entity (name="trProject")
-@Table (name="TR_PROJECT")
-public class Project implements Serializable{
+@Entity(name = "trProject")
+@Table(name = "TR_PROJECT")
+public class Project implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	
-	@ManyToOne
-	private Person person;
-	
-	@ManyToOne
-	private Info info;
-	
-	private String name;
-	
-	@Enumerated(EnumType.STRING)
-	private LanguageFileFormat format;
+    private static final long serialVersionUID = 1L;
 
-	@Enumerated(EnumType.STRING)
-	private LanguageFileType type;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private Locale sourceLocale;
+    @ManyToOne
+    private Person person;
 
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne
+    private Info info;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String name;
 
-	public Person getPerson() {
-		return person;
-	}
+    @Enumerated(EnumType.STRING)
+    private LanguageFileFormat format;
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+    @Enumerated(EnumType.STRING)
+    private LanguageFileType type;
 
-	public String getName() {
-		return name;
-	}
+    private Locale sourceLocale;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public LanguageFileFormat getFormat() {
-		return format;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setFormat(LanguageFileFormat format) {
-		this.format = format;
-	}
+    public Person getPerson() {
+        return person;
+    }
 
-	public LanguageFileType getType() {
-		return type;
-	}
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-	public void setType(LanguageFileType type) {
-		this.type = type;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Locale getSourceLocale() {
-		return sourceLocale;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSourceLocale(Locale sourceLocale) {
-		this.sourceLocale = sourceLocale;
-	}
+    public LanguageFileFormat getFormat() {
+        return format;
+    }
 
-	public Info getInfo() {
-		return info;
-	}
+    public void setFormat(LanguageFileFormat format) {
+        this.format = format;
+    }
 
-	public void setInfo(Info info) {
-		this.info = info;
-	}
-	
+    public LanguageFileType getType() {
+        return type;
+    }
+
+    public void setType(LanguageFileType type) {
+        this.type = type;
+    }
+
+    public Locale getSourceLocale() {
+        return sourceLocale;
+    }
+
+    public void setSourceLocale(Locale sourceLocale) {
+        this.sourceLocale = sourceLocale;
+    }
+
+    public Info getInfo() {
+        return info;
+    }
+
+    public void setInfo(Info info) {
+        this.info = info;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-        		.append("id",id)	
-        		.append("person",person)	
-        		.append("info",info)	
-        		.append("name",name)	
-        		.append("format",format)
-        		.append("type",type)
-        		.append("sourceLocale",sourceLocale).toString();
+        return new ToStringBuilder(this).append("id", id).append("person", person).append("info", info)
+                .append("name", name).append("format", format).append("type", type).append("sourceLocale", sourceLocale)
+                .toString();
     }
 }

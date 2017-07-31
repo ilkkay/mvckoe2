@@ -8,31 +8,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity (name="trPerson")
-@Table (name="TR_PERSON")
-public class Person implements Serializable{
+@Entity(name = "trPerson")
+@Table(name = "TR_PERSON")
+public class Person implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+    private static final long serialVersionUID = 1L;
 
-	private String fullName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	public String getFullName() {
-		return fullName;
-	}
+    private String fullName;
 
-	public Long getId() {
-		return id;
-	}
+    public String getFullName() {
+        return fullName;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }

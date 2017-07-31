@@ -1,6 +1,5 @@
 package translateit2.validator;
 
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -19,45 +18,43 @@ import translateit2.util.Messages;
 @ConfigurationProperties(prefix = "translateit2.")
 public class UnitValidator implements ConstraintValidator<UnitConstraint, UnitDto> {
 
-	@Autowired
-	private UnitRepository unitRepo;
+    @Autowired
+    private UnitRepository unitRepo;
 
-	@Autowired
-	Messages messages;
+    @Autowired
+    Messages messages;
 
-	public UnitValidator(ProjectRepository projectRepo, Messages messages) {
-		this.unitRepo = unitRepo;
-		this.messages = messages;
-	}
+    public UnitValidator(ProjectRepository projectRepo, Messages messages) {
+        this.unitRepo = unitRepo;
+        this.messages = messages;
+    }
 
-	// autowired validation settings object    
-	//private Integer projectNameMinSize=5; // for testing purposes
+    // autowired validation settings object
+    // private Integer projectNameMinSize=5; // for testing purposes
 
-	//private Integer projectNameMaxSize=35; // for testing purposes
+    // private Integer projectNameMaxSize=35; // for testing purposes
 
-	/*
-	public void setProjectNameMinSize(Integer projectNameMinSize) {
-		this.projectNameMinSize = projectNameMinSize;
-	}
+    /*
+     * public void setProjectNameMinSize(Integer projectNameMinSize) {
+     * this.projectNameMinSize = projectNameMinSize; }
+     * 
+     * public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+     * this.projectNameMaxSize = projectNameMaxSize; }
+     */
 
-	public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-		this.projectNameMaxSize = projectNameMaxSize;
-	}
-	 */
+    @Override
+    public boolean isValid(UnitDto value, ConstraintValidatorContext context) {
+        boolean isValid = true;
 
-	@Override
-	public boolean isValid(UnitDto value, ConstraintValidatorContext context) {
-		boolean isValid = true;
+        if (value == null)
+            return isValid;
 
-		if (value == null)
-			return isValid;
+        return isValid;
+    }
 
-		return isValid;
-	}
+    @Override
+    public void initialize(UnitConstraint constraintAnnotation) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void initialize(UnitConstraint constraintAnnotation) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 }

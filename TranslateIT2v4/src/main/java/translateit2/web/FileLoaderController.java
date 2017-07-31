@@ -1,4 +1,5 @@
 package translateit2.web;
+
 import translateit2.fileloader.storage.StorageException;
 import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
@@ -34,148 +35,137 @@ import java.util.stream.Collectors;
 //
 @Controller
 public class FileLoaderController {
-	private final StorageService storageService;
-	private ProjectService projectService;
-	private LanguageFileServiceFactory languageFileServiceFactory;
+    private final StorageService storageService;
+    private ProjectService projectService;
+    private LanguageFileServiceFactory languageFileServiceFactory;
 
-	@Autowired
-	public FileLoaderController(StorageService storageService, 
-			ProjectService projectService,
-			LanguageFileServiceFactory languageFileServiceFactory) {
-		this.storageService = storageService;
-		this.projectService = projectService;
-		this.languageFileServiceFactory = languageFileServiceFactory;
-	}
+    @Autowired
+    public FileLoaderController(StorageService storageService, ProjectService projectService,
+            LanguageFileServiceFactory languageFileServiceFactory) {
+        this.storageService = storageService;
+        this.projectService = projectService;
+        this.languageFileServiceFactory = languageFileServiceFactory;
+    }
 
-	@GetMapping("/upload_source")
-	public String listUploadedSourceFiles(Model model) throws IOException {
-		model.addAttribute("destination","source");
-		return "uploadForm";
-	}
+    @GetMapping("/upload_source")
+    public String listUploadedSourceFiles(Model model) throws IOException {
+        model.addAttribute("destination", "source");
+        return "uploadForm";
+    }
 
-	@GetMapping("/upload_target")
-	public String listUploadedTargetFiles(Model model) throws IOException {
-		model.addAttribute("destination","target");
-		return "uploadForm";
-	}
+    @GetMapping("/upload_target")
+    public String listUploadedTargetFiles(Model model) throws IOException {
+        model.addAttribute("destination", "target");
+        return "uploadForm";
+    }
 
-	@GetMapping("/mock2download") //just for testing !!
-	public String downloadFile2(Model model) throws IOException {
-		model.addAttribute("message","Download translation");
-		model.addAttribute("files", storageService
-				.loadAll()
-				.map(path ->
-				MvcUriComponentsBuilder
-				.fromMethodName(FileLoaderController.class, 
-						"serveFile", path.getFileName().toString())
-				.build().toString())
-				.collect(Collectors.toList()));
-		return "download";
-	}
-	
-	@GetMapping("/mockDownload") //downloadFromDb
-	public String downloadFile(Model model) throws IOException {
-		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
-		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
-		WorkDto work = works.get(0);
-		LanguageFileStorage lngStorageService = languageFileServiceFactory.getService(prj.getFormat()).get();
+    @GetMapping("/mock2download") // just for testing !!
+    public String downloadFile2(Model model) throws IOException {
+        model.addAttribute("message", "Download translation");
+        model.addAttribute("files",
+                storageService.loadAll()
+                        .map(path -> MvcUriComponentsBuilder
+                                .fromMethodName(FileLoaderController.class, "serveFile", path.getFileName().toString())
+                                .build().toString())
+                        .collect(Collectors.toList()));
+        return "download";
+    }
 
-		model.addAttribute("message","Download translation");
-		model.addAttribute("files", lngStorageService
-				.downloadFromDb(work.getId())
-				.map(path ->
-				MvcUriComponentsBuilder
-				.fromMethodName(FileLoaderController.class, 
-						"serveFile", path.getFileName().toString())
-				.build().toString())
-				.collect(Collectors.toList()));
-		
-		work = projectService.getWorkDtoById(work.getId());
-		work.setStatus(Status.PENDING);
-		projectService.updateWorkDto(work);
-		return "download";
-	}
-	
-	@GetMapping("/mockFiles/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    @GetMapping("/mockDownload") // downloadFromDb
+    public String downloadFile(Model model) throws IOException {
+        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
+        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        WorkDto work = works.get(0);
+        LanguageFileStorage lngStorageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
-		Resource file = storageService.loadAsResource(filename);
-		ResponseEntity<Resource> response = null;
-		response = ResponseEntity
-				.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
-				.body(file);
-		return response;
-	}
+        model.addAttribute("message", "Download translation");
+        model.addAttribute("files",
+                lngStorageService.downloadFromDb(work.getId())
+                        .map(path -> MvcUriComponentsBuilder
+                                .fromMethodName(FileLoaderController.class, "serveFile", path.getFileName().toString())
+                                .build().toString())
+                        .collect(Collectors.toList()));
 
-	private String uploadLanguageFile(MultipartFile file, 
-			String destination, RedirectAttributes redirectAttributes) 
-					throws IOException{
+        work = projectService.getWorkDtoById(work.getId());
+        work.setStatus(Status.PENDING);
+        projectService.updateWorkDto(work);
+        return "download";
+    }
 
-		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
-		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
-		WorkDto work = works.get(0);
-		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
-		/*
-		 * Upload language file
-		 */
-		Path uploadedLngFile = storageService.storeFile(file);
+    @GetMapping("/mockFiles/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-		/*
-		 * check file format validity
-		 */
-		storageService.checkValidity(uploadedLngFile, work.getId());
+        Resource file = storageService.loadAsResource(filename);
+        ResponseEntity<Resource> response = null;
+        response = ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+        return response;
+    }
 
-		/*
-		 * upload file to database
-		 */ 
-		if(("source").equals(destination)){
-			storageService.uploadSourceToDb(uploadedLngFile, work.getId());
-			work = projectService.getWorkDtoById(work.getId());
-			work.setStatus(Status.NEW);
-			projectService.updateWorkDto(work);
-		}
-		else if(("target").equals(destination)){
-			storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-			work = projectService.getWorkDtoById(work.getId());
-			work.setStatus(Status.OPEN);
-			projectService.updateWorkDto(work);
-		}
-		else
-			throw new StorageException("Unexpected error. Destination was neither source or target.");
-		
-		redirectAttributes.addFlashAttribute("message",
-				"You uploaded " + destination + " file:" + file.getOriginalFilename() + "!");      
+    private String uploadLanguageFile(MultipartFile file, String destination, RedirectAttributes redirectAttributes)
+            throws IOException {
 
-		
-		return "redirect:/upload" + "_" + destination;
-	}
+        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
+        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        WorkDto work = works.get(0);
+        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
+        /*
+         * Upload language file
+         */
+        Path uploadedLngFile = storageService.storeFile(file);
 
-	@PostMapping("/upload")	public String handleFileSourceUpload(@RequestParam("file") MultipartFile file,
-			@RequestParam("destination") String destination,
-			RedirectAttributes redirectAttributes) throws IOException {
+        /*
+         * check file format validity
+         */
+        storageService.checkValidity(uploadedLngFile, work.getId());
 
-		return uploadLanguageFile(file, destination, redirectAttributes);
-	}
-	
-	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-		return errorPage(exc);
-	}
+        /*
+         * upload file to database
+         */
+        if (("source").equals(destination)) {
+            storageService.uploadSourceToDb(uploadedLngFile, work.getId());
+            work = projectService.getWorkDtoById(work.getId());
+            work.setStatus(Status.NEW);
+            projectService.updateWorkDto(work);
+        } else if (("target").equals(destination)) {
+            storageService.uploadTargetToDb(uploadedLngFile, work.getId());
+            work = projectService.getWorkDtoById(work.getId());
+            work.setStatus(Status.OPEN);
+            projectService.updateWorkDto(work);
+        } else
+            throw new StorageException("Unexpected error. Destination was neither source or target.");
 
-	@ExceptionHandler(StorageException.class)
-	public ResponseEntity<?> handleStorage(StorageException exc) {
-		return errorPage(exc);
-	}
+        redirectAttributes.addFlashAttribute("message",
+                "You uploaded " + destination + " file:" + file.getOriginalFilename() + "!");
 
-	private ResponseEntity<String> errorPage(StorageException exc){
-		ResponseEntity<String> errorResponse = null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("HeaderKey", "HeaderData");
-		errorResponse =  new ResponseEntity<String>(
-				"<h2>File upload error</h2>" + exc.getLocalizedMessage(), responseHeaders,
-				HttpStatus.CREATED);    	
-		return errorResponse;
-	}
+        return "redirect:/upload" + "_" + destination;
+    }
+
+    @PostMapping("/upload")
+    public String handleFileSourceUpload(@RequestParam("file") MultipartFile file,
+            @RequestParam("destination") String destination, RedirectAttributes redirectAttributes) throws IOException {
+
+        return uploadLanguageFile(file, destination, redirectAttributes);
+    }
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return errorPage(exc);
+    }
+
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity<?> handleStorage(StorageException exc) {
+        return errorPage(exc);
+    }
+
+    private ResponseEntity<String> errorPage(StorageException exc) {
+        ResponseEntity<String> errorResponse = null;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("HeaderKey", "HeaderData");
+        errorResponse = new ResponseEntity<String>("<h2>File upload error</h2>" + exc.getLocalizedMessage(),
+                responseHeaders, HttpStatus.CREATED);
+        return errorResponse;
+    }
 }

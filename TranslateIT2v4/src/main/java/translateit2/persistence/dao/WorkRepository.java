@@ -9,7 +9,9 @@ import translateit2.persistence.model.Work;
 
 @RepositoryRestResource(collectionResourceRel = "work", path = "work")
 public interface WorkRepository extends CrudRepository<Work, Long> {
-	List <Work> findAll();
-	List <Work> findByProjectId(final long projectId);
-	Long countByGroupId(final long groupId);
+    List<Work> findAll();
+
+    List<Work> findByProjectId(final long projectId);
+
+    Long countByGroupId(final long groupId);
 }
