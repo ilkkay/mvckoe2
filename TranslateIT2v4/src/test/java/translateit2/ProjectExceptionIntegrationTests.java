@@ -11,6 +11,8 @@ import java.util.Locale;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +23,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
 
@@ -44,7 +46,8 @@ import static org.junit.Assert.fail;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 public class ProjectExceptionIntegrationTests {
-   
+	static final Logger logger = LogManager.getLogger(ProjectExceptionIntegrationTests.class.getName());
+	
 	private Integer projectNameMaxSize;
 	
 	private Integer projectNameMinSize;
@@ -80,8 +83,8 @@ public class ProjectExceptionIntegrationTests {
     public void failCreateProject_ifShortProjectname() throws Exception {
     	ProjectDto projectDto = new ProjectDto();
     	projectDto.setName("prj");
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
     	try {
     		projectDto=projectService.createProjectDto(projectDto);
@@ -97,8 +100,8 @@ public class ProjectExceptionIntegrationTests {
 	public void failCreateProject_ifProjectnameEmpty() throws Exception {
     	ProjectDto projectDto = new ProjectDto();
     	projectDto.setName(null);
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
 		try {
     		projectDto=projectService.createProjectDto(projectDto);
@@ -114,8 +117,8 @@ public class ProjectExceptionIntegrationTests {
 	public void failCreateProject_ifLocaleNull() throws Exception {
     	ProjectDto projectDto = new ProjectDto();
     	projectDto.setName("dotCMS");
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(null);
 		try {
     		projectDto=projectService.createProjectDto(projectDto);
@@ -132,10 +135,12 @@ public class ProjectExceptionIntegrationTests {
 	public void failCreateProject_ifProjectNameExists() throws Exception{
     	ProjectDto projectDto = new ProjectDto();
     	projectDto.setName("Translate IT 2");
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
-		projectDto.setSourceLocale(new Locale("en_EN"));
-
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
+		projectDto.setSourceLocale(new Locale("en_EN"));		
+		
+		logger.info("Given projectdto {}",projectDto.toString());
+		
 		try{
     		projectDto=projectService.createProjectDto(projectDto);
     		fail("No Constraint Violation Exception thrown"); 

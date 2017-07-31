@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import translateit2.persistence.model.Priority;
@@ -41,7 +42,7 @@ public class WorkDto {
 	private LocalDate started;
 
 	private LocalDate finished;
-	
+	    
 	@NotNull
 	private LocalDate deadLine;
 	
@@ -156,5 +157,22 @@ public class WorkDto {
 	public void setBackupFile(String backupFile) {
 		this.backupFile = backupFile;
 	}	
+	
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+        		.append("id",id)
+        		.append("groupId",groupId)
+        		.append("projectId",projectId)
+        		.append("locale",locale)
+        		.append("version",version)
+        		.append("originalFile",originalFile)
+        		.append("skeletonFile",skeletonFile)
+        		.append("backupFile",backupFile)	
+        		.append("status",status)	
+        		.append("progress",progress)	
+        		.append("started",started)
+        		.append("finished",finished).toString();
+    }
 
 }

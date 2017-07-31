@@ -1,21 +1,21 @@
 package translateit2.restapi;
 
-import translateit2.lngfileservice.LngFileFormat;
+import translateit2.lngfileservice.LanguageFileFormat;
 
 public class AvailableFormat {
-	private LngFileFormat type;
+	private LanguageFileFormat type;
 
 	private long id;
 	
-	public LngFileFormat getType() {
+	public LanguageFileFormat getType() {
 		return type;
 	}
 
-	public void setType(LngFileFormat type) {
+	public void setType(LanguageFileFormat type) {
 		this.type = type;
 	}
 
-	public AvailableFormat(LngFileFormat type) {
+	public AvailableFormat(LanguageFileFormat type) {
 		super();
 		this.type = type;
 	}	

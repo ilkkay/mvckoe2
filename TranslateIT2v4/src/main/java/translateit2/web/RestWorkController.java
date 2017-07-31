@@ -23,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.fileloader.storage.StorageService;
-import translateit2.lngfileservice.LngFileStorage;
-import translateit2.lngfileservice.factory.LngFileServiceFactory;
+import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
+import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.WorkDto;
@@ -40,14 +40,14 @@ import translateit2.service.ProjectService;
 public class RestWorkController {
 
 	private ProjectService projectService;
-	private LngFileServiceFactory lngFileServiceFactory;
+	private LanguageFileServiceFactory languageFileServiceFactory;
 
 	@Autowired
 	public RestWorkController(StorageService storageService, 
 			ProjectService projectService,
-			LngFileServiceFactory lngFileServiceFactory) {
+			LanguageFileServiceFactory languageFileServiceFactory) {
 		this.projectService = projectService;
-		this.lngFileServiceFactory = lngFileServiceFactory;
+		this.languageFileServiceFactory = languageFileServiceFactory;
 	}
 	
 	public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
@@ -168,7 +168,7 @@ public class RestWorkController {
 		}
 		
 		ProjectDto prj = projectService.getProjectDtoById(wrk.getProjectId());				
-		LngFileStorage storageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 		Path uploadedLngFile = null;
 		String appName = null;
 		try {

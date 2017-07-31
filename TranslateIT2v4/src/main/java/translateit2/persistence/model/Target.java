@@ -3,6 +3,8 @@ package translateit2.persistence.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @Embeddable
 public class Target {
 	@Column(columnDefinition="TEXT")
@@ -87,6 +89,19 @@ public class Target {
 
 	public void setNote(Note note) {
 		this.note = note;
+	}
+	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("text",text)	
+				.append("plural",plural)
+				.append("state",state)
+				.append("equivalent",equivalent)	
+				.append("skeletonTag",skeletonTag)	
+				.append("comment",comment)	
+				.append("history",history)
+				.append("note",note).toString();
 	}
 }
 

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +23,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import translateit2.TranslateIt2v4Application;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -49,6 +51,8 @@ import translateit2.util.Messages;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 public class ProjectServiceIntegrationTest {
+	static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTest.class.getName());
+	
 	private ProjectService projectService;	
 	@Autowired
     public void setProjectService(ProjectService projectService) {
@@ -80,8 +84,8 @@ public class ProjectServiceIntegrationTest {
 		ProjectDto prj = new ProjectDto();
 		prj.setName("Translate IT 22"); 
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
 		prj=projectService.createProjectDto(prj); 
@@ -101,8 +105,8 @@ public class ProjectServiceIntegrationTest {
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj=projectService.createProjectDto(prj); 
 
 		
@@ -145,8 +149,8 @@ public class ProjectServiceIntegrationTest {
 		ProjectDto prj = new ProjectDto();
 		prj.setName("Translate IT 22"); 
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
 		prj=projectService.createProjectDto(prj); 
@@ -166,8 +170,8 @@ public class ProjectServiceIntegrationTest {
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj=projectService.createProjectDto(prj); 
 
 		
@@ -202,7 +206,7 @@ public class ProjectServiceIntegrationTest {
 		LocalDate newDeadLine = wrk1.getDeadLine().plusDays(1L);
 		work.setDeadLine(newDeadLine);
 		work=projectService.updateWorkDto(work);
-		LocalDate expected = LocalDate.parse("2017-07-24");
+		LocalDate expected = LocalDate.parse("2017-10-06");
 		wrk1 = projectService.getWorkDtoById(work.getId());
 		assertThat(expected, is(equalTo(wrk1.getDeadLine())));
 		assertThat(1L,is(equalTo(projectService.getWorkDtoCount(wrk1.getGroupId()))));
@@ -241,8 +245,8 @@ public class ProjectServiceIntegrationTest {
 		ProjectDto prj = new ProjectDto();
 		prj.setName("Translate IT 333"); 
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
 		prj=projectService.createProjectDto(prj); 
@@ -261,8 +265,8 @@ public class ProjectServiceIntegrationTest {
 		prj.setName("Translate IT 5");
 		prj.setPersonId(personDto.getId());
 		prj.setInfoId(infoDto.getId());
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setSourceLocale(new Locale("en_EN"));
 		prj=projectService.createProjectDto(prj); 
 

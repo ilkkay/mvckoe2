@@ -1,5 +1,7 @@
 package translateit2.persistence.dto;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class TranslatorGroupDto {
 	private long id;
 
@@ -21,5 +23,11 @@ public class TranslatorGroupDto {
 		this.name = name;
 	}
 	
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+        		.append("id",id)	
+        		.append("name",name).toString();
+    }
 	
 }

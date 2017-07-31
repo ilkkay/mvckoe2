@@ -18,44 +18,45 @@ public interface ProjectService {
 	/**
 	 * Person + Group + Info for testing => TODO: move to another service
 	 */	
-	public PersonDto createPersonDto(@Valid final PersonDto entity);
-	public PersonDto getPersonDtoByPersonName(String personName);
-	public TranslatorGroupDto createGroupDto(@Valid final TranslatorGroupDto entity);
-	public TranslatorGroupDto getGroupDtoByName(String name);
-	public InfoDto createInfoDto(@Valid final InfoDto entity);	
+	PersonDto createPersonDto(@Valid final PersonDto entity);
+	PersonDto getPersonDtoByPersonName(String personName);
+	TranslatorGroupDto createGroupDto(@Valid final TranslatorGroupDto entity);
+	TranslatorGroupDto getGroupDtoByName(String name);
+	InfoDto createInfoDto(@Valid final InfoDto entity);	
 	/**
 	 * Project 
 	 */	
-	public ProjectDto createProjectDto(@Valid final ProjectDto entity);
-	public ProjectDto updateProjectDto(@Valid final ProjectDto entity);
-	public void removeProjectDto(final long projectId); 	
-	public void removeProjectDtos(List<ProjectDto> entities);
-	public ProjectDto getProjectDtoById(long projectId);
-	public ProjectDto getProjectDtoByProjectName(String projectName);
-	public List<ProjectDto> listAllProjectDtos();
-	public long getProjectDtoCount(final long personId);
-	public List<ProjectDto> listProjectDtos(long personId);
+	ProjectDto createProjectDto(@Valid final ProjectDto entity);
+	ProjectDto updateProjectDto(@Valid final ProjectDto entity);
+	void removeProjectDto(final long projectId); 	
+	void removeProjectDtos(List<ProjectDto> entities);
+	ProjectDto getProjectDtoById(long projectId);
+	ProjectDto getProjectDtoByProjectName(String projectName);
+	List<ProjectDto> listAllProjectDtos();
+	long getProjectDtoCount(final long personId);
+	List<ProjectDto> listProjectDtos(long personId);
 	
 	/**
 	 * Work 
 	 */	
-	public WorkDto createWorkDto(@Valid final WorkDto entity);
-	public WorkDto updateWorkDto(@Valid final WorkDto entity);
-	public void removeWorkDto(final long workId); 	
-	public void removeWorkDtos(List<WorkDto> entities);
-	public WorkDto getWorkDtoById(long workId);
-	public long getWorkDtoCount(final long groupId);
-	public List<WorkDto> listWorkDtos(long groupId);
-	public List<WorkDto> listProjectWorkDtos(final long projectId);
+	WorkDto createWorkDto(@Valid final WorkDto entity);
+	WorkDto updateWorkDto(@Valid final WorkDto entity);
+	void removeWorkDto(final long workId); 	
+	void removeWorkDtos(List<WorkDto> entities);
+	WorkDto getWorkDtoById(long workId);
+	long getWorkDtoCount(final long groupId);
+	List<WorkDto> listWorkDtos(long groupId);
+	List<WorkDto> listProjectWorkDtos(final long projectId);
 	
 	/**
 	 * Unit 
 	 */
-	public void createUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
-	public void updateUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
-	public void removeUnitDtos(final long workId);
-	public long getUnitDtoCount(final long workId);
-	public UnitDto getUnitDtoById(long unitId);
-	public List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
-	public List<UnitDto> listUnitDtos(final long workId);	
+	void createUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
+	void updateUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
+	void removeUnitDtos(final long workId);
+	long getUnitDtoCount(final long workId);
+	UnitDto getUnitDtoById(long unitId);
+	List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
+	List<UnitDto> listUnitDtos(final long workId);	
+	long getStatistics(final long workId);
 }

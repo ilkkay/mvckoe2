@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 
 @Entity (name="trProject")
 @Table (name="TR_PROJECT")
@@ -34,10 +36,10 @@ public class Project implements Serializable{
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
-	private LngFileFormat format;
+	private LanguageFileFormat format;
 
 	@Enumerated(EnumType.STRING)
-	private LngFileType type;
+	private LanguageFileType type;
 
 	private Locale sourceLocale;
 
@@ -65,19 +67,19 @@ public class Project implements Serializable{
 		this.name = name;
 	}
 
-	public LngFileFormat getFormat() {
+	public LanguageFileFormat getFormat() {
 		return format;
 	}
 
-	public void setFormat(LngFileFormat format) {
+	public void setFormat(LanguageFileFormat format) {
 		this.format = format;
 	}
 
-	public LngFileType getType() {
+	public LanguageFileType getType() {
 		return type;
 	}
 
-	public void setType(LngFileType type) {
+	public void setType(LanguageFileType type) {
 		this.type = type;
 	}
 
@@ -97,4 +99,15 @@ public class Project implements Serializable{
 		this.info = info;
 	}
 	
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+        		.append("id",id)	
+        		.append("person",person)	
+        		.append("info",info)	
+        		.append("name",name)	
+        		.append("format",format)
+        		.append("type",type)
+        		.append("sourceLocale",sourceLocale).toString();
+    }
 }

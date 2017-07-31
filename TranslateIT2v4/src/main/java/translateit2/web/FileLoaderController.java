@@ -2,9 +2,9 @@ package translateit2.web;
 import translateit2.fileloader.storage.StorageException;
 import translateit2.fileloader.storage.StorageFileNotFoundException;
 import translateit2.fileloader.storage.StorageService;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileStorage;
-import translateit2.lngfileservice.factory.LngFileServiceFactory;
+import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Status;
@@ -36,15 +36,15 @@ import java.util.stream.Collectors;
 public class FileLoaderController {
 	private final StorageService storageService;
 	private ProjectService projectService;
-	private LngFileServiceFactory lngFileServiceFactory;
+	private LanguageFileServiceFactory languageFileServiceFactory;
 
 	@Autowired
 	public FileLoaderController(StorageService storageService, 
 			ProjectService projectService,
-			LngFileServiceFactory lngFileServiceFactory) {
+			LanguageFileServiceFactory languageFileServiceFactory) {
 		this.storageService = storageService;
 		this.projectService = projectService;
-		this.lngFileServiceFactory = lngFileServiceFactory;
+		this.languageFileServiceFactory = languageFileServiceFactory;
 	}
 
 	@GetMapping("/upload_source")
@@ -78,7 +78,7 @@ public class FileLoaderController {
 		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
 		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
 		WorkDto work = works.get(0);
-		LngFileStorage lngStorageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		LanguageFileStorage lngStorageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
 		model.addAttribute("message","Download translation");
 		model.addAttribute("files", lngStorageService
@@ -116,7 +116,7 @@ public class FileLoaderController {
 		ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
 		List <WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
 		WorkDto work = works.get(0);
-		LngFileStorage storageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 		/*
 		 * Upload language file
 		 */

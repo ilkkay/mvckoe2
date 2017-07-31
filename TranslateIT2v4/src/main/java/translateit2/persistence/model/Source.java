@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @Embeddable
 public class Source {
 
@@ -21,7 +23,7 @@ public class Source {
 	private String plural;
 	
 	private String skeletonTag;
-
+	
 	public String getText() {
 		return text;
 	}
@@ -46,6 +48,11 @@ public class Source {
 		this.skeletonTag = skeletonTag;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("text",text)	
+				.append("plural",plural)
+				.append("skeletonTag",skeletonTag).toString();
+	}	
 }

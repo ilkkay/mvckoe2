@@ -23,14 +23,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.storage.StorageException;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
 import translateit2.util.Messages;
 import translateit2.util.OrderedProperties;
 
 @Component
-public class ISO8859ValidatorImpl implements LngFileValidator {
+public class ISO8859ValidatorImpl implements LanguageFileValidator {
 	private ProjectService projectService;
 	@Autowired
 	public void setProjectService(ProjectService projectService) {
@@ -174,7 +174,7 @@ public class ISO8859ValidatorImpl implements LngFileValidator {
 		return appName;
 	}
 	
-	private LngFileType getExpectedFiletype(final long workId) {
+	private LanguageFileType getExpectedFiletype(final long workId) {
 		final long projectId = projectService.getWorkDtoById(workId).getProjectId();
 		return projectService.getProjectDtoById(projectId).getType();
 	}
@@ -182,7 +182,7 @@ public class ISO8859ValidatorImpl implements LngFileValidator {
 	@Override
 	public void checkFileCharSet(Path uploadedLngFile, long workId) 
 			throws StorageException {
-		LngFileType typeExpected = getExpectedFiletype(workId);	
+		LanguageFileType typeExpected = getExpectedFiletype(workId);	
 			
 		boolean isUploadedUTF_8 = true;
 		try {
@@ -205,24 +205,24 @@ public class ISO8859ValidatorImpl implements LngFileValidator {
 		// if written in english it is both UTF-8 and ISO8859 encoded		
 		
 		// if typeExpected == ISO8859 and uploaded is UTF-8 => reject
-		if (typeExpected.equals(LngFileType.ISO8859_1) && isUploadedUTF_8)
+		if (typeExpected.equals(LanguageFileType.ISO8859_1) && isUploadedUTF_8)
 			throw new StorageException(messages.get("FileStorageService.false_ISO8859_encoding"));
 		//("The encoding is not same as defined for the version. It should be ISO8859.");
 
 		// if typeExpected == UTF-8 and uploaded is ISO8859 => reject
-		if (typeExpected.equals(LngFileType.UTF_8) && isUploadedISO8859)
+		if (typeExpected.equals(LanguageFileType.UTF_8) && isUploadedISO8859)
 			throw new StorageException(messages.get("FileStorageService.false_UTF8_encoding"));
 		//("The encoding is not same as defined for the version. It should be UTF-8.");		
 	}
 
 	public Charset getCharSet(long workId) {
-		LngFileType typeExpected = null;
+		LanguageFileType typeExpected = null;
 		final long projectId = projectService.getWorkDtoById(workId).getProjectId();
 		ProjectDto projectDto = projectService.getProjectDtoById(projectId);
 		typeExpected = projectDto.getType();
 
 		Charset charset = StandardCharsets.UTF_8;
-		if (typeExpected.equals(LngFileType.ISO8859_1)) charset = StandardCharsets.ISO_8859_1;
+		if (typeExpected.equals(LanguageFileType.ISO8859_1)) charset = StandardCharsets.ISO_8859_1;
 		return charset;
 	}
 	

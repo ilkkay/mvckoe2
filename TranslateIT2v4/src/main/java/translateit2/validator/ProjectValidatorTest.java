@@ -26,8 +26,8 @@ import org.junit.Before;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.model.Project;
@@ -127,8 +127,8 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
 		ProjectDto projectDto = new ProjectDto();
 		projectDto.setName("Translate IT 2");
 		projectDto.setId(dtoProjectId);
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
 		Set<ConstraintViolation<ProjectDto>> constraintViolations 
 		= validator.validate(projectDto);
@@ -168,8 +168,8 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
 		ProjectDto projectDto = new ProjectDto();
 		projectDto.setName("Translate IT 2");
 		projectDto.setId(dtoProjectId);
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
 		Set<ConstraintViolation<ProjectDto>> constraintViolations 
 		= validator.validate(projectDto);
@@ -205,8 +205,8 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
 		when(mockRepo.findByName("Proj")).thenReturn(Optional.empty());
 		projectDto.setName("Proj");
 		projectDto.setId(dtoProjectId);
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
 		Set<ConstraintViolation<ProjectDto>> constraintViolations = validator.validate(projectDto);
 
@@ -231,8 +231,8 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
 		ProjectDto projectDto = new ProjectDto();
 		projectDto.setName("");
 		projectDto.setId(1L);
-		projectDto.setFormat(LngFileFormat.PROPERTIES);
-		projectDto.setType(LngFileType.UTF_8);
+		projectDto.setFormat(LanguageFileFormat.PROPERTIES);
+		projectDto.setType(LanguageFileType.UTF_8);
 		projectDto.setSourceLocale(new Locale("en_EN"));
 
 		Set<ConstraintViolation<ProjectDto>> constraintViolations

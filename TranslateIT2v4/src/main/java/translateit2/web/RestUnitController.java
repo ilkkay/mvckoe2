@@ -29,8 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.fileloader.storage.StorageException;
 import translateit2.fileloader.storage.StorageService;
-import translateit2.lngfileservice.LngFileStorage;
-import translateit2.lngfileservice.factory.LngFileServiceFactory;
+import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
+import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
@@ -47,7 +47,7 @@ import translateit2.service.ProjectService;
 public class RestUnitController {
 	private final StorageService storageService;
 	private ProjectService projectService;
-	private LngFileServiceFactory lngFileServiceFactory;
+	private LanguageFileServiceFactory languageFileServiceFactory;
 	
 	Statistics mockStat = new Statistics(); // TODO: this is a mock solution
 	boolean isMockStatInitialized = false;
@@ -65,15 +65,16 @@ public class RestUnitController {
 		
 		mockStat.setReviewed(0L);
 		mockStat.setTotal(total);
-		mockStat.setTranslated(translated);		
+		mockStat.setTranslated(translated);
+		mockStat.setWorkId(workId);
 	}
 	
 	@Autowired
 	public RestUnitController(StorageService storageService, 
 			ProjectService projectService,
-			LngFileServiceFactory lngFileServiceFactory) {
+			LanguageFileServiceFactory languageFileServiceFactory) {
 		this.projectService = projectService;
-		this.lngFileServiceFactory = lngFileServiceFactory;
+		this.languageFileServiceFactory = languageFileServiceFactory;
 		this.storageService = storageService;
 	}
 	
@@ -101,7 +102,7 @@ public class RestUnitController {
 
 		WorkDto work = projectService.getWorkDtoById(id); 	
 		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());		
-		LngFileStorage storageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
 		Stream<Path> paths = null;
 		try {
@@ -219,7 +220,7 @@ public class RestUnitController {
 		}	
 		
 		ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());		
-		LngFileStorage storageService = lngFileServiceFactory.getService(prj.getFormat()).get();
+		LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 		Path uploadedLngFile = null;
 		try {
 			/*

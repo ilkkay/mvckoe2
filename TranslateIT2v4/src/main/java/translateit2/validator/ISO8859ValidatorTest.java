@@ -17,8 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import translateit2.fileloader.storage.StorageException;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.service.ProjectService;
@@ -28,7 +28,7 @@ import translateit2.util.Messages;
 public class ISO8859ValidatorTest {
 	private Messages messages;
 
-	private LngFileValidator iso8859validator;
+	private LanguageFileValidator iso8859validator;
 
 	@Mock
 	ProjectService projectService;
@@ -127,8 +127,8 @@ public class ISO8859ValidatorTest {
 		final long projectId = 666L;
 		ProjectDto prj = new ProjectDto();
 		prj.setName("Translate IT 2"); 
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.ISO8859_1);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.ISO8859_1);
 		prj.setId(projectId);
 
 		// and Work
@@ -161,8 +161,8 @@ public class ISO8859ValidatorTest {
 		final long projectId = 666L;
 		prj = new ProjectDto();
 		prj.setName("Translate IT 2"); 
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.ISO8859_1);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.ISO8859_1);
 		prj.setId(projectId);
 
 		// and Work
@@ -190,8 +190,8 @@ public class ISO8859ValidatorTest {
 		// WHEN expect UTF-8 
 		prj = new ProjectDto();
 		prj.setName("Translate IT 2"); 
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setId(projectId);
 
 		// and Work
@@ -217,8 +217,8 @@ public class ISO8859ValidatorTest {
 		// WHEN expect UTF-8 
 		prj = new ProjectDto();
 		prj.setName("Translate IT 2"); 
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 		prj.setId(projectId);
 
 		// and Work
@@ -241,8 +241,8 @@ public class ISO8859ValidatorTest {
 		// WHEN expect ISO8859 
 		prj = new ProjectDto();
 		prj.setName("Translate IT 2"); 
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.ISO8859_1);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.ISO8859_1);
 		prj.setId(projectId);
 
 		// and Work

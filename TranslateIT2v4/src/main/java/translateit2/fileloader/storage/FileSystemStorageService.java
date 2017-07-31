@@ -14,7 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.stream.Stream;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -121,5 +124,14 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public String getFileType(Path lngFile){
     	return "ISO8859";
+    }
+    
+    @Override
+    public Path getUniquePath(@NotNull String extension) {
+    	Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
+    	Path dirPath = Paths.get(LocalDate.now().toString());
+    	Path path = dirPath.resolve(fnamePath);
+    	path = path.resolveSibling(path.getFileName() + extension);    	
+    	return path;
     }
 }

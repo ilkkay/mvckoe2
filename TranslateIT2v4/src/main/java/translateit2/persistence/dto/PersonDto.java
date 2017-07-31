@@ -1,5 +1,7 @@
 package translateit2.persistence.dto;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class PersonDto {
 	private long id;
 
@@ -20,4 +22,11 @@ public class PersonDto {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
+	
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+        		.append("id",id)	
+        		.append("fullName",fullName).toString();
+    }
 }

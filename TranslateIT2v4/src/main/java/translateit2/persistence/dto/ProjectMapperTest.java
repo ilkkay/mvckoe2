@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.model.Project;
 import translateit2.persistence.model.Source;
 import translateit2.persistence.model.Target;
@@ -48,8 +48,8 @@ public class ProjectMapperTest {
 		final Project prj = new Project();
 		prj.setName("Translate It 2"); 
 		prj.setSourceLocale(new Locale("fi_FI"));
-		prj.setFormat(LngFileFormat.PROPERTIES);
-		prj.setType(LngFileType.UTF_8);
+		prj.setFormat(LanguageFileFormat.PROPERTIES);
+		prj.setType(LanguageFileType.UTF_8);
 
 		// when
 		final ProjectDto result = modelMapper.map(prj, ProjectDto.class);

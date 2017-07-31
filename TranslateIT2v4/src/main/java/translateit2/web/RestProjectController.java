@@ -24,9 +24,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import translateit2.restapi.AvailableCharacterSet;
 import translateit2.restapi.AvailableFormat;
 import translateit2.restapi.CustomErrorType;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
-import translateit2.lngfileservice.factory.LngFileServiceFactory;
+import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -53,10 +53,10 @@ public class RestProjectController {
 		this.projectService = projectService;
 	}
 	
-	private LngFileServiceFactory lngFileServiceFactory;
+	private LanguageFileServiceFactory languageFileServiceFactory;
 	@Autowired
-	public void setLngFileServiceFactory(LngFileServiceFactory lngFileServiceFactory) {
-		this.lngFileServiceFactory = lngFileServiceFactory;
+	public void setLngFileServiceFactory(LanguageFileServiceFactory languageFileServiceFactory) {
+		this.languageFileServiceFactory = languageFileServiceFactory;
 	}
 	
 	public static final Logger logger = LoggerFactory.getLogger(RestProjectController.class);
@@ -76,15 +76,15 @@ public class RestProjectController {
 		
 		//TODO: where should I put these	
 		List <AvailableFormat> formats = new ArrayList<AvailableFormat>();
-		lngFileServiceFactory.listFormatsSupported().forEach(f->formats.add(new AvailableFormat(f)));
+		languageFileServiceFactory.listFormatsSupported().forEach(f->formats.add(new AvailableFormat(f)));
 		
 		AvailableCharacterSet cs = null;
 		List <AvailableCharacterSet> csets = new ArrayList<AvailableCharacterSet>();
 		cs = new AvailableCharacterSet();
-		cs.setType(LngFileType.UTF_8);
+		cs.setType(LanguageFileType.UTF_8);
 		csets.add(cs);
 		cs = new AvailableCharacterSet();
-		cs.setType(LngFileType.ISO8859_1);
+		cs.setType(LanguageFileType.ISO8859_1);
 		csets.add(cs);
 		
 		Projects prjs = new Projects();

@@ -6,6 +6,8 @@ public class Statistics {
 	private long translated;
 	
 	private long total;
+	
+	private long workId;
 
 	public long getReviewed() {
 		return reviewed;
@@ -29,5 +31,13 @@ public class Statistics {
 
 	public void setTotal(long total) {
 		this.total = total;
+	}
+
+	public long getWorkId() {
+		return workId;
+	}
+
+	public void setWorkId(long workId) {
+		this.workId = workId;
 	}
 }

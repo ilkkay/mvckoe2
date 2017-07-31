@@ -4,20 +4,23 @@ import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.validator.ProjectConstraint;
 
 @ProjectConstraint
 public class ProjectDto {
 	private long id;
-	
+
 	private long personId;
-	
+
 	private long infoId;
-	
+
 	@NotBlank	//The string is not null and the length is greater than zero
 	private String name;
 
@@ -26,10 +29,10 @@ public class ProjectDto {
 	 * cannot be null and not empty (size > 0).
 	 */
 	@NotNull
-	private LngFileFormat format;
+	private LanguageFileFormat format;
 
 	@NotNull
-	private LngFileType type;
+	private LanguageFileType type;
 
 	@NotNull
 	private Locale sourceLocale;
@@ -66,19 +69,19 @@ public class ProjectDto {
 		this.name = name;
 	}
 
-	public LngFileFormat getFormat() {
+	public LanguageFileFormat getFormat() {
 		return format;
 	}
 
-	public void setFormat(LngFileFormat format) {
+	public void setFormat(LanguageFileFormat format) {
 		this.format = format;
 	}
 
-	public LngFileType getType() {
+	public LanguageFileType getType() {
 		return type;
 	}
 
-	public void setType(LngFileType type) {
+	public void setType(LanguageFileType type) {
 		this.type = type;
 	}
 
@@ -89,6 +92,59 @@ public class ProjectDto {
 	public void setSourceLocale(Locale sourceLocale) {
 		this.sourceLocale = sourceLocale;
 	}
+
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+				.append(this.id)
+				.append(this.personId)	
+				.append(this.infoId)	
+				.append(this.name)
+				.append(this.format)
+				.append(this.type)
+				.append(this.sourceLocale)
+				.toHashCode();
+	}
+
+	/*
+		All relevant fields should be included in the calculation of equals. 
+		Derived fields may be ignored. In particular, any field used in 
+		generating a hash code must be used in the equals method, and vice versa.	 
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof ProjectDto == false)
+		{
+			return false;
+		}
+		if (this == obj)
+		{
+			return true;
+		}
+		final ProjectDto otherObject = (ProjectDto) obj;
+
+		return new EqualsBuilder()
+				.append(this.id, otherObject.id)
+				.append(this.personId, otherObject.personId)	
+				.append(this.infoId, otherObject.infoId)	
+				.append(this.name, otherObject.name)
+				.append(this.format, otherObject.format)
+				.append(this.type, otherObject.type)
+				.append(this.sourceLocale, otherObject.sourceLocale)
+				.isEquals();
+	}
 	
-	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id",id)	
+				.append("personId",personId)	
+				.append("infoId",infoId)	
+				.append("name",name)	
+				.append("format",format)
+				.append("type",type)
+				.append("sourceLocale",sourceLocale).toString();
+	}
 }

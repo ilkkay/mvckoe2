@@ -1,7 +1,13 @@
 package translateit2;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Locale;
+
+import javax.annotation.PostConstruct;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +23,8 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import translateit2.fileloader.storage.StorageProperties;
-import translateit2.lngfileservice.LngFileFormat;
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -31,21 +37,30 @@ import translateit2.service.ProjectService;
 @EnableConfigurationProperties(StorageProperties.class) 
 public class TranslateIt2v4Application {
 
-	// String[] appArgs = {"--debug"};
+	static String[] appArgs = {"--debug"};
 	// => *.run(appArgs);
 	
-	public static void main(String[] args) {		
-		SpringApplication.run(TranslateIt2v4Application.class, args);
+	public static void main(String[] args) {	
+		String newArgs[] = Arrays.copyOf(args, args.length);
+		//newArgs[args.length] = "--debug";
+		//newArgs[args.length ] = "-Dlog4j.configuration=file:logconf/log4j2.properties";
+		// -Dlog4j.configuration="file:d:\log4j.xml"
+		//newArgs[args.length ] = "-Dlog4j.configurationFile=\"log4j2-spring.xml\"";
+		//Path p= Paths.get("logconf/log4j2.xml");
+		//String d = p.toAbsolutePath().toString();
+		//d="/sw-tools/STS/translateit2testi/TranslateIT2v4/src/main/resources/logconf/log4j2.xml";
+		//newArgs[args.length ] = "-Dlog4j.configuration=file:" + d;
+			
+		SpringApplication.run(TranslateIt2v4Application.class, newArgs);
 	}
 
 	/*
 	 * http://sivalabs.in/2016/03/how-springboot-autoconfiguration-magic/
 	 */				   
-	
+/*	
 	// Implementation of LocaleResolver that uses a locale attribute 
 	// in the user’s session in case of a custom setting, with a fallback 
 	// to the specified default locale or the request’s accept-header locale”
-
 	  
 	@Bean
 	public LocaleResolver localeResolver() {
@@ -64,7 +79,8 @@ public class TranslateIt2v4Application {
 		AcceptHeaderLocaleResolver bean = new AcceptHeaderLocaleResolver();
 		return bean;
 	}
-	
+*/
+/*	
 	@Bean
 	public MessageSource messageSource()
 	{
@@ -95,7 +111,15 @@ public class TranslateIt2v4Application {
         processor.setValidator(validator());
         return processor;
     }
-
+*/
+    // TODO:
+    @PostConstruct
+    private void initializeApplication () {
+    	// tee bean jossa Autowired projectService ja tekee saman kuin alla
+    	
+    		
+    }
+    
 	/*
 	 * With CommandLineRunner you can perform tasks after all Spring Beans 
 	 * are created and the Application Context has been created.
@@ -122,8 +146,8 @@ public class TranslateIt2v4Application {
 			ProjectDto prj = new ProjectDto();
 			prj.setName("Translate IT 2"); 
 			prj.setSourceLocale(new Locale("en_EN"));
-			prj.setFormat(LngFileFormat.PROPERTIES);
-			prj.setType(LngFileType.UTF_8);
+			prj.setFormat(LanguageFileFormat.PROPERTIES);
+			prj.setType(LanguageFileType.UTF_8);
 			prj.setPersonId(personDto.getId());
 			prj.setInfoId(infoDto.getId());
 			prj=projectService.createProjectDto(prj); 		
@@ -147,8 +171,7 @@ public class TranslateIt2v4Application {
 			work.setDeadLine(deadLine);
 			work.setProgress(0.0);
 			work.setGroupId(groupDto.getId());
-			work=projectService.createWorkDto(work);		
-
+			work=projectService.createWorkDto(work);	
 		};
 	}
 

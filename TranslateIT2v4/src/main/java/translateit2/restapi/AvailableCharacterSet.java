@@ -1,15 +1,15 @@
 package translateit2.restapi;
 
-import translateit2.lngfileservice.LngFileType;
+import translateit2.lngfileservice.LanguageFileType;
 
 public class AvailableCharacterSet {
-	private LngFileType type;
+	private LanguageFileType type;
 
-	public LngFileType getType() {
+	public LanguageFileType getType() {
 		return type;
 	}
 
-	public void setType(LngFileType type) {
+	public void setType(LanguageFileType type) {
 		this.type = type;
 	}
 	
