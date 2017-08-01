@@ -10,3 +10,26 @@
 1501574202861	Rename type 'StorageProperties'
 1501574258520	Rename type 'FileSystemStorageService'
 1501574306088	Rename type 'FileLoaderServiceIntegrationTest'
+1501592362093	Rename type 'ISO8859TestLoader'
+1501592386885	Rename type 'ISO8859ValidatorImpl'
+1501592402226	Rename type 'ISO8859ValidatorTest'
+1501592555330	Rename method 'setISO8859util'
+1501592797173	Rename type 'LangiageFileLoaderIntegrationTest'
+1501592855628	Move compilation unit
+1501592970118	Move compilation unit
+1501593122338	Move compilation units
+1501593287281	Move compilation unit
+1501593386472	Move compilation unit
+1501593621836	Move 'mockingbeans' to 'src'
+1501593773919	Move 'myresr' to 'resources'
+1501594056495	Move compilation unit
+1501594117009	Move compilation unit
+1501594134247	Move compilation unit
+1501594193031	Move compilation unit
+1501594355012	Move 'empty-testupload.txt' to 'fileloader'
+1501594404843	Move 'testupload.txt' to 'fileloader'
+1501594453077	Move 'test_fi.txt' to 'fileloader'
+1501594484968	Move 'dotcms_en.properties' to 'fileloader'
+1501594523797	Move 'test_fi.properties' to 'fileloader'
+1501597709058	Rename resource 'model'
+1501597749931	Move compilation unit

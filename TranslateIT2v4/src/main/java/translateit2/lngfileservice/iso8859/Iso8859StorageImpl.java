@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import translateit2.configuration.CharSetResolver;
-import translateit2.fileloader.storage.LanguageFileLoaderService;
-import translateit2.fileloader.storage.FileLoaderServiceException;
+import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.fileloader.LanguageFileLoaderService;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
@@ -35,7 +35,7 @@ import translateit2.persistence.model.Target;
 import translateit2.service.ProjectService;
 import translateit2.util.Messages;
 import translateit2.util.OrderedProperties;
-import translateit2.validator.ISO8859ValidatorImpl;
+import translateit2.validator.Iso8859ValidatorImpl;
 import translateit2.validator.LanguageFileValidator;
 
 import org.springframework.stereotype.Component;
@@ -70,7 +70,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     LanguageFileValidator iso8859util;
 
     @Autowired
-    public void setISO8859util(ISO8859ValidatorImpl iso8859util) {
+    public void setIso8859util(Iso8859ValidatorImpl iso8859util) {
         this.iso8859util = iso8859util;
     }
 

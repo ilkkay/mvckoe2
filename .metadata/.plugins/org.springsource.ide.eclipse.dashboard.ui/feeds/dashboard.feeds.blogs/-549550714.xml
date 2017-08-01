@@ -5,7 +5,193 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2017-07-28T16:14:38Z</updated>
+  <updated>2017-08-01T12:12:07Z</updated>
+  <entry>
+    <title>Spring Framework 5 Kotlin APIs, the functional way</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/08/01/spring-framework-5-kotlin-apis-the-functional-way" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Sébastien Deleuze</name>
+    </author>
+    <id>tag:spring.io,2017-07-28:2993</id>
+    <updated>2017-08-01T12:12:07Z</updated>
+    <content type="html">&lt;p&gt;Since our original announcement (very well received by the community!) of &lt;a href="https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0"&gt;official Kotlin support in Spring Framework 5&lt;/a&gt;, we have continued to work towards even stronger Kotlin support in conjunction with recent refinements in Spring WebFlux.&lt;/p&gt;
+&lt;p&gt;In order to demonstrate these features, and how they could be used together, I have created a new &lt;a href="https://github.com/sdeleuze/spring-kotlin-functional"&gt; &lt;code&gt;spring-kotlin-functional&lt;/code&gt;&lt;/a&gt; demo application which is a standalone Spring WebFlux application, developed in Kotlin, with Mustache template rendering, JSON REST webservices and Server-Sent Events streaming capabilities. Don&amp;rsquo;t hesitate to send us feedbacks and proposals before Spring Framework 5 release expected in September.&lt;/p&gt;&lt;h2&gt;&lt;a href="#programmatic-bootstrap" class="anchor" name="programmatic-bootstrap"&gt;&lt;/a&gt;Programmatic bootstrap&lt;/h2&gt;
+&lt;p&gt;Spring WebFlux and Reactor Netty allow for programmatic bootstrap of the application since they are natively designed to run as an embedded webserver. This is obviously not needed when developing a Spring Boot application but can be very useful for tight deployment units with custom bootstrapping in a microservice architecture or other constrained environments.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;class Application {&#xD;
+	&#xD;
+  private val httpHandler: HttpHandler&#xD;
+  private val server: HttpServer&#xD;
+  private var nettyContext: BlockingNettyContext? = null&#xD;
+  &#xD;
+  constructor(port: Int = 8080) {&#xD;
+    val context = GenericApplicationContext()&#xD;
+    beans().invoke(context)&#xD;
+    context.refresh()&#xD;
+    server = HttpServer.create(port)&#xD;
+    httpHandler = WebHttpHandlerBuilder.applicationContext(context).build()&#xD;
+  }&#xD;
+&#xD;
+  fun start() {&#xD;
+    nettyContext = server.start(ReactorHttpHandlerAdapter(httpHandler))&#xD;
+  }&#xD;
+	&#xD;
+  fun startAndAwait() {&#xD;
+    server.startAndAwait(ReactorHttpHandlerAdapter(httpHandler),&#xD;
+        { nettyContext = it })&#xD;
+  }&#xD;
+	&#xD;
+  fun stop() {&#xD;
+    nettyContext?.shutdown()&#xD;
+  }&#xD;
+}&#xD;
+&#xD;
+fun main(args: Array&amp;lt;String&amp;gt;) {&#xD;
+  Application().startAndAwait()&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a href="#functional-bean-definitions-with-spring-rsquo-s-new-kotlin-dsl" class="anchor" name="functional-bean-definitions-with-spring-rsquo-s-new-kotlin-dsl"&gt;&lt;/a&gt;Functional bean definitions with Spring&amp;rsquo;s new Kotlin DSL&lt;/h2&gt;
+&lt;p&gt;Spring Framework 5 introduces a new way of registering beans using lambdas. It is very efficient, does not require any reflection or CGLIB proxies (so &lt;a href="https://kotlinlang.org/docs/reference/compiler-plugins.html#kotlin-spring-compiler-plugin"&gt;&lt;code&gt;kotlin-spring&lt;/code&gt;&lt;/a&gt; plugin is not needed for Reactive apps), and is a good fit with languages like Java 8 or Kotlin. You can have an overview of Java versus Kotlin syntax &lt;a href="https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0#functional-bean-declaration-dsl"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In &lt;a href="https://github.com/sdeleuze/spring-kotlin-functional"&gt; &lt;code&gt;spring-kotlin-functional&lt;/code&gt;&lt;/a&gt;, beans are declared in a &lt;code&gt;Beans.kt&lt;/code&gt; file which contains bean definitions. The DSL conceptually declare a &lt;code&gt;Consumer&amp;lt;GenericApplicationContext&amp;gt;&lt;/code&gt; via a clean declarative API which allows you to deal with profile and &lt;code&gt;Environment&lt;/code&gt; for customizing how your beans are registered. This DSL also allows custom registration logic of beans via &lt;code&gt;if&lt;/code&gt; expression, &lt;code&gt;for&lt;/code&gt; loop or any other Kotlin constructs.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;beans {&#xD;
+  bean&amp;lt;UserHandler&amp;gt;()&#xD;
+  bean {&#xD;
+    Routes(ref(), ref())&#xD;
+  }&#xD;
+  bean&amp;lt;WebHandler&amp;gt;(&amp;quot;webHandler&amp;quot;) {&#xD;
+    RouterFunctions.toWebHandler(&#xD;
+      ref&amp;lt;Routes&amp;gt;().router(),&#xD;
+      HandlerStrategies.builder().viewResolver(ref()).build()&#xD;
+    )&#xD;
+  }&#xD;
+  bean(&amp;quot;messageSource&amp;quot;) {&#xD;
+    ReloadableResourceBundleMessageSource().apply {&#xD;
+      setBasename(&amp;quot;messages&amp;quot;)&#xD;
+      setDefaultEncoding(&amp;quot;UTF-8&amp;quot;)&#xD;
+    }&#xD;
+  }&#xD;
+  bean {&#xD;
+    val prefix = &amp;quot;classpath:/templates/&amp;quot;&#xD;
+    val suffix = &amp;quot;.mustache&amp;quot;&#xD;
+    val loader = MustacheResourceTemplateLoader(prefix, suffix)&#xD;
+    MustacheViewResolver(Mustache.compiler().withLoader(loader)).apply {&#xD;
+      setPrefix(prefix)&#xD;
+      setSuffix(suffix)&#xD;
+    }&#xD;
+  }&#xD;
+  profile(&amp;quot;foo&amp;quot;) {&#xD;
+    bean&amp;lt;Foo&amp;gt;()&#xD;
+  }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a href="#null-safety-of-spring-and-reactor-apis" class="anchor" name="null-safety-of-spring-and-reactor-apis"&gt;&lt;/a&gt;Null-safety of Spring and Reactor APIs&lt;/h2&gt;
+&lt;p&gt;One of Kotlin&amp;rsquo;s key features is &lt;a href="https://kotlinlang.org/docs/reference/null-safety.html"&gt;null-safety&lt;/a&gt; which allows to deal with &lt;code&gt;null&lt;/code&gt; values at compile time rather than bumping into the famous &lt;code&gt;NullPointerException&lt;/code&gt; at runtime. This makes your applications safer through clean nullability declarations, expressing &amp;ldquo;value or no value&amp;rdquo; semantics without paying the cost of wrapper like &lt;code&gt;Optional&lt;/code&gt;. (Kotlin allows using functional constructs with nullable values; check out this &lt;a href="http://www.baeldung.com/kotlin-null-safety"&gt;comprehensive guide to Kotlin null-safety&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;Although Java does not allow to express null-safety in its type-system, we have introduced some amount of &lt;a href="https://jira.spring.io/browse/SPR-15540"&gt;null-safety to Spring APIs&lt;/a&gt; via tooling-friendly annotations: &lt;code&gt;@NonNullApi&lt;/code&gt; annotations at package level declare that non-null is the default behavior, and we explicitly put &lt;code&gt;@Nullable&lt;/code&gt; annotations where specific parameters or return values can be &lt;code&gt;null&lt;/code&gt;. We have done this work for the whole Spring Framework API (yes it was a huge effort!), and other projects like &lt;a href="https://jira.spring.io/browse/DATACMNS-1114"&gt;Spring Data&lt;/a&gt; begin to leverage it. Spring annotation are meta-annotated with JSR 305 meta-annotation (a dormant JSR but supported by tools like IDEA, Eclipse, Findbugs, etc.) to provide useful warnings to Java developers.&lt;/p&gt;
+&lt;p&gt;On the Kotlin side, the killer feature is that - as of the upcoming Kotlin 1.1.4 release - these annotations &lt;a href="https://youtrack.jetbrains.com/issue/KT-10942"&gt;are recognized by Kotlin&lt;/a&gt; in order to provide null-safety for the whole Spring API. That means you should never have &lt;code&gt;NullPointerException&lt;/code&gt; in your code when using Spring 5 and Kotlin because the compiler will not allow it. For now, you need to use a &lt;code&gt;-Xjsr305-annotations=enable&lt;/code&gt; flag but that will became the default behavior in an upcoming release of Kotlin.&lt;/p&gt;
+&lt;p&gt;Be careful, &lt;a href="https://youtrack.jetbrains.com/issue/KT-19303"&gt;KT-19303&lt;/a&gt; need to be fixed in order to get null-safety taken in account in IDEA.&lt;/p&gt;&lt;h2&gt;&lt;a href="#functional-routing-with-the-kotlin-dsl-for-spring-webflux" class="anchor" name="functional-routing-with-the-kotlin-dsl-for-spring-webflux"&gt;&lt;/a&gt;Functional routing with the Kotlin DSL for Spring WebFlux&lt;/h2&gt;
+&lt;p&gt;Instead of using &lt;code&gt;@RestController&lt;/code&gt; and &lt;code&gt;@RequestMapping&lt;/code&gt;, &lt;code&gt;spring-kotlin-functional&lt;/code&gt; is using the WebFlux functional API via a dedicated Kotlin DSL.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;router {&#xD;
+  accept(TEXT_HTML).nest {&#xD;
+    GET(&amp;quot;/&amp;quot;) { ok().render(&amp;quot;index&amp;quot;) }&#xD;
+    GET(&amp;quot;/sse&amp;quot;) { ok().render(&amp;quot;sse&amp;quot;) }&#xD;
+    GET(&amp;quot;/users&amp;quot;, userHandler::findAllView)&#xD;
+  }&#xD;
+  &amp;quot;/api&amp;quot;.nest {&#xD;
+    accept(APPLICATION_JSON).nest {&#xD;
+      GET(&amp;quot;/users&amp;quot;, userHandler::findAll)&#xD;
+    }&#xD;
+    accept(TEXT_EVENT_STREAM).nest {&#xD;
+      GET(&amp;quot;/users&amp;quot;, userHandler::stream)&#xD;
+    }		&#xD;
+  }&#xD;
+  resources(&amp;quot;/**&amp;quot;, ClassPathResource(&amp;quot;static/&amp;quot;))&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Routes usually point to handlers in charge of creating an HTTP response based on the HTTP request via callable references. Here is the &lt;code&gt;UserHandler&lt;/code&gt; which takes advantage of the Kotlin extensions Spring Framework 5 is providing directly in Spring JARs to avoid the well-known type erasure problem using &lt;a href="https://kotlinlang.org/docs/reference/inline-functions.html#reified-type-parameters"&gt;Kotlin reified type parameters&lt;/a&gt;. The same code in Java would require additional &lt;code&gt;Class&lt;/code&gt; or &lt;code&gt;ParameterizedTypeReference&lt;/code&gt; parameters.&lt;/p&gt;
+&lt;p&gt;Like for the bean DSL, the functional routing DSL allows programmatic registration of routes based on custom logic and dynamic data (can be useful to develop a CMS or eCommerce solution where most routes depends on data created via the backoffice). &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;class UserHandler {&#xD;
+	&#xD;
+  private val users = Flux.just(&#xD;
+      User(&amp;quot;Foo&amp;quot;, &amp;quot;Foo&amp;quot;, LocalDate.now().minusDays(1)),&#xD;
+      User(&amp;quot;Bar&amp;quot;, &amp;quot;Bar&amp;quot;, LocalDate.now().minusDays(10)),&#xD;
+      User(&amp;quot;Baz&amp;quot;, &amp;quot;Baz&amp;quot;, LocalDate.now().minusDays(100)))&#xD;
+	&#xD;
+  private val userStream = Flux&#xD;
+      .zip(Flux.interval(ofMillis(100)), users.repeat())&#xD;
+      .map { it.t2 }&#xD;
+&#xD;
+  fun findAll(req: ServerRequest) =&#xD;
+      ok().body(users)&#xD;
+&#xD;
+  fun findAllView(req: ServerRequest) =&#xD;
+      ok().render(&amp;quot;users&amp;quot;, mapOf(Pair(&amp;quot;users&amp;quot;, users.map { it.toDto() })))&#xD;
+	&#xD;
+  fun stream(req: ServerRequest) =&#xD;
+      ok().bodyToServerSentEvents(userStream)&#xD;
+	&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice it is super easy to create Server-Sent Events endpoints with Spring WebFlux, as well as server-side template rendering (Mustache in this application).&lt;/p&gt;&lt;h2&gt;&lt;a href="#easy-testing-with-webclient-reactor-test-and-junit-5" class="anchor" name="easy-testing-with-webclient-reactor-test-and-junit-5"&gt;&lt;/a&gt;Easy testing with WebClient, Reactor Test and JUnit 5&lt;/h2&gt;
+&lt;p&gt;Kotlin allows to specify meaningful test function names betweeen backticks, and as of JUnit 5.0 RC2 Kotlin test classes automatically use &lt;code&gt;@TestInstance(TestInstance.Lifecycle.PER_CLASS)&lt;/code&gt; to enable a single instantiation of test classes which allows to use &lt;code&gt;@BeforeAll&lt;/code&gt; and &lt;code&gt;@AfterAll&lt;/code&gt; annotations on non-static methods, which is a good fit for Kotlin.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;class IntegrationTests {&#xD;
+	&#xD;
+  val application = Application(8181)&#xD;
+  val client = WebClient.create(&amp;quot;http://localhost:8181&amp;quot;)&#xD;
+	&#xD;
+  @BeforeAll&#xD;
+  fun beforeAll() {&#xD;
+    application.start()&#xD;
+  }&#xD;
+	&#xD;
+  @Test&#xD;
+  fun `Find all users on JSON REST endpoint`() {&#xD;
+    client.get().uri(&amp;quot;/api/users&amp;quot;)&#xD;
+        .accept(APPLICATION_JSON)&#xD;
+        .retrieve()&#xD;
+        .bodyToFlux&amp;lt;User&amp;gt;()&#xD;
+        .test()&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Foo&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Bar&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Baz&amp;quot; }&#xD;
+        .verifyComplete()&#xD;
+  }&#xD;
+&#xD;
+  @Test&#xD;
+  fun `Find all users on HTML page`() {&#xD;
+    client.get().uri(&amp;quot;/users&amp;quot;)&#xD;
+        .accept(TEXT_HTML)&#xD;
+        .retrieve()&#xD;
+        .bodyToMono&amp;lt;String&amp;gt;()&#xD;
+        .test()&#xD;
+        .expectNextMatches { it.contains(&amp;quot;Foo&amp;quot;) }&#xD;
+        .verifyComplete()&#xD;
+  }&#xD;
+&#xD;
+  @Test&#xD;
+  fun `Receive a stream of users via Server-Sent-Events`() {&#xD;
+    client.get().uri(&amp;quot;/api/users&amp;quot;)&#xD;
+        .accept(TEXT_EVENT_STREAM)&#xD;
+        .retrieve()&#xD;
+        .bodyToFlux&amp;lt;User&amp;gt;()&#xD;
+        .test()&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Foo&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Bar&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Baz&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Foo&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Bar&amp;quot; }&#xD;
+        .expectNextMatches { it.firstName == &amp;quot;Baz&amp;quot; }&#xD;
+        .thenCancel()&#xD;
+        .verify()&#xD;
+  }&#xD;
+	&#xD;
+  @AfterAll&#xD;
+  fun afterAll() {&#xD;
+    application.stop()&#xD;
+  }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a href="#conclusion" class="anchor" name="conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;We are looking forward to feedback about these new features! Note that August is our last chance to refine the API since &lt;a href="https://jira.spring.io/browse/SPR/fixforversion/16259/"&gt;the ultimate Spring Framework 5.0 release candidate&lt;/a&gt; is expected at the end of the month. So feel free to play with &lt;a href="https://github.com/sdeleuze/spring-kotlin-functional"&gt;spring-kotlin-functional&lt;/a&gt;, fork it, add new features like &lt;a href="https://jira.spring.io/browse/DATAMONGO-1719"&gt;Spring Data Reactive Fluent API&lt;/a&gt;, etc.&lt;/p&gt;
+&lt;p&gt;On our side, we are now working on the documentation.&lt;/p&gt;
+&lt;p&gt;Happy summer coding ;-)&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Spring Security OAuth 2.2 Released</title>
     <link rel="alternate" href="https://spring.io/blog/2017/07/28/spring-security-oauth-2-2-released" />
@@ -1081,19 +1267,5 @@ dependencies {&#xD;
     ...&#xD;
 }
 &lt;/code&gt;&lt;/pre&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Batch 3.0.8.RELEASE is now available</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/07/20/spring-batch-3-0-8-release-is-now-available" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Michael Minella</name>
-    </author>
-    <id>tag:spring.io,2017-07-20:2975</id>
-    <updated>2017-07-20T20:13:04Z</updated>
-    <content type="html">&lt;p&gt;We are pleased to announce that Spring Batch 3.0.8.RELEASE is now available via Maven Central, Github, and the Pivotal download repository. This is the 8th maintenance release for the 3.0.x branch of Spring Batch and addresses a number of minor bug fixes and enhancements. One of the new features is that the &lt;code&gt;DefaultDataFieldMaxValueIncrementerFactory&lt;/code&gt; has been updated to support InnoDB for the sequence tables used in MySql for the job repository when using Spring Framework 4.3.6+. Many thanks to all of those who submitted the many &lt;a href="https://github.com/spring-projects/spring-batch/pulls"&gt;pull requests&lt;/a&gt; that went into this release.&lt;/p&gt;
-&lt;p&gt;Be sure to be on the lookout for Spring Batch 4.0.0.M3 coming out next week! New builders as well as the beginnings of our updates to our documentation will highlight that release.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://projects.spring.io/spring-batch/"&gt;Spring Batch Home&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-batch/reference/html/"&gt;Source on GitHub&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-batch/"&gt;Reference Documentation&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;We look forward to your feedback in &lt;a href="https://jira.spring.io/browse/BATCH"&gt;Jira&lt;/a&gt;, &lt;a href="http://stackoverflow.com/questions/tagged/spring-batch"&gt;StackOverflow&lt;/a&gt;, or to me directly via Twitter &lt;a href="https://twitter.com/michaelminella"&gt;@michaelminella&lt;/a&gt;.&lt;/p&gt;</content>
   </entry>
 </feed>

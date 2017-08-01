@@ -23,14 +23,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import translateit2.languagefileservice.Iso8859TestLoader;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
-
-//import javax.ejb.EJBException;
-
-import translateit2.util.ISO8859TestLoader;
 import translateit2.util.Messages;
 
 import static org.assertj.core.api.Assertions.*;

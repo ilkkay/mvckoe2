@@ -36,11 +36,11 @@ public class Work implements Serializable {
 
     private String version;
 
-    private String originalFile;
+    private String original_file;
 
-    private String backupFile;
+    private String backup_file;
 
-    private String skeletonFile;
+    private String skeleton_file;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -148,26 +148,26 @@ public class Work implements Serializable {
     }
 
     public String getOriginalFile() {
-        return originalFile;
+        return original_file;
     }
 
     public void setOriginalFile(String originalFile) {
-        this.originalFile = originalFile;
+        this.original_file = originalFile;
     }
 
     public String getSkeletonFile() {
-        return skeletonFile;
+        return skeleton_file;
     }
 
     public void setSkeletonFile(String skeletonFile) {
-        this.skeletonFile = skeletonFile;
+        this.skeleton_file = skeletonFile;
     }
 
     public String getBackupFile() {
-        return backupFile;
+        return backup_file;
     }
 
     public void setBackupFile(String backupFile) {
-        this.backupFile = backupFile;
+        this.backup_file = backupFile;
     }
 }

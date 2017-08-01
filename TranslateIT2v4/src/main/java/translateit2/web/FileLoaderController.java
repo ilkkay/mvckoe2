@@ -1,8 +1,8 @@
 package translateit2.web;
 
-import translateit2.fileloader.storage.FileLoaderServiceException;
-import translateit2.fileloader.storage.LoadedFileNotFoundException;
-import translateit2.fileloader.storage.FileLoaderService;
+import translateit2.fileloader.FileLoaderService;
+import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.fileloader.LoadedFileNotFoundException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;

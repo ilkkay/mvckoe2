@@ -7,13 +7,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Embeddable
 public class Target {
-    @Column(columnDefinition = "TEXT")
+    //@Column(columnDefinition = "TEXT")
+    @Column(length=10000)
     private String text;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length=10000)
     private String plural;
 
-    private String skeletonTag;
+    private String skeleton_tag;
 
     private boolean equivalent;
 
@@ -44,11 +45,11 @@ public class Target {
     }
 
     public String getSkeletonTag() {
-        return skeletonTag;
+        return skeleton_tag;
     }
 
     public void setSkeletonTag(String skeletonTag) {
-        this.skeletonTag = skeletonTag;
+        this.skeleton_tag = skeletonTag;
     }
 
     public boolean isEquivalent() {
@@ -94,7 +95,7 @@ public class Target {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("text", text).append("plural", plural).append("state", state)
-                .append("equivalent", equivalent).append("skeletonTag", skeletonTag).append("comment", comment)
+                .append("equivalent", equivalent).append("skeletonTag", skeleton_tag).append("comment", comment)
                 .append("history", history).append("note", note).toString();
     }
 }

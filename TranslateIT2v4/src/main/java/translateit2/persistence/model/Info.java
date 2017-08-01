@@ -19,7 +19,8 @@ public class Info implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    //@Column(columnDefinition = "TEXT")
+    @Column(length=10000)
     private String text;
 
     public Long getId() {

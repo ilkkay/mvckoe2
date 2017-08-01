@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import translateit2.fileloader.storage.LanguageFileLoaderService;
+import translateit2.fileloader.LanguageFileLoaderService;
 import translateit2.lngfileservice.LanguageFileFormat;
 
 @Component

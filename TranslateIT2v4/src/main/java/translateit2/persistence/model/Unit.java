@@ -23,27 +23,28 @@ public class Unit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
-    private String segmentKey;
+    //@Column(columnDefinition = "TEXT")
+    @Column(length=10000)
+    private String segment_key;
 
     @ManyToOne
     private Work work;
 
     @Embedded // @Column(columnDefinition="TEXT")
     @AttributeOverrides({
-            @AttributeOverride(name = "text", column = @Column(name = "sourceText", columnDefinition = "TEXT")),
-            @AttributeOverride(name = "plural", column = @Column(name = "sourcePlural", columnDefinition = "TEXT")),
-            @AttributeOverride(name = "skeletonTag", column = @Column(name = "sourceSkeletonTag")) })
+            @AttributeOverride(name = "text", column = @Column(name = "source_text", length=10000)),
+            @AttributeOverride(name = "plural", column = @Column(name = "source_plural", length=10000)),
+            @AttributeOverride(name = "skeleton_tag", column = @Column(name = "source_skeleton_tag")) })
     private Source source;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "text", column = @Column(name = "targetText", columnDefinition = "TEXT")),
-            @AttributeOverride(name = "plural", column = @Column(name = "targetPlural", columnDefinition = "TEXT")),
-            @AttributeOverride(name = "skeletonTag", column = @Column(name = "targetSkeletonTag")) })
+            @AttributeOverride(name = "text", column = @Column(name = "target_text", length=10000)),
+            @AttributeOverride(name = "plural", column = @Column(name = "target_plural", length=10000)),
+            @AttributeOverride(name = "skeleton_tag", column = @Column(name = "target_skeleton_tag")) })
     private Target target;
 
-    private int serialNumber;
+    private int serial_number;
 
     public Long getId() {
         return id;
@@ -54,11 +55,11 @@ public class Unit implements Serializable {
     }
 
     public String getSegmentKey() {
-        return segmentKey;
+        return segment_key;
     }
 
     public void setSegmentKey(String segmentKey) {
-        this.segmentKey = segmentKey;
+        this.segment_key = segmentKey;
     }
 
     public Source getSource() {
@@ -78,11 +79,11 @@ public class Unit implements Serializable {
     }
 
     public int getSerialNumber() {
-        return serialNumber;
+        return serial_number;
     }
 
     public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
+        this.serial_number = serialNumber;
     }
 
     public Work getWork() {

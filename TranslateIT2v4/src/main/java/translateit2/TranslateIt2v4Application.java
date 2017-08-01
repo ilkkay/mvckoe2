@@ -25,7 +25,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import translateit2.configuration.DatabaseInitializer;
 import translateit2.configuration.DemoDatabaseInitializer;
-import translateit2.fileloader.storage.FileLoaderProperties;
+import translateit2.fileloader.FileLoaderProperties;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;

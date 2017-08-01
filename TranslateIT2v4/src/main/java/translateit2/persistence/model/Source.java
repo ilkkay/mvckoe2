@@ -17,13 +17,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Embeddable
 public class Source {
 
-    @Column(columnDefinition = "TEXT")
+    //@Column(columnDefinition = "TEXT")
+    @Column(length=10000)
     private String text;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length=10000)
     private String plural;
 
-    private String skeletonTag;
+    private String skeleton_tag;
 
     public String getText() {
         return text;
@@ -42,16 +43,16 @@ public class Source {
     }
 
     public String getSkeletonTag() {
-        return skeletonTag;
+        return skeleton_tag;
     }
 
     public void setSkeletonTag(String skeletonTag) {
-        this.skeletonTag = skeletonTag;
+        this.skeleton_tag = skeletonTag;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("text", text).append("plural", plural)
-                .append("skeletonTag", skeletonTag).toString();
+                .append("skeletonTag", skeleton_tag).toString();
     }
 }

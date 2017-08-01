@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import translateit2.fileloader.storage.FileLoaderService;
+import translateit2.fileloader.FileLoaderService;
 
 @Controller
 public class TranslateMainController {

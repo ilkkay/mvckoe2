@@ -27,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import translateit2.fileloader.storage.FileLoaderServiceException;
-import translateit2.fileloader.storage.FileLoaderService;
+import translateit2.fileloader.FileLoaderService;
+import translateit2.fileloader.FileLoaderServiceException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;

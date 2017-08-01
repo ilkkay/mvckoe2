@@ -1,0 +1,12 @@
+package translateit2.fileloader.storage;
+
+public class FileLoaderServiceException extends RuntimeException {
+
+    public FileLoaderServiceException(String message) {
+        super(message);
+    }
+
+    public FileLoaderServiceException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}

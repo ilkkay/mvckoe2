@@ -21,6 +21,24 @@ Kommentit 30.5.2017
 9) try catch lohkot sen mukaan, mitkä ovat seuraukset. Jos sama seuruas niin yksi try-catch lohko.
  (tutki ISO8859TestLoader ja ISO8859ValidatorImpl-luokkaa) KESKEN
 
+10) ISO8859Storage => Iso8859Storage DONE
+
+11) isFormatSupported -pois koska ei ole käytössä DONE
+
+12) resurssit resourcen alle DONE
+
+13) refaktoroi testit java-testin alle DONE
+ 
+14) fileloaderin throws IOException pois ja tilalle throws FileLoaderException DONE
+
+15) + column text (ei tuettu kaikissa kannoissa)  => string length = 10000 DONE
+
+16) sourceText => source_text, jotta toimii kaikilla kannoilla KESKEN
+Ongelma Optional<Person> findByFullName(@Param("fullName") String fullName);
+Ei toimi jos full_name
+
++ ja sitten testauksen koodikirjaston scopeiksi test 
++ https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
 + tutki method reference :: (<= lambda)
 
@@ -28,15 +46,9 @@ Kommentit 30.5.2017
 
 + javadoc ei esitä private metodien tietoja, joten (storage), siirrä public lähelle
 
-+ lyhenteiden käyttö luokkien nimissä ei ole suotavaa
-
-+ Ei näin ISO8859Storage => Iso8859Storage
++ refaktori lyhenteet pois luokkien nimistä
 
 + katso enumit
-
-+ isFormatSupported -pois koska ei ole käytössä
-
-+ storage IOExceptionin pois. Käytä Storageexception ja poista throws IoExceptionit
 
 + LngFileStorage => eräänlaisen abstract factory bean joka palauttaa beaneja
 
@@ -50,23 +62,13 @@ Kommentit 30.5.2017
 
 + storeBackUp Dtoita tarjotaan ulospäin niitä ei näy sisäisisssä koodeissa ??
 
-+ refaktoroi testit java-testin alle
- 
-+ ja sitten testingin koodikirjaston scopeiksi test
-
-+ resurssit resourcen alle
-
 + palauta syvemmältä vain virhekoodit älä virheviestejä
 
 + virheilmoitukset käytä parametreja kaarisulut ja numerot ??
 
 + virhekoodit vai virheilmotukset
 
-+ annotoinnit gettereihin riittää koska ensi tungetaan ja valiudointi lukee ne ??
-
-+ column text (ei tuettu kaikissa kannoissa)  => string length = 10000
-
-+ sourceText => source_text, jotta toimii kaikilla kannoilla
++ annotoinnit gettereihin riittää koska ensi tungetaan ja validointi lukee ne ??
 
 + project service voi jakaa kahtia toinen olisi workservice
 
@@ -90,7 +92,16 @@ Kommentit 30.5.2017
 
 + controller-taso ei sisällä logiikkaa vain service-tason komento 
 
+Korjaa seuraavat:
+
 + tämä pitää korjata! LocalDate expected = LocalDate.parse("2017-10-07");
   niin että ei tarvitse käsin asettaa joka kerta  
 
 + deleteUploadedFiles() ei ole käytössä, joten upload-hakemistoon kerääntyy tiedostoja
+
++ assertThat(p.getParent().toString(), is(equalTo("upload-dir3"))); korjaa upload-dir3
+
++ web-hakemiston testitiedstojen merkitys
+
++  lisää   @Override
+    public String toString() { .. } entiteetteihin

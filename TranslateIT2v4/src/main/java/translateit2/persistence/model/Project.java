@@ -41,7 +41,7 @@ public class Project implements Serializable {
     @Enumerated(EnumType.STRING)
     private LanguageFileType type;
 
-    private Locale sourceLocale;
+    private Locale source_locale;
 
     public Long getId() {
         return id;
@@ -84,11 +84,11 @@ public class Project implements Serializable {
     }
 
     public Locale getSourceLocale() {
-        return sourceLocale;
+        return source_locale;
     }
 
     public void setSourceLocale(Locale sourceLocale) {
-        this.sourceLocale = sourceLocale;
+        this.source_locale = sourceLocale;
     }
 
     public Info getInfo() {
@@ -102,7 +102,7 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("id", id).append("person", person).append("info", info)
-                .append("name", name).append("format", format).append("type", type).append("sourceLocale", sourceLocale)
+                .append("name", name).append("format", format).append("type", type).append("sourceLocale", source_locale)
                 .toString();
     }
 }
