@@ -1,0 +1,5 @@
+package translateit2.configuration;
+
+public class DemoDatabaseInitializer implements DatabaseInitializer {
+
+}

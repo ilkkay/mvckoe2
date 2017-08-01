@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import translateit2.configuration.CharSetResolver;
-import translateit2.fileloader.storage.FileSystemStorageService;
-import translateit2.fileloader.storage.StorageException;
+import translateit2.fileloader.storage.LanguageFileLoaderService;
+import translateit2.fileloader.storage.FileLoaderServiceException;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
@@ -46,10 +46,10 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     @Autowired
     private CharSetResolver charSetResolver;
 
-    private FileSystemStorageService fileStorage;
+    private LanguageFileLoaderService fileStorage;
 
     @Autowired
-    public void setFileStorage(FileSystemStorageService fileStorage) {
+    public void setFileStorage(LanguageFileLoaderService fileStorage) {
         this.fileStorage = fileStorage;
     }
 
@@ -82,16 +82,16 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     // TODO: remove used for testing at he moment
     @Override
     public Path getPath(String filename) {
-        return fileStorage.load(filename);
+        return fileStorage.getPath(filename);
     }
 
     @Override
     public Path storeFile(MultipartFile file) {
-        return fileStorage.store(file);
+        return fileStorage.storeToUploadDirectory(file);
     }
 
     @Override
-    public String checkValidity(Path uploadedLngFile, long workId) throws StorageException {
+    public String checkValidity(Path uploadedLngFile, long workId) throws FileLoaderServiceException {
         String appName = null;
         iso8859util.checkFileExtension(uploadedLngFile);
         appName = iso8859util.checkFileNameFormat(uploadedLngFile);
@@ -125,7 +125,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
      * @param workId
      *            work entity identifier
      * @return nothing
-     * @throws StorageException
+     * @throws FileLoaderServiceException
      *             if not able read file.
      */
     @Override
@@ -138,7 +138,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile, charset);
         } catch (IOException e) { //
-            throw new StorageException((messages.get("FileStorageService.not_read_properties_file")) + " "
+            throw new FileLoaderServiceException((messages.get("FileStorageService.not_read_properties_file")) + " "
                     + uploadedLngFile.getFileName());
         }
 
@@ -178,7 +178,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile, charset);
         } catch (IOException e) { //
-            throw new StorageException((messages.get("FileStorageService.not_read_properties_file")) + " "
+            throw new FileLoaderServiceException((messages.get("FileStorageService.not_read_properties_file")) + " "
                     + uploadedLngFile.getFileName());
         }
 
@@ -199,7 +199,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             dstDir = downloadTargetLngFile(dstDir, workId);
         } catch (IOException e) {
-            throw new StorageException(e.getLocalizedMessage());
+            throw new FileLoaderServiceException(e.getLocalizedMessage());
         }
 
         return Files.walk(dstDir); // TODO: at the moment, just testing
@@ -261,7 +261,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
                 System.out.println(getKey(line) + "=" + map.get(key));
                 outLines.add(getKey(line) + "=" + map.get(key));
             } else
-                throw new StorageException("Could not create file for download");
+                throw new FileLoaderServiceException("Could not create file for download");
         }
         Files.write(target, outLines);
 
@@ -311,30 +311,24 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     }
 
     private HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
-            throws StorageException, IOException {
+            throws FileLoaderServiceException, IOException {
 
-        InputStreamReader isr = null;
-        InputStream stream = null;
         HashMap<String, String> map = new LinkedHashMap<String, String>();
         OrderedProperties srcProp = new OrderedProperties();
 
-        try {
-            stream = new FileInputStream(inputPath.toString());
-            isr = new InputStreamReader(stream, charset);
+        try (InputStream stream = new FileInputStream(inputPath.toString());
+             InputStreamReader isr = new InputStreamReader(stream, charset)) {
             srcProp.load(isr);
             Set<String> keys = srcProp.stringPropertyNames();
             // checks for at least one (ASCII) alphanumeric character.
             map = keys.stream().filter(k -> k.toString().matches(".*\\w.*")).collect(Collectors.toMap(k -> k.toString(),
                     k -> srcProp.getProperty(k), (v1, v2) -> v1, LinkedHashMap::new));
         } catch (FileNotFoundException e) {
-            throw new StorageException((messages.get("FileStorageService.not_find_file")) + " " + inputPath.toString(),
+            throw new FileLoaderServiceException((messages.get("FileStorageService.not_find_file")) + " " + inputPath.toString(),
                     e);
         } catch (IOException e) {
-            throw new StorageException(
+            throw new FileLoaderServiceException(
                     (messages.get("FileStorageService.not_read_properties_file")) + " " + inputPath.toString(), e);
-        } finally {
-            stream.close();
-            isr.close();
         }
 
         return map;
@@ -367,7 +361,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
                 System.out.println(s);
                 out.add(s);
             } else
-                throw new StorageException("Could not make skeleton file");
+                throw new FileLoaderServiceException("Could not make skeleton file");
         }
 
         // WorkDto work = projectService.getWorkDtoById(workId);

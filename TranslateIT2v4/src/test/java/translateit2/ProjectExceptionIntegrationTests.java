@@ -69,7 +69,7 @@ public class ProjectExceptionIntegrationTests {
     @Before
     public void setup() {
         Locale.setDefault(Locale.ENGLISH); // for javax validation
-        messages.init(Locale.ENGLISH); // for custom validation
+        messages.setLocale(Locale.ENGLISH); // for custom validation
     }
 
     @Test

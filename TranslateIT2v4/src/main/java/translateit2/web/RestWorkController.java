@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import translateit2.fileloader.storage.StorageService;
+import translateit2.fileloader.storage.FileLoaderService;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
@@ -43,7 +43,7 @@ public class RestWorkController {
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Autowired
-    public RestWorkController(StorageService storageService, ProjectService projectService,
+    public RestWorkController(FileLoaderService storageService, ProjectService projectService,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.projectService = projectService;
         this.languageFileServiceFactory = languageFileServiceFactory;

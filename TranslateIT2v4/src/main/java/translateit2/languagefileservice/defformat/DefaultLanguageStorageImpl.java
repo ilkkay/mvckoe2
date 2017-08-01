@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import translateit2.fileloader.storage.FileSystemStorageService;
+import translateit2.fileloader.storage.LanguageFileLoaderService;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
 
 @Component
 public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
     @Autowired
-    FileSystemStorageService fileStorage;
+    LanguageFileLoaderService fileStorage;
 
     @Override
     public LanguageFileFormat getFileFormat() {
@@ -27,7 +27,7 @@ public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
 
     @Override
     public Path getPath(String filename) {
-        return fileStorage.load(filename);
+        return fileStorage.getPath(filename);
     }
 
     @Override

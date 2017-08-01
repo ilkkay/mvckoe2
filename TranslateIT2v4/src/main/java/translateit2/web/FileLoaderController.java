@@ -1,8 +1,8 @@
 package translateit2.web;
 
-import translateit2.fileloader.storage.StorageException;
-import translateit2.fileloader.storage.StorageFileNotFoundException;
-import translateit2.fileloader.storage.StorageService;
+import translateit2.fileloader.storage.FileLoaderServiceException;
+import translateit2.fileloader.storage.LoadedFileNotFoundException;
+import translateit2.fileloader.storage.FileLoaderService;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
@@ -35,12 +35,12 @@ import java.util.stream.Collectors;
 //
 @Controller
 public class FileLoaderController {
-    private final StorageService storageService;
+    private final FileLoaderService storageService;
     private ProjectService projectService;
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Autowired
-    public FileLoaderController(StorageService storageService, ProjectService projectService,
+    public FileLoaderController(FileLoaderService storageService, ProjectService projectService,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.storageService = storageService;
         this.projectService = projectService;
@@ -63,7 +63,7 @@ public class FileLoaderController {
     public String downloadFile2(Model model) throws IOException {
         model.addAttribute("message", "Download translation");
         model.addAttribute("files",
-                storageService.loadAll()
+                storageService.getPathsOfDownloadableFiles()
                         .map(path -> MvcUriComponentsBuilder
                                 .fromMethodName(FileLoaderController.class, "serveFile", path.getFileName().toString())
                                 .build().toString())
@@ -135,7 +135,7 @@ public class FileLoaderController {
             work.setStatus(Status.OPEN);
             projectService.updateWorkDto(work);
         } else
-            throw new StorageException("Unexpected error. Destination was neither source or target.");
+            throw new FileLoaderServiceException("Unexpected error. Destination was neither source or target.");
 
         redirectAttributes.addFlashAttribute("message",
                 "You uploaded " + destination + " file:" + file.getOriginalFilename() + "!");
@@ -150,17 +150,17 @@ public class FileLoaderController {
         return uploadLanguageFile(file, destination, redirectAttributes);
     }
 
-    @ExceptionHandler(StorageFileNotFoundException.class)
-    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+    @ExceptionHandler(LoadedFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(LoadedFileNotFoundException exc) {
         return errorPage(exc);
     }
 
-    @ExceptionHandler(StorageException.class)
-    public ResponseEntity<?> handleStorage(StorageException exc) {
+    @ExceptionHandler(FileLoaderServiceException.class)
+    public ResponseEntity<?> handleStorage(FileLoaderServiceException exc) {
         return errorPage(exc);
     }
 
-    private ResponseEntity<String> errorPage(StorageException exc) {
+    private ResponseEntity<String> errorPage(FileLoaderServiceException exc) {
         ResponseEntity<String> errorResponse = null;
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("HeaderKey", "HeaderData");

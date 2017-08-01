@@ -2,26 +2,29 @@ Kommentit 30.5.2017
 
 1) autoIndent => soft tabeiksi => DONE
 
-+ commandLineRunneria käytetään komentorivn paramtrien lukemiseen 
-    => postConstract tee bean jossa Autowired projectService ja kutsuu
+2) commandLineRunneria pois => Käytä PostConstractia ja tee bean jossa Autowired projectService jne. DONE
     
-+ init()-metodeja ei käytetä vaan Postconstruct!
+3) init()-metodeja ei käytetä vaan PostConstructia DONE
 
-+ appin beanit temaattiseksi config-luokiksi ja autowiren avulla tarvittavat servicet tms.
+4) appin beanit temaattiseksi config-luokiksi ja autowiren avulla tarvittavat servicet tms. DONE
 
-+ nimeämiset kuvaaviksi (loadAll filestorage)
+5) nimeämiset kuvaaviksi (StorageService => FileLoaderService jne.)
+
+6) tutki PathResource () filestorage (file => resource) !!
+    ApplicationContextAware ja ResourceLoaderAware KESKEN
+
+7) @ConfigurationPropertiesin yhteydessä käytä prefixinä pakettia tms. Esim. "storage" => 
+    "translateit2.fileloader" => translateit2.fileloader.location = upload-dir4 DONE
+
+8) finally testaa ettei suljettaessa ole kyseessä null stream.  DONE käyttämällä try-with-resource !!
+
+9) try catch lohkot sen mukaan, mitkä ovat seuraukset. Jos sama seuruas niin yksi try-catch lohko.
+ (tutki ISO8859TestLoader ja ISO8859ValidatorImpl-luokkaa) KESKEN
+
 
 + tutki method reference :: (<= lambda)
 
-+ tutki PathResource () filestorage (file => resource) ??
-
-+ try catch lohkot sen mukaan, mitkä ovat seuraukset. Jos sama seuruas niin yksi try-catch lohko.
-
-+ finally testaa ettei null streamit
-
-+ määrittele muuttujat niin lähelle toimivaa kodia kuin mahdollista
-
-+ muista tehdä prefix viitaten paketin tms. kautta (storage)
++ määrittele muuttujat niin lähelle toimivaa koodia kuin mahdollista
 
 + javadoc ei esitä private metodien tietoja, joten (storage), siirrä public lähelle
 
@@ -86,3 +89,8 @@ Kommentit 30.5.2017
 + Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla
 
 + controller-taso ei sisällä logiikkaa vain service-tason komento 
+
++ tämä pitää korjata! LocalDate expected = LocalDate.parse("2017-10-07");
+  niin että ei tarvitse käsin asettaa joka kerta  
+
++ deleteUploadedFiles() ei ole käytössä, joten upload-hakemistoon kerääntyy tiedostoja

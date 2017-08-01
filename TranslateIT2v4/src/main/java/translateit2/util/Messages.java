@@ -36,7 +36,7 @@ public class Messages {
     }
 
     // tests will be using english
-    public void init(Locale locale) {
+    public void setLocale(Locale locale) {
         accessor = new MessageSourceAccessor(messageSource, locale);
     }
 

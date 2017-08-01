@@ -67,7 +67,7 @@ public class ProjectServiceIntegrationTest {
     @Before
     public void setup() {
         Locale.setDefault(Locale.ENGLISH); // for javax validation
-        messages.init(Locale.ENGLISH); // for custom validation
+        messages.setLocale(Locale.ENGLISH); // for custom validation
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ProjectServiceIntegrationTest {
         LocalDate newDeadLine = wrk1.getDeadLine().plusDays(1L);
         work.setDeadLine(newDeadLine);
         work = projectService.updateWorkDto(work);
-        LocalDate expected = LocalDate.parse("2017-10-06");
+        LocalDate expected = LocalDate.parse("2017-10-07");
         wrk1 = projectService.getWorkDtoById(work.getId());
         assertThat(expected, is(equalTo(wrk1.getDeadLine())));
         assertThat(1L, is(equalTo(projectService.getWorkDtoCount(wrk1.getGroupId()))));

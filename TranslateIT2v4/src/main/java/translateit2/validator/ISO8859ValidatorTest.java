@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import translateit2.fileloader.storage.StorageException;
+import translateit2.fileloader.storage.FileLoaderServiceException;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
@@ -43,7 +43,7 @@ public class ISO8859ValidatorTest {
         messageSource.setFallbackToSystemLocale(false);
 
         messages = new Messages(messageSource);
-        messages.init(Locale.ENGLISH);
+        messages.setLocale(Locale.ENGLISH);
 
         iso8859validator = new ISO8859ValidatorImpl();
         ((ISO8859ValidatorImpl) iso8859validator).setMessages(messages);
@@ -57,7 +57,7 @@ public class ISO8859ValidatorTest {
         try {
             iso8859validator.checkFileExtension(uploadedLngFile);
             fail("No exception thrown");
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.not_properties_file")),
                     is(equalTo(true)));
         }
@@ -65,7 +65,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\test_fi.properties");
         try {
             iso8859validator.checkFileExtension(uploadedLngFile);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("Exception was thrown when it shoud have not");
         }
     }
@@ -78,7 +78,7 @@ public class ISO8859ValidatorTest {
         try {
             iso8859validator.checkFileNameFormat(uploadedLngFile);
             fail("No exception thrown");
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.code_missing")), is(equalTo(true)));
         }
 
@@ -86,7 +86,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\test_fi.properties");
         try {
             iso8859validator.checkFileNameFormat(uploadedLngFile);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("Exception was thrown when it shoud have not");
         }
 
@@ -95,7 +95,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\test_fi_FI.properties");
         try {
             iso8859validator.checkFileNameFormat(uploadedLngFile);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("Exception was thrown when it shoud have not");
         }
 
@@ -104,7 +104,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\dotcms_fi_FI-utf8.properties");
         try {
             iso8859validator.checkFileNameFormat(uploadedLngFile);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("Exception was thrown when it shoud have not");
         }
 
@@ -112,7 +112,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\messages_fi_utf8.properties");
         try {
             iso8859validator.checkFileNameFormat(uploadedLngFile);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.code_missing")), is(equalTo(true)));
         }
     }
@@ -143,7 +143,7 @@ public class ISO8859ValidatorTest {
         try {
             iso8859validator.checkEmptyFile(uploadedLngFile, 1L);
             fail("No exception thrown");
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.empty_properties_file")),
                     is(equalTo(true)));
         }
@@ -177,7 +177,7 @@ public class ISO8859ValidatorTest {
         try {
             iso8859validator.checkFileCharSet(uploadedLngFile, 1L);
             fail("No exception thrown");
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.false_ISO8859_encoding"))
             // It should be ISO8859
                     , is(equalTo(true)));
@@ -204,7 +204,7 @@ public class ISO8859ValidatorTest {
         try {
             iso8859validator.checkFileCharSet(uploadedLngFile, 2L);
             fail("No exception thrown");
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             assertThat(e.getMessage().contains(messages.getPart("FileStorageService.false_UTF8_encoding"))
             // It should be UTF-8
                     , is(equalTo(true)));
@@ -230,7 +230,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\messages_fi-UTF8.properties");
         try {
             iso8859validator.checkFileCharSet(uploadedLngFile, 3L);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("An exception was thrown");
         }
 
@@ -254,7 +254,7 @@ public class ISO8859ValidatorTest {
         uploadedLngFile = Paths.get("d:\\messages_fi.properties");
         try {
             iso8859validator.checkFileCharSet(uploadedLngFile, 4L);
-        } catch (StorageException e) {
+        } catch (FileLoaderServiceException e) {
             fail("An exception was thrown");
         }
     }

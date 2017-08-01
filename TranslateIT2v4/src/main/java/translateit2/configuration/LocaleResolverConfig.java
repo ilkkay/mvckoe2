@@ -26,13 +26,18 @@ import translateit2.persistence.model.Work;
 
 @Configuration
 public class LocaleResolverConfig {
+    /* Implementation of LocaleResolver that uses a locale attribute in
+    * the user’s session in case of a custom setting, with a fallback to the
+    * specified default locale or the request’s accept-header locale
+    */
+    
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         slr.setDefaultLocale(new Locale("fi"));
         return slr;
     }
-
+    
     // should detect language based on browser. TODO: test it
     // Does not support setLocale, since the accept header can
     // only be changed through changing the client's locale settings

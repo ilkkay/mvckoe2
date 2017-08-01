@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import translateit2.fileloader.storage.StorageService;
+import translateit2.fileloader.storage.FileLoaderService;
 
 @Controller
 public class TranslateMainController {
 
     @Autowired
-    public void setStorageService(StorageService storageService) {
+    public void setStorageService(FileLoaderService storageService) {
     }
 
     @GetMapping("/")

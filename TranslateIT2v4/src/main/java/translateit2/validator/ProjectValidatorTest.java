@@ -60,7 +60,7 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
         messageSource.setFallbackToSystemLocale(false);
 
         messages = new Messages(messageSource);
-        messages.init(Locale.ENGLISH);
+        messages.setLocale(Locale.ENGLISH);
     }
 
     @Test
