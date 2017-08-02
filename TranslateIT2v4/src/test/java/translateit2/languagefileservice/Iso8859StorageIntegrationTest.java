@@ -35,17 +35,17 @@ import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Priority;
 import translateit2.persistence.model.Status;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class Iso8859StorageIntegrationTest {
+    @Autowired
     private ProjectService projectService;
 
     @Autowired
-    public void setProjectService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
+    private WorkService workService;
 
     private Iso8859Storage iso8859Storage;
 
@@ -94,7 +94,7 @@ public class Iso8859StorageIntegrationTest {
         work.setDeadLine(deadLine);
         work.setProgress(0.666);
         work.setGroupId(groupDto.getId());
-        work = projectService.createWorkDto(work);
+        work = workService.createWorkDto(work);
     }
 
     // @Test
@@ -115,13 +115,13 @@ public class Iso8859StorageIntegrationTest {
     public void uploadSourceLngFileToDataBase_assertUnitCount() throws IOException {
         // given
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 111");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        List<WorkDto> works = workService.listProjectWorkDtos(prj.getId());
         WorkDto work = works.get(0);
         // upload file
         Path uploadedLngFile = Paths.get("upload-dir3/dotcms_en.properties");
         iso8859Storage.uploadSourceToDb(uploadedLngFile, work.getId());
 
-        long receivedCount = projectService.getUnitDtoCount(work.getId());
+        long receivedCount = workService.getUnitDtoCount(work.getId());
         assertThat(receivedCount, is(equalTo(4140L)));
     }
 
@@ -129,7 +129,7 @@ public class Iso8859StorageIntegrationTest {
     public void uploadTargetLngFileToDataBase_assertUnitCount() throws IOException {
         // given loaded source file
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 111");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        List<WorkDto> works = workService.listProjectWorkDtos(prj.getId());
         WorkDto work = works.get(0);
         Path uploadedLngFile = Paths.get("upload-dir3/dotcms_en.properties");
         iso8859Storage.uploadSourceToDb(uploadedLngFile, work.getId());
@@ -143,7 +143,7 @@ public class Iso8859StorageIntegrationTest {
     public void downloadTargetLngFileToDataBase_assertFileExists() throws IOException {
         // given loaded source file
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 111");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        List<WorkDto> works = workService.listProjectWorkDtos(prj.getId());
         WorkDto work = works.get(0);
         Path uploadedLngFile = Paths.get("upload-dir3/dotcms_en.properties");
         iso8859Storage.uploadSourceToDb(uploadedLngFile, work.getId());
@@ -163,26 +163,4 @@ public class Iso8859StorageIntegrationTest {
         assertThat(Files.exists(downloadedPath), is(equalTo(true)));
 
     }
-
-    // @Test
-    public void createSkeletonLngFileToDataBase_assertFileExists() throws IOException {
-        // given loaded source file
-        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 666");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
-        WorkDto work = works.get(0);
-        Path uploadedLngFile = Paths.get("upload-dir3/dotcms_en-cleaned-utf8.properties");
-        iso8859Storage.uploadSourceToDb(uploadedLngFile, work.getId());
-
-        // create skeleton file
-        Path skeletonPath = null;
-        Path storedOriginalFile = uploadedLngFile;
-        try {
-            skeletonPath = iso8859Storage.createSkeletonLngFile(storedOriginalFile, work.getId());
-
-        } catch (IOException e) {
-            fail("IO Exception: " + e.getMessage());
-        }
-        assertThat(Files.exists(skeletonPath), is(equalTo(true)));
-    }
-
 }

@@ -5,10 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
 import java.util.Locale;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,17 +15,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import translateit2.languagefileservice.Iso8859TestLoader;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 import translateit2.util.Messages;
 
 import static org.assertj.core.api.Assertions.*;
@@ -56,9 +53,9 @@ public class ProjectExceptionIntegrationTests {
     public void setProjectNameMinSize(Integer projectNameMinSize) {
         this.projectNameMinSize = projectNameMinSize;
     }
-
+    
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
     Messages messages;

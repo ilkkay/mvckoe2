@@ -17,7 +17,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Embeddable
 public class Source {
 
-    //@Column(columnDefinition = "TEXT")
     @Column(length=10000)
     private String text;
 

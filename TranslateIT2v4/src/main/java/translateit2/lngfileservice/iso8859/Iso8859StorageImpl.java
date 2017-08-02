@@ -33,6 +33,7 @@ import translateit2.persistence.model.Source;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Target;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 import translateit2.util.Messages;
 import translateit2.util.OrderedProperties;
 import translateit2.validator.Iso8859ValidatorImpl;
@@ -46,43 +47,24 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     @Autowired
     private CharSetResolver charSetResolver;
 
+    @Autowired
     private LanguageFileLoaderService fileStorage;
 
     @Autowired
-    public void setFileStorage(LanguageFileLoaderService fileStorage) {
-        this.fileStorage = fileStorage;
-    }
-
     private ProjectService projectService;
 
     @Autowired
-    public void setProjectService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
-    Messages messages;
+    private WorkService workService;
+    
+    @Autowired
+    private Messages messages;
 
     @Autowired
-    public void setMessages(Messages messages) {
-        this.messages = messages;
-    }
-
-    LanguageFileValidator iso8859util;
-
-    @Autowired
-    public void setIso8859util(Iso8859ValidatorImpl iso8859util) {
-        this.iso8859util = iso8859util;
-    }
+    private LanguageFileValidator iso8859util;
 
     @Override
     public LanguageFileFormat getFileFormat() {
         return LanguageFileFormat.PROPERTIES;
-    }
-
-    // TODO: remove used for testing at he moment
-    @Override
-    public Path getPath(String filename) {
-        return fileStorage.getPath(filename);
     }
 
     @Override
@@ -104,7 +86,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     // TODO: this a general routine, not iso8859 specific, so it should be
     // somewhere else
     private void storeBackupFile(Path uploadedLngFile, long workId) throws IOException {
-        WorkDto work = projectService.getWorkDtoById(workId);
+        WorkDto work = workService.getWorkDtoById(workId);
         ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
         String fid = UUID.randomUUID().toString();
         String bupFile = fid + "." + prj.getFormat().toString();
@@ -112,7 +94,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         // TODO: if old backup file exists, remove it
         Files.copy(uploadedLngFile, target, StandardCopyOption.REPLACE_EXISTING);
         work.setBackupFile(target.toString());
-        projectService.updateWorkDto(work);
+        workService.updateWorkDto(work);
     }
 
     /**
@@ -163,7 +145,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
             unitDtos.add(unit);
             serialNum++;
         }
-        projectService.createUnitDtos(unitDtos, workId);
+        workService.createUnitDtos(unitDtos, workId);
     }
 
     // TODO: there may be need for validating the target upload
@@ -182,7 +164,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
                     + uploadedLngFile.getFileName());
         }
 
-        List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
+        List<UnitDto> unitDtos = workService.listUnitDtos(workId);
         for (UnitDto unit : unitDtos) {
             unit.getTarget().setText(segments.get(unit.getSegmentKey()));
             // TODO: this is business logic, so it should be somewhere else?
@@ -190,7 +172,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
             unit.getTarget().setState(State.TRANSLATED);
         }
 
-        projectService.updateUnitDtos(unitDtos, workId);
+        workService.updateUnitDtos(unitDtos, workId);
     }
 
     @Override
@@ -208,13 +190,13 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     @Override
     public Path downloadTargetLngFile(Path dstDir, final long workId) throws IOException {
         // Charset charset = iso8859util.getCharSet(workId);
-        WorkDto work = projectService.getWorkDtoById(workId);
+        WorkDto work = workService.getWorkDtoById(workId);
         Charset charset = charSetResolver.getProjectCharSet(work.getProjectId());
 
-        List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
+        List<UnitDto> unitDtos = workService.listUnitDtos(workId);
 
         // long startTime = System.nanoTime();
-        long translated = projectService.getStatistics(workId);
+        long translated = workService.getStatistics(workId);
         // long endTime = System.nanoTime();
         // double timeElapsed = (endTime - startTime)/1000.0;
 
@@ -228,7 +210,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
             Files.createDirectory(dstDir);
         }
 
-        Path target = (dstDir == null) ? getPath(tgtFilenameStr)
+        Path target = (dstDir == null) ? fileStorage.getPath(tgtFilenameStr)
                 : dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
 
         /*
@@ -333,44 +315,4 @@ public class Iso8859StorageImpl implements Iso8859Storage {
 
         return map;
     }
-
-    // nothing useful beneath this line
-    // --------------------------------
-    @Override
-    public Path createSkeletonLngFile(Path storedOriginalFile, final long workId) throws IOException {
-
-        WorkDto work = projectService.getWorkDtoById(workId);
-        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
-        // Charset charset = iso8859util.getCharSet(workId);
-        Charset charset = charSetResolver.getProjectCharSet(work.getProjectId());
-        List<String> in = Files.readAllLines(storedOriginalFile, charset);
-        List<String> out = new ArrayList<String>();
-        List<UnitDto> unitDtos = projectService.listUnitDtos(workId);
-        Map<String, String> map = new HashMap<String, String>();
-
-        unitDtos.stream().forEach(dto -> map.put(dto.getSegmentKey(), dto.getTarget().getSkeletonTag()));
-
-        boolean isFirstLine = true;
-        for (String line : in) {
-            if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)) {
-                out.add(line);
-                isFirstLine = false;
-            } else if (isKeyValuePair(line)) {
-                String key = getKey(line);
-                String s = getKey(line) + "=" + map.get(key);
-                System.out.println(s);
-                out.add(s);
-            } else
-                throw new FileLoaderServiceException("Could not make skeleton file");
-        }
-
-        // WorkDto work = projectService.getWorkDtoById(workId);
-        // ProjectDto prj =
-        // projectService.getProjectDtoById(work.getProjectId());
-        Path target = Paths.get(work.getSkeletonFile() + "." + prj.getFormat());
-        Files.write(target, out);
-
-        return target;
-    }
-
 }

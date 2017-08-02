@@ -64,10 +64,4 @@ public class XLIFFStorageImpl implements XLIFFStorage {
         // TODO Auto-generated method stub
 
     }
-
-    @Override
-    public Path createSkeletonLngFile(Path storedOriginalFile, long workId) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

@@ -9,10 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 // services needed for uploading and downloading a language file
 // factory.listFormatsSupported() will list available services, (formats are now enums)
 public interface LanguageFileStorage {
-    // TODO: remove this, just for testing
-    Path getPath(String filename);
 
-    // true stuff
     LanguageFileFormat getFileFormat();
 
     Path storeFile(MultipartFile uploadedLngFile);
@@ -29,6 +26,4 @@ public interface LanguageFileStorage {
 
     Path downloadTargetLngFile(Path dstDir, final long workId) throws IOException;
 
-    // not in use at the moment
-    Path createSkeletonLngFile(Path storedOriginalFile, final long workId) throws IOException;
 }

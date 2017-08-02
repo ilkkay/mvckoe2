@@ -30,9 +30,9 @@ import org.springframework.core.io.ResourceLoader;
 @Service
 public class LanguageFileLoaderService implements FileLoaderService, ResourceLoaderAware {
 
-    private ResourceLoader resourceLoader;
-
     private final Path rootLocation;
+
+    private ResourceLoader resourceLoader;
 
     @Autowired
     public LanguageFileLoaderService(FileLoaderProperties properties) {
@@ -45,54 +45,38 @@ public class LanguageFileLoaderService implements FileLoaderService, ResourceLoa
 
     @Override
     public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderServiceException {
-        Path outFilePath = null;
-        try {
-            if (file.isEmpty()) {
-                throw new FileLoaderServiceException("Failed to store empty file " + file.getOriginalFilename());
-            }
-            InputStream in = file.getInputStream();
-            if (in == null) {
-                throw new FileLoaderServiceException("File:" + file.getOriginalFilename() + " not found");
-            }
-            Path target = this.rootLocation.resolve(file.getOriginalFilename());
+        if (file.isEmpty()) 
+            //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
+            throw new FileLoaderServiceException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
 
-            // if (!Files.isDirectory(path))
-            // Files.createDirectory(path);
-            Path absTgtParent = target.toAbsolutePath().getParent();
-            if (!Files.exists(absTgtParent))
-                Files.createDirectory(target);
-
-            if (!Files.exists(absTgtParent)) {
-                throw new FileLoaderServiceException(
-                        "Upload directory " + absTgtParent.toString() + " was missing and could not be recreated");
-            }
-
-            /*
-             * if (Files.exists(target)) { boolean success =
-             * Files.deleteIfExists(target); if (!success) { throw new
-             * StorageException("File " + target.toString() +
-             * " existed already and could not be removed"); } }
-             */
+        Path outFilePath;
+        try(InputStream in = file.getInputStream()) {    
+            
+            // make sure that you have a directory where to upload
+            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
+            if (Files.notExists(rootLocation)) 
+                //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
+                throw new FileLoaderServiceException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY);
 
             outFilePath = this.rootLocation.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
-
         } catch (IOException e) {
-            throw new FileLoaderServiceException("Failed to upload file " + file.getOriginalFilename(), e);
+            //throw new CannotUploadFileException(file.getOriginalFilename(), e);
+            throw new FileLoaderServiceException(FileLoadError.CANNOT_UPLOAD_FILE,e.getCause());
         }
 
         return outFilePath;
     }
 
     @Override
-    public Stream<Path> getPathsOfDownloadableFiles() { //getFilenamesOfDownloadableFiles
+    public Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderServiceException { 
         try {
             return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
                     .map(path -> this.rootLocation.relativize(path));
         } catch (IOException e) {
-            throw new FileLoaderServiceException("Failed to read stored files", e);
+            //throw new CannotReadFileException(e.getCause());
+            throw new FileLoaderServiceException(e.getCause());
         }
-
     }
 
     @Override
@@ -101,20 +85,25 @@ public class LanguageFileLoaderService implements FileLoaderService, ResourceLoa
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String filename) throws FileLoaderServiceException {
         try {
             Path file = getPath(filename);
             Resource resource = new UrlResource(file.toUri());
-            // applicationContext.getResource(filename);
-            // Resource resource2 = resourceLoader.getResource(filename); 
+
+            // TODO: test alternatives
+            // like applicationContext.getResource(filename);
+            // or like Resource resource2 = resourceLoader.getResource(filename);
+
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new LoadedFileNotFoundException("Could not read file: " + filename);
+                //throw new LoadedFileNotFoundException(filename);
+                throw new FileLoaderServiceException(FileLoadError.FILE_NOT_FOUND);
             }
 
         } catch (MalformedURLException e) {
-            throw new LoadedFileNotFoundException("Could not make resource from file: " + filename);
+            //throw new LoadedFileNotFoundException(filename, e.getCause());
+            throw new FileLoaderServiceException(FileLoadError.FILE_NOT_FOUND, e.getCause());
         }        
     }
 
@@ -124,11 +113,12 @@ public class LanguageFileLoaderService implements FileLoaderService, ResourceLoa
     }
 
     @PostConstruct
-    private void init() {
+    private void init() throws FileLoaderServiceException {
         try {
             if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
         } catch (IOException e) {
-            throw new FileLoaderServiceException("Could not initialize storage", e);
+            //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
+            throw new FileLoaderServiceException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
         }
     }
 

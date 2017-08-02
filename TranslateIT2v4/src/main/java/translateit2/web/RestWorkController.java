@@ -34,18 +34,23 @@ import translateit2.restapi.AvailablePriority;
 import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Works;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 
 @RestController
 @RequestMapping("/api")
 public class RestWorkController {
 
     private ProjectService projectService;
+    private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Autowired
-    public RestWorkController(FileLoaderService storageService, ProjectService projectService,
+    public RestWorkController(FileLoaderService storageService, 
+            ProjectService projectService,
+            WorkService workService,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.projectService = projectService;
+        this.workService = workService;
         this.languageFileServiceFactory = languageFileServiceFactory;
     }
 
@@ -57,14 +62,14 @@ public class RestWorkController {
     public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Work with id {}", id);
 
-        WorkDto wrk = projectService.getWorkDtoById(id);
+        WorkDto wrk = workService.getWorkDtoById(id);
         if (wrk == null) {
             logger.error("Unable to delete work with id {} not found.", id);
             return new ResponseEntity<>(new CustomErrorType("Unable to delete. Work with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
-        projectService.removeWorkDto(id);
+        workService.removeWorkDto(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -75,7 +80,7 @@ public class RestWorkController {
     public ResponseEntity<?> updateWork(@PathVariable("id") long id, @RequestBody WorkDto work) {
         logger.info("Updating Work with id {}", id);
 
-        WorkDto wrk = projectService.getWorkDtoById(id);
+        WorkDto wrk = workService.getWorkDtoById(id);
         if (wrk == null) {
             logger.error("Unable to update. Work with id {} not found.", id);
             return new ResponseEntity<>(new CustomErrorType("Unable to update. Work with id " + id + " not found."),
@@ -84,7 +89,7 @@ public class RestWorkController {
 
         logger.info("Updating Work with id {}", wrk.getId());
 
-        wrk = projectService.updateWorkDto(work);
+        wrk = workService.updateWorkDto(work);
 
         return new ResponseEntity<>(wrk, HttpStatus.OK);
     }
@@ -95,7 +100,7 @@ public class RestWorkController {
     public ResponseEntity<?> getWork(@PathVariable("id") long id) {
         logger.info("Fetching Work with id {}", id);
 
-        WorkDto wrk = projectService.getWorkDtoById(id);
+        WorkDto wrk = workService.getWorkDtoById(id);
 
         if (wrk == null) {
             logger.error("Work with id {} not found.", id);
@@ -121,7 +126,7 @@ public class RestWorkController {
 
         TranslatorGroupDto group = projectService.getGroupDtoByName("Group name");
         work.setGroupId(group.getId()); // TODO: mock this
-        WorkDto wrk = projectService.createWorkDto(work);
+        WorkDto wrk = workService.createWorkDto(work);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/work/{id}").buildAndExpand(wrk.getId()).toUri());
@@ -146,7 +151,7 @@ public class RestWorkController {
         pr.setType(Priority.HIGH);
         priorities.add(pr);
 
-        List<WorkDto> projectWorks = projectService.listProjectWorkDtos(projectId);
+        List<WorkDto> projectWorks = workService.listProjectWorkDtos(projectId);
 
         if (projectWorks.isEmpty())
             projectWorks = Collections.emptyList();
@@ -165,7 +170,7 @@ public class RestWorkController {
     public ResponseEntity<?> uploadSourceFile(@RequestParam(value = "workId") Long id,
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
 
-        WorkDto wrk = projectService.getWorkDtoById(id);
+        WorkDto wrk = workService.getWorkDtoById(id);
         if (wrk == null) {
             logger.error("Work with id {} not found.", id);
             return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
@@ -196,10 +201,10 @@ public class RestWorkController {
                     HttpStatus.NOT_FOUND);
         }
 
-        wrk = projectService.getWorkDtoById(wrk.getId());
+        wrk = workService.getWorkDtoById(wrk.getId());
         wrk.setStatus(Status.NEW);
         wrk.setOriginalFile(appName);
-        wrk = projectService.updateWorkDto(wrk);
+        wrk = workService.updateWorkDto(wrk);
 
         return new ResponseEntity<>(wrk, HttpStatus.OK);
     }

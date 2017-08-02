@@ -16,8 +16,7 @@ public class CharSetResolver {
     private ProjectRepository projectRepo;
 
     public Charset getProjectCharSet(long projectId) {
-        Project project = projectRepo.findOne(projectId);
-        LanguageFileType typeExpected = project.getType();
+        LanguageFileType typeExpected = projectRepo.findOne(projectId).getType();
         if (typeExpected.equals(LanguageFileType.ISO8859_1))
             return StandardCharsets.ISO_8859_1;
         else

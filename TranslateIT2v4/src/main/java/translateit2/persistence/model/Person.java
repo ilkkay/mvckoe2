@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity(name = "trPerson")
 @Table(name = "TR_PERSON")
 public class Person implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id

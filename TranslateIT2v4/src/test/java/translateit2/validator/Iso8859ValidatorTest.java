@@ -22,6 +22,7 @@ import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 import translateit2.util.Messages;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,6 +33,9 @@ public class Iso8859ValidatorTest {
 
     @Mock
     ProjectService projectService;
+    
+    @Mock
+    WorkService workService;
 
     @Before
     public void setUp() throws Exception {
@@ -48,6 +52,7 @@ public class Iso8859ValidatorTest {
         iso8859validator = new Iso8859ValidatorImpl();
         ((Iso8859ValidatorImpl) iso8859validator).setMessages(messages);
         ((Iso8859ValidatorImpl) iso8859validator).setProjectService(projectService);
+        ((Iso8859ValidatorImpl) iso8859validator).setWorkService(workService);
     }
 
     @Test
@@ -135,7 +140,7 @@ public class Iso8859ValidatorTest {
 
         // WHEN expect UTF-8 and WHEN file has no key/value pairs
         Path uploadedLngFile = Paths.get("d:\\empty-test_fi-utf8.properties");
-        when(projectService.getWorkDtoById(1L)).thenReturn(work);
+        when(workService.getWorkDtoById(1L)).thenReturn(work);
         when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
         // THEN throw exception if the upload file contains only empty or
@@ -168,7 +173,7 @@ public class Iso8859ValidatorTest {
         work.setId(workId);
 
         // WHEN expect ISO8859
-        when(projectService.getWorkDtoById(1L)).thenReturn(work);
+        when(workService.getWorkDtoById(1L)).thenReturn(work);
         when(projectService.getProjectDtoById(666L)).thenReturn(prj);
         ;
 
@@ -196,7 +201,7 @@ public class Iso8859ValidatorTest {
         work.setProjectId(prj.getId());
         work.setId(workId);
 
-        when(projectService.getWorkDtoById(2L)).thenReturn(work);
+        when(workService.getWorkDtoById(2L)).thenReturn(work);
         when(projectService.getProjectDtoById(666L)).thenReturn(prj);
         ;
         // THEN throw exception if the upload file is ISO8859
@@ -223,7 +228,7 @@ public class Iso8859ValidatorTest {
         work.setProjectId(prj.getId());
         work.setId(workId);
 
-        when(projectService.getWorkDtoById(3L)).thenReturn(work);
+        when(workService.getWorkDtoById(3L)).thenReturn(work);
         when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
         // THEN don't throw any exception if the upload file is UTF-8
@@ -247,7 +252,7 @@ public class Iso8859ValidatorTest {
         work.setProjectId(prj.getId());
         work.setId(workId);
 
-        when(projectService.getWorkDtoById(4L)).thenReturn(work);
+        when(workService.getWorkDtoById(4L)).thenReturn(work);
         when(projectService.getProjectDtoById(666L)).thenReturn(prj);
 
         // THEN don't throw any exception if the upload file is ISO8859

@@ -7,7 +7,7 @@ import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
 
 public interface LanguageFileServiceFactory {
-    public Optional<LanguageFileStorage> getService(LanguageFileFormat type);
+    Optional<LanguageFileStorage> getService(LanguageFileFormat type);
 
-    public List<LanguageFileFormat> listFormatsSupported();
+    List<LanguageFileFormat> listFormatsSupported();
 }

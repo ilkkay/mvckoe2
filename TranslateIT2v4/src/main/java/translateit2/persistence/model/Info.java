@@ -12,14 +12,12 @@ import javax.persistence.Table;
 @Entity(name = "trInfo")
 @Table(name = "TR_INFO")
 public class Info implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //@Column(columnDefinition = "TEXT")
     @Column(length=10000)
     private String text;
 

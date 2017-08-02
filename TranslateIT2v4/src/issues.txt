@@ -31,11 +31,28 @@ Kommentit 30.5.2017
  
 14) fileloaderin throws IOException pois ja tilalle throws FileLoaderException DONE
 
-15) + column text (ei tuettu kaikissa kannoissa)  => string length = 10000 DONE
+15) column text (ei tuettu kaikissa kannoissa)  => string length = 10000 DONE
 
 16) sourceText => source_text, jotta toimii kaikilla kannoilla KESKEN
 Ongelma Optional<Person> findByFullName(@Param("fullName") String fullName);
-Ei toimi jos full_name
+Ei toimi jos full_name. Ongelma myös kun serialNumber => serial_number
+
+17) Yksinkertaista enumit DONE mutta tutki vähän lisää
+
+18) project service jaettava kahtia toinen olisi workservice DONE
+
+19) turhat intialisoinnit pois DONE persistenceen asti
+
+20) palauta syvemmältä vain virhekoodit älä virheviestejä. DONE filestoragen osalta
+
+21) @Autowired ilman setteriä on OK, muuta mock-rakenteet voivat tarvita setterin esim. Messages
+    DONE testejä lukuunottamatta
+
+22) Korjaa Controllerien annotoinnit Rest-alkuisiksi, missä tarvitaan DONE
+
+23) korjaa turhat interface public metodi -määritykset pois DONE
+
++ mieti vertikaali spacingin käyttöä
 
 + ja sitten testauksen koodikirjaston scopeiksi test 
 + https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
@@ -48,29 +65,17 @@ Ei toimi jos full_name
 
 + refaktori lyhenteet pois luokkien nimistä
 
-+ katso enumit
-
-+ LngFileStorage => eräänlaisen abstract factory bean joka palauttaa beaneja
-
 + cleanappiin poista koodit jotka eivät ole käytössä, koska ne löytyvät gitistä
 
 + metodit ei saa tehdä kahta asiaa yhtäaikaa!!
 
-+ turhat intialisoinnit pois
-
-+ mieti vertikaali spacingin käyttöä
-
 + storeBackUp Dtoita tarjotaan ulospäin niitä ei näy sisäisisssä koodeissa ??
-
-+ palauta syvemmältä vain virhekoodit älä virheviestejä
 
 + virheilmoitukset käytä parametreja kaarisulut ja numerot ??
 
-+ virhekoodit vai virheilmotukset
++ virhekoodit vai virheilmoitukset
 
 + annotoinnit gettereihin riittää koska ensi tungetaan ja validointi lukee ne ??
-
-+ project service voi jakaa kahtia toinen olisi workservice
 
 + sql konvertointi suoraan dependencyn avulla
 
@@ -80,17 +85,13 @@ Ei toimi jos full_name
 
 + Iso8859Storage fieldit ensin ja lopuksi setterit
 
-+ @Autowired ilman setteriä on OK
-
-+ interface public on default
-
 + isValid miel. return true kuin return isValid
-
-+ @ControllerAdvice => @RestController kts. controllerit annotoinnit
 
 + Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla
 
-+ controller-taso ei sisällä logiikkaa vain service-tason komento 
++ controller-taso ei sisällä logiikkaa vain service-tason komentoja 
+
+================================================================================
 
 Korjaa seuraavat:
 
@@ -105,3 +106,23 @@ Korjaa seuraavat:
 
 +  lisää   @Override
     public String toString() { .. } entiteetteihin
+    
++ testaa storeToUploadDirectory-metodia
+
++ tutki virhekoodin palauttaminen 
+
+@ControllerAdvice(basePackageClasses = FooController.class)
+public class FooControllerAdvice extends ResponseEntityExceptionHandler {
+
+   @ExceptionHandler(MyException.class)
+   public ResponseEntity<Message> handleRequestErrorMyException(HttpServletRequest request, MyException myException) {
+        HttpStatus status = HttpStatus.valueOf(myException.getStatus();
+        return new ResponseEntity<>(new CustomErrorType(status.value(), ex.getMessage()), status);
+    }
+
+}
+
++ LanguageFileStorage on ajateltava uudestaan esim. => eräänlainen abstract factory bean 
+  joka palauttaa beaneja
+  
+  + UnitValidatorissa ja Workvalidatorsissa on outo setteri!!

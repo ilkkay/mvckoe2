@@ -19,7 +19,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @Entity(name = "trWork")
 @Table(name = "TR_WORK")
 public class Work implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id

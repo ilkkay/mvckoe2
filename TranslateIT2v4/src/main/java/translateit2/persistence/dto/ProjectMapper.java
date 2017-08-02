@@ -12,8 +12,7 @@ import translateit2.persistence.model.Unit;
 @Component
 @Primary
 public class ProjectMapper extends ModelMapper {
-
-    PropertyMap<Project, ProjectDto> map13 = new PropertyMap<Project, ProjectDto>() {
+    PropertyMap<Project, ProjectDto> projectMap = new PropertyMap<Project, ProjectDto>() {
 
         @Override
         protected void configure() {
@@ -23,7 +22,7 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<ProjectDto, Project> map14 = new PropertyMap<ProjectDto, Project>() {
+    PropertyMap<ProjectDto, Project> projectDtoMap = new PropertyMap<ProjectDto, Project>() {
         @Override
         protected void configure() {
             skip().setPerson(null);
@@ -31,8 +30,7 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<Unit, UnitDto> map15 = new PropertyMap<Unit, UnitDto>() {
-
+    PropertyMap<Unit, UnitDto> unitMap = new PropertyMap<Unit, UnitDto>() {
         @Override
         protected void configure() {
             // TODO Auto-generated method stub
@@ -40,7 +38,7 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<UnitDto, Unit> map16 = new PropertyMap<UnitDto, Unit>() {
+    PropertyMap<UnitDto, Unit> unitDtoMap = new PropertyMap<UnitDto, Unit>() {
         @Override
         protected void configure() {
             skip().setWork(null);
@@ -48,8 +46,8 @@ public class ProjectMapper extends ModelMapper {
     };
 
     public ProjectMapper() {
-        addMappings(map13);
-        addMappings(map14);
+        addMappings(projectMap);
+        addMappings(projectDtoMap);
     }
 
 }

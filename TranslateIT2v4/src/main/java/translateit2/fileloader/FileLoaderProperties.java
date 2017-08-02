@@ -5,10 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("translateit2.fileloader")
 public class FileLoaderProperties {
 
-    private String location = "upload-dir3";
+    private String location;
 
     /**
-     * Folder location for storing files
+     * Folder location for uploading files
      */
     public String getLocation() {
         return location;

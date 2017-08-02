@@ -6,6 +6,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
+import translateit2.fileloader.LanguageFileLoaderService;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactoryImpl;
 import translateit2.lngfileservice.LanguageFileFormat;
@@ -24,12 +27,11 @@ import translateit2.lngfileservice.LanguageFileStorage;
 @WebAppConfiguration
 public class LanguageFileStorageIntegrationTest {
 
-    private LanguageFileServiceFactory languageFileServiceFactory;
-
     @Autowired
-    public void setLngFileServiceFactory(LanguageFileServiceFactoryImpl lngFileServiceFactory) {
-        this.languageFileServiceFactory = lngFileServiceFactory;
-    }
+    private LanguageFileLoaderService fileStorage;
+    
+    @Autowired
+    private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Test
     public void getFactoryService_cached() {
@@ -51,7 +53,7 @@ public class LanguageFileStorageIntegrationTest {
             assertThat(e).hasMessageContaining("No value present");
         }
 
-        Path p = service.getPath("dotcms_en.properties");
+        Path p = fileStorage.getPath("dotcms_en.properties");
         assertThat(p.getParent().toString(), is(equalTo("upload-dir4")));
 
         languageFileServiceFactory.listFormatsSupported().stream().forEach(System.out::println);

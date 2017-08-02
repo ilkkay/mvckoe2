@@ -9,6 +9,7 @@ package translateit2.persistence.model;
 	Once the work is CLOSED, it becomes read-only (ARCHIVED). 
  */
 public enum Status {
+    /*
     NEW(0), OPEN(1), PENDING(2), CLOSED(3), ARCHIVED(4);
     private int value;
     private String types[] = { "new", "open", "pending", "closed", "archived" };
@@ -20,4 +21,6 @@ public enum Status {
     public String toString() {
         return types[value];
     }
+    */
+    NEW, OPEN, PENDING, CLOSED, ARCHIVED;
 }

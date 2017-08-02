@@ -3,4 +3,8 @@
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="translateit2.configuration.DemoDatabaseInitializer"/>
 <fullyQualifiedTypeName name="translateit2.configuration.DatabaseInitializer"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
+<fullyQualifiedTypeName name="java.nio.file.Paths"/>
+<fullyQualifiedTypeName name="translateit2.service.WorkService"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
 </qualifiedTypeNameHistroy>

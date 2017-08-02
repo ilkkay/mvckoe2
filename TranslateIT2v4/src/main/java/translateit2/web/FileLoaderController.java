@@ -10,6 +10,7 @@ import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Status;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -37,10 +38,13 @@ import java.util.stream.Collectors;
 public class FileLoaderController {
     private final FileLoaderService storageService;
     private ProjectService projectService;
+    private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Autowired
-    public FileLoaderController(FileLoaderService storageService, ProjectService projectService,
+    public FileLoaderController(FileLoaderService storageService, 
+            ProjectService projectService,
+            WorkService workService,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.storageService = storageService;
         this.projectService = projectService;
@@ -74,7 +78,7 @@ public class FileLoaderController {
     @GetMapping("/mockDownload") // downloadFromDb
     public String downloadFile(Model model) throws IOException {
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        List<WorkDto> works = workService.listProjectWorkDtos(prj.getId());
         WorkDto work = works.get(0);
         LanguageFileStorage lngStorageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
@@ -86,9 +90,9 @@ public class FileLoaderController {
                                 .build().toString())
                         .collect(Collectors.toList()));
 
-        work = projectService.getWorkDtoById(work.getId());
+        work = workService.getWorkDtoById(work.getId());
         work.setStatus(Status.PENDING);
-        projectService.updateWorkDto(work);
+        workService.updateWorkDto(work);
         return "download";
     }
 
@@ -108,7 +112,7 @@ public class FileLoaderController {
             throws IOException {
 
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 2");
-        List<WorkDto> works = projectService.listProjectWorkDtos(prj.getId());
+        List<WorkDto> works = workService.listProjectWorkDtos(prj.getId());
         WorkDto work = works.get(0);
         LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
         /*
@@ -126,14 +130,14 @@ public class FileLoaderController {
          */
         if (("source").equals(destination)) {
             storageService.uploadSourceToDb(uploadedLngFile, work.getId());
-            work = projectService.getWorkDtoById(work.getId());
+            work = workService.getWorkDtoById(work.getId());
             work.setStatus(Status.NEW);
-            projectService.updateWorkDto(work);
+            workService.updateWorkDto(work);
         } else if (("target").equals(destination)) {
             storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-            work = projectService.getWorkDtoById(work.getId());
+            work = workService.getWorkDtoById(work.getId());
             work.setStatus(Status.OPEN);
-            projectService.updateWorkDto(work);
+            workService.updateWorkDto(work);
         } else
             throw new FileLoaderServiceException("Unexpected error. Destination was neither source or target.");
 

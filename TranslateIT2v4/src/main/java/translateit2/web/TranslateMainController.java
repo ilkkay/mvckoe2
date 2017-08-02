@@ -18,8 +18,7 @@ import translateit2.fileloader.FileLoaderService;
 public class TranslateMainController {
 
     @Autowired
-    public void setStorageService(FileLoaderService storageService) {
-    }
+    private FileLoaderService storageService;
 
     @GetMapping("/")
     public String homePage(Model model) {

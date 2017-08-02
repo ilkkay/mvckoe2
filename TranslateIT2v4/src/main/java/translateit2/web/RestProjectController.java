@@ -32,6 +32,7 @@ import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.restapi.Projects;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 
 /* A popular solution to this problem is the use of Cross-Origin Resource Sharing 
  * (CORS). CORS is a W3C Recommendation, supported by all modern browsers, 
@@ -47,19 +48,14 @@ import translateit2.service.ProjectService;
 @RequestMapping("/api")
 public class RestProjectController {
 
+    @Autowired
     private ProjectService projectService;
 
     @Autowired
-    public void setProjectService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
-    private LanguageFileServiceFactory languageFileServiceFactory;
-
+    private WorkService workService;
+    
     @Autowired
-    public void setLngFileServiceFactory(LanguageFileServiceFactory languageFileServiceFactory) {
-        this.languageFileServiceFactory = languageFileServiceFactory;
-    }
+    private LanguageFileServiceFactory languageFileServiceFactory;
 
     public static final Logger logger = LoggerFactory.getLogger(RestProjectController.class);
 
@@ -75,7 +71,7 @@ public class RestProjectController {
         HashMap<Long, Integer> workCountMap = new LinkedHashMap<Long, Integer>();
 
         // TODO: make a new method
-        projects.forEach(prj -> workCountMap.put(prj.getId(), projectService.listProjectWorkDtos(prj.getId()).size()));
+        projects.forEach(prj -> workCountMap.put(prj.getId(), workService.listProjectWorkDtos(prj.getId()).size()));
 
         // TODO: where should I put these
         List<AvailableFormat> formats = new ArrayList<AvailableFormat>();

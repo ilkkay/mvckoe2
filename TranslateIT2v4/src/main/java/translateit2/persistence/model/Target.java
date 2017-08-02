@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Embeddable
 public class Target {
-    //@Column(columnDefinition = "TEXT")
+    
     @Column(length=10000)
     private String text;
 
@@ -19,8 +19,6 @@ public class Target {
     private boolean equivalent;
 
     State state;
-
-    // Alternatives alternatives;
 
     Comment comment;
 

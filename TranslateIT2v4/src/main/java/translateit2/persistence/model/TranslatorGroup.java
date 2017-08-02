@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity(name = "trTranslatorGroup")
 @Table(name = "TR_TRANSLATORGROUP")
 public class TranslatorGroup implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private String name;

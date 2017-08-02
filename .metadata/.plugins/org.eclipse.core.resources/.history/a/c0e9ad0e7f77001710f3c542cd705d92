@@ -1,0 +1,5 @@
+package translateit2.service;
+
+public interface WorkService {
+
+}

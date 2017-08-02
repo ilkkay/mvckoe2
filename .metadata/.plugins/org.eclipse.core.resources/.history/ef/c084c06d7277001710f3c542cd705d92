@@ -1,0 +1,5 @@
+package translateit2.fileloader;
+
+public enum FileLoadError {
+
+}

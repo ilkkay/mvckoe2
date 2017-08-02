@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity(name = "trHistory")
 @Table(name = "TR_HISTORY")
 public class History implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id

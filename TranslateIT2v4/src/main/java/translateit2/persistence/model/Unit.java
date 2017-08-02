@@ -16,14 +16,12 @@ import javax.persistence.Table;
 @Entity(name = "trUnit")
 @Table(name = "TR_UNIT")
 public class Unit implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //@Column(columnDefinition = "TEXT")
     @Column(length=10000)
     private String segment_key;
 
@@ -44,7 +42,7 @@ public class Unit implements Serializable {
             @AttributeOverride(name = "skeleton_tag", column = @Column(name = "target_skeleton_tag")) })
     private Target target;
 
-    private int serial_number;
+    private int serialNumber;
 
     public Long getId() {
         return id;
@@ -79,11 +77,11 @@ public class Unit implements Serializable {
     }
 
     public int getSerialNumber() {
-        return serial_number;
+        return serialNumber;
     }
 
     public void setSerialNumber(int serialNumber) {
-        this.serial_number = serialNumber;
+        this.serialNumber = serialNumber;
     }
 
     public Work getWork() {

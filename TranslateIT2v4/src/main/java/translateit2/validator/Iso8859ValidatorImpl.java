@@ -26,16 +26,25 @@ import translateit2.fileloader.FileLoaderServiceException;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 import translateit2.util.Messages;
 import translateit2.util.OrderedProperties;
 
 @Component
 public class Iso8859ValidatorImpl implements LanguageFileValidator {
+    
     private ProjectService projectService;
 
     @Autowired
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    private WorkService workService;
+
+    @Autowired
+    public void setWorkService(WorkService workService) {
+        this.workService = workService;
     }
 
     private Messages messages;
@@ -135,7 +144,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
         } catch (MalformedInputException e) {
             return false; // do nothing is OK
         } catch (IOException e) {
-            throw new FileLoaderServiceException("Unexpected exception thrown while testing charset ofa properties file");
+            throw new FileLoaderServiceException("Unexpected exception thrown while testing charset of a properties file");
         }
         return true; // if charset == UTF8 and no exceptions => file is UTF8
         // encoded
@@ -170,7 +179,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     }
 
     private LanguageFileType getExpectedFiletype(final long workId) {
-        final long projectId = projectService.getWorkDtoById(workId).getProjectId();
+        final long projectId = workService.getWorkDtoById(workId).getProjectId();
         return projectService.getProjectDtoById(projectId).getType();
     }
 
@@ -214,7 +223,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
 
     public Charset getCharSet(long workId) {
         LanguageFileType typeExpected = null;
-        final long projectId = projectService.getWorkDtoById(workId).getProjectId();
+        final long projectId = workService.getWorkDtoById(workId).getProjectId();
         ProjectDto projectDto = projectService.getProjectDtoById(projectId);
         typeExpected = projectDto.getType();
 

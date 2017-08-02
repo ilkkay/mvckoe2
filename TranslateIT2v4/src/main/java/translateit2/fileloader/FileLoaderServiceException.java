@@ -1,7 +1,8 @@
 package translateit2.fileloader;
 
 public class FileLoaderServiceException extends RuntimeException {
-
+    private static final long serialVersionUID = 1L;
+    
     public FileLoaderServiceException(String message) {
         super(message);
     }
@@ -9,4 +10,20 @@ public class FileLoaderServiceException extends RuntimeException {
     public FileLoaderServiceException(String message, Throwable cause) {
         super(message, cause);
     }
+    
+    FileLoadError errorCode;
+
+    public FileLoaderServiceException(FileLoadError errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public FileLoaderServiceException(FileLoadError errorCode, Throwable cause) {
+        super(cause);
+        this.errorCode = errorCode;
+    }
+
+    public FileLoaderServiceException(Throwable cause) {
+        super(cause);
+    }
+    
 }

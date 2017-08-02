@@ -41,21 +41,36 @@ import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Statistics;
 import translateit2.restapi.Units;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 
 @RestController
 @RequestMapping("/api")
 public class RestUnitController {
+    public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
+
     private final FileLoaderService storageService;
     private ProjectService projectService;
+    private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     Statistics mockStat = new Statistics(); // TODO: this is a mock solution
     boolean isMockStatInitialized = false;
 
+    @Autowired
+    public RestUnitController(FileLoaderService storageService, 
+            ProjectService projectService,
+            WorkService workService,
+            LanguageFileServiceFactory languageFileServiceFactory) {
+        this.projectService = projectService;
+        this.workService = workService;
+        this.languageFileServiceFactory = languageFileServiceFactory;
+        this.storageService = storageService;
+    }
+
     private void InitMockStat(final long workId) {
         isMockStatInitialized = true;
 
-        List<UnitDto> units = projectService.listUnitDtos(workId);
+        List<UnitDto> units = workService.listUnitDtos(workId);
         long total = units.size();
         long translated = 0;
         for (UnitDto unit : units) {
@@ -70,15 +85,6 @@ public class RestUnitController {
         mockStat.setWorkId(workId);
     }
 
-    @Autowired
-    public RestUnitController(FileLoaderService storageService, ProjectService projectService,
-            LanguageFileServiceFactory languageFileServiceFactory) {
-        this.projectService = projectService;
-        this.languageFileServiceFactory = languageFileServiceFactory;
-        this.storageService = storageService;
-    }
-
-    public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -98,7 +104,7 @@ public class RestUnitController {
         // http://www.baeldung.com/spring-uricomponentsbuilder
         logger.info("Creating url path for workId {}", id);
 
-        WorkDto work = projectService.getWorkDtoById(id);
+        WorkDto work = workService.getWorkDtoById(id);
         ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
         LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
 
@@ -124,8 +130,8 @@ public class RestUnitController {
 
         int pageSize = 4;
         int pageIndex = pageNum - 1;
-        long pageCount = projectService.getUnitDtoCount(workId);
-        List<UnitDto> workUnits = projectService.getPage(workId, pageIndex, pageSize);
+        long pageCount = workService.getUnitDtoCount(workId);
+        List<UnitDto> workUnits = workService.getPage(workId, pageIndex, pageSize);
 
         if (workUnits.isEmpty()) {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
@@ -180,9 +186,9 @@ public class RestUnitController {
 
         List<UnitDto> newUnitDtos = new ArrayList<UnitDto>();
         newUnitDtos.add(unit);
-        projectService.updateUnitDtos(newUnitDtos, id);
+        workService.updateUnitDtos(newUnitDtos, id);
 
-        unit = projectService.getUnitDtoById(unit.getId());
+        unit = workService.getUnitDtoById(unit.getId());
         return new ResponseEntity<>(unit, HttpStatus.OK);
     }
 
@@ -192,7 +198,7 @@ public class RestUnitController {
     public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
         logger.info("Fetching Unit with id {}", id);
 
-        UnitDto unt = projectService.getUnitDtoById(id);
+        UnitDto unt = workService.getUnitDtoById(id);
 
         if (unt == null) {
             logger.error("Unit with id {} not found.", id);
@@ -210,7 +216,7 @@ public class RestUnitController {
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
             , UriComponentsBuilder ucBuilder) {
 
-        WorkDto work = projectService.getWorkDtoById(id);
+        WorkDto work = workService.getWorkDtoById(id);
         if (work == null) {
             logger.error("Unable to upload target file. Work with id {} not found.", id);
             return new ResponseEntity<>(
@@ -241,9 +247,9 @@ public class RestUnitController {
                     HttpStatus.NOT_FOUND);
         }
 
-        work = projectService.getWorkDtoById(work.getId());
+        work = workService.getWorkDtoById(work.getId());
         work.setStatus(Status.OPEN);
-        work = projectService.updateWorkDto(work);
+        work = workService.updateWorkDto(work);
 
         // TODO: mock statistics
         InitMockStat(work.getId());

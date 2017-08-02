@@ -33,3 +33,5 @@
 1501594523797	Move 'test_fi.properties' to 'fileloader'
 1501597709058	Rename resource 'model'
 1501597749931	Move compilation unit
+1501669097298	Rename resource 'CannotReadFile.java'
+1501676982436	Rename type 'DemoDatabaseInitializer'

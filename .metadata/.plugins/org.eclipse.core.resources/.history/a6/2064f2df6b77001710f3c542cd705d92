@@ -1,0 +1,15 @@
+package translateit2.fileloader;
+
+public class CannotReadFile extends FileLoaderServiceException {
+
+    public CannotReadFile(String message) {
+        super(message);
+        // TODO Auto-generated constructor stub
+    }
+
+    public CannotReadFile(String message, Throwable cause) {
+        super(message, cause);
+        // TODO Auto-generated constructor stub
+    }
+
+}

@@ -36,6 +36,7 @@ import translateit2.persistence.model.Source;
 import translateit2.persistence.model.Status;
 import translateit2.persistence.model.Target;
 import translateit2.service.ProjectService;
+import translateit2.service.WorkService;
 import translateit2.util.Messages;
 
 //https://springframework.guru/integration-testing-with-spring-and-junit/
@@ -54,12 +55,11 @@ import translateit2.util.Messages;
 public class ProjectServiceIntegrationTest {
     static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTest.class.getName());
 
+    @Autowired
     private ProjectService projectService;
 
     @Autowired
-    public void setProjectService(ProjectService projectService) {
-        this.projectService = projectService;
-    }
+    private WorkService workService;
 
     @Autowired
     Messages messages;
@@ -198,27 +198,27 @@ public class ProjectServiceIntegrationTest {
         work.setDeadLine(deadLine);
         work.setProgress(0.666);
         work.setGroupId(groupDto.getId());
-        work = projectService.createWorkDto(work);
+        work = workService.createWorkDto(work);
 
-        WorkDto wrk1 = projectService.getWorkDtoById(work.getId());
+        WorkDto wrk1 = workService.getWorkDtoById(work.getId());
         assertEquals("dotcms", wrk1.getOriginalFile());
 
         LocalDate newDeadLine = wrk1.getDeadLine().plusDays(1L);
         work.setDeadLine(newDeadLine);
-        work = projectService.updateWorkDto(work);
-        LocalDate expected = LocalDate.parse("2017-10-07");
-        wrk1 = projectService.getWorkDtoById(work.getId());
+        work = workService.updateWorkDto(work);
+        LocalDate expected = LocalDate.parse("2017-10-08");
+        wrk1 = workService.getWorkDtoById(work.getId());
         assertThat(expected, is(equalTo(wrk1.getDeadLine())));
-        assertThat(1L, is(equalTo(projectService.getWorkDtoCount(wrk1.getGroupId()))));
+        assertThat(1L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
 
-        List<WorkDto> works = projectService.listWorkDtos(wrk1.getGroupId());
+        List<WorkDto> works = workService.listWorkDtos(wrk1.getGroupId());
         assertThat(1, is(equalTo(works.size())));
 
         // remove created work and remove all works of its parent project
         projectService.removeProjectDto(wrk1.getProjectId());
         // get count of all projects
         assertThat(1L, is(equalTo(projectService.getProjectDtoCount(0))));
-        assertThat(0L, is(equalTo(projectService.getWorkDtoCount(wrk1.getGroupId()))));
+        assertThat(0L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
 
         // remove all
         projectService.removeProjectDtos(projectService.listAllProjectDtos());
@@ -289,7 +289,7 @@ public class ProjectServiceIntegrationTest {
         work.setDeadLine(deadLine);
         work.setProgress(0.666);
         work.setGroupId(groupDto.getId());
-        work = projectService.createWorkDto(work);
+        work = workService.createWorkDto(work);
 
         /*
          * initializng finished
@@ -310,15 +310,15 @@ public class ProjectServiceIntegrationTest {
         unitDtos.add(unit);
 
         // when
-        projectService.createUnitDtos(unitDtos, work.getId());
+        workService.createUnitDtos(unitDtos, work.getId());
 
         // TODO: then
-        long unitCount = projectService.getUnitDtoCount(work.getId());
+        long unitCount = workService.getUnitDtoCount(work.getId());
         assertThat(1L, is(equalTo(unitCount)));
         unitDtos.clear();
 
         // giwen
-        List<UnitDto> newUnitDtos = projectService.listUnitDtos(work.getId());
+        List<UnitDto> newUnitDtos = workService.listUnitDtos(work.getId());
         newUnitDtos.forEach(dto -> dto.setSegmentKey("new " + dto.getSegmentKey()));
         newUnitDtos.forEach(dto -> dto.getSource().setText("new " + dto.getSource().getText()));
 
@@ -326,7 +326,7 @@ public class ProjectServiceIntegrationTest {
         newUnitDtos.forEach(dto -> dto.getTarget().setText("new " + dto.getTarget().getText()));
 
         // when
-        projectService.updateUnitDtos(newUnitDtos, work.getId());
+        workService.updateUnitDtos(newUnitDtos, work.getId());
 
         // TODO: then
         assertThat(1, is(equalTo(1)));
@@ -334,14 +334,14 @@ public class ProjectServiceIntegrationTest {
 
         int pageIndex = 0;
         int pageSize = 10;
-        List<UnitDto> unitPage = projectService.getPage(work.getId(), pageIndex, pageSize);
+        List<UnitDto> unitPage = workService.getPage(work.getId(), pageIndex, pageSize);
         assertThat(1, is(equalTo(unitPage.size())));
 
         // when remove units
-        projectService.removeUnitDtos(work.getId());
+        workService.removeUnitDtos(work.getId());
 
         // then no units more for this work
-        unitCount = projectService.getUnitDtoCount(work.getId());
+        unitCount = workService.getUnitDtoCount(work.getId());
         assertThat(0L, is(equalTo(unitCount)));
 
         // remove all

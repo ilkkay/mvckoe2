@@ -10,6 +10,7 @@ package translateit2.persistence.model;
 	FINAL Indicates the terminating state.	
  */
 public enum State {
+    /*
     NEW(0), TRANSLATED(1), NEEDS_REVIEW(2), NEEDS_TRANSLATION(3), SIGNED_OFF(4), FINAL(5);
     private int value;
     private String types[] = { "new", "translated", "need review", "needs translation", "signed off", "final" };
@@ -21,4 +22,6 @@ public enum State {
     public String toString() {
         return types[value];
     }
+    */
+    NEW, TRANSLATED, NEEDS_REVIEW, NEEDS_TRANSLATION, SIGNED_OFF, FINAL;
 }

@@ -26,11 +26,6 @@ public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
     }
 
     @Override
-    public Path getPath(String filename) {
-        return fileStorage.getPath(filename);
-    }
-
-    @Override
     public Path storeFile(MultipartFile file) {
         // TODO Auto-generated method stub
         return null;
@@ -65,11 +60,4 @@ public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
         // TODO Auto-generated method stub
 
     }
-
-    @Override
-    public Path createSkeletonLngFile(Path storedOriginalFile, long workId) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
