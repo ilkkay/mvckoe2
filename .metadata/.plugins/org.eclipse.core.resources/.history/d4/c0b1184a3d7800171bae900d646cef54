@@ -1,0 +1,40 @@
+package translateit2.filelocator;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import translateit2.fileloader.FileLoaderService;
+import translateit2.persistence.dao.FileInfoRepository;
+
+@Component
+public class FileLocatorImpl implements FileLocator {
+    @Autowired
+    FileInfoRepository fileInfoRepo;
+    
+    @Autowired
+    FileLoaderService fileLoaderService;
+    
+    public FileLocatorImpl() {
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public Path moveUploadedFileIntoFilesystem(Path uploadedFile, long workId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private Path getUniquePath(String extension) {
+        Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
+        Path dirPath = Paths.get(LocalDate.now().toString());
+        Path path = dirPath.resolve(fnamePath);
+        path = path.resolveSibling(path.getFileName() + extension);
+        return path;
+    }
+}

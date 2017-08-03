@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,6 +32,9 @@ public class Work implements Serializable {
     @ManyToOne
     private TranslatorGroup group;
 
+    @OneToOne
+    private FileInfo fileinfo;
+    
     private Locale locale;
 
     private String version;
@@ -144,6 +148,14 @@ public class Work implements Serializable {
 
     public void setGroup(TranslatorGroup group) {
         this.group = group;
+    }
+
+    public FileInfo getFileinfo() {
+        return fileinfo;
+    }
+
+    public void setFileinfo(FileInfo fileinfo) {
+        this.fileinfo = fileinfo;
     }
 
     public String getOriginalFile() {

@@ -16,17 +16,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
 
+import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.InfoRepository;
 import translateit2.persistence.dao.PersonRepository;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.TranslatorGroupRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
+import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.ProjectMapper;
+import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.Info;
 import translateit2.persistence.model.Person;
 import translateit2.persistence.model.Project;
@@ -61,6 +64,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private InfoRepository infoRepo;
+
+    @Autowired
+    private FileInfoRepository fileInfoRepo;
 
     @Autowired
     private WorkRepository workRepo;
@@ -128,10 +134,37 @@ public class ProjectServiceImpl implements ProjectService {
         logger.log(getLoggerLevel(), "Leaving createInfoDto with {}", infoDto.toString());
         return infoDto;
     }
-
     /*
      * INFO services end
      */
+
+    /*
+     * FILE INFO services start
+     */
+    private FileInfoDto convertToDto(FileInfo info) {
+        if (info == null)
+            return null;
+        FileInfoDto infoDto = modelMapper.map(info, FileInfoDto.class);
+        return infoDto;
+    }
+
+    private FileInfo convertToEntity(FileInfoDto fileInfoDto) {
+        FileInfo info = modelMapper.map(fileInfoDto, FileInfo.class);
+        return info;
+    }
+
+    @Override
+    public FileInfoDto createFileInfoDto(@Valid final FileInfoDto entity) {
+        logger.log(getLoggerLevel(), "Entering createFileInfoDto with {}", entity.toString());
+        FileInfo perInfo = fileInfoRepo.save(convertToEntity(entity));
+        FileInfoDto infoDto = convertToDto(perInfo);
+        logger.log(getLoggerLevel(), "Leaving createInfoDto with {}", infoDto.toString());
+        return infoDto;
+    }
+    /*
+     * FILE INFO services end
+     */
+    
     /*
      * GROUP services start
      */

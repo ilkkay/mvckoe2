@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import translateit2.TranslateIt2v4Application;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
+import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -182,9 +183,14 @@ public class ProjectServiceIntegrationTest {
          * initializng finished
          */
 
+        // create empty file info for work entity
+        FileInfoDto fileInfoDto = new FileInfoDto();
+        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
+        
         WorkDto work = new WorkDto();
         work.setProjectId(prj.getId());
         work.setGroupId(666L);
+        work.setFileInfoId(fileInfoDto.getId());
         work.setLocale(new Locale("en_EN"));
         work.setVersion("0.07");
         work.setOriginalFile("dotcms");
@@ -206,7 +212,7 @@ public class ProjectServiceIntegrationTest {
         LocalDate newDeadLine = wrk1.getDeadLine().plusDays(1L);
         work.setDeadLine(newDeadLine);
         work = workService.updateWorkDto(work);
-        LocalDate expected = LocalDate.parse("2017-10-08");
+        LocalDate expected = LocalDate.parse("2017-10-09");
         wrk1 = workService.getWorkDtoById(work.getId());
         assertThat(expected, is(equalTo(wrk1.getDeadLine())));
         assertThat(1L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
@@ -273,9 +279,14 @@ public class ProjectServiceIntegrationTest {
         long curCount = projectService.getProjectDtoCount(0);
         assertThat(curCount, is(equalTo(startCount + 2)));
 
+        // create empty file info for work entity
+        FileInfoDto fileInfoDto = new FileInfoDto();
+        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
+        
         WorkDto work = new WorkDto();
         work.setProjectId(prj.getId());
         work.setGroupId(666L);
+        work.setFileInfoId(fileInfoDto.getId());
         work.setLocale(new Locale("en_EN"));
         work.setVersion("0.07");
         work.setOriginalFile("dotcms");

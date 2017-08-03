@@ -1,0 +1,5 @@
+package translateit2.languagefileservice.factory;
+
+public class LanguageFileServiceFactoryImpl2 extends LanguageFileFactory<T, FORMAT> {
+
+}

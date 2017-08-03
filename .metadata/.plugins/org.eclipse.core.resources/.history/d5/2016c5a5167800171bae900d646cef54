@@ -1,0 +1,9 @@
+package translateit2.languagefileservice.factory;
+
+public class LanguageFileFactory {
+
+    public LanguageFileFactory() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

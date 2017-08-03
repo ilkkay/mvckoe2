@@ -1,0 +1,9 @@
+package translateit2.service;
+
+public class LoadingContractor {
+
+    public LoadingContractor() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

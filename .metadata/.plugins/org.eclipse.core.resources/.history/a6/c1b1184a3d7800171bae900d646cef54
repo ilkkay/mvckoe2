@@ -1,0 +1,7 @@
+package translateit2.filelocator;
+
+import java.nio.file.Path;
+
+public interface FileLocator {
+    Path moveUploadedFileIntoFilesystem(Path uploadFile, long workId);
+}

@@ -1,6 +1,6 @@
 package translateit2.fileloader;
 
-public class CannotCreateUploadDirectoryException extends FileLoaderServiceException {
+public class CannotCreateUploadDirectoryException extends FileLoaderException {
     private static final long serialVersionUID = 1L;
     
     public CannotCreateUploadDirectoryException(String message) {

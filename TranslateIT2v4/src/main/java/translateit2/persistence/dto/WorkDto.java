@@ -19,6 +19,8 @@ public class WorkDto {
     private long projectId;
 
     private long groupId;
+    
+    private long fileinfoId;
 
     @NotNull
     private Locale locale;
@@ -70,6 +72,14 @@ public class WorkDto {
         this.groupId = groupId;
     }
 
+    public long getFileinfoId() {
+        return fileinfoId;
+    }
+
+    public void setFileInfoId(long fileinfoId) {
+        this.fileinfoId = fileinfoId;
+    }
+    
     public Locale getLocale() {
         return locale;
     }

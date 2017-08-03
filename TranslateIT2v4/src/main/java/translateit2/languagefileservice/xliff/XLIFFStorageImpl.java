@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import translateit2.fileloader.LanguageFileLoaderService;
+import translateit2.fileloader.FileLoaderImpl;
 import translateit2.lngfileservice.LanguageFileFormat;
 
 @Component
 public class XLIFFStorageImpl implements XLIFFStorage {
     @Autowired
-    LanguageFileLoaderService fileStorage;
+    FileLoaderImpl fileStorage;
 
     @Override
     public LanguageFileFormat getFileFormat() {

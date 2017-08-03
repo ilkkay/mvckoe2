@@ -6,8 +6,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
-import translateit2.fileloader.LanguageFileLoaderService;
+import translateit2.fileloader.FileLoaderImpl;
+import translateit2.languagefactory.LanguageFileFactory;
+import translateit2.languagefactory.LanguageFileReader;
+import translateit2.languagefactory.LanguageFileValidator;
+import translateit2.languagefactory.LanguageFileWriter;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
-import translateit2.languagefileservice.factory.LanguageFileServiceFactoryImpl;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
 
@@ -28,11 +29,11 @@ import translateit2.lngfileservice.LanguageFileStorage;
 public class LanguageFileStorageIntegrationTest {
 
     @Autowired
-    private LanguageFileLoaderService fileStorage;
+    private FileLoaderImpl fileStorage;
     
     @Autowired
     private LanguageFileServiceFactory languageFileServiceFactory;
-
+        
     @Test
     public void getFactoryService_cached() {
         LanguageFileStorage service = null;

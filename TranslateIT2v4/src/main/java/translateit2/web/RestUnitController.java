@@ -27,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import translateit2.fileloader.FileLoaderService;
-import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.fileloader.FileLoader;
+import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
@@ -48,7 +48,7 @@ import translateit2.service.WorkService;
 public class RestUnitController {
     public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
 
-    private final FileLoaderService storageService;
+    private final FileLoader storageService;
     private ProjectService projectService;
     private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
@@ -57,7 +57,7 @@ public class RestUnitController {
     boolean isMockStatInitialized = false;
 
     @Autowired
-    public RestUnitController(FileLoaderService storageService, 
+    public RestUnitController(FileLoader storageService, 
             ProjectService projectService,
             WorkService workService,
             LanguageFileServiceFactory languageFileServiceFactory) {
@@ -240,7 +240,7 @@ public class RestUnitController {
              * upload
              */
             storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-        } catch (FileLoaderServiceException e) {
+        } catch (FileLoaderException e) {
             logger.error("Could not upload source language file for workId {}: ", id);
             return new ResponseEntity<>(
                     new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),

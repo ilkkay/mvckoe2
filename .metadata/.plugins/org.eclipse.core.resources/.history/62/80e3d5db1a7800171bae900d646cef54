@@ -1,0 +1,6 @@
+package translateit2.languagefileservice.factory;
+
+public interface LanguageFile extends AbstractLanguageFile {
+
+
+}

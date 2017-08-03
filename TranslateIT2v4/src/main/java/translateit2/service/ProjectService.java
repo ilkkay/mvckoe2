@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 
+import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -27,6 +28,8 @@ public interface ProjectService {
     TranslatorGroupDto getGroupDtoByName(String name);
 
     InfoDto createInfoDto(@Valid final InfoDto entity);
+    
+    FileInfoDto createFileInfoDto(@Valid final FileInfoDto entity);
 
     /**
      * Project

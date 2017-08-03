@@ -1,6 +1,6 @@
 package translateit2.fileloader;
 
-public class LoadedFileNotFoundException extends FileLoaderServiceException {
+public class LoadedFileNotFoundException extends FileLoaderException {
     private static final long serialVersionUID = 1L;
 
     public LoadedFileNotFoundException(String message) {

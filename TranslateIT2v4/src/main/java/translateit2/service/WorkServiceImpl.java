@@ -18,12 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
 
+import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.dto.ProjectMapper;
+import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
@@ -52,6 +54,9 @@ public class WorkServiceImpl implements WorkService {
 
     @Autowired
     private UnitRepository unitRepo;
+    
+    @Autowired
+    private FileInfoRepository fileInfoRepo;
 
     /*
      * WORK services start
@@ -104,6 +109,8 @@ public class WorkServiceImpl implements WorkService {
         logger.log(getLoggerLevel(), "Entering removeWorkDto with id: {} ", workId);
 
         if (workRepo.exists(workId)) {
+            FileInfo info = workRepo.findOne(workId).getFileinfo();
+            fileInfoRepo.delete(info.getId());
             removeUnitDtos(workId);
             workRepo.delete(workId);
             logger.log(getLoggerLevel(), "Leaving removeWorkDto()");

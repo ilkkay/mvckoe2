@@ -1,0 +1,12 @@
+package translateit2.languagefileservice.factory;
+
+import java.util.List;
+import java.util.Optional;
+
+import translateit2.lngfileservice.LanguageFileFormat;
+
+public interface AbstractLanguageFileFactory <T> {
+    Optional<T> getService(LanguageFileFormat type);
+
+    List<LanguageFileFormat> listFormatsSupported();
+}

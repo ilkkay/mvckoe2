@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
+import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
@@ -54,10 +55,16 @@ public class DemoDatabaseInitializerImpl implements DatabaseInitializer {
         prj.setInfoId(infoDto.getId());
         prj = projectService.createProjectDto(prj);
 
+        
+        // create empty file info for work entity
+        FileInfoDto fileInfoDto = new FileInfoDto();
+        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
+        
         // create work for demo project
         WorkDto work = new WorkDto();
         work.setProjectId(prj.getId());
         work.setGroupId(666L);
+        work.setFileInfoId(fileInfoDto.getId());
         work.setLocale(new Locale("fi_FI"));
         work.setVersion("0.07");
         // work.setOriginalFile("dotcms");

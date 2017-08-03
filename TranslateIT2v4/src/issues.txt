@@ -52,6 +52,10 @@ Ei toimi jos full_name. Ongelma myös kun serialNumber => serial_number
 
 23) korjaa turhat interface public metodi -määritykset pois DONE
 
+24) abstract factory bean joka palauttaa beaneja DONE
+
+25) LanguageFileStorage on ajateltava uudestaan. Perusinfra DONE  
+
 + mieti vertikaali spacingin käyttöä
 
 + ja sitten testauksen koodikirjaston scopeiksi test 
@@ -122,7 +126,5 @@ public class FooControllerAdvice extends ResponseEntityExceptionHandler {
 
 }
 
-+ LanguageFileStorage on ajateltava uudestaan esim. => eräänlainen abstract factory bean 
-  joka palauttaa beaneja
   
   + UnitValidatorissa ja Workvalidatorsissa on outo setteri!!

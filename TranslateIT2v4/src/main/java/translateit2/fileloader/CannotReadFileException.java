@@ -1,6 +1,6 @@
 package translateit2.fileloader;
 
-public class CannotReadFileException extends FileLoaderServiceException {
+public class CannotReadFileException extends FileLoaderException {
     private static final long serialVersionUID = 1L;
     
     public CannotReadFileException(Throwable throwable) {

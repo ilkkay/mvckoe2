@@ -1,0 +1,9 @@
+package translateit2.filelocator;
+
+public class FileLocator {
+
+    public FileLocator() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

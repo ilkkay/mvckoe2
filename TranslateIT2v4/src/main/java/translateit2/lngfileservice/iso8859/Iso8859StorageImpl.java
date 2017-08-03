@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import translateit2.configuration.CharSetResolver;
-import translateit2.fileloader.FileLoaderServiceException;
-import translateit2.fileloader.LanguageFileLoaderService;
+import translateit2.fileloader.FileLoaderException;
+import translateit2.fileloader.FileLoaderImpl;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
@@ -48,7 +48,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     private CharSetResolver charSetResolver;
 
     @Autowired
-    private LanguageFileLoaderService fileStorage;
+    private FileLoaderImpl fileStorage;
 
     @Autowired
     private ProjectService projectService;
@@ -73,7 +73,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     }
 
     @Override
-    public String checkValidity(Path uploadedLngFile, long workId) throws FileLoaderServiceException {
+    public String checkValidity(Path uploadedLngFile, long workId) throws FileLoaderException {
         String appName = null;
         iso8859util.checkFileExtension(uploadedLngFile);
         appName = iso8859util.checkFileNameFormat(uploadedLngFile);
@@ -107,7 +107,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
      * @param workId
      *            work entity identifier
      * @return nothing
-     * @throws FileLoaderServiceException
+     * @throws FileLoaderException
      *             if not able read file.
      */
     @Override
@@ -120,7 +120,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile, charset);
         } catch (IOException e) { //
-            throw new FileLoaderServiceException((messages.get("FileStorageService.not_read_properties_file")) + " "
+            throw new FileLoaderException((messages.get("FileStorageService.not_read_properties_file")) + " "
                     + uploadedLngFile.getFileName());
         }
 
@@ -160,7 +160,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile, charset);
         } catch (IOException e) { //
-            throw new FileLoaderServiceException((messages.get("FileStorageService.not_read_properties_file")) + " "
+            throw new FileLoaderException((messages.get("FileStorageService.not_read_properties_file")) + " "
                     + uploadedLngFile.getFileName());
         }
 
@@ -181,7 +181,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         try {
             dstDir = downloadTargetLngFile(dstDir, workId);
         } catch (IOException e) {
-            throw new FileLoaderServiceException(e.getLocalizedMessage());
+            throw new FileLoaderException(e.getLocalizedMessage());
         }
 
         return Files.walk(dstDir); // TODO: at the moment, just testing
@@ -243,7 +243,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
                 System.out.println(getKey(line) + "=" + map.get(key));
                 outLines.add(getKey(line) + "=" + map.get(key));
             } else
-                throw new FileLoaderServiceException("Could not create file for download");
+                throw new FileLoaderException("Could not create file for download");
         }
         Files.write(target, outLines);
 
@@ -293,7 +293,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     }
 
     private HashMap<String, String> getPropSegments(Path inputPath, Charset charset)
-            throws FileLoaderServiceException, IOException {
+            throws FileLoaderException, IOException {
 
         HashMap<String, String> map = new LinkedHashMap<String, String>();
         OrderedProperties srcProp = new OrderedProperties();
@@ -306,10 +306,10 @@ public class Iso8859StorageImpl implements Iso8859Storage {
             map = keys.stream().filter(k -> k.toString().matches(".*\\w.*")).collect(Collectors.toMap(k -> k.toString(),
                     k -> srcProp.getProperty(k), (v1, v2) -> v1, LinkedHashMap::new));
         } catch (FileNotFoundException e) {
-            throw new FileLoaderServiceException((messages.get("FileStorageService.not_find_file")) + " " + inputPath.toString(),
+            throw new FileLoaderException((messages.get("FileStorageService.not_find_file")) + " " + inputPath.toString(),
                     e);
         } catch (IOException e) {
-            throw new FileLoaderServiceException(
+            throw new FileLoaderException(
                     (messages.get("FileStorageService.not_read_properties_file")) + " " + inputPath.toString(), e);
         }
 

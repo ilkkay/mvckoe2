@@ -1,0 +1,50 @@
+package translateit2.filelocator;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import translateit2.fileloader.FileLoaderService;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.persistence.dao.FileInfoRepository;
+
+@Component
+public class FileLocatorImpl implements FileLocator {    
+    @Autowired
+    FileLoaderService fileLoaderService;
+    
+    public FileLocatorImpl() {
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public Path moveUploadedFileIntoFilesystem(Path uploadedFile, 
+            LanguageFileFormat format) {
+        // create new path
+        
+        // and make a backup copy from the uploaded file
+        
+        // create new path
+        
+        // and make original file from the uploaded file
+        // notice that in case of properties file these two are the same
+        // but in case xliff and po files back file is the file which was loaded the first time
+        // since xliff and po files dont have source and target files
+
+        return null;
+    }
+
+    private Path getUniquePath(LanguageFileFormat format) {
+        Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
+        Path dirPath = Paths.get(LocalDate.now().toString());
+        Path path = dirPath.resolve(fnamePath);
+        path = path.resolveSibling(path.getFileName() + "." + format.toString());
+        return path;
+    }
+}

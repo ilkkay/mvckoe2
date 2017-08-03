@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.fileloader.FileLoaderException;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
 

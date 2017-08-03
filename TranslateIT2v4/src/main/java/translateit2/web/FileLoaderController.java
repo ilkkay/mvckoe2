@@ -1,7 +1,7 @@
 package translateit2.web;
 
-import translateit2.fileloader.FileLoaderService;
-import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.fileloader.FileLoader;
+import translateit2.fileloader.FileLoaderException;
 import translateit2.fileloader.LoadedFileNotFoundException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileFormat;
@@ -36,13 +36,13 @@ import java.util.stream.Collectors;
 //
 @Controller
 public class FileLoaderController {
-    private final FileLoaderService storageService;
+    private final FileLoader storageService;
     private ProjectService projectService;
     private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
 
     @Autowired
-    public FileLoaderController(FileLoaderService storageService, 
+    public FileLoaderController(FileLoader storageService, 
             ProjectService projectService,
             WorkService workService,
             LanguageFileServiceFactory languageFileServiceFactory) {
@@ -139,7 +139,7 @@ public class FileLoaderController {
             work.setStatus(Status.OPEN);
             workService.updateWorkDto(work);
         } else
-            throw new FileLoaderServiceException("Unexpected error. Destination was neither source or target.");
+            throw new FileLoaderException("Unexpected error. Destination was neither source or target.");
 
         redirectAttributes.addFlashAttribute("message",
                 "You uploaded " + destination + " file:" + file.getOriginalFilename() + "!");
@@ -159,12 +159,12 @@ public class FileLoaderController {
         return errorPage(exc);
     }
 
-    @ExceptionHandler(FileLoaderServiceException.class)
-    public ResponseEntity<?> handleStorage(FileLoaderServiceException exc) {
+    @ExceptionHandler(FileLoaderException.class)
+    public ResponseEntity<?> handleStorage(FileLoaderException exc) {
         return errorPage(exc);
     }
 
-    private ResponseEntity<String> errorPage(FileLoaderServiceException exc) {
+    private ResponseEntity<String> errorPage(FileLoaderException exc) {
         ResponseEntity<String> errorResponse = null;
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("HeaderKey", "HeaderData");

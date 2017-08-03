@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import translateit2.persistence.model.Project;
 import translateit2.persistence.model.Unit;
+import translateit2.persistence.model.Work;
 
 // converter: http://stackoverflow.com/questions/36717365/how-to-use-modelmapper-to-convert-nested-classes
 @Component
@@ -45,9 +46,26 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
+    PropertyMap<Work, WorkDto> workMap = new PropertyMap<Work, WorkDto>() {
+        @Override
+        protected void configure() {
+            // TODO Auto-generated method stub
+            map().setFileInfoId(source.getFileinfo().getId());
+        }
+    };
+
+    PropertyMap<WorkDto, Work> workDtoMap = new PropertyMap<WorkDto, Work>() {
+        @Override
+        protected void configure() {
+            skip().setFileinfo(null);
+        }
+    };
+    
     public ProjectMapper() {
         addMappings(projectMap);
         addMappings(projectDtoMap);
+        addMappings(workMap);
+        addMappings(workDtoMap);
     }
 
 }
