@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -22,163 +23,167 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class Work implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private String backup_file;
+
+    @DateTimeFormat(iso = ISO.DATE)
+    private LocalDate deadLine;
+
+    @OneToOne
+    private FileInfo fileinfo;
+
+    @DateTimeFormat(iso = ISO.DATE)
+    private LocalDate finished;
+    
+    @ManyToOne
+    private TranslatorGroup group;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private Project project;
-
-    @ManyToOne
-    private TranslatorGroup group;
-
-    @OneToOne
-    private FileInfo fileinfo;
-    
     private Locale locale;
 
-    private String version;
-
     private String original_file;
-
-    private String backup_file;
-
-    private String skeleton_file;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
     private double progress;
 
+    @ManyToOne
+    private Project project;
+
+    private String skeleton_file;
+
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate started;
 
-    @DateTimeFormat(iso = ISO.DATE)
-    private LocalDate finished;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-    @DateTimeFormat(iso = ISO.DATE)
-    private LocalDate deadLine;
+    private String version;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
-    public LocalDate getStarted() {
-        return started;
-    }
-
-    public void setStarted(LocalDate started) {
-        this.started = started;
-    }
-
-    public LocalDate getFinished() {
-        return finished;
-    }
-
-    public void setFinished(LocalDate finished) {
-        this.finished = finished;
+    public String getBackupFile() {
+        return backup_file;
     }
 
     public LocalDate getDeadLine() {
         return deadLine;
     }
 
-    public void setDeadLine(LocalDate deadLine) {
-        this.deadLine = deadLine;
+    public FileInfo getFileinfo() {
+        return fileinfo;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
+    public LocalDate getFinished() {
+        return finished;
     }
 
     public TranslatorGroup getGroup() {
         return group;
     }
 
-    public void setGroup(TranslatorGroup group) {
-        this.group = group;
+    public Long getId() {
+        return id;
     }
 
-    public FileInfo getFileinfo() {
-        return fileinfo;
-    }
-
-    public void setFileinfo(FileInfo fileinfo) {
-        this.fileinfo = fileinfo;
+    public Locale getLocale() {
+        return locale;
     }
 
     public String getOriginalFile() {
         return original_file;
     }
 
-    public void setOriginalFile(String originalFile) {
-        this.original_file = originalFile;
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public Project getProject() {
+        return project;
     }
 
     public String getSkeletonFile() {
         return skeleton_file;
     }
 
-    public void setSkeletonFile(String skeletonFile) {
-        this.skeleton_file = skeletonFile;
+    public LocalDate getStarted() {
+        return started;
     }
 
-    public String getBackupFile() {
-        return backup_file;
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     public void setBackupFile(String backupFile) {
         this.backup_file = backupFile;
     }
+
+    public void setDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
+    }
+
+    public void setFileinfo(FileInfo fileinfo) {
+        this.fileinfo = fileinfo;
+    }
+
+    public void setFinished(LocalDate finished) {
+        this.finished = finished;
+    }
+
+    public void setGroup(TranslatorGroup group) {
+        this.group = group;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public void setOriginalFile(String originalFile) {
+        this.original_file = originalFile;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public void setSkeletonFile(String skeletonFile) {
+        this.skeleton_file = skeletonFile;
+    }
+
+    public void setStarted(LocalDate started) {
+        this.started = started;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+    
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+      }
 }

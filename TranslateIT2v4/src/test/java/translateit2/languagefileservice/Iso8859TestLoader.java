@@ -32,6 +32,14 @@ import translateit2.util.OrderedProperties;
 
 public class Iso8859TestLoader {
 
+    public static void copyISO8859toUTF8(String srcFileLocationStr, String dstFileLocationStr) throws IOException {
+        Path srcFilePath = Paths.get(srcFileLocationStr);
+        Path dstFilePath = Paths.get(dstFileLocationStr);
+
+        List<String> lines = Files.readAllLines(srcFilePath, StandardCharsets.ISO_8859_1);
+        Files.write(dstFilePath, lines, StandardCharsets.UTF_8);
+    }
+
     public static HashMap<String, String> getPropSegments(Path inputPath, Charset charset) throws IOException {
 
         InputStreamReader isr = null;
@@ -166,6 +174,31 @@ public class Iso8859TestLoader {
         return tgtFileLocationStr;
     }
 
+    public static boolean isISO8859File(String srcFileLocationStr) throws IOException {
+        Path srcFilePath = Paths.get(srcFileLocationStr);
+
+        List<String> lines = Files.readAllLines(srcFilePath, StandardCharsets.UTF_8); // StandardCharsets.ISO_8859_1
+                                                                                      // );
+
+        // Check if a string that was decoded from bytes in latin1
+        // could have been decoded in UTF-8, too. => Check if illegal byte
+        // sequences are replaced
+        // by the character \ufffd:
+        boolean noReplacementCharacterFound = false;
+        int count = 0;
+        int negCount = 0;
+        for (String line : lines) {
+            String recoded = new String(line.getBytes("iso-8859-1"), "UTF-8");
+            // noReplacementCharacterFound = recoded.indexOf('\uFFFD') == -1;
+            if (recoded.indexOf('\uFFFD') == -1)
+                count++;
+            if (recoded.indexOf('\uFFFD') != -1)
+                negCount++;
+        }
+
+        return noReplacementCharacterFound;
+    }
+
     /*
      * public static List<Transu> testGetTransus() throws IOException { List
      * <Transu> transus =new ArrayList<Transu>();
@@ -194,39 +227,6 @@ public class Iso8859TestLoader {
         InputStream newStream = new ByteArrayInputStream(outData);
 
         return newStream;
-    }
-
-    public static void copyISO8859toUTF8(String srcFileLocationStr, String dstFileLocationStr) throws IOException {
-        Path srcFilePath = Paths.get(srcFileLocationStr);
-        Path dstFilePath = Paths.get(dstFileLocationStr);
-
-        List<String> lines = Files.readAllLines(srcFilePath, StandardCharsets.ISO_8859_1);
-        Files.write(dstFilePath, lines, StandardCharsets.UTF_8);
-    }
-
-    public static boolean isISO8859File(String srcFileLocationStr) throws IOException {
-        Path srcFilePath = Paths.get(srcFileLocationStr);
-
-        List<String> lines = Files.readAllLines(srcFilePath, StandardCharsets.UTF_8); // StandardCharsets.ISO_8859_1
-                                                                                      // );
-
-        // Check if a string that was decoded from bytes in latin1
-        // could have been decoded in UTF-8, too. => Check if illegal byte
-        // sequences are replaced
-        // by the character \ufffd:
-        boolean noReplacementCharacterFound = false;
-        int count = 0;
-        int negCount = 0;
-        for (String line : lines) {
-            String recoded = new String(line.getBytes("iso-8859-1"), "UTF-8");
-            // noReplacementCharacterFound = recoded.indexOf('\uFFFD') == -1;
-            if (recoded.indexOf('\uFFFD') == -1)
-                count++;
-            if (recoded.indexOf('\uFFFD') != -1)
-                negCount++;
-        }
-
-        return noReplacementCharacterFound;
     }
 
     // none english properties file returns malformed if is neing read using

@@ -1,9 +1,9 @@
 package translateit2.validator;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,9 +12,9 @@ import javax.validation.Payload;
 @Target(ElementType.TYPE)
 @Constraint(validatedBy = WorkValidator.class)
 public @interface WorkConstraint {
-    String message() default "Invalid work entity";
-
     Class<?>[] groups() default {};
+
+    String message() default "Invalid work entity";
 
     Class<? extends Payload>[] payload() default {};
 }

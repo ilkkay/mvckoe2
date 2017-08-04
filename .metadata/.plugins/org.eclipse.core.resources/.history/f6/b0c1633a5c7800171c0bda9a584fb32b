@@ -1,0 +1,9 @@
+package translateit2.fileloader;
+
+public enum FileLoadError {
+    CANNOT_CREATE_UPLOAD_DIRECTORY,
+    CANNOT_READ_FILE,
+    CANNOT_UPLOAD_FILE,
+    FILE_TOBELOADED_IS_EMPTY,
+    FILE_NOT_FOUND
+}

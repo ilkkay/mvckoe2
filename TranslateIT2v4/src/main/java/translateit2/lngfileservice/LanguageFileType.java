@@ -1,7 +1,7 @@
 package translateit2.lngfileservice;
 
 public enum LanguageFileType {
-    // http://crunchify.com/why-and-for-what-should-i-use-enum-java-enum-examples/
+    ISO8859_1, // http://crunchify.com/why-and-for-what-should-i-use-enum-java-enum-examples/
 /*
     UTF_8(1), ISO8859_1(2);
     private int value;
@@ -15,5 +15,5 @@ public enum LanguageFileType {
         return types[value];
     }
 */
-    UTF_8, ISO8859_1; 
+    UTF_8; 
 }

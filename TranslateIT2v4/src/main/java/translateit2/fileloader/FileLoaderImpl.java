@@ -1,15 +1,5 @@
 package translateit2.fileloader;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -17,56 +7,45 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.util.Locale;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component // oli service mutta miksi
 public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
-    private final Path rootLocation;
-
     private ResourceLoader resourceLoader;
+
+    private final Path rootLocation;
 
     @Autowired
     public FileLoaderImpl(FileLoaderProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
+    @Override
+    public void deleteUploadedFile(String filename) {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException {
-        if (file.isEmpty()) 
-            //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
-            throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
+    public void deleteUploadedFiles() {
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
 
-        Path outFilePath;
-        try(InputStream in = file.getInputStream()) {    
-            
-            // make sure that you have a directory where to upload
-            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
-            if (Files.notExists(rootLocation)) 
-                //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
-                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY);
-
-            outFilePath = this.rootLocation.resolve(file.getOriginalFilename());
-            Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            //throw new CannotUploadFileException(file.getOriginalFilename(), e);
-            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE,e.getCause());
-        }
-
-        return outFilePath;
+    @Override
+    public Path getPath(String filename) {
+        return rootLocation.resolve(filename);
     }
 
     @Override
@@ -78,11 +57,6 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             //throw new CannotReadFileException(e.getCause());
             throw new FileLoaderException(e.getCause());
         }
-    }
-
-    @Override
-    public Path getPath(String filename) {
-        return rootLocation.resolve(filename);
     }
 
     @Override
@@ -109,24 +83,46 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public void deleteUploadedFiles() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
+
+    @Override
+    public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException {
+        if (file.isEmpty()) 
+            //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
+          throw new LoadedFileNotFoundException(file.getOriginalFilename());
+            //throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
+
+        Path outFilePath;
+        try(InputStream in = file.getInputStream()) {    
+            
+            // make sure that you have a directory where to upload
+            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
+            if (Files.notExists(rootLocation)) 
+                //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
+                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY);
+
+            outFilePath = this.rootLocation.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            //throw new CannotUploadFileException(file.getOriginalFilename(), e);
+            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE,e.getCause());
+        }
+
+        return outFilePath;
+    }
+
 
     @PostConstruct
     private void init() throws FileLoaderException {
         try {
-            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
+            deleteUploadedFiles();
+            
+            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);            
         } catch (IOException e) {
             //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
             throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
         }
-    }
-
-
-    @Override
-    public void deleteUploadedFile(String filename) {
-        // TODO Auto-generated method stub
-        
     }
 }

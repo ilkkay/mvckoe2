@@ -21,15 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import translateit2.restapi.AvailableCharacterSet;
-import translateit2.restapi.AvailableFormat;
-import translateit2.restapi.CustomErrorType;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
-import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
+import translateit2.restapi.AvailableCharacterSet;
+import translateit2.restapi.AvailableFormat;
+import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Projects;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
@@ -48,16 +47,81 @@ import translateit2.service.WorkService;
 @RequestMapping("/api")
 public class RestProjectController {
 
+    public static final Logger logger = LoggerFactory.getLogger(RestProjectController.class);
+
+    @Autowired
+    private LanguageFileServiceFactory languageFileServiceFactory;
+    
     @Autowired
     private ProjectService projectService;
 
     @Autowired
     private WorkService workService;
-    
-    @Autowired
-    private LanguageFileServiceFactory languageFileServiceFactory;
 
-    public static final Logger logger = LoggerFactory.getLogger(RestProjectController.class);
+    @RequestMapping(value = "/project/", method = RequestMethod.POST)
+    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
+        logger.info("Creating Project : {}", project);
+
+        ProjectDto prj = projectService.getProjectDtoById(project.getId());
+        if (prj != null) {
+            logger.error("Unable to create. A Project with name {} already exist", project.getName());
+            return new ResponseEntity<>(
+                    new CustomErrorType(
+                            "Unable to create. A Project with name " + project.getName() + " already exist."),
+                    HttpStatus.CONFLICT);
+        }
+
+        InfoDto infoDto = new InfoDto();
+        infoDto.setText("This is info");
+        infoDto = projectService.createInfoDto(infoDto);
+
+        PersonDto personDto = projectService.getPersonDtoByPersonName("Ilkka");
+
+        project.setInfoId(infoDto.getId());
+        project.setPersonId(personDto.getId());
+        prj = projectService.createProjectDto(project);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/project/{id}").buildAndExpand(prj.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
+    // -------------------Retrieve Single
+    // Project------------------------------------------
+
+    // ------------------- Delete a
+    // Project-----------------------------------------
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteProject(@PathVariable("id") long id) {
+        logger.info("Fetching & Deleting Project with id {}", id);
+
+        ProjectDto prj = projectService.getProjectDtoById(id);
+        if (prj == null) {
+            logger.error("Unable to delete. project with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Project with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        projectService.removeProjectDto(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------------------Create a
+    // Project-------------------------------------------
+
+    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getProject(@PathVariable("id") long id) {
+        logger.info("Fetching Project with id {}", id);
+
+        ProjectDto prj = projectService.getProjectDtoById(id);
+
+        if (prj == null) {
+            logger.error("Project with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Project with id " + id + " not found"),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(prj, HttpStatus.OK);
+    }
 
     // -------------------Retrieve All
     // Projects---------------------------------------------
@@ -94,54 +158,6 @@ public class RestProjectController {
         return new ResponseEntity<>(prjs, HttpStatus.OK);
     }
 
-    // -------------------Retrieve Single
-    // Project------------------------------------------
-
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getProject(@PathVariable("id") long id) {
-        logger.info("Fetching Project with id {}", id);
-
-        ProjectDto prj = projectService.getProjectDtoById(id);
-
-        if (prj == null) {
-            logger.error("Project with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Project with id " + id + " not found"),
-                    HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(prj, HttpStatus.OK);
-    }
-
-    // -------------------Create a
-    // Project-------------------------------------------
-
-    @RequestMapping(value = "/project/", method = RequestMethod.POST)
-    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
-        logger.info("Creating Project : {}", project);
-
-        ProjectDto prj = projectService.getProjectDtoById(project.getId());
-        if (prj != null) {
-            logger.error("Unable to create. A Project with name {} already exist", project.getName());
-            return new ResponseEntity<>(
-                    new CustomErrorType(
-                            "Unable to create. A Project with name " + project.getName() + " already exist."),
-                    HttpStatus.CONFLICT);
-        }
-
-        InfoDto infoDto = new InfoDto();
-        infoDto.setText("This is info");
-        infoDto = projectService.createInfoDto(infoDto);
-
-        PersonDto personDto = projectService.getPersonDtoByPersonName("Ilkka");
-
-        project.setInfoId(infoDto.getId());
-        project.setPersonId(personDto.getId());
-        prj = projectService.createProjectDto(project);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/project/{id}").buildAndExpand(prj.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
-
     // ------------------- Update a Project
     // ------------------------------------------------
     // @RequestMapping(value = "/project/{id:\\d+}", method = RequestMethod.PUT)
@@ -158,22 +174,5 @@ public class RestProjectController {
 
         prj = projectService.updateProjectDto(project);
         return new ResponseEntity<>(prj, HttpStatus.OK);
-    }
-
-    // ------------------- Delete a
-    // Project-----------------------------------------
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteProject(@PathVariable("id") long id) {
-        logger.info("Fetching & Deleting Project with id {}", id);
-
-        ProjectDto prj = projectService.getProjectDtoById(id);
-        if (prj == null) {
-            logger.error("Unable to delete. project with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Project with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-
-        projectService.removeProjectDto(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

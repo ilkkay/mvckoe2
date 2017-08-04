@@ -20,20 +20,20 @@ public class LanguageFileFactory <T extends AbstractLanguageFile <FORMAT>, FORMA
     @Autowired
     private List<T> services;
 
-    @PostConstruct
-    public void initLngServiceCache() {
-        services.forEach(s -> serviceCache.put(s.getFileFormat(), s));
-    }
-    
     @Override
     public Optional<T> getService(FORMAT type) {
         Map<FORMAT, T> services = serviceCache.entrySet().stream()
                 .filter(p -> p.getValue().getFileFormat().equals(type))
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         if (services.size() == 1)
-            return Optional.of((T) services.get(type));
+            return Optional.of(services.get(type));
         else
             return Optional.<T>empty();
+    }
+    
+    @PostConstruct
+    public void initLngServiceCache() {
+        services.forEach(s -> serviceCache.put(s.getFileFormat(), s));
     }
     
     @Override

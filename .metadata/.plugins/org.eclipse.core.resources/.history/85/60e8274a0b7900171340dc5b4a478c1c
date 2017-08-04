@@ -1,0 +1,44 @@
+package translateit2.validator;
+
+public class TestClass {
+
+    private Long l;
+    
+    public TestClass() {
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TestClass other = (TestClass) obj;
+        if (l == null) {
+            if (other.l != null)
+                return false;
+        } else if (!l.equals(other.l))
+            return false;
+        return true;
+    }
+
+    public Long getL() {
+        return l;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((l == null) ? 0 : l.hashCode());
+        return result;
+    }
+
+    public void setL(Long l) {
+        this.l = l;
+    }
+
+}

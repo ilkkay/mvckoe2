@@ -3,9 +3,11 @@ package translateit2.languagefileservice;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.nio.file.Path;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
 import translateit2.fileloader.FileLoaderImpl;
-import translateit2.languagefactory.LanguageFileFactory;
-import translateit2.languagefactory.LanguageFileReader;
-import translateit2.languagefactory.LanguageFileValidator;
-import translateit2.languagefactory.LanguageFileWriter;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
@@ -30,10 +28,23 @@ public class LanguageFileStorageIntegrationTest {
 
     @Autowired
     private FileLoaderImpl fileStorage;
-    
+
     @Autowired
     private LanguageFileServiceFactory languageFileServiceFactory;
-        
+
+    // https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
+    @Test
+    public void failToUpLoad_ifFormatNotSupported() {
+
+        try {
+            languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
+            fail("No exception was thrown");
+        } catch (Exception e) {
+            assertThat(e).isInstanceOf(RuntimeException.class);
+        }
+
+    }
+
     @Test
     public void getFactoryService_cached() {
         LanguageFileStorage service = null;
@@ -58,19 +69,6 @@ public class LanguageFileStorageIntegrationTest {
         assertThat(p.getParent().toString(), is(equalTo("upload-dir4")));
 
         languageFileServiceFactory.listFormatsSupported().stream().forEach(System.out::println);
-    }
-
-    // https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
-    @Test
-    public void failToUpLoad_ifFormatNotSupported() {
-
-        try {
-            languageFileServiceFactory.getService(LanguageFileFormat.PO).get();
-            fail("No exception was thrown");
-        } catch (Exception e) {
-            assertThat(e).isInstanceOf(RuntimeException.class);
-        }
-
     }
 
 }

@@ -1,9 +1,8 @@
 package translateit2;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
@@ -22,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import translateit2.TranslateIt2v4Application;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.FileInfoDto;
@@ -65,173 +63,6 @@ public class ProjectServiceIntegrationTest {
     @Autowired
     Messages messages;
 
-    @Before
-    public void setup() {
-        Locale.setDefault(Locale.ENGLISH); // for javax validation
-        messages.setLocale(Locale.ENGLISH); // for custom validation
-    }
-
-    @Test
-    public void createUpdateAddProjectRemoveAll_returnEmptyDB() {
-        /* from different service */
-        PersonDto personDto = new PersonDto();
-        personDto.setFullName("James Bond");
-        personDto = projectService.createPersonDto(personDto);
-
-        InfoDto infoDto = new InfoDto();
-        infoDto.setText("This is info");
-        infoDto = projectService.createInfoDto(infoDto);
-
-        long startCount = projectService.getProjectDtoCount(0);
-
-        ProjectDto prj = new ProjectDto();
-        prj.setName("Translate IT 22");
-        prj.setSourceLocale(new Locale("fi_FI"));
-        prj.setFormat(LanguageFileFormat.PROPERTIES);
-        prj.setType(LanguageFileType.UTF_8);
-        prj.setPersonId(personDto.getId());
-        prj.setInfoId(infoDto.getId());
-        prj = projectService.createProjectDto(prj);
-
-        ProjectDto prj1 = projectService.getProjectDtoById(prj.getId());
-        assertEquals("Translate IT 22", prj.getName());
-        ProjectDto prj2 = projectService.getProjectDtoByProjectName("Translate IT 22");
-        assertEquals("Translate IT 22", prj2.getName());
-
-        prj.setName("Translate IT 4");
-        prj = projectService.updateProjectDto(prj);
-        prj = projectService.getProjectDtoById(prj.getId());
-        assertEquals("Translate IT 4", prj.getName());
-
-        prj = new ProjectDto();
-        prj.setName("Translate IT 5");
-        prj.setPersonId(personDto.getId());
-        prj.setInfoId(infoDto.getId());
-        prj.setSourceLocale(new Locale("fi_FI"));
-        prj.setFormat(LanguageFileFormat.PROPERTIES);
-        prj.setType(LanguageFileType.UTF_8);
-        prj = projectService.createProjectDto(prj);
-
-        long curCount = projectService.getProjectDtoCount(0);
-        assertThat(curCount, is(equalTo(startCount + 2)));
-
-        // remove one
-        projectService.removeProjectDto(prj.getId());
-        curCount = projectService.getProjectDtoCount(0);
-        assertThat(curCount, is(equalTo(startCount + 1)));
-
-        // TODO test remove all for a person
-        long personId = prj.getPersonId();
-        List<ProjectDto> personPrjs = projectService.listProjectDtos(personId);
-        projectService.removeProjectDtos(personPrjs);
-        curCount = projectService.getProjectDtoCount(personId);
-        assertThat(curCount, is(equalTo(0L)));
-
-        // remove all
-        projectService.removeProjectDtos(projectService.listAllProjectDtos());
-        curCount = projectService.getProjectDtoCount(0);
-        assertThat(curCount, is(equalTo(0L)));
-    }
-
-    @Test
-    public void createWork_assertProjectIdWorkId_returnEmptyDB() {
-        PersonDto personDto = new PersonDto();
-        personDto.setFullName("James Bond");
-        personDto = projectService.createPersonDto(personDto);
-
-        InfoDto infoDto = new InfoDto();
-        infoDto.setText("This is info");
-        infoDto = projectService.createInfoDto(infoDto);
-
-        TranslatorGroupDto groupDto = new TranslatorGroupDto();
-        groupDto = projectService.createGroupDto(groupDto);
-
-        long startCount = projectService.getProjectDtoCount(0);
-
-        ProjectDto prj = new ProjectDto();
-        prj.setName("Translate IT 22");
-        prj.setSourceLocale(new Locale("fi_FI"));
-        prj.setFormat(LanguageFileFormat.PROPERTIES);
-        prj.setType(LanguageFileType.UTF_8);
-        prj.setPersonId(personDto.getId());
-        prj.setInfoId(infoDto.getId());
-        prj = projectService.createProjectDto(prj);
-
-        ProjectDto prj1 = projectService.getProjectDtoById(prj.getId());
-        assertEquals("Translate IT 22", prj.getName());
-        ProjectDto prj2 = projectService.getProjectDtoByProjectName("Translate IT 22");
-        assertEquals("Translate IT 22", prj2.getName());
-
-        prj.setName("Translate IT 4");
-        prj = projectService.updateProjectDto(prj);
-        prj = projectService.getProjectDtoById(prj.getId());
-        assertEquals("Translate IT 4", prj.getName());
-
-        prj = new ProjectDto();
-        prj.setName("Translate IT 5");
-        prj.setPersonId(personDto.getId());
-        prj.setInfoId(infoDto.getId());
-        prj.setSourceLocale(new Locale("fi_FI"));
-        prj.setFormat(LanguageFileFormat.PROPERTIES);
-        prj.setType(LanguageFileType.UTF_8);
-        prj = projectService.createProjectDto(prj);
-
-        long curCount = projectService.getProjectDtoCount(0);
-        assertThat(curCount, is(equalTo(startCount + 2)));
-
-        /*
-         * initializng finished
-         */
-
-        // create empty file info for work entity
-        FileInfoDto fileInfoDto = new FileInfoDto();
-        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
-        
-        WorkDto work = new WorkDto();
-        work.setProjectId(prj.getId());
-        work.setGroupId(666L);
-        work.setFileInfoId(fileInfoDto.getId());
-        work.setLocale(new Locale("en_EN"));
-        work.setVersion("0.07");
-        work.setOriginalFile("dotcms");
-        work.setSkeletonFile("skeleton file");
-        work.setStatus(Status.NEW);
-        work.setPriority(Priority.HIGH);
-        work.setStarted(LocalDate.now());
-        LocalDate currentDate = LocalDate.now();
-        LocalDate deadLine = currentDate.plusMonths(2L);
-        deadLine = deadLine.plusDays(5L);
-        work.setDeadLine(deadLine);
-        work.setProgress(0.666);
-        work.setGroupId(groupDto.getId());
-        work = workService.createWorkDto(work);
-
-        WorkDto wrk1 = workService.getWorkDtoById(work.getId());
-        assertEquals("dotcms", wrk1.getOriginalFile());
-
-        LocalDate newDeadLine = wrk1.getDeadLine().plusDays(1L);
-        work.setDeadLine(newDeadLine);
-        work = workService.updateWorkDto(work);
-        LocalDate expected = LocalDate.parse("2017-10-09");
-        wrk1 = workService.getWorkDtoById(work.getId());
-        assertThat(expected, is(equalTo(wrk1.getDeadLine())));
-        assertThat(1L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
-
-        List<WorkDto> works = workService.listWorkDtos(wrk1.getGroupId());
-        assertThat(1, is(equalTo(works.size())));
-
-        // remove created work and remove all works of its parent project
-        projectService.removeProjectDto(wrk1.getProjectId());
-        // get count of all projects
-        assertThat(1L, is(equalTo(projectService.getProjectDtoCount(0))));
-        assertThat(0L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
-
-        // remove all
-        projectService.removeProjectDtos(projectService.listAllProjectDtos());
-        curCount = projectService.getProjectDtoCount(0);
-        assertThat(curCount, is(equalTo(0L)));
-    }
-
     @Test
     public void createUnit_assertUnitCount_returnEmptyDB() {
 
@@ -246,7 +77,7 @@ public class ProjectServiceIntegrationTest {
         TranslatorGroupDto groupDto = new TranslatorGroupDto();
         groupDto = projectService.createGroupDto(groupDto);
 
-        long startCount = projectService.getProjectDtoCount(0);
+        long startCount = projectService.getProjectDtoCount();
 
         ProjectDto prj = new ProjectDto();
         prj.setName("Translate IT 333");
@@ -276,13 +107,13 @@ public class ProjectServiceIntegrationTest {
         prj.setSourceLocale(new Locale("en_EN"));
         prj = projectService.createProjectDto(prj);
 
-        long curCount = projectService.getProjectDtoCount(0);
+        long curCount = projectService.getProjectDtoCount();
         assertThat(curCount, is(equalTo(startCount + 2)));
 
         // create empty file info for work entity
         FileInfoDto fileInfoDto = new FileInfoDto();
         fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
-        
+
         WorkDto work = new WorkDto();
         work.setProjectId(prj.getId());
         work.setGroupId(666L);
@@ -357,7 +188,170 @@ public class ProjectServiceIntegrationTest {
 
         // remove all
         projectService.removeProjectDtos(projectService.listAllProjectDtos());
-        curCount = projectService.getProjectDtoCount(0);
+        curCount = projectService.getProjectDtoCount();
         assertThat(curCount, is(equalTo(0L)));
+    }
+
+    @Test
+    public void createUpdateAddProjectRemoveAll_returnEmptyDB() {
+        /* from different service */
+        PersonDto personDto = new PersonDto();
+        personDto.setFullName("James Bond");
+        personDto = projectService.createPersonDto(personDto);
+
+        InfoDto infoDto = new InfoDto();
+        infoDto.setText("This is info");
+        infoDto = projectService.createInfoDto(infoDto);
+
+        long startCount = projectService.getProjectDtoCount();
+
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Translate IT 22");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj.setPersonId(personDto.getId());
+        prj.setInfoId(infoDto.getId());
+        prj = projectService.createProjectDto(prj);
+
+        ProjectDto prj1 = projectService.getProjectDtoById(prj.getId());
+        assertEquals("Translate IT 22", prj.getName());
+        ProjectDto prj2 = projectService.getProjectDtoByProjectName("Translate IT 22");
+        assertEquals("Translate IT 22", prj2.getName());
+
+        prj.setName("Translate IT 4");
+        prj = projectService.updateProjectDto(prj);
+        prj = projectService.getProjectDtoById(prj.getId());
+        assertEquals("Translate IT 4", prj.getName());
+
+        prj = new ProjectDto();
+        prj.setName("Translate IT 5");
+        prj.setPersonId(personDto.getId());
+        prj.setInfoId(infoDto.getId());
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj = projectService.createProjectDto(prj);
+
+        long curCount = projectService.getProjectDtoCount();
+        assertThat(curCount, is(equalTo(startCount + 2)));
+
+        // remove one
+        projectService.removeProjectDto(prj.getId());
+        curCount = projectService.getProjectDtoCount();
+        assertThat(curCount, is(equalTo(startCount + 1)));
+
+        // TODO test remove all for a person
+        long personId = prj.getPersonId();
+        List<ProjectDto> personPrjs = projectService.listProjectDtos(personId);
+        projectService.removeProjectDtos(personPrjs);
+        curCount = projectService.getProjectDtoCountByPerson(personId);
+        assertThat(curCount, is(equalTo(0L)));
+
+        // remove all
+        projectService.removeProjectDtos(projectService.listAllProjectDtos());
+        curCount = projectService.getProjectDtoCount();
+        assertThat(curCount, is(equalTo(0L)));
+    }
+
+    @Test
+    public void createWork_assertProjectIdWorkId_returnEmptyDB() {
+        PersonDto personDto = new PersonDto();
+        personDto.setFullName("James Bond");
+        personDto = projectService.createPersonDto(personDto);
+
+        InfoDto infoDto = new InfoDto();
+        infoDto.setText("This is info");
+        infoDto = projectService.createInfoDto(infoDto);
+
+        TranslatorGroupDto groupDto = new TranslatorGroupDto();
+        groupDto = projectService.createGroupDto(groupDto);
+
+        long startCount = projectService.getProjectDtoCount();
+
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Translate IT 22");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj.setPersonId(personDto.getId());
+        prj.setInfoId(infoDto.getId());
+        prj = projectService.createProjectDto(prj);
+
+        ProjectDto prj1 = projectService.getProjectDtoById(prj.getId());
+        assertEquals("Translate IT 22", prj.getName());
+        ProjectDto prj2 = projectService.getProjectDtoByProjectName("Translate IT 22");
+        assertEquals("Translate IT 22", prj2.getName());
+
+        prj.setName("Translate IT 4");
+        prj = projectService.updateProjectDto(prj);
+        prj = projectService.getProjectDtoById(prj.getId());
+        assertEquals("Translate IT 4", prj.getName());
+
+        prj = new ProjectDto();
+        prj.setName("Translate IT 5");
+        prj.setPersonId(personDto.getId());
+        prj.setInfoId(infoDto.getId());
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj = projectService.createProjectDto(prj);
+
+        long curCount = projectService.getProjectDtoCount();
+        assertThat(curCount, is(equalTo(startCount + 2)));
+
+        /*
+         * initializng finished
+         */
+
+        // create empty file info for work entity
+        FileInfoDto fileInfoDto = new FileInfoDto();
+        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
+
+        WorkDto work = new WorkDto();
+        work.setProjectId(prj.getId());
+        work.setGroupId(666L);
+        work.setFileInfoId(fileInfoDto.getId());
+        work.setLocale(new Locale("en_EN"));
+        work.setVersion("0.07");
+        work.setOriginalFile("dotcms");
+        work.setSkeletonFile("skeleton file");
+        work.setStatus(Status.NEW);
+        work.setPriority(Priority.HIGH);
+        work.setStarted(LocalDate.now());
+        work.setDeadLine(LocalDate.parse("2017-10-10"));
+
+        work.setProgress(0.666);
+        work.setGroupId(groupDto.getId());
+        work = workService.createWorkDto(work);
+
+        WorkDto wrk1 = workService.getWorkDtoById(work.getId());
+        assertEquals("dotcms", wrk1.getOriginalFile());
+
+        work = workService.updateWorkDto(work);
+        LocalDate expected = LocalDate.parse("2017-10-10");
+        wrk1 = workService.getWorkDtoById(work.getId());
+        assertThat(expected, is(equalTo(wrk1.getDeadLine())));
+        assertThat(1L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
+
+        List<WorkDto> works = workService.listWorkDtos(wrk1.getGroupId());
+        assertThat(1, is(equalTo(works.size())));
+
+        // remove created work and remove all works of its parent project
+        projectService.removeProjectDto(wrk1.getProjectId());
+        // get count of all projects
+        assertThat(1L, is(equalTo(projectService.getProjectDtoCount())));
+        assertThat(0L, is(equalTo(workService.getWorkDtoCount(wrk1.getGroupId()))));
+
+        // remove all
+        projectService.removeProjectDtos(projectService.listAllProjectDtos());
+        curCount = projectService.getProjectDtoCount();
+        assertThat(curCount, is(equalTo(0L)));
+    }
+
+    @Before
+    public void setup() {
+        Locale.setDefault(Locale.ENGLISH); // for javax validation
+        messages.setLocale(Locale.ENGLISH); // for custom validation
     }
 }

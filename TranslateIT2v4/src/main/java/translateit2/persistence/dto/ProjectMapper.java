@@ -13,6 +13,14 @@ import translateit2.persistence.model.Work;
 @Component
 @Primary
 public class ProjectMapper extends ModelMapper {
+    PropertyMap<ProjectDto, Project> projectDtoMap = new PropertyMap<ProjectDto, Project>() {
+        @Override
+        protected void configure() {
+            skip().setPerson(null);
+            skip().setInfo(null);
+        }
+    };
+
     PropertyMap<Project, ProjectDto> projectMap = new PropertyMap<Project, ProjectDto>() {
 
         @Override
@@ -23,11 +31,10 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<ProjectDto, Project> projectDtoMap = new PropertyMap<ProjectDto, Project>() {
+    PropertyMap<UnitDto, Unit> unitDtoMap = new PropertyMap<UnitDto, Unit>() {
         @Override
         protected void configure() {
-            skip().setPerson(null);
-            skip().setInfo(null);
+            skip().setWork(null);
         }
     };
 
@@ -39,10 +46,10 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<UnitDto, Unit> unitDtoMap = new PropertyMap<UnitDto, Unit>() {
+    PropertyMap<WorkDto, Work> workDtoMap = new PropertyMap<WorkDto, Work>() {
         @Override
         protected void configure() {
-            skip().setWork(null);
+            skip().setFileinfo(null);
         }
     };
 
@@ -51,13 +58,6 @@ public class ProjectMapper extends ModelMapper {
         protected void configure() {
             // TODO Auto-generated method stub
             map().setFileInfoId(source.getFileinfo().getId());
-        }
-    };
-
-    PropertyMap<WorkDto, Work> workDtoMap = new PropertyMap<WorkDto, Work>() {
-        @Override
-        protected void configure() {
-            skip().setFileinfo(null);
         }
     };
     

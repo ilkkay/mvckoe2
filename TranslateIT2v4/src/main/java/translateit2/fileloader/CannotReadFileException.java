@@ -1,15 +1,15 @@
 package translateit2.fileloader;
 
-public class CannotReadFileException extends FileLoaderException {
+public class CannotReadFileException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
-    public CannotReadFileException(Throwable throwable) {
-        super(throwable);
+    public CannotReadFileException(String message, Throwable cause) {
+        super(message, cause);
         // TODO Auto-generated constructor stub
     }
 
-    public CannotReadFileException(String message, Throwable cause) {
-        super(message, cause);
+    public CannotReadFileException(Throwable throwable) {
+        super(throwable);
         // TODO Auto-generated constructor stub
     }
 

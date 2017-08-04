@@ -4,13 +4,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.model.Source;
 import translateit2.persistence.model.State;
@@ -19,6 +17,12 @@ import translateit2.persistence.model.Target;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 public class LogTest {
+
+    @Test
+    public void testPerformSomeTask() throws Exception {
+        MyLogger l = new MyLogger();
+        l.performSomeTask();
+    }
 
     static private class MyLogger {
         static final Logger logger = LogManager.getLogger(LogTest.class.getName());
@@ -55,12 +59,6 @@ public class LogTest {
         public String toString() {
             return ToStringBuilder.reflectionToString(this);
         }
-    }
-
-    @Test
-    public void testPerformSomeTask() throws Exception {
-        MyLogger l = new MyLogger();
-        l.performSomeTask();
     }
 
 }

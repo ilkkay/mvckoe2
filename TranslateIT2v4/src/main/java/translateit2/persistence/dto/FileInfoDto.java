@@ -3,30 +3,30 @@ package translateit2.persistence.dto;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class FileInfoDto {
+    private String backup_file;
+
     private long id;
 
     private String original_file;
 
-    private String backup_file;
-
     private String skeleton_file;
+
+    public String getBackup_file() {
+        return backup_file;
+    }
 
     public long getId() {
         return id;
     }
+
 
     public String getOriginal_file() {
         return original_file;
     }
 
 
-    public void setOriginal_file(String original_file) {
-        this.original_file = original_file;
-    }
-
-
-    public String getBackup_file() {
-        return backup_file;
+    public String getSkeleton_file() {
+        return skeleton_file;
     }
 
 
@@ -35,8 +35,8 @@ public class FileInfoDto {
     }
 
 
-    public String getSkeleton_file() {
-        return skeleton_file;
+    public void setOriginal_file(String original_file) {
+        this.original_file = original_file;
     }
 
     @Override

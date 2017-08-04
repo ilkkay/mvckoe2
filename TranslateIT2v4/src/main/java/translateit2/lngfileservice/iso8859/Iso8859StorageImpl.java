@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import translateit2.configuration.CharSetResolver;
 import translateit2.fileloader.FileLoaderException;
@@ -36,14 +38,11 @@ import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 import translateit2.util.Messages;
 import translateit2.util.OrderedProperties;
-import translateit2.validator.Iso8859ValidatorImpl;
 import translateit2.validator.LanguageFileValidator;
-
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class Iso8859StorageImpl implements Iso8859Storage {
+
     @Autowired
     private CharSetResolver charSetResolver;
 
@@ -51,26 +50,16 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     private FileLoaderImpl fileStorage;
 
     @Autowired
+    private LanguageFileValidator iso8859util;
+
+    @Autowired
+    private Messages messages;
+    
+    @Autowired
     private ProjectService projectService;
 
     @Autowired
     private WorkService workService;
-    
-    @Autowired
-    private Messages messages;
-
-    @Autowired
-    private LanguageFileValidator iso8859util;
-
-    @Override
-    public LanguageFileFormat getFileFormat() {
-        return LanguageFileFormat.PROPERTIES;
-    }
-
-    @Override
-    public Path storeFile(MultipartFile file) {
-        return fileStorage.storeToUploadDirectory(file);
-    }
 
     @Override
     public String checkValidity(Path uploadedLngFile, long workId) throws FileLoaderException {
@@ -83,18 +72,108 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         return appName;
     }
 
-    // TODO: this a general routine, not iso8859 specific, so it should be
-    // somewhere else
-    private void storeBackupFile(Path uploadedLngFile, long workId) throws IOException {
+    @Override
+    public Stream<Path> downloadFromDb(final long workId) throws IOException {
+        Path dstDir = null; // default location
+        try {
+            dstDir = downloadTargetLngFile(dstDir, workId);
+        } catch (IOException e) {
+            throw new FileLoaderException(e.getLocalizedMessage());
+        }
+
+        return Files.walk(dstDir); // TODO: at the moment, just testing
+    }
+
+    @Override
+    public Path downloadTargetLngFile(Path dstDir, final long workId) throws IOException {
+        // Charset charset = iso8859util.getCharSet(workId);
         WorkDto work = workService.getWorkDtoById(workId);
-        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
-        String fid = UUID.randomUUID().toString();
-        String bupFile = fid + "." + prj.getFormat().toString();
-        Path target = Paths.get(uploadedLngFile.getParent().toString(), bupFile);
-        // TODO: if old backup file exists, remove it
-        Files.copy(uploadedLngFile, target, StandardCopyOption.REPLACE_EXISTING);
-        work.setBackupFile(target.toString());
-        workService.updateWorkDto(work);
+        Charset charset = charSetResolver.getProjectCharSet(work.getProjectId());
+
+        List<UnitDto> unitDtos = workService.listUnitDtos(workId);
+
+        // long startTime = System.nanoTime();
+        long translated = workService.getTranslatedLinesCount(workId);
+        // long endTime = System.nanoTime();
+        // double timeElapsed = (endTime - startTime)/1000.0;
+
+        // TODO: could this be a private method storage services
+        // or should storageService be unaware of projectService
+        String tgtFilenameStr = work.getOriginalFile() + "_" + work.getLocale().toString() + ".properties";
+
+        // will NOT fail even if path is null or empty. It returns path where
+        // file resides.
+        if ((dstDir != null) && (!(Files.isDirectory(dstDir)))) {
+            Files.createDirectory(dstDir);
+        }
+
+        Path target = (dstDir == null) ? fileStorage.getPath(tgtFilenameStr)
+                : dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
+
+        /*
+         * TODO: deleteIfExists: If the file does not exist, no exception is
+         * thrown. Failing silently is useful when you have multiple threads
+         * deleting files and you don't want to throw an exception.
+         * 
+         */
+        boolean success = Files.deleteIfExists(target);
+        if (!success) {
+            // throw new StorageException("File " +
+            // target.toAbsolutePath().toString() +
+            // " existed already and could not be removed");
+            // TODO: what now ???
+        }
+
+        Path storedOriginalFile = Paths.get(work.getBackupFile());
+        List<String> inLines = Files.readAllLines(storedOriginalFile, charset);
+        List<String> outLines = new ArrayList<String>();
+        Map<String, String> map = new HashMap<String, String>();
+        unitDtos.stream().forEach(dto -> map.put(dto.getSegmentKey(), dto.getTarget().getText()));
+
+        boolean isFirstLine = true; // <= optional byte order mark (BOM)
+        for (String line : inLines) {
+            if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)) {
+                outLines.add(line);
+                isFirstLine = false;
+            } else if (isKeyValuePair(line)) {
+                String key = getKey(line);
+                System.out.println(getKey(line) + "=" + map.get(key));
+                outLines.add(getKey(line) + "=" + map.get(key));
+            } else
+                throw new FileLoaderException("Could not create file for download");
+        }
+        Files.write(target, outLines);
+
+        /*
+         * DONT REMOVE YET !!! String tgtFileLocationStr = target.toString();
+         * OutputStream out = null; OutputStreamWriter osr = null;
+         * OrderedProperties dstProp = new OrderedProperties(); try { out = new
+         * FileOutputStream(tgtFileLocationStr); } catch (Exception e) { throw
+         * new StorageException((messages.get(
+         * "FileStorageService.not_write_properties_file")) + " " +
+         * tgtFileLocationStr); } try { osr = new
+         * OutputStreamWriter(out,charset); } catch (Exception e) { throw new
+         * StorageException((messages.get(
+         * "FileStorageService.not_write_properties_file")) + " " +
+         * tgtFileLocationStr); }
+         * unitDtos.forEach(unit->dstProp.setProperty(unit.getSegmentKey(),unit.
+         * getTarget().getText())); try { dstProp.store(osr, "Translate IT 2");
+         * } catch (Exception e) { throw new StorageException((messages.get(
+         * "FileStorageService.not_write_properties_file")) + " " +
+         * tgtFileLocationStr + "\\n" + e.getLocalizedMessage()); } finally { if
+         * (osr != null) osr.close(); if (out != null) out.close(); }
+         */
+        return target;
+    }
+
+    @Override
+    public LanguageFileFormat getFileFormat() {
+        return LanguageFileFormat.PROPERTIES;
+    }
+
+    @Override
+    public Path storeFile(MultipartFile file) {
+        return fileStorage.storeToUploadDirectory(file);
     }
 
     /**
@@ -175,115 +254,6 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         workService.updateUnitDtos(unitDtos, workId);
     }
 
-    @Override
-    public Stream<Path> downloadFromDb(final long workId) throws IOException {
-        Path dstDir = null; // default location
-        try {
-            dstDir = downloadTargetLngFile(dstDir, workId);
-        } catch (IOException e) {
-            throw new FileLoaderException(e.getLocalizedMessage());
-        }
-
-        return Files.walk(dstDir); // TODO: at the moment, just testing
-    }
-
-    @Override
-    public Path downloadTargetLngFile(Path dstDir, final long workId) throws IOException {
-        // Charset charset = iso8859util.getCharSet(workId);
-        WorkDto work = workService.getWorkDtoById(workId);
-        Charset charset = charSetResolver.getProjectCharSet(work.getProjectId());
-
-        List<UnitDto> unitDtos = workService.listUnitDtos(workId);
-
-        // long startTime = System.nanoTime();
-        long translated = workService.getStatistics(workId);
-        // long endTime = System.nanoTime();
-        // double timeElapsed = (endTime - startTime)/1000.0;
-
-        // TODO: could this be a private method storage services
-        // or should storageService be unaware of projectService
-        String tgtFilenameStr = work.getOriginalFile() + "_" + work.getLocale().toString() + ".properties";
-
-        // will NOT fail even if path is null or empty. It returns path where
-        // file resides.
-        if ((dstDir != null) && (!(Files.isDirectory(dstDir)))) {
-            Files.createDirectory(dstDir);
-        }
-
-        Path target = (dstDir == null) ? fileStorage.getPath(tgtFilenameStr)
-                : dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
-
-        /*
-         * TODO: deleteIfExists: If the file does not exist, no exception is
-         * thrown. Failing silently is useful when you have multiple threads
-         * deleting files and you don't want to throw an exception.
-         * 
-         */
-        boolean success = Files.deleteIfExists(target);
-        if (!success) {
-            // throw new StorageException("File " +
-            // target.toAbsolutePath().toString() +
-            // " existed already and could not be removed");
-            // TODO: what now ???
-        }
-
-        Path storedOriginalFile = Paths.get(work.getBackupFile());
-        List<String> inLines = Files.readAllLines(storedOriginalFile, charset);
-        List<String> outLines = new ArrayList<String>();
-        Map<String, String> map = new HashMap<String, String>();
-        unitDtos.stream().forEach(dto -> map.put(dto.getSegmentKey(), dto.getTarget().getText()));
-
-        boolean isFirstLine = true; // <= optional byte order mark (BOM)
-        for (String line : inLines) {
-            if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)) {
-                outLines.add(line);
-                isFirstLine = false;
-            } else if (isKeyValuePair(line)) {
-                String key = getKey(line);
-                System.out.println(getKey(line) + "=" + map.get(key));
-                outLines.add(getKey(line) + "=" + map.get(key));
-            } else
-                throw new FileLoaderException("Could not create file for download");
-        }
-        Files.write(target, outLines);
-
-        /*
-         * DONT REMOVE YET !!! String tgtFileLocationStr = target.toString();
-         * OutputStream out = null; OutputStreamWriter osr = null;
-         * OrderedProperties dstProp = new OrderedProperties(); try { out = new
-         * FileOutputStream(tgtFileLocationStr); } catch (Exception e) { throw
-         * new StorageException((messages.get(
-         * "FileStorageService.not_write_properties_file")) + " " +
-         * tgtFileLocationStr); } try { osr = new
-         * OutputStreamWriter(out,charset); } catch (Exception e) { throw new
-         * StorageException((messages.get(
-         * "FileStorageService.not_write_properties_file")) + " " +
-         * tgtFileLocationStr); }
-         * unitDtos.forEach(unit->dstProp.setProperty(unit.getSegmentKey(),unit.
-         * getTarget().getText())); try { dstProp.store(osr, "Translate IT 2");
-         * } catch (Exception e) { throw new StorageException((messages.get(
-         * "FileStorageService.not_write_properties_file")) + " " +
-         * tgtFileLocationStr + "\\n" + e.getLocalizedMessage()); } finally { if
-         * (osr != null) osr.close(); if (out != null) out.close(); }
-         */
-        return target;
-    }
-
-    private boolean isEmptyLine(String line) {
-        return line.isEmpty();
-    }
-
-    private boolean isCommentLine(String line) {
-        return (line.trim().startsWith("#") || line.trim().startsWith("<"));
-    }
-
-    private boolean isKeyValuePair(String line) {
-        if (getKey(line) != null)
-            return true;
-        else
-            return false;
-    }
-
     private String getKey(String line) {
         String parts[] = line.split("=");
         if (parts.length < 2)
@@ -314,5 +284,34 @@ public class Iso8859StorageImpl implements Iso8859Storage {
         }
 
         return map;
+    }
+
+    private boolean isCommentLine(String line) {
+        return (line.trim().startsWith("#") || line.trim().startsWith("<"));
+    }
+
+    private boolean isEmptyLine(String line) {
+        return line.isEmpty();
+    }
+
+    private boolean isKeyValuePair(String line) {
+        if (getKey(line) != null)
+            return true;
+        else
+            return false;
+    }
+    
+    // TODO: this a general routine, not iso8859 specific, so it should be
+    // somewhere else
+    private void storeBackupFile(Path uploadedLngFile, long workId) throws IOException {
+        WorkDto work = workService.getWorkDtoById(workId);
+        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
+        String fid = UUID.randomUUID().toString();
+        String bupFile = fid + "." + prj.getFormat().toString();
+        Path target = Paths.get(uploadedLngFile.getParent().toString(), bupFile);
+        // TODO: if old backup file exists, remove it
+        Files.copy(uploadedLngFile, target, StandardCopyOption.REPLACE_EXISTING);
+        work.setBackupFile(target.toString());
+        workService.updateWorkDto(work);
     }
 }

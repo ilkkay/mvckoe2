@@ -1,28 +1,10 @@
 package translateit2;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.Locale;
-import javax.validation.ConstraintViolationException;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import translateit2.languagefileservice.Iso8859TestLoader;
-import translateit2.util.Messages;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.fail;
 
 // http://www.journaldev.com/2668/spring-validation-example-mvc-validator
 // https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/

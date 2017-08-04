@@ -43,18 +43,20 @@ public class UnitValidator implements ConstraintValidator<UnitConstraint, UnitDt
      */
 
     @Override
-    public boolean isValid(UnitDto value, ConstraintValidatorContext context) {
-        boolean isValid = true;
-
-        if (value == null)
-            return isValid;
-
-        return isValid;
-    }
-
-    @Override
     public void initialize(UnitConstraint constraintAnnotation) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public boolean isValid(UnitDto value, ConstraintValidatorContext context) {
+        if (value == null)
+            return true;
+
+        boolean isValid = true;
+
+        // ....
+
+        return isValid;
     }
 }

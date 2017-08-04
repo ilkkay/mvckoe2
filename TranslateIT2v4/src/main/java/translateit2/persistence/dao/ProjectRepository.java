@@ -18,9 +18,10 @@ import translateit2.persistence.model.Project;
 //curl -i -X POST -H "Content-Type:application/json" -d "{  \"locale\" : \"en_US\",  \"project\" : \"/project/6\" }" http://localhost:8080/work
 @RepositoryRestResource(collectionResourceRel = "project", path = "project")
 public interface ProjectRepository extends CrudRepository<Project, Long> {
-    Optional<Project> findByName(@Param("name") String name);
+    Long countByPersonId(final long personId);
 
+    @Override
     List<Project> findAll();
 
-    Long countByPersonId(final long personId);
+    Optional<Project> findByName(@Param("name") String name);
 }

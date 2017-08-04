@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -40,9 +41,11 @@ import translateit2.service.WorkService;
 @RequestMapping("/api")
 public class RestWorkController {
 
-    private ProjectService projectService;
-    private WorkService workService;
+    public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
     private LanguageFileServiceFactory languageFileServiceFactory;
+    private ProjectService projectService;
+
+    private WorkService workService;
 
     @Autowired
     public RestWorkController(FileLoader storageService, 
@@ -52,61 +55,6 @@ public class RestWorkController {
         this.projectService = projectService;
         this.workService = workService;
         this.languageFileServiceFactory = languageFileServiceFactory;
-    }
-
-    public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
-
-    // ------------------- Delete a
-    // Work-----------------------------------------
-    @RequestMapping(value = "/work/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
-        logger.info("Fetching & Deleting Work with id {}", id);
-
-        WorkDto wrk = workService.getWorkDtoById(id);
-        if (wrk == null) {
-            logger.error("Unable to delete work with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Work with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-
-        workService.removeWorkDto(id);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    // ------------------- Update a Work
-    // ------------------------------------------------
-    @RequestMapping(value = "/work/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateWork(@PathVariable("id") long id, @RequestBody WorkDto work) {
-        logger.info("Updating Work with id {}", id);
-
-        WorkDto wrk = workService.getWorkDtoById(id);
-        if (wrk == null) {
-            logger.error("Unable to update. Work with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Work with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-
-        logger.info("Updating Work with id {}", wrk.getId());
-
-        wrk = workService.updateWorkDto(work);
-
-        return new ResponseEntity<>(wrk, HttpStatus.OK);
-    }
-
-    // -------------------Retrieve Single
-    // Work------------------------------------------
-    @RequestMapping(value = "/work/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getWork(@PathVariable("id") long id) {
-        logger.info("Fetching Work with id {}", id);
-
-        WorkDto wrk = workService.getWorkDtoById(id);
-
-        if (wrk == null) {
-            logger.error("Work with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(wrk, HttpStatus.OK);
     }
 
     // -------------------Create a
@@ -131,6 +79,39 @@ public class RestWorkController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/work/{id}").buildAndExpand(wrk.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
+    // ------------------- Delete a
+    // Work-----------------------------------------
+    @RequestMapping(value = "/work/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
+        logger.info("Fetching & Deleting Work with id {}", id);
+
+        WorkDto wrk = workService.getWorkDtoById(id);
+        if (wrk == null) {
+            logger.error("Unable to delete work with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Work with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        workService.removeWorkDto(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------------------Retrieve Single
+    // Work------------------------------------------
+    @RequestMapping(value = "/work/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getWork(@PathVariable("id") long id) {
+        logger.info("Fetching Work with id {}", id);
+
+        WorkDto wrk = workService.getWorkDtoById(id);
+
+        if (wrk == null) {
+            logger.error("Work with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(wrk, HttpStatus.OK);
     }
 
     // -------------------Retrieve All
@@ -160,6 +141,26 @@ public class RestWorkController {
         wrks.setWorks(projectWorks);
         wrks.setAvailablePriorities(priorities);
         return new ResponseEntity<>(wrks, HttpStatus.OK);
+    }
+
+    // ------------------- Update a Work
+    // ------------------------------------------------
+    @RequestMapping(value = "/work/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateWork(@PathVariable("id") long id, @RequestBody WorkDto work) {
+        logger.info("Updating Work with id {}", id);
+
+        WorkDto wrk = workService.getWorkDtoById(id);
+        if (wrk == null) {
+            logger.error("Unable to update. Work with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Unable to update. Work with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        logger.info("Updating Work with id {}", wrk.getId());
+
+        wrk = workService.updateWorkDto(work);
+
+        return new ResponseEntity<>(wrk, HttpStatus.OK);
     }
 
     // -------------------Upload source

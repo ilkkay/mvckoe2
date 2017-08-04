@@ -3,7 +3,8 @@ package translateit2.fileloader;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,9 +17,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.test.context.junit4.SpringRunner;
 //https://spring.io/guides/gs/uploading-files/
 //https://github.com/spring-guides/gs-uploading-files/blob/master/complete/src/test/java/hello/FileUploadIntegrationTests.java
@@ -26,19 +24,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 //http://stackoverflow.com/questions/15404605/spring-resttemplate-invoking-webservice-with-errors-and-analyze-status-code
 //http://stackoverflow.com/questions/28408271/how-to-send-multipart-form-data-with-resttemplate-spring-mvc
 //http://forum.spring.io/forum/spring-projects/web/70845-sending-post-parameters-with-resttemplate-requests
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileLoaderControllerTest {
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
+
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -46,7 +47,7 @@ public class FileLoaderControllerTest {
 
     // some HTTP codes:
     // 302=Found, 405=Method Not Allowed, 201=Created, 500=internal server error
-    // 400 Bad Request
+    // 400=Bad Request, 404=Not Found
     @Test
     public void shouldUploadFile() throws Exception {
         String testFile = "";
@@ -65,7 +66,7 @@ public class FileLoaderControllerTest {
         map.add("file", resource);
         map.add("destination", "source");
         try {
-            response = this.restTemplate.postForEntity("/upload", map, String.class);
+            response = this.restTemplate.postForEntity("/mockupload", map, String.class);
         } catch (HttpClientErrorException e) {
             fail("Unexpected exception " + e.getStatusCode() + e.getResponseBodyAsString());
         }

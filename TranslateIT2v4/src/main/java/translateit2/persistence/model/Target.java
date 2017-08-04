@@ -8,17 +8,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Embeddable
 public class Target {
     
-    @Column(length=10000)
-    private String text;
+    private boolean equivalent;
 
     @Column(length=10000)
     private String plural;
 
     private String skeleton_tag;
 
-    private boolean equivalent;
-
-    State state;
+    @Column(length=10000)
+    private String text;
 
     Comment comment;
 
@@ -26,68 +24,70 @@ public class Target {
 
     Note note;
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getPlural() {
-        return plural;
-    }
-
-    public void setPlural(String plural) {
-        this.plural = plural;
-    }
-
-    public String getSkeletonTag() {
-        return skeleton_tag;
-    }
-
-    public void setSkeletonTag(String skeletonTag) {
-        this.skeleton_tag = skeletonTag;
-    }
-
-    public boolean isEquivalent() {
-        return equivalent;
-    }
-
-    public void setEquivalent(boolean equivalent) {
-        this.equivalent = equivalent;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
+    State state;
 
     public Comment getComment() {
         return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
     }
 
     public History getHistory() {
         return history;
     }
 
-    public void setHistory(History history) {
-        this.history = history;
-    }
-
     public Note getNote() {
         return note;
     }
 
+    public String getPlural() {
+        return plural;
+    }
+
+    public String getSkeletonTag() {
+        return skeleton_tag;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean isEquivalent() {
+        return equivalent;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public void setEquivalent(boolean equivalent) {
+        this.equivalent = equivalent;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
+    }
+
     public void setNote(Note note) {
         this.note = note;
+    }
+
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
+
+    public void setSkeletonTag(String skeletonTag) {
+        this.skeleton_tag = skeletonTag;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override

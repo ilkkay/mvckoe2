@@ -19,17 +19,6 @@ public class LocaleResolverConfig {
     
     private String locale;
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-    
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale(locale));
-        return slr;
-    }
-    
     // should detect language based on browser. TODO: test it
     // Does not support setLocale, since the accept header can
     // only be changed through changing the client's locale settings
@@ -40,11 +29,22 @@ public class LocaleResolverConfig {
         AcceptHeaderLocaleResolver bean = new AcceptHeaderLocaleResolver();
         return bean;
     }
-
+    
     @Bean
     public CharSetResolver charSetResolver() {
         CharSetResolver bean = new CharSetResolver();
         return bean;
+    }
+    
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(new Locale(locale));
+        return slr;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 
 }

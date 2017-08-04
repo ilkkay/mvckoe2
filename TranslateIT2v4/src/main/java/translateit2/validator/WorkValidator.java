@@ -43,18 +43,21 @@ public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDt
      */
 
     @Override
-    public boolean isValid(WorkDto value, ConstraintValidatorContext context) {
-        boolean isValid = true;
-
-        if (value == null)
-            return isValid;
-
-        return isValid;
-    }
-
-    @Override
     public void initialize(WorkConstraint constraintAnnotation) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public boolean isValid(WorkDto value, ConstraintValidatorContext context) {
+        
+        if (value == null)
+            return true;
+
+        boolean isValid = true;
+
+        // ....
+
+        return isValid;
     }
 }

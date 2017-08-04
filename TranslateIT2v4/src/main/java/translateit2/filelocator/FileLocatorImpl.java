@@ -7,15 +7,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.FileLoader;
 import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.persistence.dao.FileInfoRepository;
 
 @Component
 public class FileLocatorImpl implements FileLocator {    

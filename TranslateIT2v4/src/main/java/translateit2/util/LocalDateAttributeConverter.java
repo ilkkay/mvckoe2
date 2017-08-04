@@ -1,15 +1,17 @@
 package translateit2.util;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
 //
-// converts LocalDate to sqlDate and vice verse
+// These two do about the same thing
 //
 
+/* Java Specification Requests JSR 310: Date and Time API
+ * <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-java8</artifactId>
+    </dependency>
+ */
+
+/*
 @Converter(autoApply = true)
 public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, Date> {
 
@@ -23,3 +25,4 @@ public class LocalDateAttributeConverter implements AttributeConverter<LocalDate
         return (sqlDate == null ? null : sqlDate.toLocalDate());
     }
 }
+*/

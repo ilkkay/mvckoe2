@@ -48,13 +48,13 @@ import translateit2.service.WorkService;
 public class RestUnitController {
     public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
 
-    private final FileLoader storageService;
-    private ProjectService projectService;
-    private WorkService workService;
     private LanguageFileServiceFactory languageFileServiceFactory;
+    private ProjectService projectService;
+    private final FileLoader storageService;
+    private WorkService workService;
 
-    Statistics mockStat = new Statistics(); // TODO: this is a mock solution
     boolean isMockStatInitialized = false;
+    Statistics mockStat = new Statistics(); // TODO: this is a mock solution
 
     @Autowired
     public RestUnitController(FileLoader storageService, 
@@ -65,36 +65,6 @@ public class RestUnitController {
         this.workService = workService;
         this.languageFileServiceFactory = languageFileServiceFactory;
         this.storageService = storageService;
-    }
-
-    private void InitMockStat(final long workId) {
-        isMockStatInitialized = true;
-
-        List<UnitDto> units = workService.listUnitDtos(workId);
-        long total = units.size();
-        long translated = 0;
-        for (UnitDto unit : units) {
-            if ((unit.getTarget().getState() == State.TRANSLATED)
-                    || ((unit.getTarget().getState() == State.NEEDS_REVIEW)))
-                translated++;
-        }
-
-        mockStat.setReviewed(0L);
-        mockStat.setTotal(total);
-        mockStat.setTranslated(translated);
-        mockStat.setWorkId(workId);
-    }
-
-
-    @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-        Resource file = storageService.loadAsResource(filename);
-        ResponseEntity<Resource> response = null;
-        response = ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-        return response;
     }
 
     // -------------------Get path to download
@@ -123,6 +93,23 @@ public class RestUnitController {
         return new ResponseEntity<>(uriComponents, HttpStatus.OK);
     }
 
+
+    // -------------------Retrieve Single
+    // Unit------------------------------------------
+    @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
+        logger.info("Fetching Unit with id {}", id);
+
+        UnitDto unt = workService.getUnitDtoById(id);
+
+        if (unt == null) {
+            logger.error("Unit with id {} not found.", id);
+            return new ResponseEntity<>(new CustomErrorType("Unit with id " + id + " not found"), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(unt, HttpStatus.OK);
+    }
+
     // -------------------Retrieve the Units by
     // pages---------------------------------------------
     @RequestMapping(value = "/work/{workId}/unit/{pageNum}", method = RequestMethod.GET)
@@ -146,6 +133,17 @@ public class RestUnitController {
         unts.setStatistics(mockStat);
 
         return new ResponseEntity<>(unts, HttpStatus.OK);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+        Resource file = storageService.loadAsResource(filename);
+        ResponseEntity<Resource> response = null;
+        response = ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+        return response;
     }
 
     // ------------------- Update a Unit
@@ -190,22 +188,6 @@ public class RestUnitController {
 
         unit = workService.getUnitDtoById(unit.getId());
         return new ResponseEntity<>(unit, HttpStatus.OK);
-    }
-
-    // -------------------Retrieve Single
-    // Unit------------------------------------------
-    @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
-        logger.info("Fetching Unit with id {}", id);
-
-        UnitDto unt = workService.getUnitDtoById(id);
-
-        if (unt == null) {
-            logger.error("Unit with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unit with id " + id + " not found"), HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(unt, HttpStatus.OK);
     }
 
     // -------------------Upload target
@@ -258,6 +240,24 @@ public class RestUnitController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
+    private void InitMockStat(final long workId) {
+        isMockStatInitialized = true;
+
+        List<UnitDto> units = workService.listUnitDtos(workId);
+        long total = units.size();
+        long translated = 0;
+        for (UnitDto unit : units) {
+            if ((unit.getTarget().getState() == State.TRANSLATED)
+                    || ((unit.getTarget().getState() == State.NEEDS_REVIEW)))
+                translated++;
+        }
+
+        mockStat.setReviewed(0L);
+        mockStat.setTotal(total);
+        mockStat.setTranslated(translated);
+        mockStat.setWorkId(workId);
     }
 
 }

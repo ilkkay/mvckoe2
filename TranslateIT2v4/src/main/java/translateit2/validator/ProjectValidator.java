@@ -20,6 +20,11 @@ import translateit2.util.Messages;
 @ConfigurationProperties(prefix = "translateit2.validator")
 public class ProjectValidator implements ConstraintValidator<ProjectConstraint, ProjectDto> {
 
+    private Integer projectNameMaxSize = 35; // for testing purposes
+
+    // TODO: autowired validation => settings object
+    private Integer projectNameMinSize = 5; // for testing purposes
+
     @Autowired
     private ProjectRepository projectRepo;
 
@@ -31,25 +36,12 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         this.messages = messages;
     }
 
-    // TODO: autowired validation => settings object
-    private Integer projectNameMinSize = 5; // for testing purposes
-
-    private Integer projectNameMaxSize = 35; // for testing purposes
-
-    public Integer getProjectNameMinSize() {
-        return projectNameMinSize;
-    }
-
-    public void setProjectNameMinSize(Integer projectNameMinSize) {
-        this.projectNameMinSize = projectNameMinSize;
-    }
-
     public Integer getProjectNameMaxSize() {
         return projectNameMaxSize;
     }
 
-    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-        this.projectNameMaxSize = projectNameMaxSize;
+    public Integer getProjectNameMinSize() {
+        return projectNameMinSize;
     }
 
     @Override
@@ -60,10 +52,10 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
     @Override
     public boolean isValid(final ProjectDto value, final ConstraintValidatorContext context) {
 
-        boolean isValid = true;
-
         if (value == null)
-            return isValid;
+            return true;
+
+        boolean isValid = true;
 
         // check the length of the project name
         if ((value.getName() != null) && ((value.getName().length() < projectNameMinSize)
@@ -89,5 +81,13 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         }
 
         return isValid;
+    }
+
+    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+        this.projectNameMaxSize = projectNameMaxSize;
+    }
+
+    public void setProjectNameMinSize(Integer projectNameMinSize) {
+        this.projectNameMinSize = projectNameMinSize;
     }
 }

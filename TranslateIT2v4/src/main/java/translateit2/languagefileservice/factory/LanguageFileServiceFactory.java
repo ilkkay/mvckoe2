@@ -9,7 +9,9 @@ import translateit2.lngfileservice.LanguageFileStorage;
 
 public interface LanguageFileServiceFactory extends AbstractLanguageFileFactory 
         <LanguageFileStorage, LanguageFileFormat> {
+    @Override
     Optional<LanguageFileStorage> getService(LanguageFileFormat type);
 
+    @Override
     List<LanguageFileFormat> listFormatsSupported();
 }

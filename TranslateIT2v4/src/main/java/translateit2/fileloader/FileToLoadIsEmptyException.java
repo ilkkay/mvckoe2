@@ -1,6 +1,6 @@
 package translateit2.fileloader;
 
-public class FileToLoadIsEmptyException extends FileLoaderException {
+public class FileToLoadIsEmptyException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
     public FileToLoadIsEmptyException(String message) {

@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="translateit2.configuration.DemoDatabaseInitializer"/>
 <fullyQualifiedTypeName name="translateit2.configuration.DatabaseInitializer"/>
-<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
 <fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="translateit2.service.WorkService"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
@@ -22,10 +21,15 @@
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="translateit2.filelocator.FileLocator"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderService"/>
-<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
 <fullyQualifiedTypeName name="translateit2.persistence.model.Work"/>
 <fullyQualifiedTypeName name="translateit2.persistence.model.Project"/>
 <fullyQualifiedTypeName name="javax.transaction.Transactional"/>
 <fullyQualifiedTypeName name="javax.management.RuntimeErrorException"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
+<fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
 </qualifiedTypeNameHistroy>

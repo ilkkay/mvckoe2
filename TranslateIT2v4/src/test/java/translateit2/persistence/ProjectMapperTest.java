@@ -34,17 +34,6 @@ public class ProjectMapperTest {
     private ProjectMapper modelMapper;
 
     @Test
-    public void shouldInstantiateMapper() {
-        assertThat(modelMapper, is(not(equalTo(null))));
-    }
-
-    @Test
-    public void test() {
-        // modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        modelMapper.validate();
-    }
-
-    @Test
     public void map_project3_return_name_projectname() {
         // given
         final Project prj = new Project();
@@ -103,5 +92,16 @@ public class ProjectMapperTest {
         assertThat(unit.getSegmentKey(), is(equalTo(newUnit.getSegmentKey())));
         assertThat(unit.getSource().getText(), is(equalTo(newUnit.getSource().getText())));
         assertThat(unit.getTarget().getText(), is(equalTo(newUnit.getTarget().getText())));
+    }
+
+    @Test
+    public void shouldInstantiateMapper() {
+        assertThat(modelMapper, is(not(equalTo(null))));
+    }
+
+    @Test
+    public void test() {
+        // modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        modelMapper.validate();
     }
 }

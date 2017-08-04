@@ -1,10 +1,7 @@
 package translateit2.languagefileservice.defformat;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Locale;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import translateit2.fileloader.FileLoaderImpl;
 import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileStorage;
 
 @Component
 public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
     @Autowired
     FileLoaderImpl fileStorage;
-
-    @Override
-    public LanguageFileFormat getFileFormat() {
-        return LanguageFileFormat.DEFAULT;
-    }
-
-    @Override
-    public Path storeFile(MultipartFile file) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public String checkValidity(Path uploadedLngFile, long locoId) {
@@ -45,6 +30,17 @@ public class DefaultLanguageStorageImpl implements DefaultLanguageStorage {
 
     @Override
     public Path downloadTargetLngFile(Path dstDir, long workId) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public LanguageFileFormat getFileFormat() {
+        return LanguageFileFormat.DEFAULT;
+    }
+
+    @Override
+    public Path storeFile(MultipartFile file) {
         // TODO Auto-generated method stub
         return null;
     }

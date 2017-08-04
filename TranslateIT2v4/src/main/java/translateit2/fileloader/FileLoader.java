@@ -1,24 +1,22 @@
 package translateit2.fileloader;
 
-import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface FileLoader {
 
-    Path storeToUploadDirectory(MultipartFile file);
+    void deleteUploadedFile(String filename);
 
-    Stream<Path> getPathsOfDownloadableFiles();
+    void deleteUploadedFiles();
 
     Path getPath(String filename);
 
-    Resource loadAsResource(String filename);
+    Stream<Path> getPathsOfDownloadableFiles();
 
-    void deleteUploadedFiles();
+    Resource loadAsResource(String filename);
     
-    void deleteUploadedFile(String filename);
+    Path storeToUploadDirectory(MultipartFile file);
 }

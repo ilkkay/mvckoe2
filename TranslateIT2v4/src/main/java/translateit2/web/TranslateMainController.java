@@ -1,45 +1,34 @@
 package translateit2.web;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import translateit2.fileloader.FileLoader;
 
+//
+// TODO: This is not any more in use. This was used with html pages found 
+// in resources/templates folder
+//
 @Controller
 public class TranslateMainController {
 
     @Autowired
     private FileLoader storageService;
 
-    @GetMapping("/")
-    public String homePage(Model model) {
-        return "index";
-    }
-
-    @GetMapping("/translatemain")
-    public String showMainUseCase(Model model) {
-        return "translatemain";
-    }
-
-    @GetMapping("/viewtransu")
-    public String viewTransList(Model model) {
-        // model.addAttribute("transus",workService.listAllTranveTransuDtos(tranveDto.getId()));
-        return "viewtransu";
-    }
-
     @GetMapping("/transuform")
     public String createTransu(Model model) {
         // model.addAttribute("transudto",dto);
         return "transueditform";
+    }
+
+    @GetMapping("/deletetransu/{transuId}")
+    public String deleteTransuById(@PathVariable("transuId") int id, Model model) {
+
+        return "redirect:/viewtransu";
     }
 
     // add new item or create a new one !!!
@@ -61,10 +50,20 @@ public class TranslateMainController {
         return "transueditform";
     }
 
-    @GetMapping("/deletetransu/{transuId}")
-    public String deleteTransuById(@PathVariable("transuId") int id, Model model) {
+    @GetMapping("/")
+    public String homePage(Model model) {
+        return "index";
+    }
 
-        return "redirect:/viewtransu";
+    @GetMapping("/translatemain")
+    public String showMainUseCase(Model model) {
+        return "translatemain";
+    }
+
+    @GetMapping("/viewtransu")
+    public String viewTransList(Model model) {
+        // model.addAttribute("transus",workService.listAllTranveTransuDtos(tranveDto.getId()));
+        return "viewtransu";
     }
 
 }

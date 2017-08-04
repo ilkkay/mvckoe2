@@ -12,40 +12,40 @@ import translateit2.persistence.dto.WorkDto;
 @Validated
 public interface WorkService {
     /**
+     * Unit
+     */
+    void createUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
+
+    /**
      * Work
      */
     WorkDto createWorkDto(@Valid final WorkDto entity);
 
-    WorkDto updateWorkDto(@Valid final WorkDto entity);
+    List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
 
-    void removeWorkDto(final long workId);
+    long getTranslatedLinesCount(final long workId);
 
-    void removeWorkDtos(List<WorkDto> entities);
+    UnitDto getUnitDtoById(long unitId);
+
+    long getUnitDtoCount(final long workId);
 
     WorkDto getWorkDtoById(long workId);
 
     long getWorkDtoCount(final long groupId);
 
-    List<WorkDto> listWorkDtos(long groupId);
-
     List<WorkDto> listProjectWorkDtos(final long projectId);
-
-    /**
-     * Unit
-     */
-    void createUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
-
-    void updateUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
-
-    void removeUnitDtos(final long workId);
-
-    long getUnitDtoCount(final long workId);
-
-    UnitDto getUnitDtoById(long unitId);
-
-    List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
 
     List<UnitDto> listUnitDtos(final long workId);
 
-    long getStatistics(final long workId);
+    List<WorkDto> listWorkDtos(long groupId);
+
+    void removeUnitDtos(final long workId);
+
+    void removeWorkDto(final long workId);
+
+    void removeWorkDtos(List<WorkDto> entities);
+
+    void updateUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
+
+    WorkDto updateWorkDto(@Valid final WorkDto entity);
 }

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @Entity(name = "trInfo")
 @Table(name = "TR_INFO")
 public class Info implements Serializable {
@@ -25,16 +27,19 @@ public class Info implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+      }
 }

@@ -1,16 +1,7 @@
 package translateit2.persistence.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -18,35 +9,35 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Source {
 
     @Column(length=10000)
-    private String text;
-
-    @Column(length=10000)
     private String plural;
 
     private String skeleton_tag;
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    @Column(length=10000)
+    private String text;
 
     public String getPlural() {
         return plural;
-    }
-
-    public void setPlural(String plural) {
-        this.plural = plural;
     }
 
     public String getSkeletonTag() {
         return skeleton_tag;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
+
     public void setSkeletonTag(String skeletonTag) {
         this.skeleton_tag = skeletonTag;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override

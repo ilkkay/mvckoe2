@@ -15,5 +15,5 @@ public enum Priority {
         return types[value];
     }
     */
-    HIGH, MEDIUM, LOW;
+    HIGH, LOW, MEDIUM;
 }

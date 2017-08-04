@@ -1,0 +1,9 @@
+package translateit2.validator;
+
+public class TestClass {
+
+    public TestClass() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

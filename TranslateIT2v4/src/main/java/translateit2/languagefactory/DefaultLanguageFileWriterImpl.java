@@ -16,5 +16,6 @@ public class DefaultLanguageFileWriterImpl implements LanguageFileWriter {
         return LanguageFileFormat.DEFAULT;
     }
 
+    @Override
     public void write() { };
 }

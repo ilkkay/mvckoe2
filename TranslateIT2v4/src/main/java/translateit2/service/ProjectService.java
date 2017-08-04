@@ -11,44 +11,44 @@ import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
-import translateit2.persistence.dto.UnitDto;
-import translateit2.persistence.dto.WorkDto;
 
 @Validated
 public interface ProjectService {
+    FileInfoDto createFileInfoDto(@Valid final FileInfoDto entity);
+
+    TranslatorGroupDto createGroupDto(@Valid final TranslatorGroupDto entity);
+
+    InfoDto createInfoDto(@Valid final InfoDto entity);
+
     /**
      * Person + Group + Info are needed for project creation
      */
     PersonDto createPersonDto(@Valid final PersonDto entity);
 
-    PersonDto getPersonDtoByPersonName(String personName);
-
-    TranslatorGroupDto createGroupDto(@Valid final TranslatorGroupDto entity);
-
-    TranslatorGroupDto getGroupDtoByName(String name);
-
-    InfoDto createInfoDto(@Valid final InfoDto entity);
-    
-    FileInfoDto createFileInfoDto(@Valid final FileInfoDto entity);
-
     /**
      * Project
      */
     ProjectDto createProjectDto(@Valid final ProjectDto entity);
+    
+    TranslatorGroupDto getGroupDtoByName(String name);
 
-    ProjectDto updateProjectDto(@Valid final ProjectDto entity);
-
-    void removeProjectDto(final long projectId);
-
-    void removeProjectDtos(List<ProjectDto> entities);
+    PersonDto getPersonDtoByPersonName(String personName);
 
     ProjectDto getProjectDtoById(long projectId);
 
     ProjectDto getProjectDtoByProjectName(String projectName);
 
+    long getProjectDtoCount();
+
+    long getProjectDtoCountByPerson( long personId);
+
     List<ProjectDto> listAllProjectDtos();
 
-    long getProjectDtoCount(final long personId);
-
     List<ProjectDto> listProjectDtos(long personId);
+
+    void removeProjectDto(final long projectId);
+    
+    void removeProjectDtos(List<ProjectDto> entities);
+
+    ProjectDto updateProjectDto(@Valid final ProjectDto entity);
 }

@@ -22,44 +22,44 @@ public class UnitDto {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getSegmentKey() {
         return segmentKey;
-    }
-
-    public void setSegmentKey(String segmentKey) {
-        this.segmentKey = segmentKey;
     }
 
     public int getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
     public Source getSource() {
         return source;
-    }
-
-    public void setSource(Source source) {
-        this.source = source;
     }
 
     public Target getTarget() {
         return target;
     }
 
-    public void setTarget(Target target) {
-        this.target = target;
-    }
-
     public long getWorkId() {
         return workId;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setSegmentKey(String segmentKey) {
+        this.segmentKey = segmentKey;
+    }
+
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
     }
 
     public void setWorkId(long workId) {

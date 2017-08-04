@@ -22,80 +22,80 @@ import translateit2.lngfileservice.LanguageFileType;
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Enumerated(EnumType.STRING)
+    private LanguageFileFormat format;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne
+    private Info info;;
+    
+    private String name;
 
     @ManyToOne
     private Person person;
 
-    @ManyToOne
-    private Info info;
-
-    private String name;
-
-    @Enumerated(EnumType.STRING)
-    private LanguageFileFormat format;
+    private Locale source_locale;
 
     @Enumerated(EnumType.STRING)
     private LanguageFileType type;
 
-    private Locale source_locale;
+    public LanguageFileFormat getFormat() {
+        return format;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Info getInfo() {
+        return info;
+    };
+    
+    public String getName() {
+        return name;
     }
 
     public Person getPerson() {
         return person;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LanguageFileFormat getFormat() {
-        return format;
-    }
-
-    public void setFormat(LanguageFileFormat format) {
-        this.format = format;
+    public Locale getSourceLocale() {
+        return source_locale;
     }
 
     public LanguageFileType getType() {
         return type;
     }
 
-    public void setType(LanguageFileType type) {
-        this.type = type;
+    public void setFormat(LanguageFileFormat format) {
+        this.format = format;
     }
 
-    public Locale getSourceLocale() {
-        return source_locale;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setInfo(Info info) {
+        this.info = info;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public void setSourceLocale(Locale sourceLocale) {
         this.source_locale = sourceLocale;
     }
 
-    public Info getInfo() {
-        return info;
-    }
-
-    public void setInfo(Info info) {
-        this.info = info;
+    public void setType(LanguageFileType type) {
+        this.type = type;
     }
 
     @Override

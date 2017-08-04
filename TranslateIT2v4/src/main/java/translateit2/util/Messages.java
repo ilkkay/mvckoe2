@@ -1,14 +1,15 @@
 package translateit2.util;
 
+import java.util.Locale;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-
-import java.util.Locale;
 
 /**
  *
@@ -18,32 +19,26 @@ import java.util.Locale;
  * @author Ilkka
  *
  */
+@ConfigurationProperties(prefix = "translateit2.localeresolver")
 @Component
 public class Messages {
 
-    private MessageSource messageSource;
+    private MessageSourceAccessor accessor;
 
+    //@Autowired
+    private String locale;
+    
+    private MessageSource messageSource;
+    
     @Autowired
     public Messages(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
-    private MessageSourceAccessor accessor;
-
-    @PostConstruct
-    private void init() { // default is finnish for gui
-        accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
-    }
-
-    // tests will be using english
-    public void setLocale(Locale locale) {
-        accessor = new MessageSourceAccessor(messageSource, locale);
-    }
-
-    public String get(String code, String[] args) {
+    public String get(String code) {
         String msg = null;
         try {
-            msg = accessor.getMessage(code, args);
+            msg = accessor.getMessage(code);
         } catch (NoSuchMessageException e) {
             return "Text not implemented for " + code;
         }
@@ -51,10 +46,10 @@ public class Messages {
         return msg;
     }
 
-    public String get(String code) {
+    public String get(String code, String[] args) {
         String msg = null;
         try {
-            msg = accessor.getMessage(code);
+            msg = accessor.getMessage(code, args);
         } catch (NoSuchMessageException e) {
             return "Text not implemented for " + code;
         }
@@ -94,6 +89,20 @@ public class Messages {
             return maxStr;
         else
             return parts[1];
+    }
+
+    // tests will be using english
+    public void setLocale(Locale locale) {
+        accessor = new MessageSourceAccessor(messageSource, locale);
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    @PostConstruct
+    private void init() { // force finnish
+        accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
     }
 
 }

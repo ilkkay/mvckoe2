@@ -1,6 +1,7 @@
 package translateit2.service;
 
 import java.nio.file.Path;
+import java.util.Locale;
 
 import javax.management.RuntimeErrorException;
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import translateit2.fileloader.FileLoader;
 import translateit2.filelocator.FileLocator;
+import translateit2.filenameresolver.FileNameResolver;
 import translateit2.languagefactory.LanguageFileFactory;
 import translateit2.languagefactory.LanguageFileReader;
 import translateit2.languagefactory.LanguageFileValidator;
@@ -36,15 +38,18 @@ public class LoadingContractorImpl implements LoadingContractor {
 
     @Autowired
     private FileLocator filelocator;
+    
+    @Autowired
+    private FileNameResolver fileNameResolver;
 
     @Autowired
     private LanguageFileFactory<LanguageFileReader, LanguageFileFormat> fileReaderFactory;
 
     @Autowired
-    private LanguageFileFactory<LanguageFileWriter, LanguageFileFormat> fileWriterFactory;
+    private LanguageFileFactory<LanguageFileValidator, LanguageFileFormat> fileValidatorFactory;
 
     @Autowired
-    private LanguageFileFactory<LanguageFileValidator, LanguageFileFormat> fileValidatorFactory;
+    private LanguageFileFactory<LanguageFileWriter, LanguageFileFormat> fileWriterFactory;
 
     @Autowired
     private ProjectRepository projectRepo;
@@ -52,17 +57,10 @@ public class LoadingContractorImpl implements LoadingContractor {
     @Autowired
     private WorkRepository workRepo;
 
-    @Transactional
-    private LanguageFileFormat getFormat(long workId) {
-        Work work = workRepo.findOne(workId);
-        return projectRepo.findOne(work.getProject().getId()).getFormat();        
-    }
-
-    @Transactional
-    private void updateStatus(Status newStatus, long workId) {
-        Work work = workRepo.findOne(workId);
-        work.setStatus(newStatus);
-        workRepo.save(work);
+    @Override
+    public Path downloadTarget(long workId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
@@ -71,28 +69,30 @@ public class LoadingContractorImpl implements LoadingContractor {
             logger.error("Work with id {} not found.", workId);
             throw new RuntimeErrorException(null, ""); // or something
         }
-
-        // check that we have respective service available
         LanguageFileFormat format = getFormat(workId);        
+
+        // get application name from filename
+        String appName = fileNameResolver.getApplicationName(uploadedFile.getOriginalFilename());
+
+        // check extension and get locale
+        Locale locale = fileNameResolver.getLocaleFromString(uploadedFile.getOriginalFilename(), 
+                ext -> ext.equals(format));
+
+        // check that we have respective service available for current file format
         if (!(fileValidatorFactory.getService(getFormat(workId)).isPresent())) {
             logger.error("Language file validator for format {} was missing", format);
             throw new RuntimeErrorException(null, ""); // or something
         }
         LanguageFileValidator validator = fileValidatorFactory.getService(format).get();
-        
-        
-        // get application name and locale
-        // appName = storageService.checkValidity(uploadedLngFile, workId);
-        // locale = ...
-
+                
         // validate contents
         validator.validate(uploadedFile.getOriginalFilename(),format);        
 
-        // move to a permanent location
+        // move file to a permanent location
         Path uploadedFilePath = fileloader.getPath(uploadedFile.getOriginalFilename());        
         filelocator.moveUploadedFileIntoFilesystem(uploadedFilePath, format);
 
-        // upload to database and do updates to Fileinfo and Work entities
+        // upload to database and do updates to File_info and Work entities
 
         // update status
         updateStatus(Status.NEW, workId);
@@ -119,10 +119,17 @@ public class LoadingContractorImpl implements LoadingContractor {
     public void uploadTarget(MultipartFile file, long workId) {
     }
 
-    @Override
-    public Path downloadTarget(long workId) {
-        // TODO Auto-generated method stub
-        return null;
+    @Transactional
+    private LanguageFileFormat getFormat(long workId) {
+        Work work = workRepo.findOne(workId);
+        return projectRepo.findOne(work.getProject().getId()).getFormat();        
+    }
+
+    @Transactional
+    private void updateStatus(Status newStatus, long workId) {
+        Work work = workRepo.findOne(workId);
+        work.setStatus(newStatus);
+        workRepo.save(work);
     }
 
 }

@@ -14,158 +14,158 @@ import translateit2.validator.WorkConstraint;
 
 @WorkConstraint
 public class WorkDto {
-    private Long id;
+    private String backupFile;
 
-    private long projectId;
+    @NotNull
+    private LocalDate deadLine;
+
+    private long fileinfoId;
+    
+    private LocalDate finished;
 
     private long groupId;
-    
-    private long fileinfoId;
+
+    private Long id;
 
     @NotNull
     private Locale locale;
 
-    @NotEmpty
-    private String version;
-
     private String originalFile;
-
-    private String skeletonFile;
-
-    private String backupFile;
-
-    private Status status;
 
     @NotNull
     private Priority priority;
 
     private double progress;
 
+    private long projectId;
+
+    private String skeletonFile;
+
     private LocalDate started;
 
-    private LocalDate finished;
+    private Status status;
 
-    @NotNull
-    private LocalDate deadLine;
+    @NotEmpty
+    private String version;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
-    }
-
-    public long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
-    }
-
-    public long getFileinfoId() {
-        return fileinfoId;
-    }
-
-    public void setFileInfoId(long fileinfoId) {
-        this.fileinfoId = fileinfoId;
-    }
-    
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getOriginalFile() {
-        return originalFile;
-    }
-
-    public void setOriginalFile(String originalFile) {
-        this.originalFile = originalFile;
-    }
-
-    public String getSkeletonFile() {
-        return skeletonFile;
-    }
-
-    public void setSkeletonFile(String skeletonFile) {
-        this.skeletonFile = skeletonFile;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
-    public LocalDate getStarted() {
-        return started;
-    }
-
-    public void setStarted(LocalDate started) {
-        this.started = started;
-    }
-
-    public LocalDate getFinished() {
-        return finished;
-    }
-
-    public void setFinished(LocalDate finished) {
-        this.finished = finished;
+    public String getBackupFile() {
+        return backupFile;
     }
 
     public LocalDate getDeadLine() {
         return deadLine;
     }
 
-    public void setDeadLine(LocalDate deadLine) {
-        this.deadLine = deadLine;
+    public long getFileinfoId() {
+        return fileinfoId;
     }
 
-    public String getBackupFile() {
-        return backupFile;
+    public LocalDate getFinished() {
+        return finished;
+    }
+
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public String getOriginalFile() {
+        return originalFile;
+    }
+    
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public String getSkeletonFile() {
+        return skeletonFile;
+    }
+
+    public LocalDate getStarted() {
+        return started;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     public void setBackupFile(String backupFile) {
         this.backupFile = backupFile;
+    }
+
+    public void setDeadLine(LocalDate deadLine) {
+        this.deadLine = deadLine;
+    }
+
+    public void setFileInfoId(long fileinfoId) {
+        this.fileinfoId = fileinfoId;
+    }
+
+    public void setFinished(LocalDate finished) {
+        this.finished = finished;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public void setOriginalFile(String originalFile) {
+        this.originalFile = originalFile;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setSkeletonFile(String skeletonFile) {
+        this.skeletonFile = skeletonFile;
+    }
+
+    public void setStarted(LocalDate started) {
+        this.started = started;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     @Override

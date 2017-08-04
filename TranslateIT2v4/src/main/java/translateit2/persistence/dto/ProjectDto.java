@@ -15,15 +15,6 @@ import translateit2.validator.ProjectConstraint;
 
 @ProjectConstraint
 public class ProjectDto {
-    private long id;
-
-    private long personId;
-
-    private long infoId;
-
-    @NotBlank // The string is not null and the length is greater than zero
-    private String name;
-
     /*
      * @NotEmpty The CharSequence, Collection, Map or Array object cannot be
      * null and not empty (size > 0).
@@ -31,73 +22,20 @@ public class ProjectDto {
     @NotNull
     private LanguageFileFormat format;
 
-    @NotNull
-    private LanguageFileType type;
+    private long id;
+
+    private long infoId;
+
+    @NotBlank // The string is not null and the length is greater than zero
+    private String name;
+
+    private long personId;
 
     @NotNull
     private Locale sourceLocale;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(long personId) {
-        this.personId = personId;
-    }
-
-    public long getInfoId() {
-        return infoId;
-    }
-
-    public void setInfoId(long infoId) {
-        this.infoId = infoId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LanguageFileFormat getFormat() {
-        return format;
-    }
-
-    public void setFormat(LanguageFileFormat format) {
-        this.format = format;
-    }
-
-    public LanguageFileType getType() {
-        return type;
-    }
-
-    public void setType(LanguageFileType type) {
-        this.type = type;
-    }
-
-    public Locale getSourceLocale() {
-        return sourceLocale;
-    }
-
-    public void setSourceLocale(Locale sourceLocale) {
-        this.sourceLocale = sourceLocale;
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.id).append(this.personId).append(this.infoId).append(this.name)
-                .append(this.format).append(this.type).append(this.sourceLocale).toHashCode();
-    }
+    @NotNull
+    private LanguageFileType type;
 
     /*
      * All relevant fields should be included in the calculation of equals.
@@ -118,6 +56,68 @@ public class ProjectDto {
                 .append(this.infoId, otherObject.infoId).append(this.name, otherObject.name)
                 .append(this.format, otherObject.format).append(this.type, otherObject.type)
                 .append(this.sourceLocale, otherObject.sourceLocale).isEquals();
+    }
+
+    public LanguageFileFormat getFormat() {
+        return format;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getInfoId() {
+        return infoId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getPersonId() {
+        return personId;
+    }
+
+    public Locale getSourceLocale() {
+        return sourceLocale;
+    }
+
+    public LanguageFileType getType() {
+        return type;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.id).append(this.personId).append(this.infoId).append(this.name)
+                .append(this.format).append(this.type).append(this.sourceLocale).toHashCode();
+    }
+
+    public void setFormat(LanguageFileFormat format) {
+        this.format = format;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setInfoId(long infoId) {
+        this.infoId = infoId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPersonId(long personId) {
+        this.personId = personId;
+    }
+
+    public void setSourceLocale(Locale sourceLocale) {
+        this.sourceLocale = sourceLocale;
+    }
+
+    public void setType(LanguageFileType type) {
+        this.type = type;
     }
 
     @Override

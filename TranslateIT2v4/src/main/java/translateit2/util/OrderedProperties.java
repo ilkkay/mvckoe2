@@ -60,7 +60,35 @@ public final class OrderedProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates a new instance that will have both the same property entries and
+     * the same behavior as the given source.
+     * <p/>
+     * Note that the source instance and the copy instance will share the same
+     * comparator instance if a custom ordering had been configured on the
+     * source.
+     *
+     * @param source
+     *            the source to copy from
+     * @return the copy
+     */
+    public static OrderedProperties copyOf(OrderedProperties source) {
+        // create a copy that has the same behaviour
+        OrderedPropertiesBuilder builder = new OrderedPropertiesBuilder();
+        builder.withSuppressDateInComment(source.suppressDate);
+        if (source.properties instanceof TreeMap) {
+            builder.withOrdering(((TreeMap<String, String>) source.properties).comparator());
+        }
+        OrderedProperties result = builder.build();
+
+        // copy the properties from the source to the target
+        for (Map.Entry<String, String> entry : source.entrySet()) {
+            result.setProperty(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
     private transient Map<String, String> properties;
+
     private transient boolean suppressDate;
 
     /**
@@ -78,6 +106,37 @@ public final class OrderedProperties implements Serializable {
     }
 
     /**
+     * Returns <tt>true</tt> if there is a property with the specified key.
+     *
+     * @param key
+     *            the key whose presence is to be tested
+     */
+    public boolean containsProperty(String key) {
+        return properties.containsKey(key);
+    }
+
+    /**
+     * See {@link Properties#entrySet()}.
+     */
+    public Set<Map.Entry<String, String>> entrySet() {
+        return new LinkedHashSet<Map.Entry<String, String>>(properties.entrySet());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        OrderedProperties that = (OrderedProperties) other;
+        return Arrays.equals(properties.entrySet().toArray(), that.properties.entrySet().toArray());
+    }
+
+    /**
      * See {@link Properties#getProperty(String)}.
      */
     public String getProperty(String key) {
@@ -92,42 +151,9 @@ public final class OrderedProperties implements Serializable {
         return (value == null) ? defaultValue : value;
     }
 
-    /**
-     * See {@link Properties#setProperty(String, String)}.
-     */
-    public String setProperty(String key, String value) {
-        return properties.put(key, value);
-    }
-
-    /**
-     * Removes the property with the specified key, if it is present. Returns
-     * the value of the property, or <tt>null</tt> if there was no property with
-     * the specified key.
-     *
-     * @param key
-     *            the key of the property to remove
-     * @return the previous value of the property, or <tt>null</tt> if there was
-     *         no property with the specified key
-     */
-    public String removeProperty(String key) {
-        return properties.remove(key);
-    }
-
-    /**
-     * Returns <tt>true</tt> if there is a property with the specified key.
-     *
-     * @param key
-     *            the key whose presence is to be tested
-     */
-    public boolean containsProperty(String key) {
-        return properties.containsKey(key);
-    }
-
-    /**
-     * See {@link Properties#size()}.
-     */
-    public int size() {
-        return properties.size();
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(properties.entrySet().toArray());
     }
 
     /**
@@ -138,24 +164,19 @@ public final class OrderedProperties implements Serializable {
     }
 
     /**
-     * See {@link Properties#propertyNames()}.
+     * See {@link Properties#list(PrintStream)}.
      */
-    public Enumeration<String> propertyNames() {
-        return new Vector<String>(properties.keySet()).elements();
+    public void list(PrintStream stream) {
+        CustomProperties customProperties = new CustomProperties(this.properties);
+        customProperties.list(stream);
     }
 
     /**
-     * See {@link Properties#stringPropertyNames()}.
+     * See {@link Properties#list(PrintWriter)}.
      */
-    public Set<String> stringPropertyNames() {
-        return new LinkedHashSet<String>(properties.keySet());
-    }
-
-    /**
-     * See {@link Properties#entrySet()}.
-     */
-    public Set<Map.Entry<String, String>> entrySet() {
-        return new LinkedHashSet<Map.Entry<String, String>>(properties.entrySet());
+    public void list(PrintWriter writer) {
+        CustomProperties customProperties = new CustomProperties(this.properties);
+        customProperties.list(writer);
     }
 
     /**
@@ -180,6 +201,41 @@ public final class OrderedProperties implements Serializable {
     public void loadFromXML(InputStream stream) throws IOException, InvalidPropertiesFormatException {
         CustomProperties customProperties = new CustomProperties(this.properties);
         customProperties.loadFromXML(stream);
+    }
+
+    /**
+     * See {@link Properties#propertyNames()}.
+     */
+    public Enumeration<String> propertyNames() {
+        return new Vector<String>(properties.keySet()).elements();
+    }
+
+    /**
+     * Removes the property with the specified key, if it is present. Returns
+     * the value of the property, or <tt>null</tt> if there was no property with
+     * the specified key.
+     *
+     * @param key
+     *            the key of the property to remove
+     * @return the previous value of the property, or <tt>null</tt> if there was
+     *         no property with the specified key
+     */
+    public String removeProperty(String key) {
+        return properties.remove(key);
+    }
+
+    /**
+     * See {@link Properties#setProperty(String, String)}.
+     */
+    public String setProperty(String key, String value) {
+        return properties.put(key, value);
+    }
+
+    /**
+     * See {@link Properties#size()}.
+     */
+    public int size() {
+        return properties.size();
     }
 
     /**
@@ -224,19 +280,10 @@ public final class OrderedProperties implements Serializable {
     }
 
     /**
-     * See {@link Properties#list(PrintStream)}.
+     * See {@link Properties#stringPropertyNames()}.
      */
-    public void list(PrintStream stream) {
-        CustomProperties customProperties = new CustomProperties(this.properties);
-        customProperties.list(stream);
-    }
-
-    /**
-     * See {@link Properties#list(PrintWriter)}.
-     */
-    public void list(PrintWriter writer) {
-        CustomProperties customProperties = new CustomProperties(this.properties);
-        customProperties.list(writer);
+    public Set<String> stringPropertyNames() {
+        return new LinkedHashSet<String>(properties.keySet());
     }
 
     /**
@@ -252,29 +299,12 @@ public final class OrderedProperties implements Serializable {
         return jdkProperties;
     }
 
+    /**
+     * See {@link Properties#toString()}.
+     */
     @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-
-        OrderedProperties that = (OrderedProperties) other;
-        return Arrays.equals(properties.entrySet().toArray(), that.properties.entrySet().toArray());
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(properties.entrySet().toArray());
-    }
-
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.defaultWriteObject();
-        stream.writeObject(properties);
-        stream.writeBoolean(suppressDate);
+    public String toString() {
+        return properties.toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -289,40 +319,10 @@ public final class OrderedProperties implements Serializable {
         throw new InvalidObjectException("Stream data required");
     }
 
-    /**
-     * See {@link Properties#toString()}.
-     */
-    @Override
-    public String toString() {
-        return properties.toString();
-    }
-
-    /**
-     * Creates a new instance that will have both the same property entries and
-     * the same behavior as the given source.
-     * <p/>
-     * Note that the source instance and the copy instance will share the same
-     * comparator instance if a custom ordering had been configured on the
-     * source.
-     *
-     * @param source
-     *            the source to copy from
-     * @return the copy
-     */
-    public static OrderedProperties copyOf(OrderedProperties source) {
-        // create a copy that has the same behaviour
-        OrderedPropertiesBuilder builder = new OrderedPropertiesBuilder();
-        builder.withSuppressDateInComment(source.suppressDate);
-        if (source.properties instanceof TreeMap) {
-            builder.withOrdering(((TreeMap<String, String>) source.properties).comparator());
-        }
-        OrderedProperties result = builder.build();
-
-        // copy the properties from the source to the target
-        for (Map.Entry<String, String> entry : source.entrySet()) {
-            result.setProperty(entry.getKey(), entry.getValue());
-        }
-        return result;
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        stream.writeObject(properties);
+        stream.writeBoolean(suppressDate);
     }
 
     /**
@@ -332,6 +332,17 @@ public final class OrderedProperties implements Serializable {
 
         private Comparator<? super String> comparator;
         private boolean suppressDate;
+
+        /**
+         * Builds a new {@link OrderedProperties} instance.
+         *
+         * @return the new instance
+         */
+        public OrderedProperties build() {
+            Map<String, String> properties = (this.comparator != null) ? new TreeMap<String, String>(comparator)
+                    : new LinkedHashMap<String, String>();
+            return new OrderedProperties(properties, suppressDate);
+        }
 
         /**
          * Use a custom ordering of the keys.
@@ -359,17 +370,6 @@ public final class OrderedProperties implements Serializable {
             return this;
         }
 
-        /**
-         * Builds a new {@link OrderedProperties} instance.
-         *
-         * @return the new instance
-         */
-        public OrderedProperties build() {
-            Map<String, String> properties = (this.comparator != null) ? new TreeMap<String, String>(comparator)
-                    : new LinkedHashMap<String, String>();
-            return new OrderedProperties(properties, suppressDate);
-        }
-
     }
 
     /**
@@ -391,11 +391,6 @@ public final class OrderedProperties implements Serializable {
         }
 
         @Override
-        public Object put(Object key, Object value) {
-            return targetProperties.put((String) key, (String) value);
-        }
-
-        @Override
         public String getProperty(String key) {
             return targetProperties.get(key);
         }
@@ -410,6 +405,11 @@ public final class OrderedProperties implements Serializable {
             return new LinkedHashSet<Object>(targetProperties.keySet());
         }
 
+        @Override
+        public Object put(Object key, Object value) {
+            return targetProperties.put((String) key, (String) value);
+        }
+
     }
 
     /**
@@ -420,9 +420,9 @@ public final class OrderedProperties implements Serializable {
      */
     private static final class DateSuppressingPropertiesBufferedWriter extends BufferedWriter {
 
-        private final String LINE_SEPARATOR = System.getProperty("line.separator");
-
         private StringBuilder currentComment;
+
+        private final String LINE_SEPARATOR = System.getProperty("line.separator");
         private String previousComment;
 
         private DateSuppressingPropertiesBufferedWriter(Writer out) {

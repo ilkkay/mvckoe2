@@ -3,9 +3,9 @@ package translateit2.restapi;
 public class Statistics {
     private long reviewed;
 
-    private long translated;
-
     private long total;
+
+    private long translated;
 
     private long workId;
 
@@ -13,28 +13,28 @@ public class Statistics {
         return reviewed;
     }
 
-    public void setReviewed(long reviewed) {
-        this.reviewed = reviewed;
+    public long getTotal() {
+        return total;
     }
 
     public long getTranslated() {
         return translated;
     }
 
-    public void setTranslated(long translated) {
-        this.translated = translated;
+    public long getWorkId() {
+        return workId;
     }
 
-    public long getTotal() {
-        return total;
+    public void setReviewed(long reviewed) {
+        this.reviewed = reviewed;
     }
 
     public void setTotal(long total) {
         this.total = total;
     }
 
-    public long getWorkId() {
-        return workId;
+    public void setTranslated(long translated) {
+        this.translated = translated;
     }
 
     public void setWorkId(long workId) {

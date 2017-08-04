@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @Entity(name = "trUnit")
 @Table(name = "TR_UNIT")
 public class Unit implements Serializable {
@@ -25,8 +27,7 @@ public class Unit implements Serializable {
     @Column(length=10000)
     private String segment_key;
 
-    @ManyToOne
-    private Work work;
+    private int serialNumber;
 
     @Embedded // @Column(columnDefinition="TEXT")
     @AttributeOverrides({
@@ -42,54 +43,58 @@ public class Unit implements Serializable {
             @AttributeOverride(name = "skeleton_tag", column = @Column(name = "target_skeleton_tag")) })
     private Target target;
 
-    private int serialNumber;
+    @ManyToOne
+    private Work work;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getSegmentKey() {
         return segment_key;
     }
 
-    public void setSegmentKey(String segmentKey) {
-        this.segment_key = segmentKey;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
     public Source getSource() {
         return source;
     }
 
-    public void setSource(Source source) {
-        this.source = source;
-    }
-
     public Target getTarget() {
         return target;
-    }
-
-    public void setTarget(Target target) {
-        this.target = target;
-    }
-
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public Work getWork() {
         return work;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSegmentKey(String segmentKey) {
+        this.segment_key = segmentKey;
+    }
+
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
+    }
+
     public void setWork(Work work) {
         this.work = work;
     }
 
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+      }
 }

@@ -15,8 +15,8 @@ import org.junit.Test;
 
 public class DbConnectionTest {
 
-    protected static EntityManagerFactory emf;
     protected static EntityManager em;
+    protected static EntityManagerFactory emf;
 
     @BeforeClass
     public static void init() throws FileNotFoundException, SQLException {
@@ -24,16 +24,16 @@ public class DbConnectionTest {
         em = emf.createEntityManager();
     }
 
-    @Test
-    public void test() {
-        System.out.println("in test");
-        fail("test");
-    }
-
     @AfterClass
     public static void tearDown() {
         em.clear();
         em.close();
         emf.close();
+    }
+
+    @Test
+    public void test() {
+        System.out.println("in test");
+        fail("test");
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dao.ProjectRepository;
-import translateit2.persistence.model.Project;
 
 @Component
 public class CharSetResolver {

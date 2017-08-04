@@ -8,56 +8,60 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 @Entity(name = "trFileInfo")
 @Table(name = "TR_file_info")
 public class FileInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+    
+    private String backup_file;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String original_file;
 
-    private String backup_file;
+    private String original_file;
 
     private String skeleton_file;
 
-    public Long getId() {
-        return id;
+    public String getBackup_file() {
+        return backup_file;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getOriginal_file() {
         return original_file;
     }
 
-    public void setOriginal_file(String original_file) {
-        this.original_file = original_file;
-    }
-
-    public String getBackup_file() {
-        return backup_file;
+    public String getSkeleton_file() {
+        return skeleton_file;
     }
 
     public void setBackup_file(String backup_file) {
         this.backup_file = backup_file;
     }
 
-    public String getSkeleton_file() {
-        return skeleton_file;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOriginal_file(String original_file) {
+        this.original_file = original_file;
     }
 
     public void setSkeleton_file(String skeleton_file) {
         this.skeleton_file = skeleton_file;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+      }    
 }

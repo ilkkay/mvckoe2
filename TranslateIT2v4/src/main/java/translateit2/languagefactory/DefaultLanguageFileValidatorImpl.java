@@ -16,5 +16,9 @@ public class DefaultLanguageFileValidatorImpl implements LanguageFileValidator {
         return LanguageFileFormat.DEFAULT;
     }
 
-    public void validate() { };
+    @Override
+    public void validate(String filename, LanguageFileFormat format) {
+        // TODO Auto-generated method stub
+        
+    };
 }
