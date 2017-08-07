@@ -1,0 +1,38 @@
+package translateit2.languagefactory;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
+import java.util.Locale;
+import java.util.function.Predicate;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import translateit2.filenameresolver.FileNameResolver;
+import translateit2.filenameresolver.FileNameResolverImpl;
+
+@RunWith(MockitoJUnitRunner.class)
+public class FileNameResolverUnitTests {
+
+    private FileNameResolver fileNameResolver;
+    
+    @BeforeClass()
+    public void setUp()  {
+        fileNameResolver = new FileNameResolverImpl();
+    }
+    
+    @Test
+    public void resolveFileName_assertAppName() {
+        // when
+        String returnAppName = fileNameResolver.getApplicationName("dotCMS_fi.properties");
+        
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+    }
+
+}

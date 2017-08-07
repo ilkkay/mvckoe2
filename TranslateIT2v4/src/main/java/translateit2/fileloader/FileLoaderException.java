@@ -6,7 +6,7 @@ public class FileLoaderException extends RuntimeException {
     public FileLoadError errorCode;
 
     public FileLoaderException(FileLoadError errorCode) {
-        super("FileLoadError");
+        //super("FileLoadError");
         this.errorCode = errorCode;
     }
     

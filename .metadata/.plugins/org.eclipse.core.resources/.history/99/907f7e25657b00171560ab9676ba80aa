@@ -1,0 +1,15 @@
+package translateit2.languagefactory;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.languagefileservice.factory.AbstractLanguageFile;
+import translateit2.lngfileservice.LanguageFileFormat;
+
+public interface LanguageFileValidator extends AbstractLanguageFile <LanguageFileFormat> {   
+    void validate(Path uploadedFile, LanguageFileFormat format, Charset charset)  throws FileLoaderException;
+}

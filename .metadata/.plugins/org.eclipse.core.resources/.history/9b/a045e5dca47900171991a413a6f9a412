@@ -1,0 +1,20 @@
+package translateit2.languagefactory;
+
+import java.util.List;
+import java.util.Optional;
+
+public class LanguageBeanCacheImpl implements LanguageBeanCache<T, FORMAT>{
+
+    @Override
+    public Optional getService(Object format) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List listFormatsSupported() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+}

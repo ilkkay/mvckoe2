@@ -2648,3 +2648,976 @@
 2017-08-04 17:47:39,532 [Worker-399] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
 2017-08-04 17:47:39,532 [Worker-399] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2017-08-04 17:47:39,532 [Worker-399] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:06:11,785 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:06:11,805 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:06:11,845 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:06:11,849 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:06:11,850 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:07:03,619 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:07:03,622 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:07:03,624 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:07:03,629 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:07:03,629 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:08:28,742 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:08:28,744 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:08:28,747 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:08:28,751 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:08:28,751 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:09:37,788 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:09:37,789 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:09:37,792 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:09:37,795 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:09:37,795 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:10:51,499 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:10:51,500 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:10:51,503 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:10:51,506 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:10:51,506 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:11:05,483 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:11:05,485 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:11:05,487 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:11:05,491 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:11:05,492 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:15:28,491 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:15:28,493 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:15:28,496 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:15:28,501 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:15:28,501 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:16:50,088 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:16:50,090 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:16:50,093 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:16:50,100 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:16:50,101 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:20:27,979 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:20:27,981 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:20:27,985 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:20:27,989 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:20:27,990 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:25:47,720 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:25:47,722 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:25:47,726 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:25:47,730 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:25:47,730 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 09:31:37,491 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:31:37,493 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 09:31:37,495 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 09:31:37,498 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 09:31:37,498 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:46:34,832 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:46:34,847 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 11:46:34,863 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 11:46:34,863 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:46:34,863 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:47:11,082 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:47:11,082 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:47:11,082 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:47:11,082 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:47:11,082 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:48:30,441 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:48:30,441 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:48:30,441 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:48:30,441 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:48:30,441 [Worker-14] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:48:52,582 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:48:52,582 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:48:52,582 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:48:52,582 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:48:52,582 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:49:27,444 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:49:27,444 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:49:27,444 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:49:27,444 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:49:27,444 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:50:30,057 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:50:30,057 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:50:30,057 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:50:30,057 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:50:30,057 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:50:58,174 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:50:58,174 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:50:58,174 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:50:58,174 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:50:58,174 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:51:51,949 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:51:51,949 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:51:51,949 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:51:51,949 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:51:51,949 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:52:29,081 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:52:29,081 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:52:29,081 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:52:29,081 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:52:29,081 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:52:50,261 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:52:50,261 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:52:50,261 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:52:50,261 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:52:50,261 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:53:26,777 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:53:26,777 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:53:26,777 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:53:26,777 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:53:26,777 [Worker-24] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:54:47,583 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:54:47,583 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 11:54:47,583 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 11:54:47,598 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:54:47,598 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:55:03,661 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:55:03,661 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:55:03,661 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:55:03,661 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:55:03,661 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:55:51,383 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:55:51,399 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 11:55:51,399 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 11:55:51,399 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:55:51,399 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:57:23,415 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:57:23,415 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:57:23,415 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:57:23,415 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:57:23,415 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 11:59:26,587 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:59:26,587 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:59:26,587 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 11:59:26,587 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 11:59:26,587 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:02:35,009 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:02:35,009 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:02:35,009 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:02:35,024 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:02:35,024 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:06:44,544 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:06:44,544 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:06:44,544 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:06:44,544 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:06:44,544 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:07:19,008 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:07:19,008 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:07:19,008 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:07:19,023 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:07:19,023 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:09:39,681 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:09:39,681 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:09:39,681 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:09:39,697 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:09:39,697 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:12:35,615 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:12:35,615 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:12:35,615 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:12:35,615 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:12:35,615 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:16:35,774 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:16:35,774 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:16:35,774 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:16:35,774 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:16:35,774 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:17:18,681 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:17:18,681 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:17:18,681 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:17:18,681 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:17:18,681 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:18:06,494 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:06,494 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:18:06,494 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:18:06,494 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:06,494 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:18:31,838 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:31,838 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:18:31,838 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:18:31,838 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:31,838 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:18:41,822 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:41,822 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:18:41,822 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:18:41,838 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:18:41,838 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:19:28,089 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:19:28,089 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:19:28,089 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:19:28,089 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:19:28,089 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:19:48,933 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:19:48,933 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:19:48,933 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:19:48,949 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:19:48,949 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:21:13,840 [Worker-50] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:21:13,840 [Worker-50] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:21:13,840 [Worker-50] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 12:21:13,840 [Worker-50] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:21:13,840 [Worker-50] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:22:43,358 [Worker-52] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:22:43,374 [Worker-52] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:22:43,374 [Worker-52] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:22:43,374 [Worker-52] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:22:43,374 [Worker-52] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:23:09,718 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:23:09,718 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:23:09,718 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:23:09,718 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:23:09,718 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 12:23:52,595 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:23:52,595 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 12:23:52,595 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 12:23:52,595 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 12:23:52,595 [Worker-47] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:27:06,478 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:27:06,484 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:27:06,495 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:27:06,499 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:27:06,499 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:33:40,045 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:33:40,048 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:33:40,052 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:33:40,057 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:33:40,057 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:36:57,718 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:36:57,720 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:36:57,723 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:36:57,726 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:36:57,726 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:37:49,094 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:37:49,096 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:37:49,099 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:37:49,103 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:37:49,103 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:38:12,193 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:38:12,194 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:38:12,198 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:38:12,203 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:38:12,203 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:40:26,870 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:40:26,871 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:40:26,873 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:40:26,876 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:40:26,876 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:42:25,442 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:42:25,443 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:42:25,447 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:42:25,451 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:42:25,451 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:42:43,288 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:42:43,290 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:42:43,292 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:42:43,296 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:42:43,297 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:46:03,825 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:46:03,827 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:46:03,829 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:46:03,832 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:46:03,832 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:47:42,008 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:47:42,010 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:47:42,013 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:47:42,018 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:47:42,019 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:49:08,014 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:49:08,016 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:49:08,019 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:49:08,023 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:49:08,024 [Worker-30] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:52:09,565 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:52:09,566 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:52:09,569 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:52:09,572 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:52:09,572 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:52:53,262 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:52:53,263 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:52:53,266 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:52:53,270 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:52:53,270 [Worker-29] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:53:46,689 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:53:46,690 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:53:46,694 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:53:46,698 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:53:46,698 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:54:12,625 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:54:12,626 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:54:12,628 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:54:12,631 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:54:12,631 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 16:56:34,788 [Worker-34] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:56:34,789 [Worker-34] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-05 16:56:34,791 [Worker-34] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-05 16:56:34,794 [Worker-34] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 16:56:34,794 [Worker-34] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-05 17:06:53,120 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 17:06:53,120 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 17:06:53,120 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-05 17:06:53,121 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-05 17:06:53,121 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 08:56:25,885 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 08:56:25,890 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 08:56:25,920 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 08:56:25,924 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 08:56:25,924 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:03:50,491 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:03:50,496 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:03:50,501 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:03:50,507 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:03:50,507 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:04:03,213 [Worker-36] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:04:03,215 [Worker-36] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:04:03,218 [Worker-36] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:04:03,222 [Worker-36] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:04:03,222 [Worker-36] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:04:20,498 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:04:20,500 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:04:20,504 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:04:20,511 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:04:20,511 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:10:14,432 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:10:14,434 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:10:14,437 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:10:14,442 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:10:14,443 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:10:49,331 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:10:49,333 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:10:49,337 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:10:49,341 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:10:49,341 [Worker-35] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:21:14,801 [Worker-41] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:21:14,803 [Worker-41] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:21:14,806 [Worker-41] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:21:14,810 [Worker-41] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:21:14,810 [Worker-41] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:25:36,124 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:25:36,126 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:25:36,129 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:25:36,134 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:25:36,134 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:26:05,169 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:26:05,171 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:26:05,173 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:26:05,178 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:26:05,178 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:36:50,412 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:36:50,414 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:36:50,417 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:36:50,421 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:36:50,421 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:38:42,392 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:38:42,393 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:38:42,395 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:38:42,398 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:38:42,398 [Worker-49] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 09:48:59,124 [Worker-56] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:48:59,125 [Worker-56] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 09:48:59,128 [Worker-56] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 09:48:59,131 [Worker-56] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 09:48:59,131 [Worker-56] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:05:21,339 [Worker-62] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:05:21,340 [Worker-62] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 10:05:21,344 [Worker-62] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 10:05:21,349 [Worker-62] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:05:21,349 [Worker-62] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:05:46,242 [Worker-64] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:05:46,243 [Worker-64] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 10:05:46,246 [Worker-64] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 10:05:46,249 [Worker-64] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:05:46,249 [Worker-64] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:14:04,229 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:14:04,230 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 10:14:04,232 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 10:14:04,236 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:14:04,236 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:15:49,799 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:15:49,801 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 10:15:49,805 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 10:15:49,810 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:15:49,810 [Worker-72] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:23:28,469 [Worker-76] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:23:28,470 [Worker-76] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 10:23:28,473 [Worker-76] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 10:23:28,476 [Worker-76] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:23:28,476 [Worker-76] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 10:56:45,582 [Worker-80] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:56:45,582 [Worker-80] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 10:56:45,582 [Worker-80] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 10:56:45,583 [Worker-80] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 10:56:45,583 [Worker-80] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:09:33,734 [Worker-93] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:09:33,734 [Worker-93] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:09:33,734 [Worker-93] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:09:33,735 [Worker-93] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:09:33,735 [Worker-93] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:10:28,564 [Worker-87] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:10:28,564 [Worker-87] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:10:28,564 [Worker-87] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:10:28,566 [Worker-87] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:10:28,566 [Worker-87] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:12:05,852 [Worker-92] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:12:05,853 [Worker-92] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:12:05,853 [Worker-92] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:12:05,854 [Worker-92] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:12:05,854 [Worker-92] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:15:30,522 [Worker-104] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:15:30,522 [Worker-104] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:15:30,523 [Worker-104] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:15:30,524 [Worker-104] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:15:30,524 [Worker-104] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:19:15,995 [Worker-106] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:19:15,995 [Worker-106] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:19:15,995 [Worker-106] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:19:15,996 [Worker-106] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:19:15,996 [Worker-106] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:22:41,673 [Worker-105] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:22:41,674 [Worker-105] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:22:41,674 [Worker-105] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:22:41,675 [Worker-105] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:22:41,675 [Worker-105] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:23:56,630 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:23:56,631 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:23:56,631 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:23:56,633 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:23:56,633 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:24:48,416 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:24:48,416 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:24:48,417 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:24:48,418 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:24:48,418 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:26:36,461 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:26:36,462 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:26:36,462 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:26:36,463 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:26:36,463 [Worker-108] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:27:39,678 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:27:39,678 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:27:39,678 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:27:39,679 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:27:39,679 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:31:32,447 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:31:32,447 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:31:32,447 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:31:32,448 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:31:32,448 [Worker-111] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 11:32:42,847 [Worker-119] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:32:42,847 [Worker-119] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:32:42,847 [Worker-119] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 11:32:42,848 [Worker-119] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 11:32:42,848 [Worker-119] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:00:32,084 [Worker-130] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: translateit2:trial4:0.1.0 @ D:\sw-tools\STS\translateit2testi\TranslateIT2v4\pom.xml.
+2017-08-07 12:00:32,753 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0.pom
+2017-08-07 12:00:32,804 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0.pom
+2017-08-07 12:00:32,835 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/assertj/assertj-parent-pom/2.1.6/assertj-parent-pom-2.1.6.pom
+2017-08-07 12:00:32,901 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/assertj/assertj-parent-pom/2.1.6/assertj-parent-pom-2.1.6.pom
+2017-08-07 12:00:33,027 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/info/solidsoft/mockito/mockito-java8/2.1.0/mockito-java8-2.1.0.pom
+2017-08-07 12:00:33,155 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/info/solidsoft/mockito/mockito-java8/2.1.0/mockito-java8-2.1.0.pom
+2017-08-07 12:00:33,186 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/net/jodah/typetools/0.5.0/typetools-0.5.0.pom
+2017-08-07 12:00:33,224 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/net/jodah/typetools/0.5.0/typetools-0.5.0.pom
+2017-08-07 12:00:33,329 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0.jar
+2017-08-07 12:00:33,939 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0.jar
+2017-08-07 12:00:34,126 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/info/solidsoft/mockito/mockito-java8/2.1.0/mockito-java8-2.1.0.jar
+2017-08-07 12:00:34,437 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/info/solidsoft/mockito/mockito-java8/2.1.0/mockito-java8-2.1.0.jar
+2017-08-07 12:00:34,462 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/net/jodah/typetools/0.5.0/typetools-0.5.0.jar
+2017-08-07 12:00:34,555 [Worker-130] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/net/jodah/typetools/0.5.0/typetools-0.5.0.jar
+2017-08-07 12:00:35,771 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:00:35,772 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:00:35,772 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:00:35,774 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:00:35,774 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:00:41,332 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:00:41,334 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:00:41,346 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:00:41,843 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:00:41,843 [Worker-130] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:09:22,139 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:09:22,139 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:09:22,139 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:09:22,140 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:09:22,141 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:10:04,801 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:10:04,801 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:10:04,802 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:10:04,803 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:10:04,803 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:14:58,507 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:14:58,508 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:14:58,508 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:14:58,510 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:14:58,510 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:15:37,800 [Worker-140] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:15:37,801 [Worker-140] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:15:37,801 [Worker-140] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:15:37,802 [Worker-140] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:15:37,802 [Worker-140] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:16:44,686 [Worker-151] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:16:44,686 [Worker-151] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:16:44,687 [Worker-151] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:16:44,688 [Worker-151] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:16:44,688 [Worker-151] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:17:32,695 [Worker-145] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:17:32,695 [Worker-145] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:17:32,695 [Worker-145] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:17:32,697 [Worker-145] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:17:32,697 [Worker-145] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:18:28,484 [Worker-154] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0-sources.jar
+2017-08-07 12:18:28,882 [Worker-154] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.8.0/assertj-core-3.8.0-sources.jar
+2017-08-07 12:18:29,061 [Worker-154] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for org.assertj:assertj-core:3.8.0
+2017-08-07 12:18:29,344 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:18:29,344 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:18:29,344 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:18:29,345 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:18:29,345 [Worker-141] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:22:30,480 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:22:30,481 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:22:30,484 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:22:30,487 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:22:30,487 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:23:07,495 [Worker-153] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:23:07,497 [Worker-153] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:23:07,499 [Worker-153] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:23:07,502 [Worker-153] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:23:07,502 [Worker-153] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:23:31,074 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:23:31,075 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:23:31,078 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:23:31,080 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:23:31,080 [Worker-149] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:24:18,263 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:24:18,263 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:24:18,263 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:24:18,264 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:24:18,264 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:26:03,264 [Worker-152] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:26:03,264 [Worker-152] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:26:03,264 [Worker-152] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:26:03,265 [Worker-152] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:26:03,265 [Worker-152] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:31:01,969 [Worker-165] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:31:01,974 [Worker-165] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:31:01,983 [Worker-165] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:31:01,992 [Worker-165] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:31:01,992 [Worker-165] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:31:48,677 [Worker-163] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:31:48,679 [Worker-163] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:31:48,683 [Worker-163] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:31:48,687 [Worker-163] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:31:48,687 [Worker-163] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:33:08,042 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:33:08,043 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:33:08,043 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:33:08,044 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:33:08,044 [Worker-155] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:33:59,570 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:33:59,570 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:33:59,571 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:33:59,572 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:33:59,572 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:34:10,162 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:34:10,162 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:34:10,162 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:34:10,163 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:34:10,163 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:35:10,726 [Worker-157] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:35:10,726 [Worker-157] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:35:10,726 [Worker-157] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:35:10,727 [Worker-157] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:35:10,727 [Worker-157] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:36:36,526 [Worker-164] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:36:36,526 [Worker-164] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:36:36,526 [Worker-164] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:36:36,529 [Worker-164] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:36:36,529 [Worker-164] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:37:02,094 [Worker-162] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:37:02,095 [Worker-162] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:37:02,095 [Worker-162] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:37:02,096 [Worker-162] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:37:02,096 [Worker-162] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:42:07,839 [Worker-168] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:07,839 [Worker-168] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:07,839 [Worker-168] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:07,840 [Worker-168] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:07,840 [Worker-168] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:42:21,781 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:21,781 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:21,781 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:21,782 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:21,782 [Worker-158] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:42:43,028 [Worker-167] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:43,028 [Worker-167] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:43,029 [Worker-167] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:42:43,030 [Worker-167] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:42:43,030 [Worker-167] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:48:36,477 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:48:36,477 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:48:36,477 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:48:36,478 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:48:36,478 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:49:06,326 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:49:06,326 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:49:06,326 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:49:06,327 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:49:06,327 [Worker-174] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:49:30,923 [Worker-173] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:49:30,924 [Worker-173] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:49:30,924 [Worker-173] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:49:30,925 [Worker-173] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:49:30,925 [Worker-173] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:50:07,796 [Worker-182] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:50:07,797 [Worker-182] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:50:07,797 [Worker-182] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:50:07,798 [Worker-182] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:50:07,798 [Worker-182] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:50:34,775 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:50:34,776 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:50:34,776 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:50:34,778 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:50:34,778 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:51:14,730 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:51:14,730 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:51:14,730 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:51:14,732 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:51:14,733 [Worker-178] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:51:38,263 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:51:38,263 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:51:38,263 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:51:38,264 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:51:38,265 [Worker-143] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:53:18,438 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:53:18,439 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 12:53:18,442 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 12:53:18,444 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:53:18,444 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:53:44,955 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:53:44,956 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:53:44,956 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:53:44,957 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:53:44,957 [Worker-185] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:54:24,649 [Worker-181] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:54:24,649 [Worker-181] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:54:24,649 [Worker-181] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:54:24,650 [Worker-181] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:54:24,650 [Worker-181] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:54:58,701 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:54:58,701 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:54:58,701 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:54:58,702 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:54:58,703 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:55:48,068 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:55:48,068 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:55:48,068 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:55:48,069 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:55:48,069 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 12:57:43,649 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:57:43,649 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:57:43,649 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 12:57:43,650 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 12:57:43,650 [Worker-187] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:01:51,576 [Worker-188] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:01:51,576 [Worker-188] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:01:51,576 [Worker-188] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:01:51,577 [Worker-188] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:01:51,577 [Worker-188] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:03:26,095 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:03:26,095 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:03:26,095 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:03:26,096 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:03:26,096 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:03:46,477 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:03:46,477 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:03:46,477 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:03:46,478 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:03:46,478 [Worker-192] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:05:10,607 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:05:10,607 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:05:10,608 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:05:10,608 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:05:10,608 [Worker-186] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:09:53,945 [Worker-198] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:09:53,945 [Worker-198] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:09:53,945 [Worker-198] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:09:53,946 [Worker-198] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:09:53,946 [Worker-198] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:11:46,831 [Worker-200] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:11:46,831 [Worker-200] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:11:46,832 [Worker-200] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 13:11:46,833 [Worker-200] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:11:46,833 [Worker-200] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:34:12,973 [Worker-213] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:34:12,974 [Worker-213] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 13:34:12,976 [Worker-213] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 13:34:12,978 [Worker-213] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:34:12,978 [Worker-213] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:34:54,921 [Worker-217] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:34:54,922 [Worker-217] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 13:34:54,924 [Worker-217] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 13:34:54,925 [Worker-217] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:34:54,926 [Worker-217] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 13:35:01,294 [Worker-216] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:35:01,295 [Worker-216] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 13:35:01,298 [Worker-216] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 13:35:01,300 [Worker-216] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 13:35:01,300 [Worker-216] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:19:15,990 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:19:15,991 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:19:15,991 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:19:15,992 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:19:15,992 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:22:46,341 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:22:46,342 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:22:46,342 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:22:46,343 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:22:46,343 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:22:54,773 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:22:54,773 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:22:54,773 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:22:54,775 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:22:54,775 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:23:38,627 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:23:38,629 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 14:23:38,631 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 14:23:38,633 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:23:38,634 [Worker-236] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:24:08,317 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:24:08,317 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:24:08,317 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:24:08,318 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:24:08,318 [Worker-241] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:24:50,985 [Worker-247] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:24:50,985 [Worker-247] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:24:50,985 [Worker-247] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:24:50,986 [Worker-247] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:24:50,986 [Worker-247] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:25:17,244 [Worker-248] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:25:17,244 [Worker-248] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:25:17,244 [Worker-248] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:25:17,245 [Worker-248] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:25:17,245 [Worker-248] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:37:51,292 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:37:51,293 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 14:37:51,295 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 14:37:51,297 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:37:51,298 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:39:24,884 [Worker-251] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:39:24,885 [Worker-251] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 14:39:24,888 [Worker-251] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 14:39:24,890 [Worker-251] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:39:24,890 [Worker-251] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:40:01,111 [Worker-245] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:40:01,112 [Worker-245] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 14:40:01,114 [Worker-245] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 14:40:01,116 [Worker-245] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:40:01,117 [Worker-245] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:45:02,228 [Worker-259] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:45:02,228 [Worker-259] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:45:02,228 [Worker-259] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:45:02,229 [Worker-259] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:45:02,229 [Worker-259] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:45:57,435 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:45:57,436 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:45:57,436 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:45:57,437 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:45:57,437 [Worker-246] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:47:58,812 [Worker-254] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:47:58,812 [Worker-254] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:47:58,812 [Worker-254] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:47:58,813 [Worker-254] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:47:58,813 [Worker-254] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:54:33,176 [Worker-271] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:54:33,177 [Worker-271] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:54:33,177 [Worker-271] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:54:33,178 [Worker-271] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:54:33,178 [Worker-271] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:55:25,308 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:55:25,309 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:55:25,309 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:55:25,310 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:55:25,310 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:57:02,943 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:57:02,943 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:57:02,943 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:57:02,944 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:57:02,944 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 14:57:53,872 [Worker-260] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:57:53,872 [Worker-260] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:57:53,872 [Worker-260] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 14:57:53,873 [Worker-260] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 14:57:53,873 [Worker-260] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:00:40,158 [Worker-282] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:00:40,158 [Worker-282] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:00:40,158 [Worker-282] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:00:40,159 [Worker-282] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:00:40,160 [Worker-282] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:02:20,137 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:02:20,137 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:02:20,137 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:02:20,138 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:02:20,138 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:04:59,604 [Worker-283] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:04:59,605 [Worker-283] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:04:59,605 [Worker-283] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:04:59,606 [Worker-283] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:04:59,606 [Worker-283] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:06:56,486 [Worker-284] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:06:56,487 [Worker-284] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:06:56,487 [Worker-284] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:06:56,488 [Worker-284] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:06:56,488 [Worker-284] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:15:09,628 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:15:09,629 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 15:15:09,631 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 15:15:09,634 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:15:09,634 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:16:26,071 [Worker-286] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:16:26,071 [Worker-286] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:16:26,072 [Worker-286] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:16:26,072 [Worker-286] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:16:26,073 [Worker-286] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:16:56,186 [Worker-274] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:16:56,187 [Worker-274] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:16:56,187 [Worker-274] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:16:56,188 [Worker-274] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:16:56,188 [Worker-274] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:17:20,680 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:17:20,681 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 15:17:20,683 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 15:17:20,685 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:17:20,686 [Worker-276] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:27:17,065 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:27:17,065 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:27:17,065 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:27:17,066 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:27:17,066 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:29:16,026 [Worker-305] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:29:16,026 [Worker-305] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:29:16,026 [Worker-305] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:29:16,027 [Worker-305] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:29:16,027 [Worker-305] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:30:11,368 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:30:11,369 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 15:30:11,371 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 15:30:11,373 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:30:11,373 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:30:25,776 [Worker-304] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:30:25,776 [Worker-304] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:30:25,776 [Worker-304] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:30:25,777 [Worker-304] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:30:25,777 [Worker-304] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:32:18,152 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:32:18,168 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:32:18,168 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:32:18,168 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:32:18,168 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:33:56,441 [Worker-318] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:33:56,441 [Worker-318] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:33:56,441 [Worker-318] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:33:56,441 [Worker-318] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:33:56,441 [Worker-318] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:37:40,104 [Worker-316] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:37:40,104 [Worker-316] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:37:40,104 [Worker-316] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:37:40,104 [Worker-316] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:37:40,104 [Worker-316] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:39:48,036 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:39:48,036 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:39:48,036 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:39:48,037 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:39:48,037 [Worker-310] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:40:09,374 [Worker-320] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:40:09,374 [Worker-320] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:40:09,374 [Worker-320] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:40:09,374 [Worker-320] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:40:09,374 [Worker-320] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:40:47,347 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:40:47,347 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:40:47,347 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:40:47,347 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:40:47,347 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:42:30,557 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:42:30,557 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:42:30,557 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:42:30,557 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:42:30,557 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:43:42,802 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:43:42,802 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:43:42,802 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:43:42,802 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:43:42,802 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:44:52,694 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:44:52,694 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:44:52,694 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:44:52,694 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:44:52,694 [Worker-307] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:45:32,134 [Worker-327] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:45:32,134 [Worker-327] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:45:32,134 [Worker-327] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:45:32,136 [Worker-327] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:45:32,136 [Worker-327] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:45:45,972 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:45:45,972 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:45:45,972 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:45:45,972 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:45:45,972 [Worker-325] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:55:05,662 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:55:05,662 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 15:55:05,662 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 15:55:05,662 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:55:05,662 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:55:45,748 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:55:45,749 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 15:55:45,752 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 15:55:45,753 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:55:45,754 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:57:20,255 [Worker-336] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:57:20,255 [Worker-336] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:57:20,255 [Worker-336] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:57:20,255 [Worker-336] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:57:20,255 [Worker-336] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:58:01,735 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:58:01,735 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:58:01,735 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:58:01,751 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:58:01,751 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 15:58:38,076 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:58:38,076 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:58:38,076 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 15:58:38,076 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 15:58:38,076 [Worker-315] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:00:12,685 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:00:12,685 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 16:00:12,685 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 16:00:12,685 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:00:12,685 [Worker-340] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:01:09,519 [Worker-343] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:01:09,519 [Worker-343] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 16:01:09,519 [Worker-343] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-08-07 16:01:09,519 [Worker-343] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:01:09,519 [Worker-343] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:04:14,155 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:04:14,155 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:04:14,155 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:04:14,155 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:04:14,155 [Worker-332] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:12:00,793 [Worker-347] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:12:00,793 [Worker-347] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:12:00,793 [Worker-347] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:12:00,793 [Worker-347] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:12:00,793 [Worker-347] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:14:26,877 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:14:26,877 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:14:26,877 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:14:26,877 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:14:26,877 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:15:23,786 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:15:23,786 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:15:23,802 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:15:23,802 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:15:23,802 [Worker-352] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:19:09,471 [Worker-351] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:19:09,471 [Worker-351] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:19:09,471 [Worker-351] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:19:09,471 [Worker-351] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:19:09,471 [Worker-351] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:19:54,970 [Worker-346] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:19:54,970 [Worker-346] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:19:54,970 [Worker-346] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:19:54,970 [Worker-346] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:19:54,986 [Worker-346] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources
+2017-08-07 16:20:15,564 [Worker-357] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:20:15,565 [Worker-357] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 3 resources
+2017-08-07 16:20:15,569 [Worker-357] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 18 resources
+2017-08-07 16:20:15,571 [Worker-357] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2017-08-07 16:20:15,571 [Worker-357] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\sw-tools\STS\translateit2testi\TranslateIT2v4\src\test\resources

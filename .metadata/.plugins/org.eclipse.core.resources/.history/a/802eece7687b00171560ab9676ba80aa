@@ -1,0 +1,98 @@
+package translateit2.validator;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.filenameresolver.FileNameResolver;
+import translateit2.filenameresolver.FileNameResolverImpl;
+import translateit2.languagefactory.LanguageFileValidator;
+import translateit2.languagefactory.PropertiesFileValidatorImpl;
+import translateit2.lngfileservice.LanguageFileFormat;
+
+@RunWith(MockitoJUnitRunner.class)
+public class LanguageFileValidatorUnitTest {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    
+    
+    //@Test
+    public void testUTF8Charset_failIfIso8859Charset() {
+        
+        Path uploadedFile = Paths.get("D:\\dotcms.properties");
+        
+        assertThatThrownBy(() -> validator().validate(uploadedFile,  
+                LanguageFileFormat.PROPERTIES, 
+                StandardCharsets.ISO_8859_1))
+        .doesNotThrowAnyException();
+    }
+    
+    
+    /*
+    // WHEN expect ISO8859
+    when(workService.getWorkDtoById(1L)).thenReturn(work);
+    when(projectService.getProjectDtoById(666L)).thenReturn(prj);
+
+    // THEN throw exception if the upload file is UTF-8
+    try {
+        iso8859validator.checkFileCharSet(uploadedLngFile, 1L);
+        fail("No exception thrown");
+    } catch (FileLoaderException e) {
+        assertThat(e.getMessage().contains(messages.getPart("FileStorageService.false_ISO8859_encoding"))
+        // It should be ISO8859
+                , is(equalTo(true)));
+    }
+    */
+    
+    @Test
+    public void testUTF8Charset_failIfFileIsIso8859Charset() {
+        
+        Path uploadedLngFile = Paths.get("d:\\messages_fi-UTF8.properties");
+        
+        assertThatThrownBy(() -> validator().validate(uploadedLngFile,  
+                LanguageFileFormat.PROPERTIES, 
+                StandardCharsets.ISO_8859_1))
+        .isExactlyInstanceOf(FileLoaderException.class);        
+
+    }
+
+    /*
+    @Test
+    public void testUTF8Charset_failIfFileIsIso8859Charset() {
+        
+        Path uploadedFile = Paths.get("D:\\dotcms_fi.properties");
+        
+        assertThatThrownBy(() -> validator().validate(uploadedFile,  
+                LanguageFileFormat.PROPERTIES, 
+                StandardCharsets.UTF8))
+        .isExactlyInstanceOf(FileLoaderException.class);        
+
+    }
+    */
+    private LanguageFileValidator validator() {
+        return new PropertiesFileValidatorImpl();
+    }
+
+}

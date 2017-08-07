@@ -20,21 +20,32 @@ import translateit2.lngfileservice.LanguageFileFormat;
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class LanguageFileStorageIntegrationTest {
+    /*
+    @Autowired
+    private LanguageFileFactory<LanguageFileWriter, LanguageFileFormat> fileWriterFactory;
+
     @Autowired
     private LanguageFileFactory<LanguageFileReader, LanguageFileFormat> fileReaderFactory;
 
     @Autowired
     private LanguageFileFactory<LanguageFileValidator, LanguageFileFormat> fileValidatorFactory;
+    */
+    
+    @Autowired
+    private LanguageBeanCache<LanguageFileReader, LanguageFileFormat> fileReaderCache;
 
     @Autowired
-    private LanguageFileFactory<LanguageFileWriter, LanguageFileFormat> fileWriterFactory;
+    private LanguageBeanCache<LanguageFileWriter, LanguageFileFormat> fileWriterCache;
+    
+    @Autowired
+    private LanguageBeanCache<LanguageFileValidator, LanguageFileFormat> fileValidatorCache;
 
     // https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
     @Test
     public void failToGetService_ifFormatNotSupported() {
 
         try {
-            fileReaderFactory.getService(LanguageFileFormat.PO).get();
+            fileReaderCache.getService(LanguageFileFormat.PO).get();
             fail("No exception was thrown");
         } catch (Exception e) {
             assertThat(e).isInstanceOf(RuntimeException.class);
@@ -42,8 +53,9 @@ public class LanguageFileStorageIntegrationTest {
 
     }
 
+    /*
     @Test
-    public void getFormatFromFileFactory() {
+    public void testFactoryImpl() {
         LanguageFileReader reader = fileReaderFactory.getService(LanguageFileFormat.DEFAULT).get();
         assertThat(reader.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
         // reader.read();
@@ -55,6 +67,20 @@ public class LanguageFileStorageIntegrationTest {
         LanguageFileValidator validator = fileValidatorFactory.getService(LanguageFileFormat.DEFAULT).get();
         assertThat(validator.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
         // validator.validate();
+
+    }
+    */
+    
+    @Test
+    public void testBeanCache() {
+        LanguageFileWriter writerBean = fileWriterCache.getService(LanguageFileFormat.DEFAULT).get();
+        assertThat(writerBean.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
+
+        LanguageFileReader readerBean = fileReaderCache.getService(LanguageFileFormat.DEFAULT).get();
+        assertThat(readerBean.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
+        
+        LanguageFileValidator validatorBean = fileValidatorCache.getService(LanguageFileFormat.DEFAULT).get();
+        assertThat(validatorBean.getFileFormat(), is(equalTo(LanguageFileFormat.DEFAULT)));
     }
 
 }

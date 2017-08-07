@@ -1,0 +1,7 @@
+package translateit2.languagefactory;
+
+import translateit2.lngfileservice.LanguageFileFormat;
+
+public class LanguageWriterBeanCacheImpl extends LanguageBeanCacheImpl<LanguageFileWriter, LanguageFileFormat> {
+
+}

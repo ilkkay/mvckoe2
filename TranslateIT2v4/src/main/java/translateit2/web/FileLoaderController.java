@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.fileloader.LoadedFileNotFoundException;

@@ -1,0 +1,94 @@
+package translateit2.languagefactory;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
+import java.util.Locale;
+import java.util.function.Predicate;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.filenameresolver.FileNameResolver;
+import translateit2.filenameresolver.FileNameResolverImpl;
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class FileNameResolverUnitTests {
+    
+    @Test
+    public void resolveFileName_assertAppName() {
+        // when
+        String returnAppName = fileNameResolver().getApplicationName("dotCMS_fi.properties");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));        
+        
+        // when
+        returnAppName = fileNameResolver().getApplicationName("dotCMS-fi_FI_var.po");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS-fi")));
+    }
+    
+    @Test
+    public void resolveFileName_assertLocale() {
+        // when
+        Locale returnLocale = fileNameResolver().getLocaleFromString("dotCMS_fi.properties",
+                ext -> ext.equals("properties"));      
+        // then
+        assertThat(returnLocale, is(equalTo(new Locale("fi_FI"))));
+        
+        // when
+        returnLocale = fileNameResolver().getLocaleFromString("dotCMS_fi_fi.xliff",
+                ext -> ext.equals("properties"));      
+        // then
+        assertThat(returnLocale, is(equalTo(new Locale("fi_FI"))));;
+        
+        // when
+        returnLocale = fileNameResolver().getLocaleFromString("dotCMS_FI_FI_var.po",
+                ext -> ext.equals("properties"));      
+        // then
+        assertThat(returnLocale, is(equalTo(new Locale("fi_FI"))));
+        
+    }
+    
+    // https://www.petrikainulainen.net/programming/testing/writing-clean-tests-java-8-to-the-rescue/
+    @Test
+    public void resolveFileName_failIfAppNameOnlyFile() {
+
+        assertThatThrownBy(() -> fileNameResolver().getApplicationName("dotCMS.properties"))
+            .isExactlyInstanceOf(FileLoaderException.class);
+    }
+    
+    @Test
+    public void resolveFileName_failIfLocaleMissing() {
+        
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.xxx",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+       
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.properties",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+        
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("dotCMS_XXX.properties",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+                
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("dotCMS-xx-XX.properties",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+        
+    }
+
+    private FileNameResolver fileNameResolver() {
+        // TODO Auto-generated method stub
+        return new FileNameResolverImpl();
+    }
+
+}

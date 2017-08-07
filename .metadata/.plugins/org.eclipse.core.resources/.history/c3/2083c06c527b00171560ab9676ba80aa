@@ -1,0 +1,102 @@
+package translateit2.languagefactory;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
+import java.util.Locale;
+import java.util.function.Predicate;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.filenameresolver.FileNameResolver;
+import translateit2.filenameresolver.FileNameResolverImpl;
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class FileNameResolverUnitTests {
+
+    private FileNameResolver fileNameResolver;
+    
+    @Before
+    public void setUp() throws Exception {
+        fileNameResolver = new FileNameResolverImpl();        
+    }
+    
+    @Test
+    public void resolveFileName_assertAppName() {
+        // when
+        String returnAppName = fileNameResolver.getApplicationName("dotCMS_fi.properties");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+        
+        // when
+        returnAppName = fileNameResolver.getApplicationName("dotCMS_fi_FI.xliff");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+        
+        // when
+        returnAppName = fileNameResolver.getApplicationName("dotCMS_fi_FI_var.po");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+    }
+    
+    // https://www.petrikainulainen.net/programming/testing/writing-clean-tests-java-8-to-the-rescue/
+    @Test
+    public void resolveFileName_failIfAppNameMissing() {
+
+        assertThatThrownBy(() -> fileNameResolver().getApplicationName("dotCMS.properties"))
+            .isExactlyInstanceOf(FileLoaderException.class);
+    }
+    
+    @Test
+    public void resolveFileName_failIfLocaleMissing() {
+        
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.xxx",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+       
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.properties",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+        
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("dotCMS_XXX.properties",
+                ext -> ext.equals("properties")))
+                    .isExactlyInstanceOf(FileLoaderException.class);
+        
+        /*
+        assertThrown(() -> new FileNameResolverImpl().getApplicationName("dotCMS.properties"))
+        .isInstanceOf(RuntimeException.class)
+        .hasMessage("Runtime exception occurred")
+        .hasMessageStartingWith("Runtime")
+        .hasMessageEndingWith("occurred")
+        .hasMessageContaining("exception")
+        .hasNoCause();
+        
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+        
+        // when
+        returnAppName = fileNameResolver.getApplicationName("dotCMS_fii.xliff");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+        
+        // when
+        returnAppName = fileNameResolver.getApplicationName("dotCMS-fi_FI_var.po");      
+        // then
+        assertThat(returnAppName, is(equalTo("dotCMS")));
+        */
+    }
+
+    private FileNameResolver fileNameResolver() {
+        // TODO Auto-generated method stub
+        return new FileNameResolverImpl();
+    }
+
+}

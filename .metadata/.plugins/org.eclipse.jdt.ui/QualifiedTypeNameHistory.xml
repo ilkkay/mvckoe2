@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="translateit2.configuration.DemoDatabaseInitializer"/>
 <fullyQualifiedTypeName name="translateit2.configuration.DatabaseInitializer"/>
-<fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="translateit2.service.WorkService"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
 <fullyQualifiedTypeName name="java.util.Optional"/>
@@ -15,10 +14,7 @@
 <fullyQualifiedTypeName name="translateit2.persistence.model.FileInfo"/>
 <fullyQualifiedTypeName name="translateit2.persistence.dto.FileInfoDto"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
-<fullyQualifiedTypeName name="translateit2.persistence.dao.FileInfoRepository"/>
-<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
 <fullyQualifiedTypeName name="translateit2.persistence.dto.WorkDto"/>
-<fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="translateit2.filelocator.FileLocator"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderService"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
@@ -26,10 +22,30 @@
 <fullyQualifiedTypeName name="translateit2.persistence.model.Project"/>
 <fullyQualifiedTypeName name="javax.transaction.Transactional"/>
 <fullyQualifiedTypeName name="javax.management.RuntimeErrorException"/>
-<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 <fullyQualifiedTypeName name="java.util.Locale"/>
 <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+<fullyQualifiedTypeName name="translateit2.languagefactory.LanguageBeanCache"/>
+<fullyQualifiedTypeName name="translateit2.languagefactory.LanguageBeanCacheImpl"/>
+<fullyQualifiedTypeName name="translateit2.languagefactory.LanguageFileReader"/>
+<fullyQualifiedTypeName name="translateit2.languagefactory.LanguageFileValidator"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="org.springframework.boot.CommandLineRunner"/>
+<fullyQualifiedTypeName name="translateit2.persistence.dao.UnitRepository"/>
+<fullyQualifiedTypeName name="translateit2.persistence.dao.FileInfoRepository"/>
+<fullyQualifiedTypeName name="translateit2.filenameresolver.FileNameResolver"/>
+<fullyQualifiedTypeName name="translateit2.filenameresolver.FileNameResolverImpl"/>
+<fullyQualifiedTypeName name="org.aspectj.lang.annotation.Before"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderException"/>
+<fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="java.nio.charset.MalformedInputException"/>
+<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
+<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
+<fullyQualifiedTypeName name="java.nio.file.Path"/>
+<fullyQualifiedTypeName name="java.nio.file.Paths"/>
+<fullyQualifiedTypeName name="translateit2.languagefactory.PropertiesFileValidatorImpl"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
+<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileType"/>
 </qualifiedTypeNameHistroy>

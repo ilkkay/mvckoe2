@@ -14,7 +14,7 @@ public class FileNameResolverImpl implements FileNameResolver{
     public String getApplicationName(String filename) throws FileLoaderException {
         if (filename == null)
             throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
-        
+
         // Extract application name
         int appIndex = filename.indexOf('_');
         if (appIndex == -1) {
@@ -34,7 +34,7 @@ public class FileNameResolverImpl implements FileNameResolver{
     @Override
     public Locale getLocaleFromString(String fileName, Predicate<String> p) 
             throws FileLoaderException {
-        
+
         // check extension
         int extPos = fileName.lastIndexOf('.');
         if ((extPos > 0) && (!p.test(fileName.substring(extPos + 1)))) 
@@ -42,17 +42,28 @@ public class FileNameResolverImpl implements FileNameResolver{
 
         // get application name end position
         int appIndex = fileName.indexOf('_');
+        if (appIndex == -1)
+            throw new FileLoaderException(FileLoadError.CANNOT_READ_APPLICATION_NAME_FROM_FILE_NAME);            
 
         // language can be found between two underscores (i.e. appname_fi_FI.extension)
+        // OR between language code and extension (i.e. appname_fi.extension)
         String language;
         int languageIndex = fileName.indexOf('_', appIndex + 1);
         if (languageIndex == -1) {
             // No further "_" so is "{language}" only
-            language = fileName.substring(appIndex + 1, appIndex + 3);
-            return new Locale(language, language.toUpperCase());
+            int extensionIndex = fileName.indexOf('.', appIndex + 1);
+
+            // Extract language which is exactly two characters long
+            if (extensionIndex - appIndex != 3) 
+                throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            else {
+                language = fileName.substring(appIndex + 1, appIndex + 3);
+                return new Locale(language.toLowerCase(), language.toUpperCase());
+            }
         } else {
             language = fileName.substring(appIndex + 1, languageIndex);
         }
+        
         // Extract language which is exactly two characters long
         if (languageIndex - appIndex != 3) 
             throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
@@ -65,20 +76,20 @@ public class FileNameResolverImpl implements FileNameResolver{
         // Extract country which is exactly two characters long
         // end if not return only language
         if (countryIndex - languageIndex != 3) {
-            return new Locale(language, language.toUpperCase());
+            return new Locale(language.toLowerCase(), language.toUpperCase());
         }
 
         if (countryIndex == -1) {
             // No further "_" so is "{language}_{country}"
             String country = fileName.substring(languageIndex + 1);
             country = country.substring(0, 2);
-            return new Locale(language, country.toUpperCase());
+            return new Locale(language.toLowerCase(), country.toUpperCase());
         } else {
             // Assume all remaining is the variant so is
             // "{language}_{country}_{variant}"
             String country = fileName.substring(languageIndex + 1, countryIndex);
             // String variant = localeString.substring(countryIndex+1);
-            return new Locale(language, country.toUpperCase());
+            return new Locale(language.toLowerCase(), country.toUpperCase());
         }
     }
 }
