@@ -5,7 +5,37 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2017-08-07T10:37:00Z</updated>
+  <updated>2017-08-08T09:03:04Z</updated>
+  <entry>
+    <title>This Week in Spring - August 8th, 2017</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/08/08/this-week-in-spring-august-8th-2017" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2017-08-08:2999</id>
+    <updated>2017-08-08T09:03:04Z</updated>
+    <content type="html">&lt;p&gt;Hi Spring fans and welcome to another installment of &lt;em&gt;This Week in Spring&lt;/em&gt;! This week I&amp;rsquo;m presenting with my &lt;a href="http://twitter.com/mraible"&gt;buddy Matt Raible&lt;/a&gt; on the VJUG (Virtual JUG) on Progressive Web Applications with Spring Boot and Angular 4, this Wednesday. &lt;a href="https://www.meetup.com/virtualJUG/events/241270566/"&gt;Join us&lt;/a&gt;! Then it&amp;rsquo;s off to New York City, NY where I&amp;rsquo;ll be working with my buddy Marcin Grzejszczak on an exciting new project.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring IO Platform lead Andy Wilkinson &lt;a href="https://spring.io/blog/2017/08/04/spring-io-platform-brussels-sr4"&gt;just announced Spring IO Platform Brussels-SR4&lt;/a&gt;. This release revises the versions for Spring Batch 3.0.8, Spring Boot 1.5.6, Spring Data Ingalls SR6, Spring Framework 4.3.10, Spring Integration 4.3.11, and Spring Retry 1.2.1.&lt;/li&gt;
+  &lt;li&gt;The &lt;a href="https://spring.io/blog/2017/08/07/spring-cloud-data-flow-1-3-0-m1-released"&gt;first milestone of Spring Cloud Data Flow 1.3.0&lt;/a&gt; is out! Lots of nice new features including a flashy new user interface based on Angular 4, better documentation, better test coverage, and so much more.&lt;/li&gt;
+  &lt;li&gt;Spring Cloud Pipelines lead Marcin Grzejszczak just announced &lt;a href="https://spring.io/blog/2017/08/04/spring-cloud-pipelines-1-0-0-m6-released"&gt;Spring Cloud Pipelines 1.0.0.M6&lt;/a&gt;. This release supports a powerful mechanism called &lt;em&gt;pipeline descriptors&lt;/em&gt; to simplify pipeline definitions.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow-server-kubernetes/releases/tag/v1.2.2.RELEASE"&gt;Spring Cloud Data Flow for Kubernetes v1.2.2.RELEASE&lt;/a&gt; is available now. This release improves the documentation, updated server deployment scripts aligned with Helm Chart, and so much more.&lt;/li&gt;
+  &lt;li&gt;As stewards of the RabbitMQ project, &lt;a href="https://academy.pivotal.io/confirm-course?courseid=EDU-1099"&gt;we&amp;rsquo;re happy to offer this course introducing RabbitMQ&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://dzone.com/articles/trampoline-start-and-stop-spring-boot-based-servic"&gt;Ernest Ortuño introduces Trampoline&lt;/a&gt;, an open-source community project that makes starting and stopping Spring Boot-based services on your local machine a lot easier.&lt;/li&gt;
+  &lt;li&gt;I liked this post from RedMonk analyst James Governor &lt;a href="https://redmonk.com/jgovernor/2017/08/07/so-about-this-dell-digital-transformation-story-pivots/"&gt;that looks at the position that Dell&lt;/a&gt; (parent of Pivotal) holds in the market.&lt;/li&gt;
+  &lt;li&gt;I was asked for insight on versioning APIs and I did the &lt;em&gt;right thing&lt;/em&gt; - I asked Spring Data lead Oliver Gierke who then &lt;a href="https://www.infoq.com/articles/roy-fielding-on-versioning"&gt;referenced this epic post, &lt;em&gt;Roy Fielding on Versioning, Hypermedia, and REST&lt;/em&gt;&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;InfoQ has a nice post on the Spring Cloud Function framework, &lt;a href="https://www.infoq.com/news/2017/08/Spring-Cloud-Function-Framework"&gt;which supports the functions-as-a-service development paradigm&lt;/a&gt;. This is a good read if you haven&amp;rsquo;t gotten to know this exciting new project.&lt;/li&gt;
+  &lt;li&gt;Interested in the proposed evolution of Java? Check out the &lt;a href="https://www.youtube.com/playlist?list=PLX8CzqL3ArzXJ2EGftrmz4SzS6NRr6p2n"&gt;videos from the JVM Language Summit&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;My talk, &lt;a href="https://www.youtube.com/watch?v=EDB24onZxsA&amp;list=PLRsbF2sD7JVq8QYW0vlbOS2JuXUWaWMnT&amp;index=6"&gt;&lt;em&gt;Reactive Spring&lt;/em&gt;&lt;/a&gt;, from Devoxx UK, is now available online. Check it out!&lt;/li&gt;
+  &lt;li&gt;This &lt;a href="http://mp.weixin.qq.com/s/n3iNeH9lWxspqd4cFTO-_g"&gt;Chinese-language post&lt;/a&gt; (called &amp;ldquo;Spring Boot?Dubbo??Mock???????&amp;rdquo;) looks at mocking objects in a Spring Boot-based version of the Alibaba Dubbo service framework. (I think)&lt;/li&gt;
+  &lt;li&gt;I loved &lt;a href="http://www.infoworld.com/article/3213386/application-development/chatops-for-the-modern-developer-courtesy-of-springs-founder.amp.html"&gt;this InfoWorld article on Atomist&lt;/a&gt;, the developer lifecycle-management solution that integrates chatops. Atomist was founded by Spring creator Rod Johnson and, so, integrates amazingly well with Spring.&lt;/li&gt;
+  &lt;li&gt;NewRelic talk about why they &lt;a href="https://blog.newrelic.com/2017/05/18/alerts-microservices-environment-spring-boot/"&gt;chose Spring Boot for their New Relic Alerts product&lt;/a&gt; after comparisons with Dropwizard, Restlet, Vert.x, and Spark.&lt;/li&gt;
+  &lt;li&gt;Have you seen Spring Boot and Spring Cloud co-founder &lt;a href="https://github.com/dsyer/spring-boot-thin-launcher"&gt;Dr. Dave Syer&amp;rsquo;s Spring Boot thin-launcher plugin&lt;/a&gt;? This supports a thin-jar layout - where the library dependencies are resolved on launch - for your Spring Boot application.&lt;/li&gt;
+  &lt;li&gt;Andrey Cheptsov talks about a &lt;a href="https://blog.jetbrains.com/idea/2017/08/intellij-idea-2017-2-1-junit-5-rc2-spring-run-dashboard-and-its-faster/"&gt;very cool new feature in IntelliJ IDEA 2017.2.1&lt;/a&gt;, a Spring Run Dashboard, that lets you manage and launch multiple run configurations at once. This is so cool! If you&amp;rsquo;re using Spring Tool Suite, of course, then you&amp;rsquo;ve got a similar experience in the Spring Boot Dashboard.&lt;/li&gt;
+  &lt;li&gt;Spring Cloud Pipelines and Spring Cloud Contract lead Marcin Grzejszczak and I did a talk looking &lt;a href="https://www.youtube.com/watch?v=IiK9A9nQ6NU"&gt;at consumer driven contracts with Spring Cloud Contract a Devoxx Poland&lt;/a&gt;. That video is online and well-worth a watch!&lt;/li&gt;
+&lt;/ul&gt;</content>
+  </entry>
   <entry>
     <title>Spring Cloud Data Flow 1.3.0.M1 released</title>
     <link rel="alternate" href="https://spring.io/blog/2017/08/07/spring-cloud-data-flow-1-3-0-m1-released" />
@@ -1253,35 +1283,5 @@ Feedback, feature requests and, of course, contributions are welcomed via the us
 &lt;div class="paragraph"&gt;
 &lt;p&gt;&lt;a href="http://projects.spring.io/spring-kafka/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-kafka/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-kafka/blob/master/CONTRIBUTING.adoc"&gt;Contributing&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-kafka"&gt;Help&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-kafka"&gt;Chat&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;</content>
-  </entry>
-  <entry>
-    <title>This Week in Spring - July 25th, 2017</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/07/24/this-week-in-spring-july-25th-2017" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2017-07-24:2980</id>
-    <updated>2017-07-24T21:10:00Z</updated>
-    <content type="html">&lt;p&gt;Hi Spring fans! This week I&amp;rsquo;m in Istanbul, Turkey talking to customers and speaking at &lt;a href="https://www.meetup.com/Istanbul-Spring-Meetup/events/240444787/_"&gt;the Spring and Java meetups tonight&lt;/a&gt;. I hope you&amp;rsquo;ll join me and we&amp;rsquo;ll talk about cloud native Java! As usual, we&amp;rsquo;ve got a &lt;em&gt;lot&lt;/em&gt; to cover this week so let&amp;rsquo;s get to it!&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Spring Integration contributor Artem Bilan just &lt;a href="http://spring.io/blog/2017/07/20/spring-integration-4-3-11-is-available"&gt;announced Spring Integration 4.3.11&lt;/a&gt;. This release includes security updates as well as bug fixes.&lt;/li&gt;
-  &lt;li&gt;Spring Batch lead Michael Minella just announced &lt;a href="http://spring.io/blog/2017/07/20/spring-batch-3-0-8-release-is-now-available"&gt;Spring Batch 3.0.8&lt;/a&gt;, which is mainly a maintenance release and a bugfix release.&lt;/li&gt;
-  &lt;li&gt;Spring ninja Stéphane Nicoll has announced &lt;a href="http://spring.io/blog/2017/07/20/spring-framework-4-3-10-available-now"&gt;Spring Framework 4.3.10&lt;/a&gt; which is a maintenance release for the upcoming Spring Boot 1.5.5 maintenance release. It includes 25 fixes and improvements.&lt;/li&gt;
-  &lt;li&gt;Spring Cloud co-founder Spencer Gibb just &lt;a href="http://spring.io/blog/2017/07/21/spring-cloud-dalston-sr2-is-available-now"&gt;announced Spring Cloud Dalston SR2&lt;/a&gt;. The release is primarily a bugfix. Also of note, this release marks the end of life for Spring Cloud Angel and Spring Cloud Brixton.&lt;/li&gt;
-  &lt;li&gt;Spring Framework lead Juergen Hoeller just announced &lt;a href="http://spring.io/blog/2017/07/24/spring-framework-5-0-rc3-on-the-way-to-ga"&gt;Spring Framework 5.0 RC3&lt;/a&gt;. The new release, part of an extended release candidate phase to allow Reactor 3.1, JUnit 5.0, Jackson 2.9 and so much more, includes API refinements in Spring WebFlux, Kotlin support, refined nullability declarations, and updated JDK9 support.&lt;/li&gt;
-  &lt;li&gt;Spring Security contributor Joe Grandja just announced &lt;a href="http://spring.io/blog/2017/07/24/spring-security-5-0-0-m3-released"&gt;Spring Security 5.0.0.M3&lt;/a&gt;. The new release includes support for JSON Web Tokens (JWT), JSON Web Signatures (JWS) and integrated ID Token support for OpenID Connect authentication flows.&lt;/li&gt;
-  &lt;li&gt;Spring integration and messaging ninja Artem Bilan just announced &lt;a href="http://spring.io/blog/2017/07/24/spring-amqp-2-0-0-milestone-5-is-available"&gt;Spring AMQP 2.0.0 milestone 5&lt;/a&gt;. This release includes security fixes and a number of nice new features.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="http://micrometer.io/"&gt;Micrometer&lt;/a&gt; provides a simple facade over the instrumentation clients for the most popular monitoring systems, allowing you to instrument your JVM-based application code without vendor lock-in. Think SLF4J, but for metrics. This project will serve as the metrics collection subsystem for Spring Boot 2.0 and will be backported to Spring Boot 1.0. Of note, though, is that Micrometer does &lt;em&gt;not&lt;/em&gt; require Spring Boot to work. Check it out. There&amp;rsquo;s so much cool stuff here, one hardly knows where to start.&lt;/li&gt;
-  &lt;li&gt;Gyula Lakatos put together an inspired, and detailed, blog detailing his first, and fresh, look at &lt;a href="https://dzone.com/articles/run-code-with-spring-cloud-function-on-aws-lambda"&gt;Spring Cloud Function on AWS Lambda&lt;/a&gt;. Nice job Gyula!&lt;/li&gt;
-  &lt;li&gt;This is an oldie-but-a-goodie: Antonio Simoes talks about moving his companies&amp;rsquo; &lt;a href="https://medium.com/@simoean/a-journey-from-blocking-monolith-to-non-blocking-microservices-b80eed6e8258"&gt;architecture from a monolith to a non-blocking Spring Cloud-based architecture&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="http://redmonk.com/sogrady/2017/07/20/soa-microservices/"&gt;Microservices were driven by vendors&lt;/a&gt; - This isn&amp;rsquo;t strictly releated to Spring, but I liked Stephen O&amp;rsquo;Grady&amp;rsquo;s discussion about microservices - why people adopt them and what differentiates them from SOA.&lt;/li&gt;
-  &lt;li&gt;James Governer &lt;a href="http://redmonk.com/jgovernor/2017/07/21/why-now-why-microservices-why-not-soa/"&gt;follows up&lt;/a&gt; on Stephen O&amp;rsquo;Grady&amp;rsquo;s post on microservices.&lt;/li&gt;
-  &lt;li&gt;and in the &lt;a href="https://medium.com/@codeorg/girls-set-ap-computer-science-record-skyrocketing-growth-outpaces-boys-41b7c01373a5"&gt;absolutely-great-news&lt;/a&gt;-that-has-nothing-to-do-with-Spring-per-se column: 10 years ago, 2,600 female students took AP Computer Science exam. In 2017, 29,000 female students took the exam. The growth among female students has been incredible, increasing participation in AP CS exams by 135% since 2016. Not to be outdone, underrepresented minorities have increased participation by nearly 170% over last year! Things are trending in the right direction. I sincerely hope our ecosystem sees increased diversity, more inclusion and participation and that it continues to grow.&lt;/li&gt;
-  &lt;li&gt;Spring Boot user Nicky Mølholm? chimes in to share that the &lt;a href="https://twitter.com/moelholm/status/887723861164392448"&gt;new Lego Life app is, behind the scenes, powered by Spring Boot&lt;/a&gt;. As a fan of both Legos and Spring Boot, I thought this was super cool! Congrats to the Lego Life team!&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://the-composition.com/move-fast-and-dont-break-things-run-development-from-slack-3e4de5318e3f"&gt;Move fast and don&amp;rsquo;t break things - by Rod Johnson&lt;/a&gt; - Spring creator and Atomist CEO Rod Johnson details how his company&amp;rsquo;s main offering can be a boon to teams using Spring Boot. This is a &lt;em&gt;really&lt;/em&gt; cool offering that simplifies the end-to-end story for creating new services (which could and should be in Spring Boot), supporting collaboration, detecting breaking-and-outage-inducing changes, and managing the path to production (in, for example, Cloud Foundry). I&amp;rsquo;ve signed up!&lt;/li&gt;
-  &lt;li&gt;Oracle Java Magazine, this month, &lt;a href="http://www.javamagazine.mozaicreader.com/JulyAug2017/Default/17/0#"&gt;has a nice look at some of the new features in Java 9&lt;/a&gt; which is, of course, just around the corner.&lt;/li&gt;
-  &lt;li&gt;This is an oldie-but-a-goodie from Spring ninja Greg Turnquist &lt;a href="http://greglturnquist.com/2017/05/power-rest-part-1"&gt;that looks at some issues people think they have with REST&lt;/a&gt; and how to get around them. It&amp;rsquo;s a good read.&lt;/li&gt;
-&lt;/ul&gt;</content>
   </entry>
 </feed>

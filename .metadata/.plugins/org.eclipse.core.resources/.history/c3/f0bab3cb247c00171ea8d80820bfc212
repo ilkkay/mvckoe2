@@ -1,0 +1,66 @@
+package translateit2.languagefactory;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.Assert.*;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.lngfileservice.LanguageFileFormat;
+
+public class PropertiesFileReaderUnitTest {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    //@Test
+    public void readImproperFile_assertFileLoaderException() {
+        // WHEN permanent properties is not a proper properties file
+        Path permanentFilePath = Paths.get("d:\\kirje2fi.txt");
+
+        // THEN
+        assertThatCode(() -> reader().getSegments(permanentFilePath, StandardCharsets.ISO_8859_1))
+        .isExactlyInstanceOf(FileLoaderException.class); 
+          
+    }
+
+    @Test
+    public void readPropertiesFile_assertSegmentCount() {
+        // WHEN permanent properties is not a proper properties file
+        Path permanentFilePath = Paths.get("d:\\dotcms_fi_FI-UTF8.properties");
+
+        // THEN
+        assertThatCode(() -> reader().getSegments(permanentFilePath, StandardCharsets.UTF_8))
+        .doesNotThrowAnyException();
+          
+    }
+    
+    private PropertiesFileReaderImpl reader() {
+        return new PropertiesFileReaderImpl();
+    }
+
+}

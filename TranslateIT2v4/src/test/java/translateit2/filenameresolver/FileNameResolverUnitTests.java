@@ -17,7 +17,7 @@ import translateit2.fileloader.FileLoaderException;
 public class FileNameResolverUnitTests {
 
     @Test
-    public void resolveFileName_assertAppName() {
+    public void resolveFileName_assertAppName() throws FileLoaderException {
         // when
         String returnAppName = fileNameResolver().getApplicationName("dotCMS_fi.properties");      
         // then
@@ -30,7 +30,7 @@ public class FileNameResolverUnitTests {
     }
 
     @Test
-    public void resolveFileName_assertLocale() {
+    public void resolveFileName_assertLocale() throws FileLoaderException {
         
         // initialize
         String expected = "fi_FI";

@@ -36,6 +36,7 @@ import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
+import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.Source;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Status;
@@ -86,7 +87,7 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Override
-    public void uploadSource(MultipartFile uploadedFile, long workId) {        
+    public void uploadSource(MultipartFile uploadedFile, long workId) throws FileLoaderException {        
         if (!(workRepo.exists(workId))) {
             logger.error("Work with id {} not found.", workId);
             throw new RuntimeErrorException(null, ""); // or something
@@ -119,17 +120,23 @@ public class LoadingContractorImpl implements LoadingContractor {
         loadSourceSegmentsToDatabase( segments, workId);
 
         // update file info
-        updateFileInfo( uploadedFilePath, workId);
+        long fileInfoId = updateFileInfo(uploadedFilePath);
         
         // once you've loaded source file, the work status will be NEw
-        long sourceInfoId = 0;
-        long backupFileInfoId = 0;
-        updateWork(appName, appLocale, sourceInfoId, backupFileInfoId, Status.NEW, workId);
+        updateWork(appName, appLocale, fileInfoId, Status.NEW, workId);
             
     }
 
     @Override
     public void uploadTarget(MultipartFile file, long workId) {
+        try {
+
+        } catch (ArithmeticException a) {
+            
+        }
+ catch (Exception e) {
+            
+        }
     }
 
     private void checkServiceAvailability(long workId) throws RuntimeErrorException {
@@ -181,15 +188,19 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
     
     @Transactional
-    private void updateFileInfo(Path uploadedFilePath, long workId) {
-        Work work = workRepo.findOne(workId);
-
-        workRepo.save(work);
+    private long updateFileInfo(Path uploadedFilePath) {
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setBackup_file(uploadedFilePath.toString());
+        fileInfo.setOriginal_file(uploadedFilePath.getFileName().toString());
+        
+        fileInfo = fileInfoRepo.save(fileInfo);
+        
+        return fileInfo.getId();
     }
     
     @Transactional
-    private void updateWork(String appName, Locale appLocale, long sourceInfoId, 
-            long backupFileInfoId, Status status, long workId) {
+    private void updateWork(String appName, Locale appLocale, long fileInfoId, 
+            Status status, long workId) {
         
         Work work = workRepo.findOne(workId);
         work.setOriginalFile(appName);

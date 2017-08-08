@@ -14,13 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
@@ -174,5 +181,38 @@ public class RestProjectController {
 
         prj = projectService.updateProjectDto(project);
         return new ResponseEntity<>(prj, HttpStatus.OK);
+    }
+    
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(FileLoaderException.class)
+    @ResponseBody
+    public CustomErrorType handleLoadingExceptions(FileLoaderException ex) {
+        
+        StringBuilder errorMessages = new StringBuilder("");
+        
+        switch (ex.getErrorCode()) {
+        case CANNOT_CREATE_UPLOAD_DIRECTORY:
+            break;
+        case CANNOT_READ_FILE:
+            break;
+        case CANNOT_READ_LANGUAGE_FROM_FILE_NAME:
+            break;
+        case CANNOT_UPLOAD_FILE:
+            break;
+        case FILE_NOT_FOUND:
+            break;
+        case FILE_TOBELOADED_IS_EMPTY:
+            break;
+        case IMPROPER_EXTENSION_IN_FILE_NAME:
+            break;
+        default:
+            break;
+        }
+                
+        CustomErrorType customError = new CustomErrorType(errorMessages.toString(),
+                ex.getErrorCode());
+
+        return customError;
+
     }
 }

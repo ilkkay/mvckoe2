@@ -31,7 +31,7 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
     }
 
     @Override
-    public HashMap<String, String> getSegments(Path inputPath, Charset charset) {
+    public HashMap<String, String> getSegments(Path inputPath, Charset charset) throws FileLoaderException {
         HashMap<String, String> map = new LinkedHashMap<String, String>();
         OrderedProperties srcProp = new OrderedProperties();
 

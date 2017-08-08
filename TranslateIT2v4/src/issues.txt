@@ -1,4 +1,4 @@
-Kommentit 30.5.2017
+﻿Kommentit 30.5.2017
 
 1) autoIndent => soft tabeiksi => DONE
 
@@ -90,6 +90,12 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 39) deleteUploadedFiles() ei ole käytössä, joten upload-hakemistoon kerääntyy tiedostoja DONE
 
 40) lisää public String toString() { return ToStringBuilder...} entiteetteidin a DTO:ihin DONE
+
+41) fileNameResolver, LanguageFileValidator ja LanguageFileReader + languageBeanCache ja niiden yksikkötestit
+
+42) fileLocator ja propertiesFileReader + languageBeanCache ja niiden yksikkötestit
+
+43) poikkeusten hallinan käsittely
 
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/

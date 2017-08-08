@@ -1,0 +1,58 @@
+package translateit2.languagefactory;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.Assert.*;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import liquibase.changelog.StandardChangeLogHistoryService;
+import translateit2.fileloader.FileLoaderException;
+import translateit2.lngfileservice.LanguageFileFormat;
+
+public class PropertiesFileReaderUnitTest {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void test() {
+        
+     // WHEN permanent properties file has no path
+        Path rootPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
+        Path permanentFilePath = rootPath.resolve("dotcmss_fi.properties");
+        
+        // THEN
+        assertThatCode(() -> reader().getSegments(permanentFilePath, StandardCharsets.ISO_8859_1))
+        .isExactlyInstanceOf(FileLoaderException.class); 
+        
+    }
+
+    private PropertiesFileReaderImpl reader() {
+        return new PropertiesFileReaderImpl();
+    }
+
+}

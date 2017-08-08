@@ -172,7 +172,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     }
 
     @Override
-    public Path storeFile(MultipartFile file) {
+    public Path storeFile(MultipartFile file) throws FileLoaderException {
         return fileStorage.storeToUploadDirectory(file);
     }
 
@@ -231,7 +231,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
     // e.g. source file should exist with the same name
     // and comply with the project specifications
     @Override
-    public void uploadTargetToDb(Path uploadedLngFile, long workId) {
+    public void uploadTargetToDb(Path uploadedLngFile, long workId) throws FileLoaderException {
         // Charset charset =
         // charSetResolver.getProjectCharSet(work.getProjectId());
         Charset charset = iso8859util.getCharSet(workId);

@@ -91,8 +91,8 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException {
         if (file.isEmpty()) 
             //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
-          throw new LoadedFileNotFoundException(file.getOriginalFilename());
-            //throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
+          //throw new LoadedFileNotFoundException(file.getOriginalFilename());
+          throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
 
         Path outFilePath;
         try(InputStream in = file.getInputStream()) {    

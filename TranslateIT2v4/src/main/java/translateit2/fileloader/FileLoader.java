@@ -14,9 +14,9 @@ public interface FileLoader {
 
     Path getPath(String filename);
 
-    Stream<Path> getPathsOfDownloadableFiles();
+    Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException;
 
-    Resource loadAsResource(String filename);
+    Resource loadAsResource(String filename) throws FileLoaderException;
     
-    Path storeToUploadDirectory(MultipartFile file);
+    Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException;
 }

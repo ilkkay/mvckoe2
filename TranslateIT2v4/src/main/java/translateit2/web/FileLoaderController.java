@@ -24,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
-import translateit2.fileloader.LoadedFileNotFoundException;
+import translateit2.fileloader.contextexceptions.LoadedFileNotFoundException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
@@ -98,7 +98,7 @@ public class FileLoaderController {
 
     @ExceptionHandler(FileLoaderException.class)
     public ResponseEntity<?> handleLoadingExceptions(FileLoaderException exc) {
-        switch (exc.errorCode) {
+        switch (exc.getErrorCode()) {
         case CANNOT_CREATE_UPLOAD_DIRECTORY:
             break;
         case CANNOT_READ_FILE:
@@ -141,7 +141,13 @@ public class FileLoaderController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = null;
+        try {
+            file = storageService.loadAsResource(filename);
+        } catch (FileLoaderException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         ResponseEntity<Resource> response = null;
         response = ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")

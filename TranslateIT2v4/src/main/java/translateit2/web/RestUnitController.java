@@ -138,7 +138,13 @@ public class RestUnitController {
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = null;
+        try {
+            file = storageService.loadAsResource(filename);
+        } catch (FileLoaderException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         ResponseEntity<Resource> response = null;
         response = ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
@@ -209,10 +215,10 @@ public class RestUnitController {
         ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
         LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
         Path uploadedLngFile = null;
+        /*
+         * Upload language file
+         */
         try {
-            /*
-             * Upload language file
-             */
             uploadedLngFile = storageService.storeFile(file);
             /*
              * check file format validity
@@ -222,24 +228,24 @@ public class RestUnitController {
              * upload
              */
             storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-        } catch (FileLoaderException e) {
-            logger.error("Could not upload source language file for workId {}: ", id);
-            return new ResponseEntity<>(
-                    new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),
-                    HttpStatus.NOT_FOUND);
+
+            work = workService.getWorkDtoById(work.getId());
+            work.setStatus(Status.OPEN);
+            work = workService.updateWorkDto(work);
+
+            // TODO: mock statistics
+            InitMockStat(work.getId());
+            // return new ResponseEntity<>(mockStat, HttpStatus.OK);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
+            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         }
-
-        work = workService.getWorkDtoById(work.getId());
-        work.setStatus(Status.OPEN);
-        work = workService.updateWorkDto(work);
-
-        // TODO: mock statistics
-        InitMockStat(work.getId());
-        // return new ResponseEntity<>(mockStat, HttpStatus.OK);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        catch (FileLoaderException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void InitMockStat(final long workId) {

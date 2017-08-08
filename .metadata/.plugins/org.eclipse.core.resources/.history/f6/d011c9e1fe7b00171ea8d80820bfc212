@@ -1,0 +1,73 @@
+package translateit2.fileLocator;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import translateit2.fileloader.FileLoaderException;
+import translateit2.filelocator.FileLocator;
+import translateit2.filelocator.FileLocatorImpl;
+import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.lngfileservice.LanguageFileType;
+
+public class FileLocatorUnitTests {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void moveFile_failIfFileMissing() {
+        
+        // initialize
+        Path uploadedPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
+        Path srcFilePath = Paths.get("D:\\messages_fi.properties");
+        Path uploadedFilePath = uploadedPath.resolve("messages_fi.properties");
+        
+        /*
+        try {
+            Files.copy(srcFilePath, uploadedPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        */
+        
+        // WHEN
+        
+        
+        // THEN
+        assertThatCode(() -> filelocator().moveUploadedFileIntoFilesystem(
+                uploadedFilePath, LanguageFileFormat.PROPERTIES))
+        .isExactlyInstanceOf(FileLoaderException.class);  
+        
+        
+    }
+    
+    private FileLocator filelocator() {
+        return new FileLocatorImpl(); 
+    }
+}

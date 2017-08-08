@@ -1,19 +1,33 @@
 package translateit2.fileloader;
 
-public class FileLoaderException extends RuntimeException {
+import java.io.IOException;
+
+public class FileLoaderException extends IOException  /* RuntimeException */  {
     private static final long serialVersionUID = 1L;
-    
-    public FileLoadError errorCode;
+
+    private FileLoadError errorCode;
+
+    public FileLoadError getErrorCode(){
+        return this.errorCode;
+    }
 
     public FileLoaderException(FileLoadError errorCode) {
-        //super("FileLoadError");
         this.errorCode = errorCode;
     }
     
+    public FileLoaderException(FileLoadError errorCode, String message){
+        super(message);
+        this.errorCode=errorCode;
+    }
+
     public FileLoaderException(FileLoadError errorCode, Throwable cause) {
         super(cause);
         this.errorCode = errorCode;
     }
+
+    //
+    //  *********************************************    
+    //
 
     public FileLoaderException(String message) {
         super(message);
@@ -26,5 +40,5 @@ public class FileLoaderException extends RuntimeException {
     public FileLoaderException(Throwable cause) {
         super(cause);
     }
-    
+
 }

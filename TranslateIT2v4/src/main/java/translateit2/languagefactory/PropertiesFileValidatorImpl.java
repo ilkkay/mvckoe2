@@ -38,7 +38,7 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) {
+    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) throws FileLoaderException {
 
         boolean isUploadedUTF_8 = true;
         try {

@@ -10,44 +10,59 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoader;
+import translateit2.fileloader.FileLoaderException;
 import translateit2.lngfileservice.LanguageFileFormat;
 
 @Component
-public class FileLocatorImpl implements FileLocator {    
-    @Autowired
-    FileLoader fileLoaderService;
+public class FileLocatorImpl implements FileLocator {
     
-    public FileLocatorImpl() {
-        // TODO Auto-generated constructor stub
+    private String rootDirectrory = "D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4";
+    
+    @Autowired
+    private FileLoader fileLoaderService;
+    
+    public void setRootDirectory(String rootDirectrory) {
+        this.rootDirectrory = rootDirectrory;
     }
-
+    
     @Override
     public Path moveUploadedFileIntoFilesystem(Path uploadedFile, 
-            LanguageFileFormat format) {
-        // create new path
+            LanguageFileFormat format) throws FileLoaderException {
+        
+        // create new path for permanent file storage
         Path outFilePath = getUniquePath(format);
+        Path dir = outFilePath.getParent();
+        if (Files.notExists(dir))
+            try {
+                Files.createDirectory(dir);
+            } catch (IOException e1) {
+                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_PERMANENT_DIRECTORY);
+            }
         
-        // and move to permanent location   
+        // and move the file from upload directory   
         try {
-            Files.copy(uploadedFile, outFilePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(uploadedFile, outFilePath);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        // notice that in case of properties file these two are the same
-        // but in case xliff and po files back file is the file which was loaded the first time
-        // since xliff and po files dont have source and target files
+            throw new FileLoaderException(FileLoadError.CANNOT_MOVE_FILE);
+        }       
 
-        return null;
+        return outFilePath;
     }
 
     private Path getUniquePath(LanguageFileFormat format) {
+        //Path test = fileLoaderService
+                
+        Path rootPath = Paths.get(rootDirectrory);
+        
         Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
         Path dirPath = Paths.get(LocalDate.now().toString());
         Path path = dirPath.resolve(fnamePath);
         path = path.resolveSibling(path.getFileName() + "." + format.toString());
-        return path;
+        
+        Path uniquePath = rootPath.resolve(path);
+        
+        return uniquePath;
     }
 }
