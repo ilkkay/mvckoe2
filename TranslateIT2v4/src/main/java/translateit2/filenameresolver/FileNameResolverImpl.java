@@ -37,7 +37,7 @@ public class FileNameResolverImpl implements FileNameResolver{
 
         // check extension
         int extPos = fileName.lastIndexOf('.');
-        if ((extPos > 0) && (!p.test(fileName.substring(extPos + 1)))) 
+        if ((extPos > 0) && (!p.test(fileName.substring(extPos + 1).toLowerCase()))) 
             throw new FileLoaderException(FileLoadError.IMPROPER_EXTENSION_IN_FILE_NAME);
 
         // get application name end position
@@ -54,8 +54,16 @@ public class FileNameResolverImpl implements FileNameResolver{
             int extensionIndex = fileName.indexOf('.', appIndex + 1);
 
             // Extract language which is exactly two characters long
-            if (extensionIndex - appIndex != 3) 
-                throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            if (extensionIndex - appIndex != 3){
+                // file name can be also like this: dotcms_fi-UTF.properties
+                int dashIndex = fileName.indexOf('-', appIndex + 1);
+                if (dashIndex - appIndex == 3) {
+                    language = fileName.substring(appIndex + 1, appIndex + 3);
+                    return new Locale(language.toLowerCase(), language.toUpperCase());
+                }
+                else
+                    throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            }
             else {
                 language = fileName.substring(appIndex + 1, appIndex + 3);
                 return new Locale(language.toLowerCase(), language.toUpperCase());
@@ -63,7 +71,7 @@ public class FileNameResolverImpl implements FileNameResolver{
         } else {
             language = fileName.substring(appIndex + 1, languageIndex);
         }
-        
+
         // Extract language which is exactly two characters long
         if (languageIndex - appIndex != 3) 
             throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);

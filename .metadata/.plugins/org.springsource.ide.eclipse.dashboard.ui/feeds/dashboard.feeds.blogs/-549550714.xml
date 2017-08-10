@@ -5,7 +5,33 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2017-08-08T09:03:04Z</updated>
+  <updated>2017-08-08T12:45:00Z</updated>
+  <entry>
+    <title>There's no place like production. SpringOne Platform will illuminate the path.</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/08/08/there-s-no-place-like-production-springone-platform-will-illuminate-the-path" />
+    <category term="news" label="News and Events" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2015-07-28:2198</id>
+    <updated>2017-08-08T12:45:00Z</updated>
+    <content type="html">&lt;p&gt;Hi Spring fans! &lt;/p&gt;
+&lt;p&gt;My favorite time of the year is almost here! It&amp;rsquo;s that special time when people reunite, in the northern hemisphere&amp;rsquo;s chilly December to give freely and unconditionally of one another; when people have jovial discussions (and sometimes heated debates) over dinner with people they admire; when people open their hearts and minds to each other; when we reflect on the year behind us and look forward to tomorrow, the next week and the next year; when amazing new memories we&amp;rsquo;ll cherish forever are forged. It&amp;rsquo;s that special time of giving, of openness. I don&amp;rsquo;t need to tell &lt;em&gt;you&lt;/em&gt; about this special time, though! Of course, I&amp;rsquo;m talking about the time of the year for &lt;a href="https://springoneplatform.io/?utm_source=springio-blog&amp;utm_medium=spring-blog-text-link&amp;utm_campaign=josh-long-blog"&gt;SpringOne Platform!&lt;/a&gt; (What else could I have been talking about?)&lt;/p&gt;
+&lt;p&gt;I, personally, can hardly contain my excitement! SpringOne Platform is the premier event for us cloud natives. It&amp;rsquo;s a chance to celebrate the spirit of openness (open source, open-for-extension-frameworks, open platforms, open service brokers, open tracing; you name it we&amp;rsquo;ve opened it!) in the Pivotal community.&lt;/p&gt;
+&lt;p&gt;This year&amp;rsquo;s SpringOne Platform promises to be an amazing show, jam-packed with big ideas and bigger code. What we care about, ultimately, on the Spring team, or any team at Pivotal, is helping organizations build better software, safer and faster. We care about helping them go from concept to customer as quickly as possible, and helping them to repeat that cycle as often as possible. We care about getting to production. Production, you see, is the gift that keeps on giving.&lt;/p&gt;
+&lt;p&gt;This year&amp;rsquo;s seen Pivotal and its ecosystems deliver a number of things designed to help safeguard and accelerate that journey. SpringOne Platform is the best place to learn about these - and all other - things cloud-native. Here are just a handful of the things that most excite me:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Functions-as-a-Service: Spring Cloud Function brings the function-as-a-service paradigm to Spring.&lt;/li&gt;
+  &lt;li&gt;Kubo: BOSH-managed Kubernetes integrated with Cloud Foundry. Kubernetes is a powerful way to manage containers but somebody has to operationalize it. We have.&lt;/li&gt;
+  &lt;li&gt;Reactive Programming: Spring Framework 5 is here and with it comes a reactive runtime and a baseline for the next generations of Spring Data, Spring Security, and Spring Boot and Spring Cloud.&lt;/li&gt;
+  &lt;li&gt;Open Service Brokers: A standardized model for stateful platform services that are supported on Cloud Foundry and Kubernetes.&lt;/li&gt;
+  &lt;li&gt;Spring Boot: Spring Boot continues to be a very tool in the developer&amp;rsquo;s toolbox. Find out what you&amp;rsquo;ve missed and what&amp;rsquo;s coming in Spring Boot 2.0.&lt;/li&gt;
+  &lt;li&gt;Stream Processing and Analysis: As we scale out so too do the size of the data workloads. Learn how to slice and dice, integrate and analyze data with messaging technologies like RabbitMQ and Apache Kafka using Spring Cloud Stream and Spring Cloud Data Flow.&lt;/li&gt;
+  &lt;li&gt;Microservices: Some laws, like gravity and Conway&amp;rsquo;s, can&amp;rsquo;t be broken. Optimize your organization by optimizing your code with microservices and Spring Cloud.&lt;/li&gt;
+  &lt;li&gt;Continuous Delivery: Learn about pair programming, testing, project evolution with Pivotal Tracker, continuous delivery with Concourse, and so much more.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I hope you&amp;rsquo;ll join me and the rest of the Pivotal team, along with organizations of every size and stripe, this December for &lt;a href="https://springoneplatform.io/?utm_source=springio-blog&amp;utm_medium=spring-blog-text-link&amp;utm_campaign=josh-long-blog"&gt;SpringOne Platform&lt;/a&gt;, taking place in my hometown of San Francisco and we&amp;rsquo;ll make the journey to production together!&lt;br/&gt;&lt;p align="center"&gt;&lt;br/&gt;&lt;img src="https://d1fto35gcfffzn.cloudfront.net/springioblog/Josh-Long-Logo-Animated.gif" alt="Register Now!" /&gt;&lt;br/&gt;&lt;/p&gt;&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring - August 8th, 2017</title>
     <link rel="alternate" href="https://spring.io/blog/2017/08/08/this-week-in-spring-august-8th-2017" />
@@ -391,8 +417,8 @@ fun main(args: Array&amp;lt;String&amp;gt;) {&#xD;
   resources(&amp;quot;/**&amp;quot;, ClassPathResource(&amp;quot;static/&amp;quot;))&#xD;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Routes usually point to handlers in charge of creating an HTTP response based on the HTTP request via callable references. Here is the &lt;code&gt;UserHandler&lt;/code&gt; which takes advantage of the Kotlin extensions Spring Framework 5 is providing directly in Spring JARs to avoid the well-known type erasure problem using &lt;a href="https://kotlinlang.org/docs/reference/inline-functions.html#reified-type-parameters"&gt;Kotlin reified type parameters&lt;/a&gt;. The same code in Java would require additional &lt;code&gt;Class&lt;/code&gt; or &lt;code&gt;ParameterizedTypeReference&lt;/code&gt; parameters.&lt;/p&gt;
 &lt;p&gt;Like for the bean DSL, the functional routing DSL allows programmatic registration of routes based on custom logic and dynamic data (can be useful to develop a CMS or eCommerce solution where most routes depends on data created via the backoffice). &lt;/p&gt;
+&lt;p&gt;Routes usually point to handlers in charge of creating an HTTP response based on the HTTP request via callable references. Here is the &lt;code&gt;UserHandler&lt;/code&gt; which takes advantage of the Kotlin extensions Spring Framework 5 is providing directly in Spring JARs to avoid the well-known type erasure problem using &lt;a href="https://kotlinlang.org/docs/reference/inline-functions.html#reified-type-parameters"&gt;Kotlin reified type parameters&lt;/a&gt;. The same code in Java would require additional &lt;code&gt;Class&lt;/code&gt; or &lt;code&gt;ParameterizedTypeReference&lt;/code&gt; parameters.&lt;/p&gt;
 &lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;class UserHandler {&#xD;
 	&#xD;
   private val users = Flux.just(&#xD;
@@ -1222,66 +1248,6 @@ We expect RC and subsequent GA somewhere in the end of October, beginning of Nov
 &lt;/div&gt;
 &lt;div class="paragraph"&gt;
 &lt;p&gt;&lt;a href="http://projects.spring.io/spring-session/"&gt;Project Site&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-session/docs/2.0.0.M3/reference/html5/"&gt;Reference&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-session"&gt;Help&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring For Apache Kafka 2.0 Milestone 3 Available</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/07/24/spring-for-apache-kafka-2-0-milestone-3-available" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Artem Bilan</name>
-    </author>
-    <id>tag:spring.io,2017-07-24:2981</id>
-    <updated>2017-07-24T21:12:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;We are pleased to announce the availability of the &lt;a href="https://github.com/spring-projects/spring-kafka/milestone/20?closed=1"&gt;Milestone 3&lt;/a&gt; of the Spring for Apache Kafka &lt;code&gt;2.0&lt;/code&gt; version.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;It is available for download from the &lt;a href="https://repo.spring.io/milestone"&gt;Milestone Repository&lt;/a&gt;:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="listingblock"&gt;
-&lt;div class="content"&gt;
-&lt;pre class="prettyprint highlight"&gt;&lt;code class="language-java" data-lang="java"&gt;repositories {
-    maven { url 'http://repo.spring.io/libs-milestone' }
-}
-compile "org.springframework.kafka:spring-kafka:2.0.0.M3"&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Since the &lt;a href="https://spring.io/admin/blog/2911-spring-for-apache-kafka-2-0-milestone-1-available"&gt;previous announcement&lt;/a&gt;, these feature have made it into the current Milestone:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Apache Kafka &lt;a href="https://archive.apache.org/dist/kafka/0.11.0.0/RELEASE_NOTES.html"&gt;0.11.0.0&lt;/a&gt; client base line;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;With the new Apache Kafka foundation we have introduced &lt;code&gt;KafkaTransactionManager&lt;/code&gt; and transactions support in the &lt;code&gt;KafkaTemplate&lt;/code&gt; via new &lt;code&gt;executeInTransaction()&lt;/code&gt; operation;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The &lt;code&gt;KafkaListenerContainer&lt;/code&gt; can now be supplied with the &lt;code&gt;TransactionManager&lt;/code&gt; to perform polling and offset commits with transaction boundaries;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The Kafka Headers support is provided as well.
-Now you can send and receive messages with any arbitrary headers, for example build request-reply scenarios using some &lt;code&gt;correlationKey&lt;/code&gt; header;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The &lt;code&gt;ConsumerAwareErrorHandler&lt;/code&gt; is provided to manage &lt;code&gt;Consumer&lt;/code&gt; state in case of errors;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The &lt;code&gt;KafkaEmbedded&lt;/code&gt; can now be supplied with any arbitrary &lt;code&gt;brokerProperties&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Thanks to all community members for any feedback and contributions!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;General availability of the &lt;code&gt;2.0&lt;/code&gt; release is expected to be in the September (shortly after the Spring Framework &lt;code&gt;5.0&lt;/code&gt; release).
-Feedback, feature requests and, of course, contributions are welcomed via the usual channels:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="http://projects.spring.io/spring-kafka/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-kafka/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-kafka/blob/master/CONTRIBUTING.adoc"&gt;Contributing&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-kafka"&gt;Help&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-kafka"&gt;Chat&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;</content>
   </entry>
 </feed>

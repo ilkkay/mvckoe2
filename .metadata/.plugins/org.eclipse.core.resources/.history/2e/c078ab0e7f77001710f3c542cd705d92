@@ -1,9 +1,0 @@
-package translateit2.service;
-
-public class WorkServiceImpl {
-
-    public WorkServiceImpl() {
-        // TODO Auto-generated constructor stub
-    }
-
-}

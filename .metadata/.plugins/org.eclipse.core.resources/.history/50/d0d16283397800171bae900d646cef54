@@ -1,5 +1,0 @@
-package translateit2.filelocator;
-
-public interface FileLocator {
-
-}

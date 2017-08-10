@@ -31,11 +31,14 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
     @Autowired
     Messages messages;
 
-    public ProjectValidator(ProjectRepository projectRepo, Messages messages) {
-        this.projectRepo = projectRepo;
-        this.messages = messages;
+    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+        this.projectNameMaxSize = projectNameMaxSize;
     }
 
+    public void setProjectNameMinSize(Integer projectNameMinSize) {
+        this.projectNameMinSize = projectNameMinSize;
+    }
+    
     public Integer getProjectNameMaxSize() {
         return projectNameMaxSize;
     }
@@ -44,9 +47,13 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         return projectNameMinSize;
     }
 
+    public ProjectValidator(ProjectRepository projectRepo, Messages messages) {
+        this.projectRepo = projectRepo;
+        this.messages = messages;
+    }
+
     @Override
     public void initialize(final ProjectConstraint constraintAnnotation) {
-
     }
 
     @Override
@@ -81,13 +88,5 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         }
 
         return isValid;
-    }
-
-    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-        this.projectNameMaxSize = projectNameMaxSize;
-    }
-
-    public void setProjectNameMinSize(Integer projectNameMinSize) {
-        this.projectNameMinSize = projectNameMinSize;
     }
 }

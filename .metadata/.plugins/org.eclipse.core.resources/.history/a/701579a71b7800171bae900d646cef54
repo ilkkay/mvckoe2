@@ -1,9 +1,0 @@
-package translateit2.languagefileservice.factory;
-
-public class DefaultLanguageFile {
-
-    public DefaultLanguageFile() {
-        // TODO Auto-generated constructor stub
-    }
-
-}

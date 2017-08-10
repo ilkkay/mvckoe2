@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoader;
+import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileStorage;
 import translateit2.persistence.dto.ProjectDto;
@@ -34,6 +36,7 @@ import translateit2.persistence.model.Status;
 import translateit2.restapi.AvailablePriority;
 import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Works;
+import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 
@@ -44,16 +47,18 @@ public class RestWorkController {
     public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
     private LanguageFileServiceFactory languageFileServiceFactory;
     private ProjectService projectService;
-
     private WorkService workService;
+    private LoadingContractor loadingContractor;
 
     @Autowired
     public RestWorkController(FileLoader storageService, 
             ProjectService projectService,
             WorkService workService,
+            LoadingContractor loadingContractor,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.projectService = projectService;
         this.workService = workService;
+        this.loadingContractor= loadingContractor;
         this.languageFileServiceFactory = languageFileServiceFactory;
     }
 
@@ -166,15 +171,27 @@ public class RestWorkController {
     // -------------------Upload source
     // file---------------------------------------------
     // status code 404 (Not Found)
-    // TODO: download /work/1/file?format=...
+    // TODO: upload /work/1/file?format=...
     @RequestMapping(value = "/work/{id}/sourceFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadSourceFile(@RequestParam(value = "workId") Long id,
-            @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
+            @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) 
+                    throws FileLoaderException {
+        try {
+            loadingContractor.uploadSource(file, id);
+            return new ResponseEntity<>(workService.getWorkDtoById(id), HttpStatus.OK); 
 
+        } catch (FileLoaderException e) {
+            throw e;
+        }        
+    }
+
+    /*
+    private WorkDto loadSourceSegments(Long id, MultipartFile file) {
         WorkDto wrk = workService.getWorkDtoById(id);
         if (wrk == null) {
             logger.error("Work with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
+            return null;
+            //return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
         }
 
         ProjectDto prj = projectService.getProjectDtoById(wrk.getProjectId());
@@ -182,24 +199,25 @@ public class RestWorkController {
         Path uploadedLngFile = null;
         String appName = null;
         try {
-            /*
-             * Upload language file
-             */
+            //
+            // Upload language file
+            //
             uploadedLngFile = storageService.storeFile(file);
-            /*
-             * check file format validity
-             */
+            //
+            // check file format validity
+            //
             appName = storageService.checkValidity(uploadedLngFile, wrk.getId());
-            /*
-             * upload
-             */
+            //
+            // upload
+            //
             storageService.uploadSourceToDb(uploadedLngFile, wrk.getId());
 
         } catch (IOException e) {
             logger.error("Could not upload source language file for workId {}: ", id);
-            return new ResponseEntity<>(
-                    new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),
-                    HttpStatus.NOT_FOUND);
+            return null;
+            //return new ResponseEntity<>(
+            //        new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),
+            //        HttpStatus.NOT_FOUND);
         }
 
         wrk = workService.getWorkDtoById(wrk.getId());
@@ -207,6 +225,7 @@ public class RestWorkController {
         wrk.setOriginalFile(appName);
         wrk = workService.updateWorkDto(wrk);
 
-        return new ResponseEntity<>(wrk, HttpStatus.OK);
+        return wrk;
     }
+    */
 }

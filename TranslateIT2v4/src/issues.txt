@@ -71,7 +71,7 @@ Ei toimi jos full_name. Ongelma myös kun serialNumber => serial_number
 
 33) refaktoroi lyhenteet pois luokkien nimistä DONE (lng => language!)
 
-34) Iso8859Storage fieldit ensin ja lopuksi setterit DONE. Mutta onko java-luokan raknne sama kuin c#:ssa
+34) Iso8859Storage fieldit ensin ja lopuksi setterit DONE. Mutta onko java-luokan rakenne sama kuin c#:ssa
 https://stackoverflow.com/questions/150479/order-of-items-in-classes-fields-properties-constructors-methods
 entä Eclipsen tai Idean järjestys ???
 
@@ -96,6 +96,8 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 42) fileLocator ja propertiesFileReader + languageBeanCache ja niiden yksikkötestit
 
 43) poikkeusten hallinan käsittely
+
+44) uusi uploadSourceTodatabse()-metodi
 
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
@@ -151,7 +153,35 @@ public class FooControllerAdvice extends ResponseEntityExceptionHandler {
         ja olion entiteetissä. Jos näin niin sitten testaukset pitäisi olla kattavammat tms.
         
         
-  + korjaa class Messagesin locale käyttö      
+  + korjaa class Messagesin locale käyttö
+  
+  + Kun teet hakuja niin käytä kyselyrakennetta url-poluissa esim. /cars?color=blue&type=sedan&doors=4
+
+  + Tarkista testifunktioiden nimeämiset
+
+  + View-tasolle toimitettavat oliot tulisi nimetä kuvaavasti =>esim. viewProjects
+
+  + Älä käytä hash-symbolia url-polussa (tehdään uuden Angular-sovelluksen yhteydessä)
+
+  + Korjaa service-tasot niin että sivulle voi palata suoraan kirjanmerkin avulla     
+  
+  + täydennä ja korjaa validioinnit
+  
+  + Jos rajapinnoissa käytetään id:tä niin tarkista ettei toteutuneessa polussa ole turhia entiteettihakuja.
+  
+  + Käytä tätä tyyppiä validoinnissa
+
+public class Name {
+    @NotNull
+    @Size(min=1, max=16)
+    private String firstname;
+}
+  + miksi project entiteetistä puuttuu relaaton work-entiteetin kanssa. 
+    Workissä pitäisi olla @ManyToOne Project project??
+  
+  
+  
+   
         
         
        

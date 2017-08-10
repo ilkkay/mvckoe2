@@ -35,13 +35,19 @@ public class FileNameResolverUnitTests {
         // initialize
         String expected = "fi_FI";
 
-        // when
+        // when 
         Locale returnLocale = fileNameResolver().getLocaleFromString("dotCMS_FI.properties",
                 ext -> ext.equals("properties"));      
         // then
         String returned = returnLocale.toString(); 
         assertThat(expected, is(equalTo(returned)));
 
+        returnLocale = fileNameResolver().getLocaleFromString("dotcms_fi-utf8.properties",
+                ext -> ext.equals("properties"));      
+        // then
+        returned = returnLocale.toString(); 
+        assertThat(expected, is(equalTo(returned)));
+        
         // when
         returnLocale = fileNameResolver().getLocaleFromString("dotCMS_fi_fi.properties",
                 ext -> ext.equals("properties"));      

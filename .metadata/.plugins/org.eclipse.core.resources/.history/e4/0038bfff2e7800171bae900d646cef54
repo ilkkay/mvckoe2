@@ -1,9 +1,0 @@
-package translateit2.persistence.dto;
-
-public class FileInfoDto {
-
-    public FileInfoDto() {
-        // TODO Auto-generated constructor stub
-    }
-
-}

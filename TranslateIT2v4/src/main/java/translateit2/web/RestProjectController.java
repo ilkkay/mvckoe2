@@ -183,36 +183,4 @@ public class RestProjectController {
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
     
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(FileLoaderException.class)
-    @ResponseBody
-    public CustomErrorType handleLoadingExceptions(FileLoaderException ex) {
-        
-        StringBuilder errorMessages = new StringBuilder("");
-        
-        switch (ex.getErrorCode()) {
-        case CANNOT_CREATE_UPLOAD_DIRECTORY:
-            break;
-        case CANNOT_READ_FILE:
-            break;
-        case CANNOT_READ_LANGUAGE_FROM_FILE_NAME:
-            break;
-        case CANNOT_UPLOAD_FILE:
-            break;
-        case FILE_NOT_FOUND:
-            break;
-        case FILE_TOBELOADED_IS_EMPTY:
-            break;
-        case IMPROPER_EXTENSION_IN_FILE_NAME:
-            break;
-        default:
-            break;
-        }
-                
-        CustomErrorType customError = new CustomErrorType(errorMessages.toString(),
-                ex.getErrorCode());
-
-        return customError;
-
-    }
 }

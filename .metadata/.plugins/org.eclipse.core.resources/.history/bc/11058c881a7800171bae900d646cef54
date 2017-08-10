@@ -1,8 +1,0 @@
-package translateit2.languagefileservice.factory;
-
-import translateit2.lngfileservice.LanguageFileFormat;
-
-public class LanguageFileServiceFactoryImpl2 extends LanguageFileFactory
-    <LanguageFile, LanguageFileFormat> {
- void test() {};
-}

@@ -38,7 +38,7 @@ public class LanguageFileValidatorUnitTest {
         LanguageFileType expectedType = LanguageFileType.UTF_8;
 
         // THEN no exceptions if the upload file is UTF-8
-        Path uploadedLngFile = Paths.get("d:\\messages_fi-UTF8.properties");
+        Path uploadedLngFile = Paths.get("d:\\dotcms_fi-UTF8.properties");
 
         assertThatCode(() -> validator().validateCharacterSet(uploadedLngFile,  
                 expectedType)).doesNotThrowAnyException();
