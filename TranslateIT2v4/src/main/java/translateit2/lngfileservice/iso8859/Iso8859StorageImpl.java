@@ -107,7 +107,7 @@ public class Iso8859StorageImpl implements Iso8859Storage {
             Files.createDirectory(dstDir);
         }
 
-        Path target = (dstDir == null) ? fileStorage.getPath(tgtFilenameStr)
+        Path target = (dstDir == null) ? fileStorage.getUploadPath(tgtFilenameStr)
                 : dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
 
         /*

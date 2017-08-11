@@ -164,8 +164,7 @@ public class RestWorkController {
         logger.info("Updating Work with id {}", wrk.getId());
 
         wrk = workService.updateWorkDto(work);
-
-        return new ResponseEntity<>(wrk, HttpStatus.OK);
+        return new ResponseEntity<>(wrk, HttpStatus.OK);              
     }
 
     // -------------------Upload source

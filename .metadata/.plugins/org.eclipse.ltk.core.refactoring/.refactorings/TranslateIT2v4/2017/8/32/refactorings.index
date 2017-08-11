@@ -7,3 +7,5 @@
 1502192445961	Move compilation units
 1502192470493	Move compilation units
 1502192509695	Move compilation unit
+1502429574287	Rename method 'getPath'
+1502435588365	Rename method 'setLocale'

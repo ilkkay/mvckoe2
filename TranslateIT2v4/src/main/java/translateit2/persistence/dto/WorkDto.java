@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -45,7 +46,8 @@ public class WorkDto {
 
     private Status status;
 
-    @NotEmpty
+    @NotNull
+    @Size (min = 1, max = 5)
     private String version;
 
     public String getBackupFile() {

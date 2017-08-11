@@ -258,7 +258,7 @@ public class Iso8859ValidatorTest {
         messageSource.setFallbackToSystemLocale(false);
 
         messages = new Messages(messageSource);
-        messages.setLocale(Locale.ENGLISH);
+        messages.resetLocale(Locale.ENGLISH);
 
         iso8859validator = new Iso8859ValidatorImpl();
         ((Iso8859ValidatorImpl) iso8859validator).setMessages(messages);

@@ -248,7 +248,7 @@ public class ProjectValidatorTest implements ConstraintValidatorFactory {
         messageSource.setFallbackToSystemLocale(false);
 
         messages = new Messages(messageSource);
-        messages.setLocale(Locale.ENGLISH);
+        messages.resetLocale(Locale.ENGLISH);
     }
 
     @Test

@@ -1,9 +1,15 @@
 package translateit2.web;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +32,7 @@ public class RestErrorHandler {
     @Autowired
     Messages messages;
 
+ // Constraint violation exceptions
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -43,8 +50,27 @@ public class RestErrorHandler {
         return validationError;
 
     }
-    
-    // https://www.javacodegeeks.com/2016/01/exception-handling-spring-restful-web-service.html
+
+    // Constraint violation exceptions
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public CustomErrorType handleOtherExceptions(HttpServletRequest request,ConstraintViolationException ex){
+        
+        StringBuilder violationMsgs = new StringBuilder(""); 
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            String key = "";
+            if (violation.getPropertyPath() != null) {
+                key = violation.getPropertyPath().toString();
+            }
+            violationMsgs.append("Invalid field is: " + key + " msg: " + violation.getMessage());
+        }
+        
+        CustomErrorType errorMsg = new CustomErrorType(violationMsgs.toString());    
+        
+        return errorMsg ;
+    }
+
     @ExceptionHandler(FileNotFoundException.class)
     @ResponseBody
     public CustomErrorType handleFileNotFoundException(HttpServletRequest request, Exception ex){
@@ -95,12 +121,13 @@ public class RestErrorHandler {
         return customError;
     }
     
+    
     // all the other exceptions
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public CustomErrorType handleOtherExceptions(HttpServletRequest request, Exception ex){
-        CustomErrorType errorMsg = new CustomErrorType("Error message");        
+        CustomErrorType errorMsg = new CustomErrorType(ex.getMessage());        
         return errorMsg ;
     }
 }

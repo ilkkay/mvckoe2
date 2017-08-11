@@ -117,11 +117,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto createProjectDto(ProjectDto entity) {
         logger.log(getLoggerLevel(), "Entering createProjectDto with {}", entity.toString());
+        
         Project perProject = convertToEntity(entity);
+        
         perProject.setPerson(personRepo.findOne(entity.getPersonId()));
         perProject.setInfo(infoRepo.findOne(entity.getInfoId()));
         perProject = projectRepo.save(perProject);
+        
         ProjectDto projectDto = convertToDto(perProject);
+        
         logger.log(getLoggerLevel(), "Leaving createProjectDto with {}", projectDto.toString());
         return projectDto;
     }

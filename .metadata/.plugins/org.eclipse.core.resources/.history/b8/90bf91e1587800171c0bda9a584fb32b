@@ -1,9 +1,0 @@
-package translateit2.filenameresolver;
-
-public class FileNameResolverImpl {
-
-    public FileNameResolverImpl() {
-        // TODO Auto-generated constructor stub
-    }
-
-}

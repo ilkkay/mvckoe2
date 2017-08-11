@@ -23,13 +23,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class Messages {
 
-    private MessageSourceAccessor accessor;
-
-    //@Autowired
     private String locale;
+
+    private MessageSourceAccessor accessor;
     
     private MessageSource messageSource;
     
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    // used in tests that will be using english
+    public void resetLocale(Locale locale) {
+        accessor = new MessageSourceAccessor(messageSource, locale);
+    }
+
+    @PostConstruct
+    private void init() { // force finnish
+        accessor = new MessageSourceAccessor(messageSource, new Locale(locale));
+    }
+
     @Autowired
     public Messages(MessageSource messageSource) {
         this.messageSource = messageSource;
@@ -91,18 +104,6 @@ public class Messages {
             return parts[1];
     }
 
-    // tests will be using english
-    public void setLocale(Locale locale) {
-        accessor = new MessageSourceAccessor(messageSource, locale);
-    }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
-    @PostConstruct
-    private void init() { // force finnish
-        accessor = new MessageSourceAccessor(messageSource, new Locale("fi"));
-    }
 
 }

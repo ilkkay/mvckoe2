@@ -48,6 +48,26 @@ public class ProjectExceptionIntegrationTests {
     @Autowired
     Messages messages;
 
+    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
+        this.projectNameMaxSize = projectNameMaxSize;
+    }
+
+    public void setProjectNameMinSize(Integer projectNameMinSize) {
+        this.projectNameMinSize = projectNameMinSize;
+    }
+
+    @Before
+    public void setup() {
+        Locale.setDefault(Locale.ENGLISH); // for javax validation
+        messages.resetLocale(Locale.ENGLISH); // for custom validation
+    }
+
+    @Test
+    public void parameterTest() {
+        System.out.println("ProjectNameMaxSize: " + projectNameMaxSize);
+        System.out.println("ProjectNameMinSize: " + projectNameMinSize);
+    }
+
     // @Test
     public void failCreateProject_ifLocaleNull() throws Exception {
         ProjectDto projectDto = new ProjectDto();
@@ -122,25 +142,6 @@ public class ProjectExceptionIntegrationTests {
         }
     }
 
-    @Test
-    public void parameterTest() {
-        System.out.println("ProjectNameMaxSize: " + projectNameMaxSize);
-        System.out.println("ProjectNameMinSize: " + projectNameMinSize);
-    }
-
-    public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-        this.projectNameMaxSize = projectNameMaxSize;
-    }
-
-    public void setProjectNameMinSize(Integer projectNameMinSize) {
-        this.projectNameMinSize = projectNameMinSize;
-    }
-
-    @Before
-    public void setup() {
-        Locale.setDefault(Locale.ENGLISH); // for javax validation
-        messages.setLocale(Locale.ENGLISH); // for custom validation
-    }
 
     /*
      * @Test public void create_locodto_with_empty_and_null_segment() throws

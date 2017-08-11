@@ -15,18 +15,14 @@ import translateit2.util.Messages;
 
 // the following is IMPORTANT contains node issues etc. 
 // https://access.redhat.com/webassets/avalon/d/red-hat-jboss-enterprise-application-platform/7.0.0/javadocs/org/hibernate/validator/internal/engine/constraintvalidation/ConstraintValidatorContextImpl.html
-@ConfigurationProperties(prefix = "translateit2.")
+@ConfigurationProperties(prefix = "translateit2.validator")
 public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDto> {
 
-    @Autowired
     private WorkRepository workRepo;
 
     @Autowired
-    Messages messages;
-
-    public WorkValidator(ProjectRepository projectRepo, Messages messages) {
+    public WorkValidator(WorkRepository workRepo) {
         this.workRepo = workRepo;
-        this.messages = messages;
     }
 
     // autowired validation settings object

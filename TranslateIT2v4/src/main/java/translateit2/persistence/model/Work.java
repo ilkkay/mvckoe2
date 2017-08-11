@@ -13,18 +13,34 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+//
+// property testing
+// https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/?v=6.0#_examples
+//
 
 @Entity(name = "trWork")
 @Table(name = "TR_WORK")
 public class Work implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String backup_file;
 
+    @NotNull
+    @Size (min = 1, max = 5)
+    private String version;
+    
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate deadLine;
 
@@ -36,10 +52,6 @@ public class Work implements Serializable {
     
     @ManyToOne
     private TranslatorGroup group;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     private Locale locale;
 
@@ -61,7 +73,6 @@ public class Work implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private String version;
 
     public String getBackupFile() {
         return backup_file;

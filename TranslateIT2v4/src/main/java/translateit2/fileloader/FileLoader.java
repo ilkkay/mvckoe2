@@ -8,11 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileLoader {
 
-    void deleteUploadedFile(String filename);
+    void deleteUploadedFile(Path filePath);
 
     void deleteUploadedFiles();
 
-    Path getPath(String filename);
+    Path getUploadPath(String filename);
 
     Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException;
 

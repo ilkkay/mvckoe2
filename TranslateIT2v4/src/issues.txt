@@ -99,6 +99,20 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 44) uusi uploadSourceTodatabse()-metodi
 
+45) testaa storeToUploadDirectory-metodia, lisätty yksikkötestit getPathsOfDownloadableFiles deleteUploadedFile DONE
+
+46) assertThat(p.getParent().toString(), is(equalTo("upload-dir3"))); 
+    korjaa upload-dir3 test.properies-tiedostoon DONE
+    
+47) miksi project entiteetistä puuttuu relaaton work-entiteetin kanssa. 
+    Workissä pitäisi olla @ManyToOne Project project DONE
+    
+48) korjaa class Messagesin locale käyttö DONE
+
+49) UnitValidatorissa ja Workvalidatorsissa on outo setteri!! DONE
+
+50) uploadTarget KESKEN
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
@@ -124,11 +138,6 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 Korjaa seuraavat:
 
-
-+ assertThat(p.getParent().toString(), is(equalTo("upload-dir3"))); korjaa upload-dir3
-
-+ testaa storeToUploadDirectory-metodia
-
 + tutki virhekoodin palauttaminen 
 
 @ControllerAdvice(basePackageClasses = FooController.class)
@@ -140,21 +149,8 @@ public class FooControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new CustomErrorType(status.value(), ex.getMessage()), status);
     }
 
-}
-
-  + UnitValidatorissa ja Workvalidatorsissa on outo setteri!!
-
-  + tutki kohtaa ProjectDto createProjectDto(ProjectDto entity) ja sen rivejä
-  
-        perProject.setPerson(personRepo.findOne(entity.getPersonId()));
-        perProject.setInfo(infoRepo.findOne(entity.getInfoId()));
-        
-        miksi nämä tarvitaan? Eikö id ole jo asetettu. Ei ole koska id:t on long Dto:ssa 
-        ja olion entiteetissä. Jos näin niin sitten testaukset pitäisi olla kattavammat tms.
-        
-        
-  + korjaa class Messagesin locale käyttö
-  
+}        
+          
   + Kun teet hakuja niin käytä kyselyrakennetta url-poluissa esim. /cars?color=blue&type=sedan&doors=4
 
   + Tarkista testifunktioiden nimeämiset
@@ -176,8 +172,8 @@ public class Name {
     @Size(min=1, max=16)
     private String firstname;
 }
-  + miksi project entiteetistä puuttuu relaaton work-entiteetin kanssa. 
-    Workissä pitäisi olla @ManyToOne Project project??
+
+
   
   
   

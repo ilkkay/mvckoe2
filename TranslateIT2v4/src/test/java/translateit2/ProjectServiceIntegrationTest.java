@@ -352,6 +352,6 @@ public class ProjectServiceIntegrationTest {
     @Before
     public void setup() {
         Locale.setDefault(Locale.ENGLISH); // for javax validation
-        messages.setLocale(Locale.ENGLISH); // for custom validation
+        messages.resetLocale(Locale.ENGLISH); // for custom validation
     }
 }

@@ -6,6 +6,7 @@ import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
@@ -26,17 +27,18 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
         return LanguageFileFormat.PROPERTIES;
     }
 
-    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws FileLoaderException {
-        try {
-            Files.readAllLines(uploadedLngFile, charset);
-        } catch (MalformedInputException e) {
-            return false; // do nothing is OK
-        } catch (IOException e) {
-            throw new FileLoaderException("Unexpected exception thrown while testing charset of a properties file");
-        }
-        return true; // if charset == UTF8 and no exceptions => file is UTF8
+    @Override
+    public void validateApplicationName(String appName, String expectedApplicationName) throws FileLoaderException {
+        if (!(appName.equalsIgnoreCase(expectedApplicationName)))
+            throw new FileLoaderException(FileLoadError.IMPROPER_APPLICATION_NAME_IN_FILE_NAME);
     }
-
+    
+    @Override
+    public void validateLocale(Locale appLocale, Locale expectedLocale) throws FileLoaderException {
+        if (!(appLocale.equals(expectedLocale)))
+            throw new FileLoaderException(FileLoadError.IMPROPER_LOCALE_IN_FILE_NAME);
+    }    
+    
     @Override
     public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) throws FileLoaderException {
 
@@ -73,4 +75,17 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
         // ("The encoding is not same as defined for the version. It should be
         // UTF-8.");
     }
+    
+    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws FileLoaderException {
+        try {
+            Files.readAllLines(uploadedLngFile, charset);
+        } catch (MalformedInputException e) {
+            return false; // do nothing is OK
+        } catch (IOException e) {
+            throw new FileLoaderException("Unexpected exception thrown while testing charset of a properties file");
+        }
+        return true; // if charset == UTF8 and no exceptions => file is UTF8
+    }
+
+
 }

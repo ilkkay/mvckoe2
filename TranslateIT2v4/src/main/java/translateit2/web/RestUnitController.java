@@ -40,6 +40,7 @@ import translateit2.persistence.model.Target;
 import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Statistics;
 import translateit2.restapi.Units;
+import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 
@@ -52,6 +53,7 @@ public class RestUnitController {
     private ProjectService projectService;
     private final FileLoader storageService;
     private WorkService workService;
+    LoadingContractor loadingContractor;
 
     boolean isMockStatInitialized = false;
     Statistics mockStat = new Statistics(); // TODO: this is a mock solution
@@ -63,6 +65,7 @@ public class RestUnitController {
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.projectService = projectService;
         this.workService = workService;
+        this.loadingContractor = loadingContractor;
         this.languageFileServiceFactory = languageFileServiceFactory;
         this.storageService = storageService;
     }
@@ -202,8 +205,16 @@ public class RestUnitController {
     @RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
-            , UriComponentsBuilder ucBuilder) {
+            , UriComponentsBuilder ucBuilder) throws FileLoaderException {
+        
+        try {
+            loadingContractor.uploadTarget(file, id);
+            return new ResponseEntity<>(workService.getWorkDtoById(id), HttpStatus.OK); 
 
+        } catch (FileLoaderException e) {
+            throw e;
+        }  
+/*
         WorkDto work = workService.getWorkDtoById(id);
         if (work == null) {
             logger.error("Unable to upload target file. Work with id {} not found.", id);
@@ -215,18 +226,9 @@ public class RestUnitController {
         ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
         LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
         Path uploadedLngFile = null;
-        /*
-         * Upload language file
-         */
         try {
             uploadedLngFile = storageService.storeFile(file);
-            /*
-             * check file format validity
-             */
             storageService.checkValidity(uploadedLngFile, work.getId());
-            /*
-             * upload
-             */
             storageService.uploadTargetToDb(uploadedLngFile, work.getId());
 
             work = workService.getWorkDtoById(work.getId());
@@ -246,8 +248,9 @@ public class RestUnitController {
             e.printStackTrace();
         }
         return null;
+    */
     }
-
+    
     private void InitMockStat(final long workId) {
         isMockStatInitialized = true;
 
@@ -265,5 +268,6 @@ public class RestUnitController {
         mockStat.setTranslated(translated);
         mockStat.setWorkId(workId);
     }
+    
 
 }

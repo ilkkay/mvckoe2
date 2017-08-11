@@ -11,7 +11,9 @@ import java.nio.file.Path;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -21,17 +23,26 @@ import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileStorage;
 
+@ConfigurationProperties(prefix = "test.translateit2.fileloader")
+@TestPropertySource("classpath:translateit2/test.properties")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 @WebAppConfiguration
 public class LanguageFileStorageIntegrationTest {
 
+    private String location;
+        
     @Autowired
     private FileLoaderImpl fileStorage;
 
     @Autowired
     private LanguageFileServiceFactory languageFileServiceFactory;
 
+    public void setLocation (String location) {
+        this.location = location;
+      
+    }
+    
     // https://blog.goyello.com/2015/10/01/different-ways-of-testing-exceptions-in-java-and-junit/
     @Test
     public void failToUpLoad_ifFormatNotSupported() {
@@ -65,8 +76,8 @@ public class LanguageFileStorageIntegrationTest {
             assertThat(e).hasMessageContaining("No value present");
         }
 
-        Path p = fileStorage.getPath("dotcms_en.properties");
-        assertThat(p.getParent().toString(), is(equalTo("upload-dir4")));
+        Path p = fileStorage.getUploadPath("dotcms_en.properties");
+        assertThat(p.getParent().toString(), equalTo(location));
 
         languageFileServiceFactory.listFormatsSupported().stream().forEach(System.out::println);
     }

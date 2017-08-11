@@ -40,7 +40,7 @@ public class XLIFFStorageImpl implements XLIFFStorage {
     }
 
     public Path getPath(String filename) {
-        return fileStorage.getPath(filename);
+        return fileStorage.getUploadPath(filename);
     }
 
     @Override

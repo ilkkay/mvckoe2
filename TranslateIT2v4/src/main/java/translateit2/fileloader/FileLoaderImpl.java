@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
@@ -20,9 +22,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import translateit2.service.LoadingContractorImpl;
+
 @Component // oli service mutta miksi
 public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
-
+    static final Logger logger = LogManager.getLogger(LoadingContractorImpl.class);
+    
     private ResourceLoader resourceLoader;
 
     private final Path rootLocation;
@@ -33,9 +38,12 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public void deleteUploadedFile(String filename) {
-        // TODO Auto-generated method stub
-        
+    public void deleteUploadedFile(Path fileToDeletePath) {
+        try {
+            Files.deleteIfExists(fileToDeletePath);
+        } catch (IOException e) {
+            logger.warn("Could not remove file: {}", fileToDeletePath.toAbsolutePath().toString());
+        }
     }
 
     @Override
@@ -44,7 +52,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Path getPath(String filename) {
+    public Path getUploadPath(String filename) {
         return rootLocation.resolve(filename);
     }
 
@@ -62,7 +70,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     @Override
     public Resource loadAsResource(String filename) throws FileLoaderException {
         try {
-            Path file = getPath(filename);
+            Path file = getUploadPath(filename);
             Resource resource = new UrlResource(file.toUri());
 
             // TODO: test alternatives
