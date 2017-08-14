@@ -6,7 +6,10 @@ public class CustomErrorType {
 
     private String errorMessage;
 
+    private String localizedErrorMessage;
+
     private FileLoadError errorCode;
+    
 
     public CustomErrorType(String errorMessage) {
         this.errorMessage = errorMessage;
@@ -18,6 +21,16 @@ public class CustomErrorType {
         this.errorCode = errorCode;
     }
 
+    public CustomErrorType(String localizedErrorMessage, String errorMessage, FileLoadError errorCode) {
+        this.localizedErrorMessage = localizedErrorMessage;
+        this.errorMessage = errorMessage;
+        this.errorCode = errorCode;
+    }
+
+    public String getLocalizedErrorMessage() {
+        return localizedErrorMessage;
+    }
+    
     public String getErrorMessage() {
         return errorMessage;
     }

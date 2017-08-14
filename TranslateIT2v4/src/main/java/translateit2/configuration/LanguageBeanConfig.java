@@ -2,31 +2,31 @@ package translateit2.configuration;
 
 import org.springframework.context.annotation.Bean;
 
-import translateit2.languagefactory.LanguageBeanCache;
-import translateit2.languagefactory.LanguageBeanCacheImpl;
-import translateit2.languagefactory.LanguageFileReader;
-import translateit2.languagefactory.LanguageFileValidator;
-import translateit2.languagefactory.LanguageFileWriter;
+import translateit2.languagebeancache.LanguageBeanCache;
+import translateit2.languagebeancache.LanguageBeanCacheImpl;
+import translateit2.languagebeancache.LanguageFileReader;
+import translateit2.languagebeancache.LanguageFileValidator;
+import translateit2.languagebeancache.LanguageFileWriter;
 import translateit2.lngfileservice.LanguageFileFormat;
 
 //@Configuration
 public class LanguageBeanConfig {
     
     @Bean
-    public LanguageBeanCache<LanguageFileValidator, LanguageFileFormat> LanguageBeanValidatorCache() {
-        LanguageBeanCache<LanguageFileValidator, LanguageFileFormat> bean = new LanguageBeanCacheImpl<LanguageFileValidator, LanguageFileFormat>();
+    public LanguageBeanCache<LanguageFileFormat, LanguageFileValidator> LanguageBeanValidatorCache() {
+        LanguageBeanCache<LanguageFileFormat, LanguageFileValidator> bean = new LanguageBeanCacheImpl<LanguageFileFormat, LanguageFileValidator>();
         return bean;        
     }
      
     @Bean
-    public LanguageBeanCache<LanguageFileReader, LanguageFileFormat> LanguageBeanReaderCache() {
-        LanguageBeanCache<LanguageFileReader, LanguageFileFormat> bean = new LanguageBeanCacheImpl<LanguageFileReader, LanguageFileFormat>();
+    public LanguageBeanCache<LanguageFileFormat, LanguageFileReader> LanguageBeanReaderCache() {
+        LanguageBeanCache<LanguageFileFormat, LanguageFileReader> bean = new LanguageBeanCacheImpl<LanguageFileFormat, LanguageFileReader>();
         return bean;        
     }
     
     @Bean
-    public LanguageBeanCache<LanguageFileWriter, LanguageFileFormat> LanguageBeanWriterCache() {
-        LanguageBeanCache<LanguageFileWriter, LanguageFileFormat> bean = new LanguageBeanCacheImpl<LanguageFileWriter, LanguageFileFormat>();
+    public LanguageBeanCache<LanguageFileFormat, LanguageFileWriter> LanguageBeanWriterCache() {
+        LanguageBeanCache<LanguageFileFormat, LanguageFileWriter> bean = new LanguageBeanCacheImpl<LanguageFileFormat, LanguageFileWriter>();
         return bean;        
     }
     

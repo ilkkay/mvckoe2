@@ -10,8 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.languagefactory.LanguageFileValidator;
-import translateit2.languagefactory.PropertiesFileValidatorImpl;
+import translateit2.languagebeancache.LanguageFileValidator;
+import translateit2.languagebeancache.PropertiesFileValidatorImpl;
 import translateit2.lngfileservice.LanguageFileType;
 
 @RunWith(MockitoJUnitRunner.class)

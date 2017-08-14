@@ -79,7 +79,7 @@ public class LoadingContractorIntegrationTests {
         long workId=1;
 
         // WHEN multipart file exists
-        File file = new File("d:\\dotcms_fi-utf8.properties");
+        File file = new File("d:\\dotcms_en-utf8.properties");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multiPartFile = new MockMultipartFile("file",
                 file.getName(), "text/plain", IOUtils.toByteArray(input));
@@ -99,7 +99,7 @@ public class LoadingContractorIntegrationTests {
         String dateNowStr = LocalDate.now().toString();
 
         assertThat(dateStr, equalTo(dateNowStr));        
-        assertThat("dotcms_fi-utf8.properties",equalTo(info.getOriginal_file()));
+        assertThat("dotcms_en-utf8.properties",equalTo(info.getOriginal_file()));
 
         // remove file from disk and units from database
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
@@ -115,7 +115,7 @@ public class LoadingContractorIntegrationTests {
         long workId=1;
 
         // initialize multipart file 
-        File file = new File("d:\\dotcms_fi-utf8.properties");
+        File file = new File("d:\\dotcms_en-utf8.properties");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multiPartFile = new MockMultipartFile("file",
                 file.getName(), "text/plain", IOUtils.toByteArray(input));
@@ -148,7 +148,7 @@ public class LoadingContractorIntegrationTests {
 
         // WHEN loaded to source file
         try {
-            File fileSource = new File("d:\\dotcms_fi-utf8.properties");
+            File fileSource = new File("d:\\dotcms_en-utf8.properties");
             FileInputStream input1 = new FileInputStream(fileSource);
             MultipartFile multiPartFile = new MockMultipartFile("file1",
                     fileSource.getName(), "text/plain", IOUtils.toByteArray(input1));

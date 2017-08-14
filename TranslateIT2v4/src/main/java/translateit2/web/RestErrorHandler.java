@@ -6,12 +6,14 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,6 +29,7 @@ import translateit2.restapi.CustomErrorType;
 import translateit2.util.Messages;
 
 @RestControllerAdvice
+@ConfigurationProperties(prefix = "translateit2.validator")
 public class RestErrorHandler {
 
     @Autowired
@@ -78,50 +81,20 @@ public class RestErrorHandler {
         CustomErrorType errorMsg = new CustomErrorType("Error message");        
         return errorMsg ;
     }
-    
+
     @ExceptionHandler(FileLoaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public CustomErrorType handleLoadingExceptions(FileLoaderException ex) {
-        
-        StringBuilder errorMessages = new StringBuilder("test message");
-        
-        switch (ex.getErrorCode()) {
-        case CANNOT_CREATE_PERMANENT_DIRECTORY: // must contact admin
-            break;
-        case CANNOT_CREATE_UPLOAD_DIRECTORY:    // must contact admin
-            break;
-        case CANNOT_MOVE_FILE:                  // must contact admin
-            break;
-        case CANNOT_READ_APPLICATION_NAME_FROM_FILE_NAME:   // check the file in use
-            break;
-        case CANNOT_READ_FILE:                              // check the file in use
-            break;
-        case CANNOT_READ_LANGUAGE_FROM_FILE_NAME:           // check the file in use
-            break;
-        case CANNOT_UPLOAD_FILE:                            // must contact admin
-            break;
-        case FILE_NOT_FOUND:                                // must contact admin
-            break;
-        case FILE_TOBELOADED_IS_EMPTY:                      // check the file in use
-            break;
-        case IMPROPER_CHARACTERSET_IN_FILE:                 // check the file in use
-            break;
-        case IMPROPER_EXTENSION_IN_FILE_NAME:               // check the file in use
-            break;
-        case UNDEFINED_ERROR:                               // must contact admin
-            break;
-        default:
-            break;
-        }
                 
-        CustomErrorType customError = new CustomErrorType(errorMessages.toString(),
-               ex.getErrorCode());
+        CustomErrorType customError = new CustomErrorType(
+                messages.get(ex.getErrorCode().getDescription()),
+                messages.get(ex.getErrorCode().getDescription(),Locale.ENGLISH),
+                ex.getErrorCode());
 
         return customError;
     }
-    
-    
+
     // all the other exceptions
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

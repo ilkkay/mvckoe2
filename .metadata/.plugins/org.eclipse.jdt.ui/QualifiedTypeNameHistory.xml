@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="translateit2.filenameresolver.FileNameResolverImpl"/>
-<fullyQualifiedTypeName name="org.aspectj.lang.annotation.Before"/>
 <fullyQualifiedTypeName name="java.nio.charset.MalformedInputException"/>
 <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="translateit2.languagefactory.PropertiesFileValidatorImpl"/>
-<fullyQualifiedTypeName name="java.nio.file.Files"/>
 <fullyQualifiedTypeName name="translateit2.filelocator.FileLocator"/>
 <fullyQualifiedTypeName name="translateit2.filelocator.FileLocatorImpl"/>
 <fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileType"/>
@@ -58,6 +55,9 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="translateit2.persistence.dao.UnitRepository"/>
-<fullyQualifiedTypeName name="java.util.Locale"/>
 <fullyQualifiedTypeName name="translateit2.service.LoadingContractor"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
+<fullyQualifiedTypeName name="translateit2.persistence.model.Project"/>
+<fullyQualifiedTypeName name="translateit2.languagefileservice.factory.LanguageFile"/>
+<fullyQualifiedTypeName name="java.nio.file.Files"/>
 </qualifiedTypeNameHistroy>

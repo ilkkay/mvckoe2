@@ -12,7 +12,7 @@ import translateit2.fileloader.FileLoaderException;
 @Validated
 public interface LoadingContractor {
 
-    Path downloadTarget(long workId);
+    Path downloadTarget(long workId) throws FileLoaderException;
     
     void uploadSource(@Valid MultipartFile file, long workId) throws FileLoaderException;
     

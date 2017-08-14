@@ -39,7 +39,7 @@ public class Messages {
     }
 
     @PostConstruct
-    private void init() { // force finnish
+    private void init() { 
         accessor = new MessageSourceAccessor(messageSource, new Locale(locale));
     }
 
@@ -49,16 +49,26 @@ public class Messages {
     }
 
     public String get(String code) {
-        String msg = null;
+        String msg = "";
         try {
             msg = accessor.getMessage(code);
         } catch (NoSuchMessageException e) {
-            return "Text not implemented for " + code;
+            //return "Text not implemented for " + code;
         }
 
         return msg;
     }
 
+    public String get(String code, Locale locale) {
+        String msg = "";
+        try {
+            msg = accessor.getMessage(code,locale);
+        } catch (NoSuchMessageException e) {
+        }
+
+        return msg;
+    }
+    
     public String get(String code, String[] args) {
         String msg = null;
         try {

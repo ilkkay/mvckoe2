@@ -18,7 +18,7 @@ import translateit2.persistence.model.Project;
 //curl -i -X POST -H "Content-Type:application/json" -d "{  \"locale\" : \"en_US\",  \"project\" : \"/project/6\" }" http://localhost:8080/work
 
 
-@RepositoryRestResource(collectionResourceRel = "project", path = "project")
+//@RepositoryRestResource(collectionResourceRel = "project", path = "project")
 public interface ProjectRepository extends CrudRepository<Project, Long> {
     Long countByPersonId(final long personId);
 

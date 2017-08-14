@@ -1,7 +1,9 @@
 package translateit2.service;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,18 +29,18 @@ import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.filelocator.FileLocator;
 import translateit2.filenameresolver.FileNameResolver;
-import translateit2.languagefactory.LanguageBeanCache;
-import translateit2.languagefactory.LanguageFileReader;
-import translateit2.languagefactory.LanguageFileValidator;
-import translateit2.languagefactory.LanguageFileWriter;
+import translateit2.languagebeancache.LanguageBeanCache;
+import translateit2.languagebeancache.LanguageFileReader;
+import translateit2.languagebeancache.LanguageFileValidator;
+import translateit2.languagebeancache.LanguageFileWriter;
 import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
-import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.model.FileInfo;
+import translateit2.persistence.model.Project;
 import translateit2.persistence.model.Source;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Status;
@@ -64,13 +64,13 @@ public class LoadingContractorImpl implements LoadingContractor {
     private FileNameResolver fileNameResolver;
 
     @Autowired
-    private LanguageBeanCache<LanguageFileReader, LanguageFileFormat> fileReaderCache;
+    private LanguageBeanCache<LanguageFileFormat, LanguageFileReader> fileReaderCache;
 
     @Autowired
-    private LanguageBeanCache<LanguageFileValidator, LanguageFileFormat> fileValidatorCache;
+    private LanguageBeanCache<LanguageFileFormat, LanguageFileWriter> fileWriterCache;
 
     @Autowired
-    private LanguageBeanCache<LanguageFileWriter, LanguageFileFormat> fileWriterCache;
+    private LanguageBeanCache<LanguageFileFormat, LanguageFileValidator> fileValidatorCache;
 
     @Autowired
     private ProjectRepository projectRepo;
@@ -85,8 +85,27 @@ public class LoadingContractorImpl implements LoadingContractor {
     private UnitRepository unitRepo;
 
     @Override
-    public Path downloadTarget(long workId) {
-        // TODO Auto-generated method stub
+    public Path downloadTarget(long workId) throws FileLoaderException {
+        if (!(workRepo.exists(workId))) {
+            logger.error("Work with id {} not found.", workId);
+            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
+        }
+
+        // get a map of translated units (i.e source segment and its translation)
+        Map<String, String> map = getSegmentsMap(workId);
+        
+        // get original language file (i.e backup file) in
+        List<String> originalFileAsList = getOriginalSegmentKeys(workId);
+        
+        // merge the map of translated units into the original language file
+        List<String> downloadFileAsList = combine(map, originalFileAsList);
+        
+        // create the new translated language file
+        Path downloadDirectory = null;;
+        createDownloadFile(downloadDirectory, downloadFileAsList);
+        
+        // move file to download directory
+        
         return null;
     }
 
@@ -96,7 +115,7 @@ public class LoadingContractorImpl implements LoadingContractor {
             logger.error("Work with id {} not found.", workId);
             throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
         }
-        
+
         // move file from server to temporary location i.e. to upload directory
         Path uploadedFile = fileloader.storeToUploadDirectory(multipartFile);
 
@@ -113,15 +132,17 @@ public class LoadingContractorImpl implements LoadingContractor {
         LanguageFileValidator validator = fileValidatorCache.getService(format).get();
         validator.validateCharacterSet(uploadedFile, getExpectedType(workId));
         validator.validateApplicationName(appName, getExpectedApplicationName(workId));
-        validator.validateLocale(appLocale, getExpectedLocale(workId));
-        
+        validator.validateLocale(appLocale, getExpectedTargetLocale(workId));
+
         // read key/values pairs from the language file
         LanguageFileReader reader = fileReaderCache.getService(format).get();
         LinkedHashMap<String, String> segments = (LinkedHashMap<String, String>)reader.
                 getSegments(uploadedFile, getCharSet(workId));
 
+        // upload segments to data base
         loadTargetSegmentsToDatabase(segments, workId);
-        
+
+        // the uploaded (target) language file will be removed silently
         fileloader.deleteUploadedFile(uploadedFile);        
     }
 
@@ -136,7 +157,7 @@ public class LoadingContractorImpl implements LoadingContractor {
             logger.error("Trying to reload source file.", workId);
             throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
         }
-        
+
         // check that availability of validator, reader and writer service for this format
         checkServiceAvailability(workId);
 
@@ -156,7 +177,8 @@ public class LoadingContractorImpl implements LoadingContractor {
 
         // validate character set used in file 
         LanguageFileValidator validator = fileValidatorCache.getService(format).get();
-        validator.validateCharacterSet(uploadedFile, getExpectedType(workId));        
+        validator.validateCharacterSet(uploadedFile, getExpectedType(workId));   
+        validator.validateLocale(appLocale, getExpectedSourceLocale(workId));
 
         // move file to a permanent location       
         Path uploadedFilePath = filelocator.moveUploadedFileIntoFilesystem(uploadedFile, format);
@@ -171,10 +193,10 @@ public class LoadingContractorImpl implements LoadingContractor {
         // and notify what has happened
         // test something somewhere (javax.persistence.RollbackException)
         loadSourceSegmentsToDatabase(originalFileName, appName, appLocale, uploadedFilePath, segments, workId);       
-        
+
         // commit that file processing has finished  
     }
-    
+
     @Transactional
     private void loadTargetSegmentsToDatabase(HashMap<String, String> segments, final long workId) {
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
@@ -186,11 +208,11 @@ public class LoadingContractorImpl implements LoadingContractor {
         unitRepo.save(units);
     }
 
-    
+
     private boolean isSourceFileReload(final long workId) {
         return (unitRepo.countByWorkId(workId) > 0);
     }
-    
+
     // Only unchecked exceptions (that is, subclasses of java.lang.RuntimeException)
     // are rollbacked by default
     // we can safely assume you are doing your database operations through Spring, Hibernate, 
@@ -208,7 +230,7 @@ public class LoadingContractorImpl implements LoadingContractor {
         long fileInfoId = updateFileInfo(uploadedFilePath,originalFileName, workId);
 
         // once you've loaded source file, the work status will be NEw
-        updateWork(appName, appLocale, fileInfoId, Status.NEW, workId);    
+        updateWork(appName, fileInfoId, Status.NEW, workId);    
 
         return true;
     }
@@ -221,17 +243,23 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Transactional
-    private Locale getExpectedLocale(long workId) {
-        Work work = workRepo.findOne(workId);
-        return  work.getLocale();
+    private Locale getExpectedSourceLocale(long workId) {
+        Project project = workRepo.findOne(workId).getProject();
+        return workRepo.findOne(workId).getProject().getSourceLocale();
     }
-    
+
+    @Transactional
+    private Locale getExpectedTargetLocale(long workId) {
+        Work work = workRepo.findOne(workId);
+        return workRepo.findOne(workId).getLocale();
+    }
+
     @Transactional
     private String getExpectedApplicationName(long workId) {
         Work work = workRepo.findOne(workId);
         return  work.getOriginalFile();
     }
-    
+
     @Transactional
     private LanguageFileType getExpectedType(long workId) {
         Work work = workRepo.findOne(workId);
@@ -246,6 +274,93 @@ public class LoadingContractorImpl implements LoadingContractor {
             return StandardCharsets.ISO_8859_1;
         else
             return StandardCharsets.UTF_8;
+    }
+
+    private List<String> combine(Map<String, String> map, List<String> inLines) throws FileLoaderException {
+        List<String> outLines = new ArrayList<String>();
+        boolean isFirstLine = true; // <= optional byte order mark (BOM)
+        for (String line : inLines) {
+            if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)) {
+                outLines.add(line);
+                isFirstLine = false;
+            } else if (isKeyValuePair(line)) {
+                String key = getKey(line);
+                System.out.println(getKey(line) + "=" + map.get(key));
+                outLines.add(getKey(line) + "=" + map.get(key));
+            } else
+                throw new FileLoaderException("Could not create file for download");
+        }
+        
+        return outLines;
+    }
+
+    private String getKey(String line) {
+        String parts[] = line.split("=");
+        if (parts.length < 2)
+            return null;
+        else
+            return parts[0].trim();
+    }
+    
+    private boolean isKeyValuePair(String line) {
+        if (getKey(line) != null)
+            return true;
+        else
+            return false;
+    }
+    
+    private boolean isCommentLine(String line) {
+        return (line.trim().startsWith("#") || line.trim().startsWith("<"));
+    }
+
+    private boolean isEmptyLine(String line) {
+        return line.isEmpty();
+    }
+    
+    private void createDownloadFile(Path dstDir, List <String> outLines) {
+        Work work = null;
+        try {
+            String tgtFilenameStr = work.getOriginalFile() + "_" + work.getLocale().toString() + ".properties";
+
+            // will NOT fail even if path is null or empty. It returns path where
+            // file resides.
+            if ((dstDir != null) && (!(Files.isDirectory(dstDir)))) {
+                Files.createDirectory(dstDir);
+            }
+
+            Path target = null; //(dstDir == null) ? fileStorage.getUploadPath(tgtFilenameStr)
+                    //: dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
+            
+            Files.write(target, outLines);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+    
+    private List<String> getOriginalSegmentKeys(long workId) {
+        Work work = workRepo.findOne(workId);
+        Path storedOriginalFile = Paths.get(work.getBackupFile());
+
+        try {
+            return Files.readAllLines(storedOriginalFile, getCharSet(workId));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Transactional
+    private Map<String, String> getSegmentsMap(long workId) {
+        List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
+                .collect(Collectors.toList());
+        Map<String, String> map = new HashMap<String, String>();
+        units.stream().forEach(dto -> map.put(dto.getSegmentKey(), dto.getTarget().getText()));
+
+        return map;
     }
 
     @Transactional
@@ -282,13 +397,12 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Transactional
-    private void updateWork(String appName, Locale appLocale, long fileInfoId, 
+    private void updateWork(String appName, long fileInfoId, 
             Status status, long workId) {
 
         Work work = workRepo.findOne(workId);
 
         work.setOriginalFile(appName);
-        work.setLocale(appLocale);
         work.setFileinfo(fileInfoRepo.findOne(fileInfoId));
 
         work.setStatus(status);

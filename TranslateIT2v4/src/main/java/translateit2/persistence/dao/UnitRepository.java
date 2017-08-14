@@ -13,7 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Unit;
 
-@RepositoryRestResource(collectionResourceRel = "unit", path = "unit")
+//@RepositoryRestResource(collectionResourceRel = "unit", path = "unit")
 public interface UnitRepository extends PagingAndSortingRepository<Unit, Long> {
     Long countByWorkId(final long workId);
 

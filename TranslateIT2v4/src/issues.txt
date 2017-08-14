@@ -113,6 +113,10 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 50) uploadTarget KESKEN
 
+51) languageBeanCache refaktoroitu
+
+52) FileLoaderExceotion handler uudistettu
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 

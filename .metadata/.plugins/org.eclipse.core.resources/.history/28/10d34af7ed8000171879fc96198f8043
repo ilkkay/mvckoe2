@@ -1,0 +1,10 @@
+package translateit2.languagebeancache;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface LanguageFileServiceCache <T, FORMAT> {
+    Optional<T> getService(FORMAT format);
+
+    List<FORMAT> listFormatsSupported();
+}
