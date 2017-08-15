@@ -3,6 +3,7 @@ package translateit2.fileloader;
 public enum FileLoadError {
     CANNOT_CREATE_UPLOAD_DIRECTORY(""),
     CANNOT_CREATE_PERMANENT_DIRECTORY(""),
+    CANNOT_CREATE_FILE(""),
     CANNOT_MOVE_FILE(""),
     CANNOT_READ_LANGUAGE_FROM_FILE_NAME("FileStorageService.code_missing"),
     CANNOT_READ_APPLICATION_NAME_FROM_FILE_NAME( ""),

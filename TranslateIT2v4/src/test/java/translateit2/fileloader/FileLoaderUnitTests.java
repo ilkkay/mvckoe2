@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,22 +28,22 @@ public class FileLoaderUnitTests {
 
     @Test
     public void storeMultipartFile_assertUploadedFile() throws IOException {
-        
+
         // when MultipartFile exists
         Path filePath = Paths.get("d:\\dotcms_fi-utf8.properties");
         File file = new File("d:\\dotcms_fi-utf8.properties");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile("file",
                 file.getName(), "text/plain", IOUtils.toByteArray(input));
-        
+
         // then store it upload directory
         List<Path> paths = new ArrayList<Path>();
         assertThatCode(() -> { paths.add(fileloader().storeToUploadDirectory(multipartFile)); } )
         .doesNotThrowAnyException(); 
-        
+
         // assert that the file exists
         assertThat(Files.exists(paths.get(0)), equalTo(true));
-        
+
         // and assert that the size is expected size
         try {
             int expectedSize = (int) Files.size(filePath);
@@ -54,38 +55,38 @@ public class FileLoaderUnitTests {
 
     @Test
     public void deleteUploadDirectory_assertDirectoryNotExists() throws IOException {
-        
+
         // when upload exists
         Path uploadDir = Paths.get("upload-dir4");
         if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
-        
+
         // then remove it with contents
         assertThatCode(() -> { fileloader().deleteUploadedFiles();}  )
         .doesNotThrowAnyException();
-        
+
         // assert it exists no more
         assertThat(Files.exists(uploadDir), equalTo(false));
 
     }
-    
+
     @Test
     public void deleteUploadedFile_assertFileNotExists() throws IOException {
-        
+
         // when file exists
         Path uploadDir = Paths.get("upload-dir4");
         if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
         Path filePath = uploadDir.resolve("testfile.txt"); 
         if (Files.notExists(filePath)) Files.createFile(filePath);
-        
+
         // then remove it with contents
         assertThatCode(() -> { fileloader().deleteUploadedFile(filePath);}  )
         .doesNotThrowAnyException();
-        
+
         // assert it exists no more
         assertThat(Files.notExists(filePath), equalTo(true));
 
     }
-    
+
     @Test
     public void listFilesInUploadDirectory_assertFileCount() throws IOException {
         // when two files exists
@@ -96,18 +97,46 @@ public class FileLoaderUnitTests {
         if (Files.notExists(filePath1)) Files.createFile(filePath1);
         Path filePath2 = uploadDir.resolve("second.txt"); 
         if (Files.notExists(filePath2)) Files.createFile(filePath2);
-        
+
         // then get paths of files in upload directory
         List<Stream<Path>> paths = new ArrayList<Stream<Path>>();        
         assertThatCode(() -> { paths.add(fileloader().getPathsOfDownloadableFiles()); } )
         .doesNotThrowAnyException(); 
-        
-        // assert file name count
+
+        // assert file name
         Stream<Path> streamPath = paths.get(0);        
         List<String> fileNames = streamPath.map(path -> path.getFileName().toString()).collect(Collectors.toList());        
         assertThat(fileNames.size(), equalTo(2));
     }
-    
+
+    @Test
+    public void storeFileToDownloadDirectory_assertParentDirectoryy() {
+        Path tmpFilePath = Paths.get("d:\\dotcms_temp.properties");
+
+        try {
+            Files.copy(Paths.get("d:\\dotcms_fi-utf8.properties"), tmpFilePath,StandardCopyOption.REPLACE_EXISTING );
+        } catch (IOException e) {
+            fail("Unexpected exception");
+        }
+        String downloadFilename = "dotcms_download.properties";
+
+        List<Stream<Path>> paths = new ArrayList<Stream<Path>>();        
+        assertThatCode(() -> { paths.add(fileloader().storeToDownloadDirectory(tmpFilePath,downloadFilename)); } )
+        .doesNotThrowAnyException(); 
+
+        // assert stream name count
+        Stream<Path> streamPath = paths.get(0);        
+        List<Path> streamPaths = streamPath.map(path -> path.toAbsolutePath()).collect(Collectors.toList());        
+
+        assertThat(streamPaths.size(), equalTo(1));
+
+        String expectedDownloadDir = fileloader().getDownloadPath("test.txt").getParent().getFileName().toString();
+        String returnedDownloadDir = streamPaths.get(0).getParent().getFileName().toString();
+        assertThat(expectedDownloadDir,equalTo(returnedDownloadDir));
+
+
+    }
+
     private FileLoader fileloader() {
         FileLoaderProperties props = new FileLoaderProperties();
         props.setLocation("upload-dir4");

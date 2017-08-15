@@ -20,10 +20,11 @@ import translateit2.persistence.model.Project;
 
 //@RepositoryRestResource(collectionResourceRel = "project", path = "project")
 public interface ProjectRepository extends CrudRepository<Project, Long> {
+    
     Long countByPersonId(final long personId);
 
+    Optional<Project> findByName(@Param("name") String name);
+    
     @Override
     List<Project> findAll();
-
-    Optional<Project> findByName(@Param("name") String name);
 }

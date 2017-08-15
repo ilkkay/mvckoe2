@@ -22,12 +22,11 @@ public interface UnitRepository extends PagingAndSortingRepository<Unit, Long> {
     @Query("select count(u.id) from trUnit u where u.work.id = :workId and u.target.state = :state")
     Long countStates(@Param("workId") Long workId, @Param("state") State state);
 
-    @Override
-    List<Unit> findAll();
-
     Page<Unit> findByWorkId(final long workId, @PageableDefault(size = 10) Pageable pageabled);
 
     @Query("select u from trUnit u where u.work.id = :workId")
     Page<Unit> getUnitsByWorkId(@Param("workId") Long workId, @PageableDefault(size = 10) Pageable pageabled);
 
+    @Override
+    List<Unit> findAll();
 }

@@ -1,11 +1,10 @@
 package translateit2.service;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,11 +12,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -85,28 +86,44 @@ public class LoadingContractorImpl implements LoadingContractor {
     private UnitRepository unitRepo;
 
     @Override
-    public Path downloadTarget(long workId) throws FileLoaderException {
+    public Stream <Path> downloadTarget(long workId) throws FileLoaderException {
         if (!(workRepo.exists(workId))) {
             logger.error("Work with id {} not found.", workId);
             throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
         }
 
+        Work work = workRepo.findOne(workId);
+                
         // get a map of translated units (i.e source segment and its translation)
         Map<String, String> map = getSegmentsMap(workId);
         
-        // get original language file (i.e backup file) in
-        List<String> originalFileAsList = getOriginalSegmentKeys(workId);
+        // get original language file (i.e backup file) into string list
+        LanguageFileFormat format = work.getProject().getFormat();
+        LanguageFileReader reader = fileReaderCache.getService(format).get();
+        String backupFile = work.getFileinfo().getBackup_file();
+        // we don't validate backup file since we did it during the upload phase  
+        List<String> originalFileAsList = reader.getOriginalFileAsList(Paths.get(backupFile),getCharSet(workId));
         
-        // merge the map of translated units into the original language file
-        List<String> downloadFileAsList = combine(map, originalFileAsList);
+        // merge the map of translated units with the original language file
+        LanguageFileWriter writer = fileWriterCache.getService(format).get();
+        List<String> downloadFileAsList = writer.mergeWithOriginalFile(map, originalFileAsList);
         
-        // create the new translated language file
-        Path downloadDirectory = null;;
-        createDownloadFile(downloadDirectory, downloadFileAsList);
+        // create filename for the download file
+        String originalFileName = work.getOriginalFile();
+        Locale locale = work.getLocale();
+        Charset charset = getCharSet(workId);
+        String downloadFilename = fileNameResolver.getDownloadFilename(originalFileName,locale,format);
+
+        // store into a temporary file in permanent location
+        Path tmpFilePath = filelocator.createTemporaryFile(downloadFileAsList, format, charset);
         
-        // move file to download directory
+        // move file from permanent location to download directory
+        Stream <Path> downloadStreamPath = fileloader.storeToDownloadDirectory(tmpFilePath,downloadFilename);
         
-        return null;
+        // delete temporary file
+        filelocator.deleteTemporaryFile(tmpFilePath);
+        
+        return downloadStreamPath;
     }
 
     @Override
@@ -275,84 +292,7 @@ public class LoadingContractorImpl implements LoadingContractor {
         else
             return StandardCharsets.UTF_8;
     }
-
-    private List<String> combine(Map<String, String> map, List<String> inLines) throws FileLoaderException {
-        List<String> outLines = new ArrayList<String>();
-        boolean isFirstLine = true; // <= optional byte order mark (BOM)
-        for (String line : inLines) {
-            if ((isEmptyLine(line)) || (isCommentLine(line)) || (isFirstLine)) {
-                outLines.add(line);
-                isFirstLine = false;
-            } else if (isKeyValuePair(line)) {
-                String key = getKey(line);
-                System.out.println(getKey(line) + "=" + map.get(key));
-                outLines.add(getKey(line) + "=" + map.get(key));
-            } else
-                throw new FileLoaderException("Could not create file for download");
-        }
-        
-        return outLines;
-    }
-
-    private String getKey(String line) {
-        String parts[] = line.split("=");
-        if (parts.length < 2)
-            return null;
-        else
-            return parts[0].trim();
-    }
     
-    private boolean isKeyValuePair(String line) {
-        if (getKey(line) != null)
-            return true;
-        else
-            return false;
-    }
-    
-    private boolean isCommentLine(String line) {
-        return (line.trim().startsWith("#") || line.trim().startsWith("<"));
-    }
-
-    private boolean isEmptyLine(String line) {
-        return line.isEmpty();
-    }
-    
-    private void createDownloadFile(Path dstDir, List <String> outLines) {
-        Work work = null;
-        try {
-            String tgtFilenameStr = work.getOriginalFile() + "_" + work.getLocale().toString() + ".properties";
-
-            // will NOT fail even if path is null or empty. It returns path where
-            // file resides.
-            if ((dstDir != null) && (!(Files.isDirectory(dstDir)))) {
-                Files.createDirectory(dstDir);
-            }
-
-            Path target = null; //(dstDir == null) ? fileStorage.getUploadPath(tgtFilenameStr)
-                    //: dstDir.resolve(dstDir.getFileSystem().getPath(tgtFilenameStr));
-            
-            Files.write(target, outLines);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-    }
-    
-    private List<String> getOriginalSegmentKeys(long workId) {
-        Work work = workRepo.findOne(workId);
-        Path storedOriginalFile = Paths.get(work.getBackupFile());
-
-        try {
-            return Files.readAllLines(storedOriginalFile, getCharSet(workId));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     @Transactional
     private Map<String, String> getSegmentsMap(long workId) {
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())

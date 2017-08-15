@@ -1,6 +1,7 @@
 package translateit2.service;
 
 import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -12,7 +13,7 @@ import translateit2.fileloader.FileLoaderException;
 @Validated
 public interface LoadingContractor {
 
-    Path downloadTarget(long workId) throws FileLoaderException;
+    Stream <Path> downloadTarget(long workId) throws FileLoaderException;
     
     void uploadSource(@Valid MultipartFile file, long workId) throws FileLoaderException;
     

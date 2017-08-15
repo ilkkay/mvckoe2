@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Component;
 import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.persistence.model.Work;
 import translateit2.util.OrderedProperties;
 
 @Component
@@ -36,7 +40,7 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
         OrderedProperties srcProp = new OrderedProperties();
 
         try (InputStream stream = new FileInputStream(inputPath.toString());
-             InputStreamReader isr = new InputStreamReader(stream, charset)) {
+                InputStreamReader isr = new InputStreamReader(stream, charset)) {
             srcProp.load(isr);
             Set<String> keys = srcProp.stringPropertyNames();
             // checks for at least one (ASCII) alphanumeric character.
@@ -50,5 +54,15 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
         }
 
         return map;
+    }
+
+    @Override
+    public List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) throws FileLoaderException {
+
+        try {
+            return Files.readAllLines(storedOriginalFile, charSet);
+        } catch (IOException e) {
+            throw new FileLoaderException(FileLoadError.CANNOT_READ_FILE,e.getCause());
+        }
     }
 }

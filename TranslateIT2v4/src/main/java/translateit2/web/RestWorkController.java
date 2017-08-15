@@ -77,7 +77,7 @@ public class RestWorkController {
                     HttpStatus.CONFLICT);
         }
 
-        TranslatorGroupDto group = projectService.getGroupDtoByName("Group name");
+        TranslatorGroupDto group = projectService.getGroupDtoByName("Group name 1");
         work.setGroupId(group.getId()); // TODO: mock this
         WorkDto wrk = workService.createWorkDto(work);
 

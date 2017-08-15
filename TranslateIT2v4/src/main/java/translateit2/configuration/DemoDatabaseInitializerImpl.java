@@ -42,7 +42,7 @@ public class DemoDatabaseInitializerImpl implements DatabaseInitializer {
 
         // create translator group; not used in demo
         TranslatorGroupDto groupDto = new TranslatorGroupDto();
-        groupDto.setName("Group name");
+        groupDto.setName("Group name 1");
         groupDto = projectService.createGroupDto(groupDto);
 
         // create demo project

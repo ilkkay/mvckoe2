@@ -13,10 +13,17 @@ public interface FileLoader {
     void deleteUploadedFiles();
 
     Path getUploadPath(String filename);
+    
+    Path getDownloadPath(String filename);
 
+    
     Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException;
 
     Resource loadAsResource(String filename) throws FileLoaderException;
     
     Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException;
+
+    Stream <Path> storeToDownloadDirectory(Path temporaryFilePath, String downloadFilename) throws FileLoaderException;
+    
+
 }

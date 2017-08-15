@@ -27,14 +27,17 @@ import translateit2.service.LoadingContractorImpl;
 @Component // oli service mutta miksi
 public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     static final Logger logger = LogManager.getLogger(LoadingContractorImpl.class);
-    
+
     private ResourceLoader resourceLoader;
 
-    private final Path rootLocation;
+    private final Path uploadLocation;
+
+    private final Path downloadLocation;
 
     @Autowired
     public FileLoaderImpl(FileLoaderProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
+        this.uploadLocation = Paths.get(properties.getLocation());
+        this.downloadLocation = Paths.get(properties.getLocation());
     }
 
     @Override
@@ -48,19 +51,47 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
     @Override
     public void deleteUploadedFiles() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+        FileSystemUtils.deleteRecursively(uploadLocation.toFile());
     }
 
     @Override
     public Path getUploadPath(String filename) {
-        return rootLocation.resolve(filename);
+        return uploadLocation.resolve(filename);
+    }
+
+    @Override
+    public Path getDownloadPath(String filename) {
+        return downloadLocation.resolve(filename);
+    }
+
+    @Override
+    public Stream <Path> storeToDownloadDirectory(Path temporaryFilePath,String downloadFilename) throws FileLoaderException {
+
+        Path downloadFilePath = getDownloadPath(downloadFilename);   
+        Path dir = downloadFilePath.getParent();
+        if (Files.notExists(dir))
+            try {
+                Files.createDirectory(dir);
+            } catch (IOException e1) {
+                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_PERMANENT_DIRECTORY);
+            }
+
+        if (Files.exists(temporaryFilePath))
+            try {                                
+                Files.move(temporaryFilePath, downloadFilePath,StandardCopyOption.REPLACE_EXISTING );
+                return Files.walk(downloadFilePath);
+            } catch (IOException e) {
+                throw new FileLoaderException(e.getCause());
+            }        
+        else
+            throw new FileLoaderException(FileLoadError.FILE_NOT_FOUND);
     }
 
     @Override
     public Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException { 
         try {
-            return Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation))
-                    .map(path -> this.rootLocation.relativize(path));
+            return Files.walk(this.downloadLocation, 1).filter(path -> !path.equals(this.downloadLocation))
+                    .map(path -> this.downloadLocation.relativize(path));
         } catch (IOException e) {
             //throw new CannotReadFileException(e.getCause());
             throw new FileLoaderException(e.getCause());
@@ -99,19 +130,19 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException {
         if (file.isEmpty()) 
             //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
-          //throw new LoadedFileNotFoundException(file.getOriginalFilename());
-          throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
+            //throw new LoadedFileNotFoundException(file.getOriginalFilename());
+            throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
 
         Path outFilePath;
         try(InputStream in = file.getInputStream()) {    
-            
+
             // make sure that you have a directory where to upload
-            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);
-            if (Files.notExists(rootLocation)) 
+            if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);
+            if (Files.notExists(uploadLocation)) 
                 //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
                 throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY);
 
-            outFilePath = this.rootLocation.resolve(file.getOriginalFilename());
+            outFilePath = this.uploadLocation.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             //throw new CannotUploadFileException(file.getOriginalFilename(), e);
@@ -126,8 +157,8 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     private void init() throws FileLoaderException {
         try {
             deleteUploadedFiles();
-            
-            if (Files.notExists(rootLocation)) Files.createDirectory(rootLocation);            
+
+            if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);            
         } catch (IOException e) {
             //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
             throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());

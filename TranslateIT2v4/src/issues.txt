@@ -117,16 +117,21 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 52) FileLoaderExceotion handler uudistettu
 
+53) download target DONE
+
+54) Dtoita tarjotaan ulospäin niitä ei näy sisäisisssä koodeissa Kts. uusi versio DONE
+
+55) virheilmoitukset käytä parametreja kaarisulut ja numerot KESKEN
+
+56) controller-taso ei sisällä logiikkaa vain service-tason komentoja upload ja download DONE 
+
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
 + tutki method reference :: (<= lambda)
 
 + cleanappiin poista koodit jotka eivät ole käytössä, koska ne löytyvät gitistä
-
-+ storeBackUp Dtoita tarjotaan ulospäin niitä ei näy sisäisisssä koodeissa Kts. uusi versio
-
-+ virheilmoitukset käytä parametreja kaarisulut ja numerot ??
 
 + annotoinnit gettereihin riittää koska ensi tungetaan ja validointi lukee ne ??
 
@@ -136,7 +141,6 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 + Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla
 
-+ controller-taso ei sisällä logiikkaa vain service-tason komentoja 
 
 ================================================================================
 

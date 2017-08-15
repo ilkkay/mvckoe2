@@ -53,7 +53,7 @@ public class RestUnitController {
     private ProjectService projectService;
     private final FileLoader storageService;
     private WorkService workService;
-    LoadingContractor loadingContractor;
+    private LoadingContractor loadingContractor;
 
     boolean isMockStatInitialized = false;
     Statistics mockStat = new Statistics(); // TODO: this is a mock solution
@@ -62,6 +62,7 @@ public class RestUnitController {
     public RestUnitController(FileLoader storageService, 
             ProjectService projectService,
             WorkService workService,
+            LoadingContractor loadingContractor,
             LanguageFileServiceFactory languageFileServiceFactory) {
         this.projectService = projectService;
         this.workService = workService;
@@ -73,7 +74,20 @@ public class RestUnitController {
     // -------------------Get path to download
     // file------------------------------------------
     @RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
-    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) throws FileLoaderException {
+        
+        try {
+            Stream<Path> downloadStream = loadingContractor.downloadTarget(id);
+            String filename = "/api/files/" + downloadStream.findFirst().get().getFileName().toString();
+            UriComponents uriComponents = ucBuilder.scheme("http").host("localhost").path(filename).build();
+
+            return new ResponseEntity<>(uriComponents, HttpStatus.OK);
+            
+        } catch (FileLoaderException e) {
+            throw e;
+        } 
+        
+        /*
         // http://www.baeldung.com/spring-uricomponentsbuilder
         logger.info("Creating url path for workId {}", id);
 
@@ -90,10 +104,7 @@ public class RestUnitController {
         }
 
         // http://localhost:8080/files/dotcms_fi_FI.properties
-        String filename = "/api/files/" + paths.findFirst().get().getFileName().toString();
-        UriComponents uriComponents = ucBuilder.scheme("http").host("localhost").path(filename).build();
-
-        return new ResponseEntity<>(uriComponents, HttpStatus.OK);
+        */
     }
 
 

@@ -8,11 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,7 +76,7 @@ public class LoadingContractorIntegrationTests {
     public void tearDown() throws Exception {
     }
 
-    @Test
+    //@Test
     public void uploadSourceFile_assertFileInfoHasOriginalFilename_and_BackupDirectory() throws IOException {
         long workId=1;
 
@@ -110,7 +112,7 @@ public class LoadingContractorIntegrationTests {
         return;
     }
 
-    @Test
+    //@Test
     public void reloadingSourceFile_assertCannotUploadException() throws IOException {
         long workId=1;
 
@@ -141,7 +143,7 @@ public class LoadingContractorIntegrationTests {
         unitRepo.delete(units);
     }
     
-    @Test
+    //@Test
     public void uploadTargetFile_assert() throws IOException {
         long workId=1;
 
@@ -186,4 +188,34 @@ public class LoadingContractorIntegrationTests {
         return;
     }
 
+    @Test
+    public void downloadTarget() {
+        long workId = 1;
+        
+        // WHEN source and target files have been uploaded
+        try {
+            File fileSource = new File("d:\\dotcms_en-utf8.properties");
+            FileInputStream input1 = new FileInputStream(fileSource);
+            MultipartFile multiPartFile1 = new MockMultipartFile("file1",
+                    fileSource.getName(), "text/plain", IOUtils.toByteArray(input1));
+            loadingContractor.uploadSource(multiPartFile1, workId);
+
+            File fileTarget = new File("d:\\dotcms_fi-utf8.properties");
+            FileInputStream input2 = new FileInputStream(fileTarget);
+            MultipartFile multiPartFile2 = new MockMultipartFile("file2",
+                    fileTarget.getName(), "text/plain", IOUtils.toByteArray(input2));
+            loadingContractor.uploadTarget(multiPartFile2, workId);
+}
+        catch (Exception ex) {
+            fail("Unexcepted exception");
+        }
+
+        
+        Stream <Path> downloadPath;
+        try {
+            downloadPath = loadingContractor.downloadTarget(workId);
+        } catch (FileLoaderException e) {
+            fail("Unexcepted exception");
+        }
+    }
 }

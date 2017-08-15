@@ -5,10 +5,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,22 +50,22 @@ public class FileLocatorUnitTests {
 
     @Test
     public void moveFile_failIfFileMissing() {
-        
+
         // initialize
         Path uploadedPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
         Path uploadedFilePath = uploadedPath.resolve("messages_fi.properties");
-        
+
         // WHEN upload file has no path
-                
+
         // THEN
         assertThatCode(() -> filelocator().moveUploadedFileIntoFilesystem(
                 uploadedFilePath, LanguageFileFormat.PROPERTIES))
         .isExactlyInstanceOf(FileLoaderException.class);                
     }
-    
+
     @Test
     public void moveFile_assertFileExists() {
-        
+
         // WHEN
         Path uploadedPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
         if (Files.notExists(uploadedPath))
@@ -72,7 +74,7 @@ public class FileLocatorUnitTests {
             } catch (IOException e1) {
                 fail ("Could not copy test directory.");
             }
-        
+
         Path srcFilePath = Paths.get("D:\\messages_fi.properties");
         Path uploadedFilePath = uploadedPath.resolve("messages_fi.properties");        
         try {
@@ -80,16 +82,16 @@ public class FileLocatorUnitTests {
         } catch (IOException e) {
             fail ("Could not copy test file.");
         }
-                
+
         // THEN
         List<Path> newLocation = new ArrayList<Path> ();
         assertThatCode(() -> { newLocation.add(filelocator().moveUploadedFileIntoFilesystem(
                 uploadedFilePath, LanguageFileFormat.PROPERTIES)); } )
         .doesNotThrowAnyException();        
-        
+
         // the permanent file exists
         assertThat(Files.exists(newLocation.get(0)), equalTo(true));
-        
+
         // and the size is expected size
         try {
             int expectedSize = (int) Files.size(srcFilePath);
@@ -97,11 +99,46 @@ public class FileLocatorUnitTests {
         } catch (IOException e) {
             fail ("Could not read file sizes.");
         }
-        
+
         // remove the new moved file
         FileSystemUtils.deleteRecursively(newLocation.get(0).getParent().toFile());               
     }
-    
+
+    @Test
+    public void createTemporaryFile_assertFileExists() throws FileLoaderException {
+
+        List <String>  downloadFileAsList = new ArrayList<String>();
+
+        downloadFileAsList.add("##");
+        downloadFileAsList.add("## Messages");
+        downloadFileAsList.add("##");
+        downloadFileAsList.add("");
+        downloadFileAsList.add("## DOTCMS-3022");
+        downloadFileAsList.add("alert-file-too-large-takes-lot-of-time=Tiedoston tallennus voi kestää pidempään, jos sen koko on suuri.");
+        downloadFileAsList.add("");
+        downloadFileAsList.add("a-new-password-can-only-be-sent-to-an-external-email-address=Uusi salasana voidaan lähettää vain ulkoiseen sähköpostiosoitteeseen.");
+        downloadFileAsList.add("a-new-password-has-been-sent-to-x=Sähköposti ohjeineen on lähetetty osoitteeseen {0}.");
+        downloadFileAsList.add("an-email-with-instructions-will-be-sent=Sähköposti ohjeineen lähetetään osoitteeseesi. Jatketaanko?");
+        downloadFileAsList.add("reset-password-success=Salasanasi vaihto onnistui.");
+
+        // THEN
+        List<Path> newLocation = new ArrayList<Path> ();
+        assertThatCode(() -> { newLocation.add(filelocator().createTemporaryFile(downloadFileAsList, 
+                LanguageFileFormat.PROPERTIES, StandardCharsets.UTF_8)); } )
+        .doesNotThrowAnyException();        
+
+        // the permanent file exists
+        assertThat(Files.exists(newLocation.get(0)), equalTo(true));
+
+        // assert directory name
+        String expectedDownloadDirectory = LocalDate.now().toString();
+        String returnedDownloadDirectory = newLocation.get(0).getParent().getFileName().toString();
+        assertThat(expectedDownloadDirectory ,equalTo(returnedDownloadDirectory ));
+
+        // remove the new file
+        FileSystemUtils.deleteRecursively(newLocation.get(0).getParent().toFile()); 
+    }
+
     private FileLocator filelocator() {
         return new FileLocatorImpl(); 
     }

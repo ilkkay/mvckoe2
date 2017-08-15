@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.charset.MalformedInputException"/>
-<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
-<fullyQualifiedTypeName name="java.nio.file.Path"/>
-<fullyQualifiedTypeName name="translateit2.languagefactory.PropertiesFileValidatorImpl"/>
-<fullyQualifiedTypeName name="translateit2.filelocator.FileLocator"/>
-<fullyQualifiedTypeName name="translateit2.filelocator.FileLocatorImpl"/>
-<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileType"/>
-<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
 <fullyQualifiedTypeName name="org.hamcrest.CoreMatchers"/>
 <fullyQualifiedTypeName name="liquibase.changelog.StandardChangeLogHistoryService"/>
 <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
@@ -23,7 +15,6 @@
 <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.IOUtils"/>
 <fullyQualifiedTypeName name="org.h2.util.IOUtils"/>
 <fullyQualifiedTypeName name="org.apache.commons.io.IOUtils"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
 <fullyQualifiedTypeName name="org.springframework.test.context.ContextConfiguration"/>
@@ -39,10 +30,8 @@
 <fullyQualifiedTypeName name="org.springframework.test.web.servlet.result.MockMvcResultHandlers"/>
 <fullyQualifiedTypeName name="org.springframework.test.web.servlet.MvcResult"/>
 <fullyQualifiedTypeName name="translateit2.persistence.dto.WorkDto"/>
-<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
 <fullyQualifiedTypeName name="org.springframework.transaction.interceptor.TransactionAspectSupport"/>
 <fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
-<fullyQualifiedTypeName name="java.util.stream.Stream"/>
 <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
 <fullyQualifiedTypeName name="org.hibernate.validator.constraints.NotBlank"/>
 <fullyQualifiedTypeName name="javax.validation.constraints.NotNull"/>
@@ -60,4 +49,15 @@
 <fullyQualifiedTypeName name="translateit2.persistence.model.Project"/>
 <fullyQualifiedTypeName name="translateit2.languagefileservice.factory.LanguageFile"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.nio.charset.Charset"/>
+<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
+<fullyQualifiedTypeName name="java.util.stream.Stream"/>
+<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
+<fullyQualifiedTypeName name="java.time.LocalDate"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
+<fullyQualifiedTypeName name="java.nio.file.StandardCopyOption"/>
+<fullyQualifiedTypeName name="org.springframework.data.repository.NoRepositoryBean"/>
+<fullyQualifiedTypeName name="org.springframework.data.rest.core.annotation.RepositoryRestResource"/>
 </qualifiedTypeNameHistroy>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoaderException;
+import translateit2.lngfileservice.LanguageFileFormat;
 
 @Component
 public class FileNameResolverImpl implements FileNameResolver{
@@ -99,5 +100,10 @@ public class FileNameResolverImpl implements FileNameResolver{
             // String variant = localeString.substring(countryIndex+1);
             return new Locale(language.toLowerCase(), country.toUpperCase());
         }
+    }
+
+    @Override
+    public String getDownloadFilename(String originalFileName, Locale locale, LanguageFileFormat format) {
+        return originalFileName + "_" + locale.toString() + "." + format.toString();
     }
 }

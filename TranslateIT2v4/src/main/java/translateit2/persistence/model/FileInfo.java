@@ -14,10 +14,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Table(name = "TR_file_info")
 public class FileInfo implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
     
     private String backup_file;
 
@@ -33,7 +29,7 @@ public class FileInfo implements Serializable {
         return backup_file;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -49,7 +45,7 @@ public class FileInfo implements Serializable {
         this.backup_file = backup_file;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
