@@ -125,6 +125,7 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 56) controller-taso ei sisällä logiikkaa vain service-tason komentoja upload ja download DONE 
 
+57) SIIVOUS ALKAA
 
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
