@@ -1,3 +1,7 @@
 1502860313742	Delete resource 'TranslateIT2v4/src/test/java/translateit2/validator/Iso8859ValidatorTest.java'
 1502861984488	Delete resource 'TranslateIT2v4/src/test/java/translateit2/LocoExceptionIntegrationTests.java'
 1502862164798	Delete resource 'TranslateIT2v4/src/test/java/translateit2/DbConnectionTest.java'
+1502863247742	Delete resource 'TranslateIT2v4/src/test/java/translateit2/languagefileservice/Iso8859StorageIntegrationTest.java'
+1502863251947	Delete resource 'TranslateIT2v4/src/test/java/translateit2/languagefileservice/Iso8859TestLoader.java'
+1502863258024	Delete resource 'TranslateIT2v4/src/test/java/translateit2/languagefileservice/LanguageFileStorageIntegrationTest.java'
+1502863264958	Delete resource 'TranslateIT2v4/src/test/java/translateit2/languagefileservice'
