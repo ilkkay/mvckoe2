@@ -1,7 +1,5 @@
 package translateit2.web;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,16 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
-import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
-import translateit2.lngfileservice.LanguageFileStorage;
-import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Priority;
-import translateit2.persistence.model.Status;
 import translateit2.restapi.AvailablePriority;
 import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.Works;
@@ -45,7 +38,6 @@ import translateit2.service.WorkService;
 public class RestWorkController {
 
     public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
-    private LanguageFileServiceFactory languageFileServiceFactory;
     private ProjectService projectService;
     private WorkService workService;
     private LoadingContractor loadingContractor;
@@ -54,17 +46,14 @@ public class RestWorkController {
     public RestWorkController(FileLoader storageService, 
             ProjectService projectService,
             WorkService workService,
-            LoadingContractor loadingContractor,
-            LanguageFileServiceFactory languageFileServiceFactory) {
+            LoadingContractor loadingContractor) {
         this.projectService = projectService;
         this.workService = workService;
         this.loadingContractor= loadingContractor;
-        this.languageFileServiceFactory = languageFileServiceFactory;
     }
 
-    // -------------------Create a
-    // Work-------------------------------------------
-    // 400 bad request
+    // -------------------Create a work
+    // -------------------------------------------
     @RequestMapping(value = "/work/", method = RequestMethod.POST)
     public ResponseEntity<?> createWork(@RequestBody WorkDto work, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project : {}", work);
@@ -86,8 +75,8 @@ public class RestWorkController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
-    // ------------------- Delete a
-    // Work-----------------------------------------
+    // ------------------- Delete a work
+    // -----------------------------------------
     @RequestMapping(value = "/work/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Work with id {}", id);
@@ -104,8 +93,8 @@ public class RestWorkController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // -------------------Retrieve Single
-    // Work------------------------------------------
+    // -------------------Retrieve Single work
+    // ------------------------------------------
     @RequestMapping(value = "/work/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getWork(@PathVariable("id") long id) {
         logger.info("Fetching Work with id {}", id);
@@ -119,8 +108,8 @@ public class RestWorkController {
         return new ResponseEntity<>(wrk, HttpStatus.OK);
     }
 
-    // -------------------Retrieve All
-    // Works---------------------------------------------
+    // -------------------Retrieve All works
+    // ---------------------------------------------
     @RequestMapping(value = "/project/{projectId}/work/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllWorks(@PathVariable("projectId") long projectId) {
 
@@ -167,9 +156,8 @@ public class RestWorkController {
         return new ResponseEntity<>(wrk, HttpStatus.OK);              
     }
 
-    // -------------------Upload source
-    // file---------------------------------------------
-    // status code 404 (Not Found)
+    // -------------------Upload source file
+    // ---------------------------------------------
     // TODO: upload /work/1/file?format=...
     @RequestMapping(value = "/work/{id}/sourceFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadSourceFile(@RequestParam(value = "workId") Long id,
@@ -183,48 +171,4 @@ public class RestWorkController {
             throw e;
         }        
     }
-
-    /*
-    private WorkDto loadSourceSegments(Long id, MultipartFile file) {
-        WorkDto wrk = workService.getWorkDtoById(id);
-        if (wrk == null) {
-            logger.error("Work with id {} not found.", id);
-            return null;
-            //return new ResponseEntity<>(new CustomErrorType("Work with id " + id + " not found"), HttpStatus.NOT_FOUND);
-        }
-
-        ProjectDto prj = projectService.getProjectDtoById(wrk.getProjectId());
-        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
-        Path uploadedLngFile = null;
-        String appName = null;
-        try {
-            //
-            // Upload language file
-            //
-            uploadedLngFile = storageService.storeFile(file);
-            //
-            // check file format validity
-            //
-            appName = storageService.checkValidity(uploadedLngFile, wrk.getId());
-            //
-            // upload
-            //
-            storageService.uploadSourceToDb(uploadedLngFile, wrk.getId());
-
-        } catch (IOException e) {
-            logger.error("Could not upload source language file for workId {}: ", id);
-            return null;
-            //return new ResponseEntity<>(
-            //        new CustomErrorType("Source language file for work with id " + id + " have not been uploaded"),
-            //        HttpStatus.NOT_FOUND);
-        }
-
-        wrk = workService.getWorkDtoById(wrk.getId());
-        wrk.setStatus(Status.NEW);
-        wrk.setOriginalFile(appName);
-        wrk = workService.updateWorkDto(wrk);
-
-        return wrk;
-    }
-    */
 }

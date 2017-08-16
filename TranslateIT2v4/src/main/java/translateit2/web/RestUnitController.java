@@ -49,9 +49,7 @@ import translateit2.service.WorkService;
 public class RestUnitController {
     public static final Logger logger = LoggerFactory.getLogger(RestUnitController.class);
 
-    private LanguageFileServiceFactory languageFileServiceFactory;
-    private ProjectService projectService;
-    private final FileLoader storageService;
+    private final FileLoader fileLoader;
     private WorkService workService;
     private LoadingContractor loadingContractor;
 
@@ -59,57 +57,35 @@ public class RestUnitController {
     Statistics mockStat = new Statistics(); // TODO: this is a mock solution
 
     @Autowired
-    public RestUnitController(FileLoader storageService, 
-            ProjectService projectService,
+    public RestUnitController(FileLoader fileLoader,
             WorkService workService,
-            LoadingContractor loadingContractor,
-            LanguageFileServiceFactory languageFileServiceFactory) {
-        this.projectService = projectService;
+            LoadingContractor loadingContractor) {
         this.workService = workService;
         this.loadingContractor = loadingContractor;
-        this.languageFileServiceFactory = languageFileServiceFactory;
-        this.storageService = storageService;
+        this.fileLoader = fileLoader;
     }
 
-    // -------------------Get path to download
-    // file------------------------------------------
+    // -------------------Get path to download file
+    // ------------------------------------------
     @RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
     public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) throws FileLoaderException {
-        
+
         try {
+            logger.info("Creating url path for workId {}", id);
             Stream<Path> downloadStream = loadingContractor.downloadTarget(id);
             String filename = "/api/files/" + downloadStream.findFirst().get().getFileName().toString();
             UriComponents uriComponents = ucBuilder.scheme("http").host("localhost").path(filename).build();
 
             return new ResponseEntity<>(uriComponents, HttpStatus.OK);
-            
+
         } catch (FileLoaderException e) {
             throw e;
         } 
-        
-        /*
-        // http://www.baeldung.com/spring-uricomponentsbuilder
-        logger.info("Creating url path for workId {}", id);
-
-        WorkDto work = workService.getWorkDtoById(id);
-        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
-        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
-
-        Stream<Path> paths = null;
-        try {
-            paths = storageService.downloadFromDb(id);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        // http://localhost:8080/files/dotcms_fi_FI.properties
-        */
     }
 
 
-    // -------------------Retrieve Single
-    // Unit------------------------------------------
+    // -------------------Retrieve Single unit
+    // ------------------------------------------
     @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUnit(@PathVariable("id") long id) {
         logger.info("Fetching Unit with id {}", id);
@@ -124,8 +100,8 @@ public class RestUnitController {
         return new ResponseEntity<>(unt, HttpStatus.OK);
     }
 
-    // -------------------Retrieve the Units by
-    // pages---------------------------------------------
+    // -------------------Retrieve the Units by pages
+    // ---------------------------------------------
     @RequestMapping(value = "/work/{workId}/unit/{pageNum}", method = RequestMethod.GET)
     public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId, @PathVariable("pageNum") int pageNum) {
 
@@ -149,15 +125,15 @@ public class RestUnitController {
         return new ResponseEntity<>(unts, HttpStatus.OK);
     }
 
+ // ------------------- download file
     @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws FileLoaderException {
 
         Resource file = null;
         try {
-            file = storageService.loadAsResource(filename);
+            file = fileLoader.loadAsResource(filename);
         } catch (FileLoaderException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         }
         ResponseEntity<Resource> response = null;
         response = ResponseEntity.ok()
@@ -210,14 +186,13 @@ public class RestUnitController {
         return new ResponseEntity<>(unit, HttpStatus.OK);
     }
 
-    // -------------------Upload target
-    // file---------------------------------------------
-    // status code 404 (Not Found)
+    // -------------------Upload target file
+    // ---------------------------------------------
     @RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
             , UriComponentsBuilder ucBuilder) throws FileLoaderException {
-        
+
         try {
             loadingContractor.uploadTarget(file, id);
             return new ResponseEntity<>(workService.getWorkDtoById(id), HttpStatus.OK); 
@@ -225,43 +200,8 @@ public class RestUnitController {
         } catch (FileLoaderException e) {
             throw e;
         }  
-/*
-        WorkDto work = workService.getWorkDtoById(id);
-        if (work == null) {
-            logger.error("Unable to upload target file. Work with id {} not found.", id);
-            return new ResponseEntity<>(
-                    new CustomErrorType("Unable to upload target. Work with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-
-        ProjectDto prj = projectService.getProjectDtoById(work.getProjectId());
-        LanguageFileStorage storageService = languageFileServiceFactory.getService(prj.getFormat()).get();
-        Path uploadedLngFile = null;
-        try {
-            uploadedLngFile = storageService.storeFile(file);
-            storageService.checkValidity(uploadedLngFile, work.getId());
-            storageService.uploadTargetToDb(uploadedLngFile, work.getId());
-
-            work = workService.getWorkDtoById(work.getId());
-            work.setStatus(Status.OPEN);
-            work = workService.updateWorkDto(work);
-
-            // TODO: mock statistics
-            InitMockStat(work.getId());
-            // return new ResponseEntity<>(mockStat, HttpStatus.OK);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/api/work/{id}/targetFile").buildAndExpand(work.getId()).toUri());
-            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-        }
-        catch (FileLoaderException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    */
     }
-    
+
     private void InitMockStat(final long workId) {
         isMockStatInitialized = true;
 
@@ -279,6 +219,6 @@ public class RestUnitController {
         mockStat.setTranslated(translated);
         mockStat.setWorkId(workId);
     }
-    
+
 
 }

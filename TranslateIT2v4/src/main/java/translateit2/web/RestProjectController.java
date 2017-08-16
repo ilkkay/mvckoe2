@@ -29,6 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefileservice.factory.LanguageFileServiceFactory;
+import translateit2.lngfileservice.LanguageFileFormat;
 import translateit2.lngfileservice.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
@@ -57,14 +58,13 @@ public class RestProjectController {
     public static final Logger logger = LoggerFactory.getLogger(RestProjectController.class);
 
     @Autowired
-    private LanguageFileServiceFactory languageFileServiceFactory;
-    
-    @Autowired
     private ProjectService projectService;
 
     @Autowired
     private WorkService workService;
 
+    // -------------------Retrieve Single Project
+    // ------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.POST)
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project : {}", project);
@@ -93,11 +93,8 @@ public class RestProjectController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
-    // -------------------Retrieve Single
-    // Project------------------------------------------
-
-    // ------------------- Delete a
-    // Project-----------------------------------------
+    // ------------------- Delete a Project
+    // ----------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteProject(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Project with id {}", id);
@@ -113,9 +110,8 @@ public class RestProjectController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // -------------------Create a
-    // Project-------------------------------------------
-
+    // -------------------Create a Project
+    // -------------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getProject(@PathVariable("id") long id) {
         logger.info("Fetching Project with id {}", id);
@@ -130,8 +126,8 @@ public class RestProjectController {
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
 
-    // -------------------Retrieve All
-    // Projects---------------------------------------------
+    // -------------------Retrieve All Projects
+    // ---------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllProjects() {
 
@@ -146,7 +142,7 @@ public class RestProjectController {
 
         // TODO: where should I put these
         List<AvailableFormat> formats = new ArrayList<AvailableFormat>();
-        languageFileServiceFactory.listFormatsSupported().forEach(f -> formats.add(new AvailableFormat(f)));
+        formats.add(new AvailableFormat(LanguageFileFormat.PROPERTIES));
 
         AvailableCharacterSet cs = null;
         List<AvailableCharacterSet> csets = new ArrayList<AvailableCharacterSet>();
