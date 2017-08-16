@@ -21,8 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;

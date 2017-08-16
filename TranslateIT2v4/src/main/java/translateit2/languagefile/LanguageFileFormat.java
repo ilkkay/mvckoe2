@@ -1,4 +1,4 @@
-package translateit2.lngfileservice;
+package translateit2.languagefile;
 
 public enum LanguageFileFormat {
     DEFAULT, PO, PROPERTIES, XLIFF;

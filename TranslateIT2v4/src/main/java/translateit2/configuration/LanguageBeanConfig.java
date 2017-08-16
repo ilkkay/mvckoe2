@@ -7,7 +7,7 @@ import translateit2.languagebeancache.LanguageBeanCacheImpl;
 import translateit2.languagebeancache.LanguageFileReader;
 import translateit2.languagebeancache.LanguageFileValidator;
 import translateit2.languagebeancache.LanguageFileWriter;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 //@Configuration
 public class LanguageBeanConfig {

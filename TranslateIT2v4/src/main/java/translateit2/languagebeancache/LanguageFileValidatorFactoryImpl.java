@@ -2,7 +2,7 @@ package translateit2.languagebeancache;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 @Component
 public class LanguageFileValidatorFactoryImpl extends LanguageFileFactory<LanguageFileFormat, LanguageFileValidator > {

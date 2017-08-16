@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.languagebeancache.LanguageFileValidator;
 import translateit2.languagebeancache.PropertiesFileValidatorImpl;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LanguageFileValidatorUnitTest {

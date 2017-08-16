@@ -1,6 +1,6 @@
 package translateit2.restapi;
 
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileType;
 
 public class AvailableCharacterSet {
     private LanguageFileType type;

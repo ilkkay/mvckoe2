@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import translateit2.languagefileservice.factory.LanguageFile;
+
+import translateit2.languagefile.LanguageFile;
 
 public class LanguageBeanCacheImpl <F, T extends LanguageFile <F>> 
     implements LanguageBeanCache<F, T>{

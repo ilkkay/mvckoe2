@@ -26,8 +26,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.model.Project;

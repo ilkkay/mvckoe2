@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import translateit2.languagefileservice.factory.LanguageFile;
+import translateit2.languagefile.LanguageFile;
 
 public class LanguageFileFactory <F, T extends LanguageFile <F>> 
     implements LanguageFileService <F, T> {

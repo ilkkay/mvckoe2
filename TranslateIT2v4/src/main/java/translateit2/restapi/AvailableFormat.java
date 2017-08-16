@@ -1,6 +1,6 @@
 package translateit2.restapi;
 
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 public class AvailableFormat {
     private long id;

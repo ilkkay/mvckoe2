@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 import translateit2.persistence.model.Work;
 
 @Component

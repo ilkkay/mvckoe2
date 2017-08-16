@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 public interface FileLocator {
     Path moveUploadedFileIntoFilesystem(Path uploadedFile,

@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import translateit2.fileloader.FileLoaderException;
 import translateit2.languagebeancache.PropertiesFileReaderImpl;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 public class PropertiesFileReaderUnitTest {
 

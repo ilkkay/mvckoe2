@@ -4,9 +4,9 @@ import java.nio.file.Path;
 import java.util.Locale;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.languagefileservice.factory.LanguageFile;
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFile;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 
 public interface LanguageFileValidator extends LanguageFile <LanguageFileFormat> {   
     void validateCharacterSet(Path uploadedFile, LanguageFileType expectedType) throws FileLoaderException;

@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;

@@ -3,3 +3,5 @@
 1502714446091	Rename type 'AbstractLanguageFileFactory'
 1502715610830	Rename package 'translateit2.languagefactory'
 1502715675316	Rename type 'LanguageFileStorageIntegrationTest'
+1502881481570	Move compilation unit
+1502881562350	Rename package 'translateit2.lngfileservice'

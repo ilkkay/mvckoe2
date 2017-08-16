@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import translateit2.TranslateIt2v4Application;
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.ProjectMapper;
 import translateit2.persistence.dto.UnitDto;

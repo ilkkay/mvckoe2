@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;

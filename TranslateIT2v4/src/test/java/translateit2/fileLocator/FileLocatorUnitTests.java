@@ -24,8 +24,8 @@ import org.springframework.util.FileSystemUtils;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.filelocator.FileLocator;
 import translateit2.filelocator.FileLocatorImpl;
-import translateit2.lngfileservice.LanguageFileFormat;
-import translateit2.lngfileservice.LanguageFileType;
+import translateit2.languagefile.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileType;
 
 public class FileLocatorUnitTests {
     List<Path> newLocation = null;

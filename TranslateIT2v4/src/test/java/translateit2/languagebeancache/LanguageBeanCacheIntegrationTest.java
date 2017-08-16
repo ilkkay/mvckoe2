@@ -18,7 +18,7 @@ import translateit2.languagebeancache.LanguageBeanCache;
 import translateit2.languagebeancache.LanguageFileReader;
 import translateit2.languagebeancache.LanguageFileValidator;
 import translateit2.languagebeancache.LanguageFileWriter;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)

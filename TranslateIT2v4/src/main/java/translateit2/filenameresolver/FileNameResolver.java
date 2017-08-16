@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.function.Predicate;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFileFormat;
 
 public interface FileNameResolver {
     

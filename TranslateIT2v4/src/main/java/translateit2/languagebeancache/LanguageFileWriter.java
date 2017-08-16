@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.languagefileservice.factory.LanguageFile;
-import translateit2.lngfileservice.LanguageFileFormat;
+import translateit2.languagefile.LanguageFile;
+import translateit2.languagefile.LanguageFileFormat;
 
 public interface LanguageFileWriter extends LanguageFile <LanguageFileFormat> {
     
