@@ -10,6 +10,4 @@ public interface LanguageFileServiceCache <F, T> {
     Optional<T> getService(F format);
 
     List<LanguageFileFormat> listFormatsSupported();
-
-    Optional<LanguageFileStorage> getService(LanguageFileFormat type);
 }
