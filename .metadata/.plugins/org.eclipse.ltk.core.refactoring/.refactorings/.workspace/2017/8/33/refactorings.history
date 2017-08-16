@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;TranslateIT2v4/src/test/java/translateit2/validator/Iso8859ValidatorTest.java&apos;" deleteContents="false" description="Delete resource &apos;TranslateIT2v4/src/test/java/translateit2/validator/Iso8859ValidatorTest.java&apos;" element1="/TranslateIT2v4/src/test/java/translateit2/validator/Iso8859ValidatorTest.java" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1502860313742"/>
+</session>

@@ -77,7 +77,6 @@ INDEX VERSION 1.129+D:\sw-tools\STS\translateit2testi\.metadata\.plugins\org.ecl
 3714781453.index
 1894154932.index
 1664881759.index
-3693175048.index
 2407591640.index
 575242764.index
 630100676.index
