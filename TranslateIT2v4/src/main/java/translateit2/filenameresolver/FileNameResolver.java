@@ -10,9 +10,8 @@ public interface FileNameResolver {
     
     public String getApplicationName(String filename) throws FileLoaderException;
         
-    Locale getLocaleFromString(String fileName, Predicate<String> p) throws FileLoaderException;
+    Locale getLocaleFromFilename(String fileName, Predicate<String> p) throws FileLoaderException;
     
     String getDownloadFilename(String originalFileName,Locale locale,LanguageFileFormat format);
 
-    //String getUniqueFilename(String originalFileName,Locale locale,LanguageFileFormat format);
 }

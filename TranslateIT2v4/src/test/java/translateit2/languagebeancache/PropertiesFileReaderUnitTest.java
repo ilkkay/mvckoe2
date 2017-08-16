@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import translateit2.fileloader.FileLoaderException;
-import translateit2.languagebeancache.PropertiesFileReaderImpl;
+import translateit2.languagebeancache.reader.PropertiesFileReaderImpl;
 import translateit2.languagefile.LanguageFileFormat;
 
 public class PropertiesFileReaderUnitTest {

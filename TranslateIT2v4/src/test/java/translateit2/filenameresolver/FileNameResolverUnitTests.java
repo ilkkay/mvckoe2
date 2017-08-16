@@ -36,27 +36,27 @@ public class FileNameResolverUnitTests {
         String expected = "fi_FI";
 
         // when 
-        Locale returnLocale = fileNameResolver().getLocaleFromString("dotCMS_FI.properties",
+        Locale returnLocale = fileNameResolver().getLocaleFromFilename("dotCMS_FI.properties",
                 ext -> ext.equals("properties"));      
         // then
         String returned = returnLocale.toString(); 
         assertThat(expected, is(equalTo(returned)));
 
-        returnLocale = fileNameResolver().getLocaleFromString("dotcms_fi-utf8.properties",
+        returnLocale = fileNameResolver().getLocaleFromFilename("dotcms_fi-utf8.properties",
                 ext -> ext.equals("properties"));      
         // then
         returned = returnLocale.toString(); 
         assertThat(expected, is(equalTo(returned)));
         
         // when
-        returnLocale = fileNameResolver().getLocaleFromString("dotCMS_fi_fi.properties",
+        returnLocale = fileNameResolver().getLocaleFromFilename("dotCMS_fi_fi.properties",
                 ext -> ext.equals("properties"));      
         // then
         returned = returnLocale.toString(); 
         assertThat(expected, is(equalTo(returned)));
 
         // when
-        returnLocale = fileNameResolver().getLocaleFromString("dotCMS_FI_FI_var.properties",
+        returnLocale = fileNameResolver().getLocaleFromFilename("dotCMS_FI_FI_var.properties",
                 ext -> ext.equals("properties"));      
         // then
         returned = returnLocale.toString(); 
@@ -71,7 +71,7 @@ public class FileNameResolverUnitTests {
         assertThatThrownBy(() -> fileNameResolver().getApplicationName("dotCMS.properties"))
         .isExactlyInstanceOf(FileLoaderException.class);
 
-        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.properties",
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("XXX.properties",
                 ext -> ext.equals("properties")))
         .isExactlyInstanceOf(FileLoaderException.class);
     }
@@ -79,7 +79,7 @@ public class FileNameResolverUnitTests {
     @Test
     public void resolveFileName_failIfExtensionIncorrect() {
 
-        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("XXX.xxx",
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("XXX.xxx",
                 ext -> ext.equals("properties")))
         .isExactlyInstanceOf(FileLoaderException.class);
     }
@@ -88,11 +88,11 @@ public class FileNameResolverUnitTests {
     public void resolveFileName_failIfLocaleMissingOrIncorrect() {
 
 
-        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("dotCMS_XXX.properties",
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("dotCMS_XXX.properties",
                 ext -> ext.equals("properties")))
         .isExactlyInstanceOf(FileLoaderException.class);
 
-        assertThatThrownBy(() -> fileNameResolver().getLocaleFromString("dotCMS-xx-XX.properties",
+        assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("dotCMS-xx-XX.properties",
                 ext -> ext.equals("properties")))
         .isExactlyInstanceOf(FileLoaderException.class);
     }

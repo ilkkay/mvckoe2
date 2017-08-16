@@ -25,15 +25,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
+import translateit2.configuration.CharSetResolver;
 import translateit2.fileloader.FileLoadError;
 import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.filelocator.FileLocator;
 import translateit2.filenameresolver.FileNameResolver;
 import translateit2.languagebeancache.LanguageBeanCache;
-import translateit2.languagebeancache.LanguageFileReader;
-import translateit2.languagebeancache.LanguageFileValidator;
-import translateit2.languagebeancache.LanguageFileWriter;
+import translateit2.languagebeancache.reader.LanguageFileReader;
+import translateit2.languagebeancache.validator.LanguageFileValidator;
+import translateit2.languagebeancache.writer.LanguageFileWriter;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dao.FileInfoRepository;
@@ -55,6 +56,9 @@ import translateit2.persistence.model.Work;
 public class LoadingContractorImpl implements LoadingContractor {
     static final Logger logger = LogManager.getLogger(LoadingContractorImpl.class);
 
+    @Autowired
+    private CharSetResolver charsetResolver;
+    
     @Autowired
     private FileLoader fileloader;
 
@@ -142,7 +146,7 @@ public class LoadingContractorImpl implements LoadingContractor {
 
         // check extension and get locale from filename
         LanguageFileFormat format = getFormat(workId);        
-        Locale appLocale = fileNameResolver.getLocaleFromString(uploadedFile.getFileName().toString(), 
+        Locale appLocale = fileNameResolver.getLocaleFromFilename(uploadedFile.getFileName().toString(), 
                 ext -> ext.equals(format.toString().toLowerCase()));
 
         // validate appName, locale and character set used in file 
@@ -189,7 +193,7 @@ public class LoadingContractorImpl implements LoadingContractor {
 
         // check extension and get locale from filename
         LanguageFileFormat format = getFormat(workId);        
-        Locale appLocale = fileNameResolver.getLocaleFromString(uploadedFile.getFileName().toString(), 
+        Locale appLocale = fileNameResolver.getLocaleFromFilename(uploadedFile.getFileName().toString(), 
                 ext -> ext.equals(format.toString().toLowerCase()));
 
         // validate character set used in file 
@@ -285,12 +289,8 @@ public class LoadingContractorImpl implements LoadingContractor {
 
     @Transactional
     private Charset getCharSet(long workId) {
-        Work work = workRepo.findOne(workId);
-        LanguageFileType typeExpected =  projectRepo.findOne(work.getProject().getId()).getType();
-        if (typeExpected.equals(LanguageFileType.ISO8859_1))
-            return StandardCharsets.ISO_8859_1;
-        else
-            return StandardCharsets.UTF_8;
+        return charsetResolver.getProjectCharSet(
+                workRepo.findOne(workId).getProject().getId());
     }
     
     @Transactional

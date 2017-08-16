@@ -4,9 +4,9 @@ import org.springframework.context.annotation.Bean;
 
 import translateit2.languagebeancache.LanguageBeanCache;
 import translateit2.languagebeancache.LanguageBeanCacheImpl;
-import translateit2.languagebeancache.LanguageFileReader;
-import translateit2.languagebeancache.LanguageFileValidator;
-import translateit2.languagebeancache.LanguageFileWriter;
+import translateit2.languagebeancache.reader.LanguageFileReader;
+import translateit2.languagebeancache.validator.LanguageFileValidator;
+import translateit2.languagebeancache.writer.LanguageFileWriter;
 import translateit2.languagefile.LanguageFileFormat;
 
 //@Configuration

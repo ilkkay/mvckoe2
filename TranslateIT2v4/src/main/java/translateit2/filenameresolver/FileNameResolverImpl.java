@@ -33,7 +33,7 @@ public class FileNameResolverImpl implements FileNameResolver{
      * 
      */
     @Override
-    public Locale getLocaleFromString(String fileName, Predicate<String> p) 
+    public Locale getLocaleFromFilename(String fileName, Predicate<String> p) 
             throws FileLoaderException {
 
         // check extension
