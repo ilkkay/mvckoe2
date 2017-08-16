@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.hamcrest.CoreMatchers"/>
-<fullyQualifiedTypeName name="liquibase.changelog.StandardChangeLogHistoryService"/>
-<fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="translateit2.fileloader.contextexceptions.FileNotFoundException"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseStatus"/>
 <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
@@ -15,7 +10,6 @@
 <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.IOUtils"/>
 <fullyQualifiedTypeName name="org.h2.util.IOUtils"/>
 <fullyQualifiedTypeName name="org.apache.commons.io.IOUtils"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
 <fullyQualifiedTypeName name="org.springframework.test.context.ContextConfiguration"/>
 <fullyQualifiedTypeName name="org.springframework.test.context.web.WebAppConfiguration"/>
@@ -50,14 +44,20 @@
 <fullyQualifiedTypeName name="translateit2.languagefileservice.factory.LanguageFile"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
-<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
 <fullyQualifiedTypeName name="java.util.stream.Stream"/>
 <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
 <fullyQualifiedTypeName name="java.time.LocalDate"/>
-<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
 <fullyQualifiedTypeName name="java.nio.file.StandardCopyOption"/>
 <fullyQualifiedTypeName name="org.springframework.data.repository.NoRepositoryBean"/>
 <fullyQualifiedTypeName name="org.springframework.data.rest.core.annotation.RepositoryRestResource"/>
+<fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
+<fullyQualifiedTypeName name="translateit2.languagebeancache.LanguageBeanCacheImpl"/>
+<fullyQualifiedTypeName name="translateit2.configuration.CharSetResolver"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.springframework.validation.ObjectError"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderServiceException"/>
 </qualifiedTypeNameHistroy>

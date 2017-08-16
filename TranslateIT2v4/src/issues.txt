@@ -127,6 +127,10 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 57) SIIVOUS ALKAA
 
+58) SIIVOUS PÄÄTTYNYT
+
+59) päivitetty ErrorHandler
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
