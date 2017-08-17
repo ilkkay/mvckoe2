@@ -34,10 +34,8 @@ import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
-import translateit2.restapi.AvailableCharacterSet;
-import translateit2.restapi.AvailableFormat;
 import translateit2.restapi.CustomErrorType;
-import translateit2.restapi.Projects;
+import translateit2.restapi.ViewProjects;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 
@@ -123,14 +121,14 @@ public class RestProjectController {
     @RequestMapping(value = "/project/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllProjects() {
 
-        Projects prjs = new Projects();
+        ViewProjects viewPrjs = new ViewProjects();
 
-        prjs.setProjects(projectService.listAllProjectDtos());
-        prjs.setProjectWorkMap(projectService.getWorkCountPerProject());
-        prjs.setSupportedFormats(languageServices.listSupportedFormats());
-        prjs.setSupportedCharacterSets(languageServices.listSupportedCharacterSets());
+        viewPrjs.setProjects(projectService.listAllProjectDtos());
+        viewPrjs.setProjectWorkMap(projectService.getWorkCountPerProject());
+        viewPrjs.setSupportedFormats(languageServices.listSupportedFormats());
+        viewPrjs.setSupportedCharacterSets(languageServices.listSupportedCharacterSets());
 
-        return new ResponseEntity<>(prjs, HttpStatus.OK);
+        return new ResponseEntity<>(viewPrjs, HttpStatus.OK);
     }
 
     // ------------------- Update a Project

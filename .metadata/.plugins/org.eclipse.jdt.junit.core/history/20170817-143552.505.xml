@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.LoadingContractorIntegrationTests" project="TranslateIT2v4" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.LoadingContractorIntegrationTests" time="4.924">
+    <testcase name="uploadSourceFile_assertFileInfoHasOriginalFilename_and_BackupDirectory" classname="translateit2.LoadingContractorIntegrationTests" time="1.707"/>
+    <testcase name="reloadingSourceFile_assertCannotUploadException" classname="translateit2.LoadingContractorIntegrationTests" time="0.787"/>
+    <testcase name="uploadTargetFile_assertUnitTargetTextLength" classname="translateit2.LoadingContractorIntegrationTests" time="1.05"/>
+    <testcase name="removeUploadedSource_assertFileInfo_and_File_Removed" classname="translateit2.LoadingContractorIntegrationTests" time="0.474"/>
+    <testcase name="downloadTarget_assertDownloadDirectoryName" classname="translateit2.LoadingContractorIntegrationTests" time="0.906"/>
+  </testsuite>
+</testrun>

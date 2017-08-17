@@ -27,9 +27,8 @@ import translateit2.fileloader.FileLoaderException;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Priority;
-import translateit2.restapi.AvailablePriority;
 import translateit2.restapi.CustomErrorType;
-import translateit2.restapi.Works;
+import translateit2.restapi.ViewWorks;
 import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
@@ -117,11 +116,11 @@ public class RestWorkController {
 
         logger.info("Listing all Works having project id {}", projectId);
 
-        Works wrks = new Works();
-        wrks.setSupportedPriorities(languageServices.listSupportedPriorities());
-        wrks.setWorks(workService.listProjectWorkDtos(projectId));
+        ViewWorks viewWorks = new ViewWorks();
+        viewWorks.setSupportedPriorities(languageServices.listSupportedPriorities());
+        viewWorks.setWorks(workService.listProjectWorkDtos(projectId));
 
-        return new ResponseEntity<>(wrks, HttpStatus.OK);
+        return new ResponseEntity<>(viewWorks, HttpStatus.OK);
     }
 
     // ------------------- Update a Work

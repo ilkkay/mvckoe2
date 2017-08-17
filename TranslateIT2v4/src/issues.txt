@@ -133,6 +133,10 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 60) restProject ja restWorkController sekä fileInfon päivitys
 
+61) korjaa createProjectDto(project,"Ilkka","No info text yet") DONE
+
+62)View-tasolle toimitettavat oliot tulisi nimetä kuvaavasti =>esim. viewProjects DONE
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
@@ -144,8 +148,6 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 + käytä final virheiden getCharset oma resolver tms. ??
 
-+ IsoTestLoader siivoa pois
-
 + Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla
 
 
@@ -153,24 +155,11 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 Korjaa seuraavat:
 
-+ tutki virhekoodin palauttaminen 
-
-@ControllerAdvice(basePackageClasses = FooController.class)
-public class FooControllerAdvice extends ResponseEntityExceptionHandler {
-
-   @ExceptionHandler(MyException.class)
-   public ResponseEntity<Message> handleRequestErrorMyException(HttpServletRequest request, MyException myException) {
-        HttpStatus status = HttpStatus.valueOf(myException.getStatus();
-        return new ResponseEntity<>(new CustomErrorType(status.value(), ex.getMessage()), status);
-    }
-
-}        
+  + tutki virhekoodin palauttaminen        
           
   + Kun teet hakuja niin käytä kyselyrakennetta url-poluissa esim. /cars?color=blue&type=sedan&doors=4
 
   + Tarkista testifunktioiden nimeämiset
-
-  + View-tasolle toimitettavat oliot tulisi nimetä kuvaavasti =>esim. viewProjects
 
   + Älä käytä hash-symbolia url-polussa (tehdään uuden Angular-sovelluksen yhteydessä)
 
@@ -189,8 +178,6 @@ public class Name {
 }
 
   + poistuvatko kaikki info kentät kun projekti poistetaan
-  
-  + korjaa createProjectDto(project,"Ilkka","No info text yet")
   
   
   

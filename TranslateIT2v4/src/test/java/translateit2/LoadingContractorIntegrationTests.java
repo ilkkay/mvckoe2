@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
 
+import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.UnitRepository;
@@ -50,6 +53,9 @@ public class LoadingContractorIntegrationTests {
 
     @Autowired
     private FileInfoRepository fileInfoRepo;
+
+    @Autowired
+    private FileLoader fileloader;
 
     @Autowired
     private WorkRepository workRepo;
@@ -105,6 +111,7 @@ public class LoadingContractorIntegrationTests {
 
         // remove file from disk and units from database
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
+        fileInfoRepo.delete(info);
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
                 .collect(Collectors.toList());
         unitRepo.delete(units);        
@@ -138,16 +145,16 @@ public class LoadingContractorIntegrationTests {
         // remove file from disk, units and file info from database
         FileInfo info = fileInfoRepo.findByWorkId(workId).get();
         fileInfoRepo.delete(info);
-        
+
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
-        
+
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
                 .collect(Collectors.toList());
         unitRepo.delete(units);
     }
-    
+
     @Test
-    public void uploadTargetFile_assert() throws IOException {
+    public void uploadTargetFile_assertUnitTargetTextLength() throws IOException {
         long workId=1;
 
 
@@ -163,7 +170,7 @@ public class LoadingContractorIntegrationTests {
             fail("Unexcepted exception");
         }
 
-        
+
         // WHEN load to target file
         try {
             File fileTarget = new File("d:\\dotcms_fi-utf8.properties");
@@ -178,14 +185,14 @@ public class LoadingContractorIntegrationTests {
 
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
                 .collect(Collectors.toList());
-        
+
         Unit unit_1 = units.get(0);
         assert(unit_1.getTarget().getText().length() > 0);
-        
+
         // remove file from disk and units from database
         FileInfo info = fileInfoRepo.findByWorkId(workId).get();
         fileInfoRepo.delete(info);
-        
+
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
 
         unitRepo.delete(units);
@@ -193,10 +200,10 @@ public class LoadingContractorIntegrationTests {
         return;
     }
 
-    //@Test
-    public void downloadTarget() {
+    @Test
+    public void downloadTarget_assertDownloadDirectoryName() {
         long workId = 1;
-        
+
         // WHEN source and target files have been uploaded
         try {
             File fileSource = new File("d:\\dotcms_en-utf8.properties");
@@ -210,17 +217,71 @@ public class LoadingContractorIntegrationTests {
             MultipartFile multiPartFile2 = new MockMultipartFile("file2",
                     fileTarget.getName(), "text/plain", IOUtils.toByteArray(input2));
             loadingContractor.uploadTarget(multiPartFile2, workId);
-}
+        }
         catch (Exception ex) {
             fail("Unexcepted exception");
         }
 
-        
-        Stream <Path> downloadPath;
+        // THEN download Target file as stream
+        List<Stream<Path>> paths = new ArrayList<Stream<Path>>();        
+        assertThatCode(() -> { paths.add(loadingContractor.downloadTarget(workId)); } )
+        .doesNotThrowAnyException(); 
+
+        // assert stream path count
+        Stream<Path> streamPath = paths.get(0);        
+        List<Path> streamPaths = streamPath.map(path -> path.toAbsolutePath()).collect(Collectors.toList());        
+        assertThat(streamPaths.size(), equalTo(1));
+
+        // assert download directory name
+        String expectedDownloadDir = fileloader.getDownloadPath("test.txt").getParent().getFileName().toString();
+        String returnedDownloadDir = streamPaths.get(0).getParent().getFileName().toString();
+        assertThat(expectedDownloadDir,equalTo(returnedDownloadDir));
+
+        // remove file from disk and units from database
+        FileInfo info = fileInfoRepo.findByWorkId(workId).get();
+        fileInfoRepo.delete(info);
+
+        FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
+
+        List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
+                .collect(Collectors.toList());
+        unitRepo.delete(units);
+    }
+    
+    @Test   
+    public void removeUploadedSource_assertFileInfo_and_File_Removed()  {
+        long workId=1;
+
+        // and WHEN we have loaded the multipart file
         try {
-            downloadPath = loadingContractor.downloadTarget(workId);
-        } catch (FileLoaderException e) {
+            File file = new File("d:\\dotcms_en-utf8.properties");
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multiPartFile = new MockMultipartFile("file",
+                    file.getName(), "text/plain", IOUtils.toByteArray(input));
+            loadingContractor.uploadSource(multiPartFile, workId);
+        }
+        catch (Exception ex) {
             fail("Unexcepted exception");
         }
+
+        FileInfo info = fileInfoRepo.findByWorkId(workId).get();
+        String backupFile = info.getBackup_file();
+        
+        // THEN we remove it
+        assertThatCode(() -> { loadingContractor.removeUploadedSource(workId); } )
+        .doesNotThrowAnyException(); 
+        
+        // assert that entity exists more
+        assertThat(fileInfoRepo.findByWorkId(workId).isPresent(),equalTo(false));
+        
+        // and neither does file
+        assertThat(Files.exists(Paths.get(backupFile)),equalTo(false));
+        
+        // remove units from database
+        FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
+
+        List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
+                .collect(Collectors.toList());
+        unitRepo.delete(units);
     }
 }

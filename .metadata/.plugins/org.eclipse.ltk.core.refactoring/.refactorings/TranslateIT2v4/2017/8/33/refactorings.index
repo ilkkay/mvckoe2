@@ -22,3 +22,7 @@
 1502961132526	Rename method 'moveUploadedFileIntoFilesystem'
 1502961154371	Rename method 'deleteTemporaryFile'
 1502961218759	Rename method 'createTemporaryFile'
+1502969274728	Rename type 'Projects'
+1502969286153	Rename type 'Works'
+1502969308802	Rename type 'Units'
+1502969330042	Rename type 'Statistics'

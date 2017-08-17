@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="LoadingContractorIntegrationTests" project="TranslateIT2v4" tests="1" started="1" failures="0" errors="1" ignored="0">
+  <testsuite name="translateit2.LoadingContractorIntegrationTests" time="0.0">
+    <testcase name="initializationError" classname="translateit2.LoadingContractorIntegrationTests" time="0.0">
+      <error>java.lang.Exception: Method testt() should be public&#13;
+	at org.junit.runners.model.FrameworkMethod.validatePublicVoid(FrameworkMethod.java:96)&#13;
+	at org.junit.runners.model.FrameworkMethod.validatePublicVoidNoArg(FrameworkMethod.java:74)&#13;
+	at org.junit.runners.ParentRunner.validatePublicVoidNoArgMethods(ParentRunner.java:155)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.validateTestMethods(BlockJUnit4ClassRunner.java:208)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.validateInstanceMethods(BlockJUnit4ClassRunner.java:188)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.collectInitializationErrors(BlockJUnit4ClassRunner.java:128)&#13;
+	at org.junit.runners.ParentRunner.validate(ParentRunner.java:416)&#13;
+	at org.junit.runners.ParentRunner.&lt;init&gt;(ParentRunner.java:84)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.&lt;init&gt;(BlockJUnit4ClassRunner.java:65)&#13;
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.&lt;init&gt;(SpringJUnit4ClassRunner.java:138)&#13;
+	at org.springframework.test.context.junit4.SpringRunner.&lt;init&gt;(SpringRunner.java:49)&#13;
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)&#13;
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)&#13;
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)&#13;
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)&#13;
+	at org.junit.internal.builders.AnnotatedBuilder.buildRunner(AnnotatedBuilder.java:104)&#13;
+	at org.junit.internal.builders.AnnotatedBuilder.runnerForClass(AnnotatedBuilder.java:86)&#13;
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:59)&#13;
+	at org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:26)&#13;
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:59)&#13;
+	at org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:33)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createUnfilteredTest(JUnit4TestLoader.java:84)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createTest(JUnit4TestLoader.java:70)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.loadTests(JUnit4TestLoader.java:43)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:444)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</error>
+    </testcase>
+  </testsuite>
+</testrun>

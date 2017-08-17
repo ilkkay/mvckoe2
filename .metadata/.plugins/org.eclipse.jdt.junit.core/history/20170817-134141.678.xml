@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.LoadingContractorIntegrationTests.uploadTargetFile_assert" project="TranslateIT2v4" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testcase name="uploadTargetFile_assert" classname="translateit2.LoadingContractorIntegrationTests" time="2.15"/>
+</testrun>

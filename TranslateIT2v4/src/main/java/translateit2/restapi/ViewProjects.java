@@ -8,7 +8,7 @@ import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 
-public class Projects {
+public class ViewProjects {
     private List<ProjectDto> projects;
     private List<LanguageFileType> supportedCharacterSets;
     private List<LanguageFileFormat> supportedFormats;

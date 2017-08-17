@@ -19,8 +19,6 @@ import translateit2.languagebeancache.writer.LanguageFileWriter;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.model.Priority;
-import translateit2.restapi.AvailableCharacterSet;
-import translateit2.restapi.AvailablePriority;
 import translateit2.service.LoadingContractorImpl;
 
 @Component

@@ -1,6 +1,6 @@
 package translateit2.restapi;
 
-public class Statistics {
+public class ViewStatistics {
     private long reviewed;
 
     private long total;

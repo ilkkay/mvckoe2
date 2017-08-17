@@ -36,8 +36,8 @@ import translateit2.persistence.model.State;
 import translateit2.persistence.model.Status;
 import translateit2.persistence.model.Target;
 import translateit2.restapi.CustomErrorType;
-import translateit2.restapi.Statistics;
-import translateit2.restapi.Units;
+import translateit2.restapi.ViewStatistics;
+import translateit2.restapi.ViewUnits;
 import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
@@ -52,7 +52,7 @@ public class RestUnitController {
     private LoadingContractor loadingContractor;
 
     boolean isMockStatInitialized = false;
-    Statistics mockStat = new Statistics(); // TODO: this is a mock solution
+    ViewStatistics mockStat = new ViewStatistics(); // TODO: this is a mock solution
 
     @Autowired
     public RestUnitController(FileLoader fileLoader,
@@ -112,15 +112,15 @@ public class RestUnitController {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
         }
 
-        Units unts = new Units();
-        unts.setUnits(workUnits);
-        unts.setPageCount(pageCount / 4 + 1);
+        ViewUnits viewUnits = new ViewUnits();
+        viewUnits.setUnits(workUnits);
+        viewUnits.setPageCount(pageCount / 4 + 1);
 
         if (!(isMockStatInitialized))
             InitMockStat(workId);
-        unts.setStatistics(mockStat);
+        viewUnits.setStatistics(mockStat);
 
-        return new ResponseEntity<>(unts, HttpStatus.OK);
+        return new ResponseEntity<>(viewUnits, HttpStatus.OK);
     }
 
  // ------------------- download file

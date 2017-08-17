@@ -4,17 +4,17 @@ import java.util.List;
 
 import translateit2.persistence.dto.UnitDto;
 
-public class Units {
+public class ViewUnits {
     private long pageCount;
     private List<UnitDto> units;
 
-    Statistics statistics;
+    ViewStatistics statistics;
 
     public long getPageCount() {
         return pageCount;
     }
 
-    public Statistics getStatistics() {
+    public ViewStatistics getStatistics() {
         return statistics;
     }
 
@@ -26,7 +26,7 @@ public class Units {
         this.pageCount = pageCount;
     }
 
-    public void setStatistics(Statistics statistics) {
+    public void setStatistics(ViewStatistics statistics) {
         this.statistics = statistics;
     }
 
