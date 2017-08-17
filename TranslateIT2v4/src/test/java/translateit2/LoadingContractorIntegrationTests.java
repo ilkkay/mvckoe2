@@ -76,7 +76,7 @@ public class LoadingContractorIntegrationTests {
     public void tearDown() throws Exception {
     }
 
-    //@Test
+    @Test
     public void uploadSourceFile_assertFileInfoHasOriginalFilename_and_BackupDirectory() throws IOException {
         long workId=1;
 
@@ -95,7 +95,7 @@ public class LoadingContractorIntegrationTests {
         }
 
         // assert fileinfo contains orginal filename and backup directory
-        FileInfo info = fileInfoRepo.findById(workRepo.findOne(workId).getFileinfo().getId());
+        FileInfo info = fileInfoRepo.findByWorkId(workId).get();
 
         String dateStr = Paths.get(info.getBackup_file()).getParent().getFileName().toString();
         String dateNowStr = LocalDate.now().toString();
@@ -112,7 +112,7 @@ public class LoadingContractorIntegrationTests {
         return;
     }
 
-    //@Test
+    @Test
     public void reloadingSourceFile_assertCannotUploadException() throws IOException {
         long workId=1;
 
@@ -135,15 +135,18 @@ public class LoadingContractorIntegrationTests {
         assertThatCode(() -> { loadingContractor.uploadSource(multiPartFile, workId); } )
         .isExactlyInstanceOf(FileLoaderException.class);
 
-        // remove file from disk and units from database
-        FileInfo info = fileInfoRepo.findById(workRepo.findOne(workId).getFileinfo().getId());
+        // remove file from disk, units and file info from database
+        FileInfo info = fileInfoRepo.findByWorkId(workId).get();
+        fileInfoRepo.delete(info);
+        
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
+        
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
                 .collect(Collectors.toList());
         unitRepo.delete(units);
     }
     
-    //@Test
+    @Test
     public void uploadTargetFile_assert() throws IOException {
         long workId=1;
 
@@ -180,7 +183,9 @@ public class LoadingContractorIntegrationTests {
         assert(unit_1.getTarget().getText().length() > 0);
         
         // remove file from disk and units from database
-        FileInfo info = fileInfoRepo.findById(workRepo.findOne(workId).getFileinfo().getId());
+        FileInfo info = fileInfoRepo.findByWorkId(workId).get();
+        fileInfoRepo.delete(info);
+        
         FileSystemUtils.deleteRecursively(Paths.get(info.getBackup_file()).getParent().toFile());
 
         unitRepo.delete(units);
@@ -188,7 +193,7 @@ public class LoadingContractorIntegrationTests {
         return;
     }
 
-    @Test
+    //@Test
     public void downloadTarget() {
         long workId = 1;
         

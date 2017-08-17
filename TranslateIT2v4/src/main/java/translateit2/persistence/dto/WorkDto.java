@@ -19,8 +19,6 @@ public class WorkDto {
 
     @NotNull
     private LocalDate deadLine;
-
-    private long fileinfoId;
     
     private LocalDate finished;
 
@@ -56,10 +54,6 @@ public class WorkDto {
 
     public LocalDate getDeadLine() {
         return deadLine;
-    }
-
-    public long getFileinfoId() {
-        return fileinfoId;
     }
 
     public LocalDate getFinished() {
@@ -116,10 +110,6 @@ public class WorkDto {
 
     public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
-    }
-
-    public void setFileInfoId(long fileinfoId) {
-        this.fileinfoId = fileinfoId;
     }
 
     public void setFinished(LocalDate finished) {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="LoadingContractorIntegrationTests" project="TranslateIT2v4" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.LoadingContractorIntegrationTests" time="2.825">
+    <testcase name="uploadSourceFile_assertFileInfoHasOriginalFilename_and_BackupDirectory" classname="translateit2.LoadingContractorIntegrationTests" time="1.818"/>
+    <testcase name="reloadingSourceFile_assertCannotUploadException" classname="translateit2.LoadingContractorIntegrationTests" time="1.006"/>
+  </testsuite>
+</testrun>

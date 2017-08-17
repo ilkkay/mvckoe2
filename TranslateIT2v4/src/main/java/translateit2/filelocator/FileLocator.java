@@ -8,11 +8,13 @@ import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefile.LanguageFileFormat;
 
 public interface FileLocator {
-    Path moveUploadedFileIntoFilesystem(Path uploadedFile,
-            LanguageFileFormat format) throws FileLoaderException;
     
-    Path createTemporaryFile(List<String> downloadFileAsList, LanguageFileFormat format,  
+    Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, LanguageFileFormat format,  
             Charset charset) throws FileLoaderException;
     
-    void deleteTemporaryFile(Path fileToDeletePath);
+    Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile,
+            LanguageFileFormat format) throws FileLoaderException;
+    
+    void deleteFileFromPermanentFileSystem(Path fileToDeletePath);
+    
 }

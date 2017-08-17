@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
-import translateit2.persistence.dto.FileInfoDto;
-import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.TranslatorGroupDto;
@@ -35,11 +33,6 @@ public class DemoDatabaseInitializerImpl implements DatabaseInitializer {
         personDto.setFullName("Ilkka");
         personDto = projectService.createPersonDto(personDto);
 
-        // create Info entity; not used in demo
-        InfoDto infoDto = new InfoDto();
-        infoDto.setText("This is info");
-        infoDto = projectService.createInfoDto(infoDto);
-
         // create translator group; not used in demo
         TranslatorGroupDto groupDto = new TranslatorGroupDto();
         groupDto.setName("Group name 1");
@@ -52,19 +45,12 @@ public class DemoDatabaseInitializerImpl implements DatabaseInitializer {
         prj.setFormat(LanguageFileFormat.PROPERTIES);
         prj.setType(LanguageFileType.UTF_8);
         prj.setPersonId(personDto.getId());
-        prj.setInfoId(infoDto.getId());
-        prj = projectService.createProjectDto(prj);
+        prj = projectService.createProjectDto(prj,"Ilkka");
 
-        
-        // create empty file info for work entity
-        FileInfoDto fileInfoDto = new FileInfoDto();
-        fileInfoDto = projectService.createFileInfoDto(fileInfoDto);
-        
         // create work for demo project
         WorkDto work = new WorkDto();
         work.setProjectId(prj.getId());
         work.setGroupId(666L);
-        work.setFileInfoId(fileInfoDto.getId());
         work.setLocale(new Locale("fi_FI"));
         work.setVersion("0.07");
         // work.setOriginalFile("dotcms");
@@ -79,8 +65,7 @@ public class DemoDatabaseInitializerImpl implements DatabaseInitializer {
         deadLine = LocalDate.parse("2017-05-22");
         work.setDeadLine(deadLine);
         work.setProgress(0.0);
-        work.setGroupId(groupDto.getId());
-        work = workService.createWorkDto(work);
+        work = workService.createWorkDto(work,"Group name 1");
     }
 
 }

@@ -5,6 +5,7 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.Project;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
@@ -17,7 +18,6 @@ public class ProjectMapper extends ModelMapper {
         @Override
         protected void configure() {
             skip().setPerson(null);
-            skip().setInfo(null);
         }
     };
 
@@ -27,7 +27,6 @@ public class ProjectMapper extends ModelMapper {
         protected void configure() {
             // TODO Auto-generated method stub
             map().setPersonId(source.getPerson().getId());
-            map().setInfoId(source.getInfo().getId());
         }
     };
 
@@ -46,26 +45,26 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
-    PropertyMap<WorkDto, Work> workDtoMap = new PropertyMap<WorkDto, Work>() {
+    PropertyMap<FileInfoDto, FileInfo> fileInfoDtoMap = new PropertyMap<FileInfoDto, FileInfo>() {
         @Override
         protected void configure() {
-            skip().setFileinfo(null);
+            skip().setWork(null);
         }
     };
 
-    PropertyMap<Work, WorkDto> workMap = new PropertyMap<Work, WorkDto>() {
+    PropertyMap<FileInfo, FileInfoDto> fileInfoMap = new PropertyMap<FileInfo, FileInfoDto>() {
         @Override
         protected void configure() {
             // TODO Auto-generated method stub
-            map().setFileInfoId(source.getFileinfo().getId());
+            map().setWorkId(source.getWork().getId());
         }
     };
     
     public ProjectMapper() {
         addMappings(projectMap);
         addMappings(projectDtoMap);
-        addMappings(workMap);
-        addMappings(workDtoMap);
+        addMappings(fileInfoMap);
+        addMappings(fileInfoDtoMap);
     }
 
 }

@@ -1,7 +1,11 @@
 package translateit2.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -115,17 +119,29 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public ProjectDto createProjectDto(ProjectDto entity) {
-        logger.log(getLoggerLevel(), "Entering createProjectDto with {}", entity.toString());
-        
+    public void removePersonDto(final long personId) {
+        if (personRepo.exists(personId)) {
+            personRepo.delete(personId); 
+            logger.log(getLoggerLevel(), "Removing PersonDto with id{}", personId);
+        }
+        else
+            logger.log(getLoggerLevel(), "Did not find Person with id {}", personId);
+
+    }
+
+    @Transactional
+    @Override
+    public ProjectDto createProjectDto(ProjectDto entity, String personName) {
+        logger.log(getLoggerLevel(), "Entering createProjectDto with {}", 
+                entity.toString(),personName);
+
         Project perProject = convertToEntity(entity);
-        
-        perProject.setPerson(personRepo.findOne(entity.getPersonId()));
-        perProject.setInfo(infoRepo.findOne(entity.getInfoId()));
+
+        perProject.setPerson(personRepo.findByFullName(personName).get());
         perProject = projectRepo.save(perProject);
-        
+
         ProjectDto projectDto = convertToDto(perProject);
-        
+
         logger.log(getLoggerLevel(), "Leaving createProjectDto with {}", projectDto.toString());
         return projectDto;
     }
@@ -183,14 +199,17 @@ public class ProjectServiceImpl implements ProjectService {
         logger.log(getLoggerLevel(), "Leaving getProjectDtoCount with dtoCount {}", dtoCount);
         return dtoCount;
     }
-    
+
     @Override
     public List<ProjectDto> listAllProjectDtos() {
         logger.log(getLoggerLevel(), "Entering listAllProjectDtos()");
         List<ProjectDto> projectDtos = new ArrayList<ProjectDto>();
         projectRepo.findAll().forEach(l -> projectDtos.add(convertToDto(l)));
         logger.log(getLoggerLevel(), "Leaving listProjectDtos() with list size: {}", projectDtos.size());
-        return projectDtos;
+        if (projectDtos.isEmpty())
+            return Collections.emptyList();
+        else
+            return projectDtos;
     }
 
     @Override
@@ -202,7 +221,10 @@ public class ProjectServiceImpl implements ProjectService {
         projects.forEach(prj -> projectDtos.add(convertToDto(prj)));
         logger.log(getLoggerLevel(), "Leaving listProjectDtos with list size: {}", projectDtos.size());
 
-        return projectDtos;
+        if (projectDtos.isEmpty())
+            return Collections.emptyList();
+        else
+            return projectDtos;
     }
 
     @Transactional
@@ -295,7 +317,7 @@ public class ProjectServiceImpl implements ProjectService {
         FileInfo info = modelMapper.map(fileInfoDto, FileInfo.class);
         return info;
     }
-    
+
     private Info convertToEntity(InfoDto infoDto) {
         Info info = modelMapper.map(infoDto, Info.class);
         return info;
@@ -334,6 +356,20 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toList());
         unitRepo.delete(units);
         logger.log(getLoggerLevel(), "Leaving removeUnitDtos()");
+    }
+
+    @Override
+    public Map<Long, Integer> getWorkCountPerProject() {
+
+        // get projects by name
+        List<Project> projects = projectRepo.findAll();
+        HashMap<Long, Integer> workCountMap = new LinkedHashMap<Long, Integer>();
+        projects.forEach(prj -> workCountMap.put(prj.getId(), workRepo.findByProjectId(prj.getId()).size()));
+
+        if (workCountMap.isEmpty())
+            return Collections.emptyMap();
+        else
+            return workCountMap;
     }
 
     /**

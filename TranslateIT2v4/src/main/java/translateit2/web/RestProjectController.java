@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import translateit2.configuration.LanguageServicesConfig;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
@@ -60,9 +61,9 @@ public class RestProjectController {
     private ProjectService projectService;
 
     @Autowired
-    private WorkService workService;
+    private LanguageServicesConfig languageServices;
 
-    // -------------------Retrieve Single Project
+    // -------------------Create a new Project
     // ------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.POST)
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
@@ -77,19 +78,11 @@ public class RestProjectController {
                     HttpStatus.CONFLICT);
         }
 
-        InfoDto infoDto = new InfoDto();
-        infoDto.setText("This is info");
-        infoDto = projectService.createInfoDto(infoDto);
-
-        PersonDto personDto = projectService.getPersonDtoByPersonName("Ilkka");
-
-        project.setInfoId(infoDto.getId());
-        project.setPersonId(personDto.getId());
-        prj = projectService.createProjectDto(project);
+        prj = projectService.createProjectDto(project,"Ilkka");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/project/{id}").buildAndExpand(prj.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Void>(headers, HttpStatus.OK);
     }
 
     // ------------------- Delete a Project
@@ -106,10 +99,10 @@ public class RestProjectController {
         }
 
         projectService.removeProjectDto(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // -------------------Create a Project
+    // -------------------Get a Project
     // -------------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getProject(@PathVariable("id") long id) {
@@ -130,33 +123,13 @@ public class RestProjectController {
     @RequestMapping(value = "/project/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllProjects() {
 
-        List<ProjectDto> projects = projectService.listAllProjectDtos();
-        if (projects.isEmpty())
-            projects = Collections.emptyList();
-
-        HashMap<Long, Integer> workCountMap = new LinkedHashMap<Long, Integer>();
-
-        // TODO: make a new method
-        projects.forEach(prj -> workCountMap.put(prj.getId(), workService.listProjectWorkDtos(prj.getId()).size()));
-
-        // TODO: where should I put these
-        List<AvailableFormat> formats = new ArrayList<AvailableFormat>();
-        formats.add(new AvailableFormat(LanguageFileFormat.PROPERTIES));
-
-        AvailableCharacterSet cs = null;
-        List<AvailableCharacterSet> csets = new ArrayList<AvailableCharacterSet>();
-        cs = new AvailableCharacterSet();
-        cs.setType(LanguageFileType.UTF_8);
-        csets.add(cs);
-        cs = new AvailableCharacterSet();
-        cs.setType(LanguageFileType.ISO8859_1);
-        csets.add(cs);
-
         Projects prjs = new Projects();
-        prjs.setProjects(projects);
-        prjs.setAvailableformats(formats);
-        prjs.setAvailableCharacterSets(csets);
-        prjs.setProjectWorkMap(workCountMap);
+
+        prjs.setProjects(projectService.listAllProjectDtos());
+        prjs.setProjectWorkMap(projectService.getWorkCountPerProject());
+        prjs.setSupportedFormats(languageServices.listSupportedFormats());
+        prjs.setSupportedCharacterSets(languageServices.listSupportedCharacterSets());
+
         return new ResponseEntity<>(prjs, HttpStatus.OK);
     }
 
@@ -177,5 +150,5 @@ public class RestProjectController {
         prj = projectService.updateProjectDto(project);
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
-    
+
 }

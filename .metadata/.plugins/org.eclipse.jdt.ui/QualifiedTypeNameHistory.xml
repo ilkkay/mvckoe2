@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseStatus"/>
-<fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="org.springframework.mock.web.MockMultipartFile"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.util.IOUtils"/>
 <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.IOUtils"/>
@@ -52,12 +47,17 @@
 <fullyQualifiedTypeName name="org.springframework.data.repository.NoRepositoryBean"/>
 <fullyQualifiedTypeName name="org.springframework.data.rest.core.annotation.RepositoryRestResource"/>
 <fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
-<fullyQualifiedTypeName name="translateit2.languagebeancache.LanguageBeanCacheImpl"/>
 <fullyQualifiedTypeName name="translateit2.configuration.CharSetResolver"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.springframework.validation.ObjectError"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderServiceException"/>
+<fullyQualifiedTypeName name="org.junit.After"/>
+<fullyQualifiedTypeName name="translateit2.languagebeancache.LanguageBeanCacheImpl"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="translateit2.configuration.LanguageServicesConfig"/>
+<fullyQualifiedTypeName name="translateit2.languagefile.LanguageFileFormat"/>
+<fullyQualifiedTypeName name="translateit2.languagefile.LanguageFileType"/>
 </qualifiedTypeNameHistroy>

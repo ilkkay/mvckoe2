@@ -17,5 +17,7 @@ public interface LoadingContractor {
     
     void uploadSource(@Valid MultipartFile file, long workId) throws FileLoaderException;
     
+    void removeUploadedSource(long workId) throws FileLoaderException;
+    
     void uploadTarget(@Valid MultipartFile file, long workId) throws FileLoaderException;
 }

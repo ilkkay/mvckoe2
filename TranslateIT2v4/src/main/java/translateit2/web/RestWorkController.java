@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import translateit2.configuration.LanguageServicesConfig;
 import translateit2.fileloader.FileLoader;
 import translateit2.fileloader.FileLoaderException;
 import translateit2.persistence.dto.TranslatorGroupDto;
@@ -38,18 +39,18 @@ import translateit2.service.WorkService;
 public class RestWorkController {
 
     public static final Logger logger = LoggerFactory.getLogger(RestWorkController.class);
-    private ProjectService projectService;
+
     private WorkService workService;
     private LoadingContractor loadingContractor;
+    private LanguageServicesConfig languageServices;
 
     @Autowired
-    public RestWorkController(FileLoader storageService, 
-            ProjectService projectService,
-            WorkService workService,
-            LoadingContractor loadingContractor) {
-        this.projectService = projectService;
+    public RestWorkController(WorkService workService,
+            LoadingContractor loadingContractor,
+            LanguageServicesConfig languageServices) {
         this.workService = workService;
-        this.loadingContractor= loadingContractor;
+        this.loadingContractor = loadingContractor;
+        this.languageServices = languageServices;
     }
 
     // -------------------Create a work
@@ -66,9 +67,8 @@ public class RestWorkController {
                     HttpStatus.CONFLICT);
         }
 
-        TranslatorGroupDto group = projectService.getGroupDtoByName("Group name 1");
-        work.setGroupId(group.getId()); // TODO: mock this
-        WorkDto wrk = workService.createWorkDto(work);
+
+        WorkDto wrk = workService.createWorkDto(work,"Group name 1");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/work/{id}").buildAndExpand(wrk.getId()).toUri());
@@ -78,7 +78,7 @@ public class RestWorkController {
     // ------------------- Delete a work
     // -----------------------------------------
     @RequestMapping(value = "/work/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
+    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) throws FileLoaderException {
         logger.info("Fetching & Deleting Work with id {}", id);
 
         WorkDto wrk = workService.getWorkDtoById(id);
@@ -89,6 +89,8 @@ public class RestWorkController {
         }
 
         workService.removeWorkDto(id);
+        // remove uploaded file and related fileinfo
+        loadingContractor.removeUploadedSource(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -113,27 +115,12 @@ public class RestWorkController {
     @RequestMapping(value = "/project/{projectId}/work/", method = RequestMethod.GET)
     public ResponseEntity<?> listAllWorks(@PathVariable("projectId") long projectId) {
 
-        // TODO: where should I put these
-        AvailablePriority pr = null;
-        List<AvailablePriority> priorities = new ArrayList<AvailablePriority>();
-        pr = new AvailablePriority();
-        pr.setType(Priority.LOW);
-        priorities.add(pr);
-        pr = new AvailablePriority();
-        pr.setType(Priority.MEDIUM);
-        priorities.add(pr);
-        pr = new AvailablePriority();
-        pr.setType(Priority.HIGH);
-        priorities.add(pr);
-
-        List<WorkDto> projectWorks = workService.listProjectWorkDtos(projectId);
-
-        if (projectWorks.isEmpty())
-            projectWorks = Collections.emptyList();
+        logger.info("Listing all Works having project id {}", projectId);
 
         Works wrks = new Works();
-        wrks.setWorks(projectWorks);
-        wrks.setAvailablePriorities(priorities);
+        wrks.setSupportedPriorities(languageServices.listSupportedPriorities());
+        wrks.setWorks(workService.listProjectWorkDtos(projectId));
+
         return new ResponseEntity<>(wrks, HttpStatus.OK);
     }
 

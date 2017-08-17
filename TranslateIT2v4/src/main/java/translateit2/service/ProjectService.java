@@ -1,6 +1,8 @@
 package translateit2.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -28,7 +30,9 @@ public interface ProjectService {
     /**
      * Project
      */
-    ProjectDto createProjectDto(@Valid final ProjectDto entity);
+    ProjectDto createProjectDto(@Valid final ProjectDto entity,String personName);
+    
+    void removePersonDto(final long personId);
     
     TranslatorGroupDto getGroupDtoByName(String name);
 
@@ -41,6 +45,8 @@ public interface ProjectService {
     long getProjectDtoCount();
 
     long getProjectDtoCountByPerson( long personId);
+    
+    Map<Long, Integer> getWorkCountPerProject();
 
     List<ProjectDto> listAllProjectDtos();
 

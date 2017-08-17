@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,6 +21,9 @@ public class Info implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
+    private Project project;
+    
     @Column(length=10000)
     private String text;
 
@@ -38,6 +42,15 @@ public class Info implements Serializable {
     public void setText(String text) {
         this.text = text;
     }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+    
 
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

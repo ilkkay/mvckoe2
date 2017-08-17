@@ -36,7 +36,7 @@ public class FileLocatorImpl implements FileLocator {
     }
 
     @Override
-    public Path moveUploadedFileIntoFilesystem(Path uploadedFile, 
+    public Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile, 
             LanguageFileFormat format) throws FileLoaderException {
         
         // create new path for permanent file storage
@@ -75,7 +75,7 @@ public class FileLocatorImpl implements FileLocator {
     }
 
     @Override
-    public void deleteTemporaryFile(Path fileToDeletePath) {
+    public void deleteFileFromPermanentFileSystem(Path fileToDeletePath) {
         try {
             Files.deleteIfExists(fileToDeletePath);
         } catch (IOException e) {
@@ -84,7 +84,7 @@ public class FileLocatorImpl implements FileLocator {
     }
     
     @Override
-    public Path createTemporaryFile(List<String> downloadFileAsList, 
+    public Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, 
             LanguageFileFormat format, Charset charset) throws FileLoaderException {
         
         // create new path for temporary file in permanent storage

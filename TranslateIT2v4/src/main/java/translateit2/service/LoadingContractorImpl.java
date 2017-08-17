@@ -104,7 +104,7 @@ public class LoadingContractorImpl implements LoadingContractor {
         // get original language file (i.e backup file) into string list
         LanguageFileFormat format = work.getProject().getFormat();
         LanguageFileReader reader = fileReaderCache.getService(format).get();
-        String backupFile = work.getFileinfo().getBackup_file();
+        String backupFile = getBackupFileName(workId);
         // we don't validate backup file since we did it during the upload phase  
         List<String> originalFileAsList = reader.getOriginalFileAsList(Paths.get(backupFile),getCharSet(workId));
         
@@ -119,13 +119,13 @@ public class LoadingContractorImpl implements LoadingContractor {
         String downloadFilename = fileNameResolver.getDownloadFilename(originalFileName,locale,format);
 
         // store into a temporary file in permanent location
-        Path tmpFilePath = filelocator.createTemporaryFile(downloadFileAsList, format, charset);
+        Path tmpFilePath = filelocator.createFileIntoPermanentFileSystem(downloadFileAsList, format, charset);
         
         // move file from permanent location to download directory
         Stream <Path> downloadStreamPath = fileloader.storeToDownloadDirectory(tmpFilePath,downloadFilename);
         
         // delete temporary file
-        filelocator.deleteTemporaryFile(tmpFilePath);
+        filelocator.deleteFileFromPermanentFileSystem(tmpFilePath);
         
         return downloadStreamPath;
     }
@@ -202,7 +202,7 @@ public class LoadingContractorImpl implements LoadingContractor {
         validator.validateLocale(appLocale, getExpectedSourceLocale(workId));
 
         // move file to a permanent location       
-        Path uploadedFilePath = filelocator.moveUploadedFileIntoFilesystem(uploadedFile, format);
+        Path uploadedFilePath = filelocator.moveUploadedFileIntoPermanentFileSystem(uploadedFile, format);
 
         // read key/values pairs from the language file
         LanguageFileReader reader = fileReaderCache.getService(format).get();
@@ -251,7 +251,7 @@ public class LoadingContractorImpl implements LoadingContractor {
         long fileInfoId = updateFileInfo(uploadedFilePath,originalFileName, workId);
 
         // once you've loaded source file, the work status will be NEw
-        updateWork(appName, fileInfoId, Status.NEW, workId);    
+        updateWork(appName, Status.NEW, workId);    
 
         return true;
     }
@@ -319,17 +319,24 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Transactional
+    private String getBackupFileName(final long workId) throws FileLoaderException {
+        if (fileInfoRepo.findByWorkId(workId).isPresent())
+            return fileInfoRepo.findByWorkId(workId).get().getBackup_file();
+        else
+            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
+    }
+    
+    @Transactional
     private long updateFileInfo(Path uploadedFilePath, String OriginalFile, long workId) {
-        Work work = workRepo.findOne(workId);
-        FileInfo fileInfo = null;
-        if (work.getFileinfo() == null)
+        FileInfo fileInfo;
+        if (fileInfoRepo.findByWorkId(workId).isPresent())
+            fileInfo = fileInfoRepo.findByWorkId(workId).get();
+        else
             fileInfo = new FileInfo();
-        else {
-            long infoId = workRepo.findOne(workId).getFileinfo().getId();
-            fileInfo = fileInfoRepo.findOne(workRepo.findOne(workId).getFileinfo().getId());
-        }
+        
         fileInfo.setBackup_file(uploadedFilePath.toString());
         fileInfo.setOriginal_file(OriginalFile);
+        fileInfo.setWork(workRepo.findOne(workId));
 
         fileInfo = fileInfoRepo.save(fileInfo);
 
@@ -337,13 +344,11 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Transactional
-    private void updateWork(String appName, long fileInfoId, 
-            Status status, long workId) {
+    private void updateWork(String appName, Status status, long workId) {
 
         Work work = workRepo.findOne(workId);
 
         work.setOriginalFile(appName);
-        work.setFileinfo(fileInfoRepo.findOne(fileInfoId));
 
         work.setStatus(status);
 
@@ -400,5 +405,19 @@ public class LoadingContractorImpl implements LoadingContractor {
             logger.error("Language file writer for format {} was missing", getFormat(workId));
             throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
         }
+    }
+
+    @Override
+    public void removeUploadedSource(long workId) throws FileLoaderException {
+        
+        if (fileInfoRepo.findByWorkId(workId).isPresent()){
+            FileInfo fileInfo = fileInfoRepo.findByWorkId(workId).get();
+            Path fileToDeletePath = Paths.get(fileInfo.getBackup_file());
+            filelocator.deleteFileFromPermanentFileSystem(fileToDeletePath);
+            fileInfoRepo.delete(fileInfo);
+        }
+        
+        // else branch does not exist because source file may have not been uploaded yet
+                       
     }
 }

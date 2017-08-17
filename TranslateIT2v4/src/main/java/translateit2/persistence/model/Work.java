@@ -44,9 +44,6 @@ public class Work implements Serializable {
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate deadLine;
 
-    @OneToOne
-    private FileInfo fileinfo;
-
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate finished;
     
@@ -80,10 +77,6 @@ public class Work implements Serializable {
 
     public LocalDate getDeadLine() {
         return deadLine;
-    }
-
-    public FileInfo getFileinfo() {
-        return fileinfo;
     }
 
     public LocalDate getFinished() {
@@ -140,10 +133,6 @@ public class Work implements Serializable {
 
     public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
-    }
-
-    public void setFileinfo(FileInfo fileinfo) {
-        this.fileinfo = fileinfo;
     }
 
     public void setFinished(LocalDate finished) {

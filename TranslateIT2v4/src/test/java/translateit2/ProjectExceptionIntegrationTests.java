@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
+import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
 import translateit2.util.Messages;
@@ -38,6 +40,8 @@ import translateit2.util.Messages;
 public class ProjectExceptionIntegrationTests {
     static final Logger logger = LogManager.getLogger(ProjectExceptionIntegrationTests.class.getName());
 
+    private long testPersonId;
+    
     private Integer projectNameMaxSize;
 
     private Integer projectNameMinSize;
@@ -60,8 +64,19 @@ public class ProjectExceptionIntegrationTests {
     public void setup() {
         Locale.setDefault(Locale.ENGLISH); // for javax validation
         messages.resetLocale(Locale.ENGLISH); // for custom validation
+        
+        PersonDto personDto = new PersonDto();
+        personDto.setFullName("James Bond");
+        personDto = projectService.createPersonDto(personDto);
+        
+        testPersonId = personDto.getId();
     }
-
+    
+    @After
+    public void reset() {
+        projectService.removePersonDto(testPersonId);
+    }
+    
     @Test
     public void parameterTest() {
         System.out.println("ProjectNameMaxSize: " + projectNameMaxSize);
@@ -76,7 +91,7 @@ public class ProjectExceptionIntegrationTests {
         projectDto.setType(LanguageFileType.UTF_8);
         projectDto.setSourceLocale(null);
         try {
-            projectDto = projectService.createProjectDto(projectDto);
+            projectDto = projectService.createProjectDto(projectDto,"James Bond");
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations().stream()
@@ -93,7 +108,7 @@ public class ProjectExceptionIntegrationTests {
         projectDto.setType(LanguageFileType.UTF_8);
         projectDto.setSourceLocale(new Locale("en_EN"));
         try {
-            projectDto = projectService.createProjectDto(projectDto);
+            projectDto = projectService.createProjectDto(projectDto,"James Bond");
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
             assertThat(
@@ -116,7 +131,7 @@ public class ProjectExceptionIntegrationTests {
         logger.info("Given projectdto {}", projectDto.toString());
 
         try {
-            projectDto = projectService.createProjectDto(projectDto);
+            projectDto = projectService.createProjectDto(projectDto,"James Bond");
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations().stream()
@@ -133,7 +148,7 @@ public class ProjectExceptionIntegrationTests {
         projectDto.setType(LanguageFileType.UTF_8);
         projectDto.setSourceLocale(new Locale("en_EN"));
         try {
-            projectDto = projectService.createProjectDto(projectDto);
+            projectDto = projectService.createProjectDto(projectDto,"James Bond");
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations().stream()

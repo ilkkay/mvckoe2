@@ -58,7 +58,7 @@ public class FileLocatorUnitTests {
         // WHEN upload file has no path
 
         // THEN
-        assertThatCode(() -> filelocator().moveUploadedFileIntoFilesystem(
+        assertThatCode(() -> filelocator().moveUploadedFileIntoPermanentFileSystem(
                 uploadedFilePath, LanguageFileFormat.PROPERTIES))
         .isExactlyInstanceOf(FileLoaderException.class);                
     }
@@ -85,7 +85,7 @@ public class FileLocatorUnitTests {
 
         // THEN
         List<Path> newLocation = new ArrayList<Path> ();
-        assertThatCode(() -> { newLocation.add(filelocator().moveUploadedFileIntoFilesystem(
+        assertThatCode(() -> { newLocation.add(filelocator().moveUploadedFileIntoPermanentFileSystem(
                 uploadedFilePath, LanguageFileFormat.PROPERTIES)); } )
         .doesNotThrowAnyException();        
 
@@ -123,7 +123,7 @@ public class FileLocatorUnitTests {
 
         // THEN
         List<Path> newLocation = new ArrayList<Path> ();
-        assertThatCode(() -> { newLocation.add(filelocator().createTemporaryFile(downloadFileAsList, 
+        assertThatCode(() -> { newLocation.add(filelocator().createFileIntoPermanentFileSystem(downloadFileAsList, 
                 LanguageFileFormat.PROPERTIES, StandardCharsets.UTF_8)); } )
         .doesNotThrowAnyException();        
 

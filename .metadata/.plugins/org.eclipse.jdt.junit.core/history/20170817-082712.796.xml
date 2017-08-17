@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ProjectServiceIntegrationTest" project="TranslateIT2v4" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.ProjectServiceIntegrationTest" time="332.748">
+    <testcase name="createUnit_assertUnitCount_returnEmptyDB" classname="translateit2.ProjectServiceIntegrationTest" time="0.477"/>
+    <testcase name="createWork_assertProjectIdWorkId_returnEmptyDB" classname="translateit2.ProjectServiceIntegrationTest" time="332.213"/>
+    <testcase name="createUpdateAddProjectRemoveAll_returnEmptyDB" classname="translateit2.ProjectServiceIntegrationTest" time="0.058"/>
+  </testsuite>
+</testrun>

@@ -13,6 +13,11 @@ public class CustomErrorType {
 
     private FileLoadError errorCode;
     
+    public CustomErrorType(String errorMessage) {
+        this.errorMessages = Arrays.asList(errorMessage);
+        this.errorCode = FileLoadError.UNDEFINED_ERROR;
+    }
+    
     public CustomErrorType(String localizedErrorMessage, List<String> errorMessages) {
         this.localizedErrorMessage = localizedErrorMessage;
         this.errorMessages = errorMessages;

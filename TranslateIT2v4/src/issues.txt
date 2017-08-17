@@ -131,6 +131,8 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 59) päivitetty ErrorHandler
 
+60) restProject ja restWorkController sekä fileInfon päivitys
+
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
@@ -186,7 +188,9 @@ public class Name {
     private String firstname;
 }
 
-
+  + poistuvatko kaikki info kentät kun projekti poistetaan
+  
+  + korjaa createProjectDto(project,"Ilkka","No info text yet")
   
   
   

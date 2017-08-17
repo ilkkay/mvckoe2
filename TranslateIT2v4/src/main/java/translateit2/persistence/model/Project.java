@@ -22,15 +22,10 @@ import translateit2.languagefile.LanguageFileType;
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Enumerated(EnumType.STRING)
-    private LanguageFileFormat format;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @ManyToOne
-    private Info info;;
     
     private String name;
 
@@ -40,19 +35,18 @@ public class Project implements Serializable {
     private Locale source_locale;
 
     @Enumerated(EnumType.STRING)
-    private LanguageFileType type;
+    private LanguageFileType charset;
 
-    public LanguageFileFormat getFormat() {
-        return format;
-    }
+    @Enumerated(EnumType.STRING)
+    private LanguageFileFormat format;
 
     public Long getId() {
         return id;
     }
 
-    public Info getInfo() {
-        return info;
-    };
+    public LanguageFileFormat getFormat() {
+        return format;
+    }
     
     public String getName() {
         return name;
@@ -67,7 +61,7 @@ public class Project implements Serializable {
     }
 
     public LanguageFileType getType() {
-        return type;
+        return charset;
     }
 
     public void setFormat(LanguageFileFormat format) {
@@ -76,10 +70,6 @@ public class Project implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setInfo(Info info) {
-        this.info = info;
     }
 
     public void setName(String name) {
@@ -95,13 +85,13 @@ public class Project implements Serializable {
     }
 
     public void setType(LanguageFileType type) {
-        this.type = type;
+        this.charset = type;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("person", person).append("info", info)
-                .append("name", name).append("format", format).append("type", type).append("sourceLocale", source_locale)
+        return new ToStringBuilder(this).append("id", id).append("person", person)
+                .append("name", name).append("format", format).append("type", charset).append("sourceLocale", source_locale)
                 .toString();
     }
 }

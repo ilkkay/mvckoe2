@@ -19,7 +19,7 @@ public interface WorkService {
     /**
      * Work
      */
-    WorkDto createWorkDto(@Valid final WorkDto entity);
+    WorkDto createWorkDto(@Valid final WorkDto entity, String groupName);
 
     List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
 

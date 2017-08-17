@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class InfoDto {
     private long id;
 
+    private long projectId;
+    
     private String text;
 
     public long getId() {
@@ -21,6 +23,14 @@ public class InfoDto {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
     }
 
     @Override

@@ -20,13 +20,16 @@ import org.springframework.validation.annotation.Validated;
 
 import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.ProjectRepository;
+import translateit2.persistence.dao.TranslatorGroupRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
 import translateit2.persistence.dto.ProjectMapper;
+import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.State;
+import translateit2.persistence.model.TranslatorGroup;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
 
@@ -50,7 +53,10 @@ public class WorkServiceImpl implements WorkService {
 
     @Autowired
     private WorkRepository workRepo;
-    
+
+    @Autowired
+    private TranslatorGroupRepository groupRepo;
+
     @Transactional
     @Override
     public void createUnitDtos(List<UnitDto> unitDtos, long workId) {
@@ -68,17 +74,25 @@ public class WorkServiceImpl implements WorkService {
 
     @Transactional
     @Override
-    public WorkDto createWorkDto(@Valid final WorkDto entity) {
-        logger.log(getLoggerLevel(), "Entering createWorkDto with {} ", entity.toString());
+    public WorkDto createWorkDto(@Valid final WorkDto entity, final String groupName) {
+        logger.log(getLoggerLevel(), "Entering createWorkDto with {} for group {} ", entity.toString(),groupName);
 
-        Work perWork = convertToEntity(entity);
-        // perWork.setGroup(groupRepo.findOne(entity.getGroupId()));
-        perWork.setProject(projectRepo.findOne(entity.getProjectId()));
-        perWork = workRepo.save(perWork);
-        WorkDto workDto = convertToDto(perWork);
+        if (groupRepo.findByName(groupName).isPresent()) {
 
-        logger.log(getLoggerLevel(), "Leaving createWorkDto with {} ", workDto.toString());
-        return workDto;
+            Work perWork = convertToEntity(entity);
+            perWork.setGroup(groupRepo.findByName(groupName).get());
+            perWork.setProject(projectRepo.findOne(entity.getProjectId()));
+            perWork = workRepo.save(perWork);
+            WorkDto workDto = convertToDto(perWork);
+
+            logger.log(getLoggerLevel(), "Leaving createWorkDto with {} ", workDto.toString());
+            return workDto;
+        }
+        else {
+            logger.log(getLoggerLevel(), "Failed to create WorkDto with {} for group {} ", entity.toString(),groupName);
+            throw new IllegalArgumentException("Could not create work. No such group with name " + groupName);
+        }
+
     }
 
     // https://www.javacodegeeks.com/2013/05/spring-data-solr-tutorial-pagination.html
@@ -193,10 +207,8 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public void removeWorkDto(final long workId) {
         logger.log(getLoggerLevel(), "Entering removeWorkDto with id: {} ", workId);
-
+       
         if (workRepo.exists(workId)) {
-            FileInfo info = workRepo.findOne(workId).getFileinfo();
-            fileInfoRepo.delete(info.getId());
             removeUnitDtos(workId);
             workRepo.delete(workId);
             logger.log(getLoggerLevel(), "Leaving removeWorkDto()");

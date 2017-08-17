@@ -16,7 +16,6 @@ public interface FileLoader {
     
     Path getDownloadPath(String filename);
 
-    
     Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException;
 
     Resource loadAsResource(String filename) throws FileLoaderException;
@@ -25,5 +24,4 @@ public interface FileLoader {
 
     Stream <Path> storeToDownloadDirectory(Path temporaryFilePath, String downloadFilename) throws FileLoaderException;
     
-
 }
