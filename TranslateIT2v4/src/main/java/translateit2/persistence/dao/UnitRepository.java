@@ -14,6 +14,7 @@ import translateit2.persistence.model.State;
 import translateit2.persistence.model.Unit;
 
 //@RepositoryRestResource(collectionResourceRel = "unit", path = "unit")
+@RepositoryRestResource(exported = false)
 public interface UnitRepository extends PagingAndSortingRepository<Unit, Long> {
     Long countByWorkId(final long workId);
 

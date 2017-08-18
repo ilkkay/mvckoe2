@@ -11,13 +11,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileNameResolverUnitTests {
 
     @Test
-    public void resolveFileName_assertAppName() throws FileLoaderException {
+    public void resolveFileName_assertAppName() throws TranslateIt2Exception {
         // when
         String returnAppName = fileNameResolver().getApplicationName("dotCMS_fi.properties");      
         // then
@@ -30,7 +30,7 @@ public class FileNameResolverUnitTests {
     }
 
     @Test
-    public void resolveFileName_assertLocale() throws FileLoaderException {
+    public void resolveFileName_assertLocale() throws TranslateIt2Exception {
         
         // initialize
         String expected = "fi_FI";
@@ -69,11 +69,11 @@ public class FileNameResolverUnitTests {
     public void resolveFileName_failIfAppNameOnlyFile() {
 
         assertThatThrownBy(() -> fileNameResolver().getApplicationName("dotCMS.properties"))
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
 
         assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("XXX.properties",
                 ext -> ext.equals("properties")))
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class FileNameResolverUnitTests {
 
         assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("XXX.xxx",
                 ext -> ext.equals("properties")))
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
     }
 
     @Test
@@ -90,11 +90,11 @@ public class FileNameResolverUnitTests {
 
         assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("dotCMS_XXX.properties",
                 ext -> ext.equals("properties")))
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
 
         assertThatThrownBy(() -> fileNameResolver().getLocaleFromFilename("dotCMS-xx-XX.properties",
                 ext -> ext.equals("properties")))
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
     }
 
     private FileNameResolver fileNameResolver() {

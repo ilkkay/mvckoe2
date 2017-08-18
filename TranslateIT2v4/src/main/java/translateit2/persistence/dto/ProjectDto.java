@@ -35,8 +35,6 @@ public class ProjectDto {
     @NotNull
     private LanguageFileType charset;
 
-
-
     public LanguageFileFormat getFormat() {
         return format;
     }

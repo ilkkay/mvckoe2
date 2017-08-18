@@ -71,6 +71,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private WorkRepository workRepo;
 
+    /*
+     * FILE INFO services start
+     */
     @Transactional
     @Override
     public FileInfoDto createFileInfoDto(@Valid final FileInfoDto entity) {
@@ -80,10 +83,23 @@ public class ProjectServiceImpl implements ProjectService {
         logger.log(getLoggerLevel(), "Leaving createInfoDto with {}", infoDto.toString());
         return infoDto;
     }
-    /*
-     * FILE INFO services end
-     */
 
+    /*
+     * INFO services start
+     */
+    @Transactional
+    @Override
+    public InfoDto createInfoDto(@Valid final InfoDto entity) {
+        logger.log(getLoggerLevel(), "Entering createInfoDto with {}", entity.toString());
+        Info perInfo = infoRepo.save(convertToEntity(entity));
+        InfoDto infoDto = convertToDto(perInfo);
+        logger.log(getLoggerLevel(), "Leaving createInfoDto with {}", infoDto.toString());
+        return infoDto;
+    }
+
+    /*
+     * GROUP services start
+     */
     @Transactional
     @Override
     public TranslatorGroupDto createGroupDto(@Valid final TranslatorGroupDto entity) {
@@ -94,19 +110,31 @@ public class ProjectServiceImpl implements ProjectService {
         return groupDto;
     }
 
-    @Transactional
     @Override
-    public InfoDto createInfoDto(@Valid final InfoDto entity) {
-        logger.log(getLoggerLevel(), "Entering createInfoDto with {}", entity.toString());
-        Info perInfo = infoRepo.save(convertToEntity(entity));
-        InfoDto infoDto = convertToDto(perInfo);
-        logger.log(getLoggerLevel(), "Leaving createInfoDto with {}", infoDto.toString());
-        return infoDto;
+    public TranslatorGroupDto getGroupDtoByName(String name) {
+        logger.log(getLoggerLevel(), "Entering getGroupDtoByName with {}", name.toString());
+        Optional<TranslatorGroup> perGroup = groupRepo.findByName(name);
+        TranslatorGroupDto groupDto = convertToDto(perGroup.get());
+        logger.log(getLoggerLevel(), "Leaving getGroupDtoByName with {}", groupDto.toString());
+        return groupDto;
+    }
+    
+    @Override
+    public void removeGroupDto(final long groupId) {
+        if (groupRepo.exists(groupId)) {
+            groupRepo.delete(groupId); 
+            logger.log(getLoggerLevel(), "Removing GroupDto with id{}", groupId);
+        }
+        else
+            logger.log(getLoggerLevel(), "Did not find Person with id {}", groupId);
     }
     /*
-     * INFO services end
+     * TRANSLATOR GROUP services end
      */
 
+    /*
+     * PERSON services start
+     */
     @Transactional
     @Override
     public PersonDto createPersonDto(@Valid final PersonDto entity) {
@@ -126,9 +154,24 @@ public class ProjectServiceImpl implements ProjectService {
         }
         else
             logger.log(getLoggerLevel(), "Did not find Person with id {}", personId);
-
     }
 
+    @Override
+    public PersonDto getPersonDtoByPersonName(String name) {
+        logger.log(getLoggerLevel(), "Entering getPersonDtoByPersonName with {}", name.toString());
+        Optional<Person> perPerson = personRepo.findByFullName(name);
+        PersonDto personDto = convertToDto(perPerson.get());
+        logger.log(getLoggerLevel(), "Leaving getPersonDtoByPersonName with {}", personDto.toString());
+        return personDto;
+    }
+    /*
+     * PERSON services end
+     */
+
+
+    /*
+     * PROJECT services start
+     */
     @Transactional
     @Override
     public ProjectDto createProjectDto(ProjectDto entity, String personName) {
@@ -146,34 +189,19 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDto;
     }
 
-    /*
-     * PERSON services end
-     */
-
-    @Override
-    public TranslatorGroupDto getGroupDtoByName(String name) {
-        logger.log(getLoggerLevel(), "Entering getGroupDtoByName with {}", name.toString());
-        Optional<TranslatorGroup> perGroup = groupRepo.findByName(name);
-        TranslatorGroupDto groupDto = convertToDto(perGroup.get());
-        logger.log(getLoggerLevel(), "Leaving getGroupDtoByName with {}", groupDto.toString());
-        return groupDto;
-    }
-
-    @Override
-    public PersonDto getPersonDtoByPersonName(String name) {
-        logger.log(getLoggerLevel(), "Entering getPersonDtoByPersonName with {}", name.toString());
-        Optional<Person> perPerson = personRepo.findByFullName(name);
-        PersonDto personDto = convertToDto(perPerson.get());
-        logger.log(getLoggerLevel(), "Leaving getPersonDtoByPersonName with {}", personDto.toString());
-        return personDto;
-    }
-
     @Override
     public ProjectDto getProjectDtoById(long projectId) {
         logger.log(getLoggerLevel(), "Entering getProjectDtoById with id: {}", projectId);
-        ProjectDto projectDto = convertToDto(projectRepo.findOne(projectId));
-        logger.log(getLoggerLevel(), "Leaving getProjectDtoById with {}", projectDto);
-        return projectDto;
+
+        if (projectRepo.exists(projectId)) {
+            ProjectDto projectDto = convertToDto(projectRepo.findOne(projectId));
+            logger.log(getLoggerLevel(), "Leaving getProjectDtoById with {}", projectDto);
+            return projectDto;
+        }
+        else{
+            logger.log(getLoggerLevel(), "Failure in getProjectDtoById with {}", projectId);
+            throw new IllegalArgumentException("Could not read project. No such project having id = " + projectId);
+        }
     }
 
     @Override
@@ -237,8 +265,10 @@ public class ProjectServiceImpl implements ProjectService {
             workRepo.delete(allWorks);
             projectRepo.delete(projectId);
             logger.log(getLoggerLevel(), "Leaving removeProjectDto()");
-        } else
+        } else{
+            logger.log(getLoggerLevel(), "Could not remove project. No such project having id = " + projectId);
             throw new IllegalArgumentException("Could not remove project. No such project having id = " + projectId);
+        }
     }
 
     @Transactional
@@ -260,58 +290,25 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDto;
     }
 
-    /*
-     * FILE INFO services start
-     */
-    private FileInfoDto convertToDto(FileInfo info) {
-        if (info == null)
-            return null;
-        FileInfoDto infoDto = modelMapper.map(info, FileInfoDto.class);
-        return infoDto;
-    }
+    @Override
+    public Map<Long, Integer> getWorkCountPerProject(String personName) {
 
-    /*
-     * INFO services start
-     */
-    private InfoDto convertToDto(Info info) {
-        if (info == null)
-            return null;
-        InfoDto infoDto = modelMapper.map(info, InfoDto.class);
-        return infoDto;
-    }
+        long personId=personRepo.findByFullName(personName).get().getId();
+        List<Project> projects = projectRepo.findByPersonId(personId);
 
-    /*
-     * PERSON services start
-     */
-    private PersonDto convertToDto(Person person) {
-        if (person == null)
-            return null;
-        PersonDto personDto = modelMapper.map(person, PersonDto.class);
-        return personDto;
-    }
+        // get projects by name
+        //List<Project> projects = projectRepo.findAll();
+        HashMap<Long, Integer> workCountMap = new LinkedHashMap<Long, Integer>();
+        projects.forEach(prj -> workCountMap.put(prj.getId(), workRepo.findByProjectId(prj.getId()).size()));
 
-    /*
-     * GROUP services end
-     */
-    /*
-     * PROJECT services start
-     */
-    private ProjectDto convertToDto(Project project) {
-        if (project == null)
-            return null;
-        ProjectDto projectDto = modelMapper.map(project, ProjectDto.class);
-        return projectDto;
+        if (workCountMap.isEmpty())
+            return Collections.emptyMap();
+        else
+            return workCountMap;
     }
-
-    /*
-     * GROUP services start
+    /**
+     * PROJECT ends
      */
-    private TranslatorGroupDto convertToDto(TranslatorGroup group) {
-        if (group == null)
-            return null;
-        TranslatorGroupDto groupDto = modelMapper.map(group, TranslatorGroupDto.class);
-        return groupDto;
-    }
 
     private FileInfo convertToEntity(FileInfoDto fileInfoDto) {
         FileInfo info = modelMapper.map(fileInfoDto, FileInfo.class);
@@ -342,6 +339,41 @@ public class ProjectServiceImpl implements ProjectService {
         return group;
     }
 
+    private InfoDto convertToDto(Info info) {
+        if (info == null)
+            return null;
+        InfoDto infoDto = modelMapper.map(info, InfoDto.class);
+        return infoDto;
+    }
+
+    private PersonDto convertToDto(Person person) {
+        if (person == null)
+            return null;
+        PersonDto personDto = modelMapper.map(person, PersonDto.class);
+        return personDto;
+    }
+
+    private FileInfoDto convertToDto(FileInfo info) {
+        if (info == null)
+            return null;
+        FileInfoDto infoDto = modelMapper.map(info, FileInfoDto.class);
+        return infoDto;
+    }
+
+    private TranslatorGroupDto convertToDto(TranslatorGroup group) {
+        if (group == null)
+            return null;
+        TranslatorGroupDto groupDto = modelMapper.map(group, TranslatorGroupDto.class);
+        return groupDto;
+    }
+
+    private ProjectDto convertToDto(Project project) {
+        if (project == null)
+            return null;
+        ProjectDto projectDto = modelMapper.map(project, ProjectDto.class);
+        return projectDto;
+    }
+
     /*
      * TODO: currently for testing
      */
@@ -358,21 +390,5 @@ public class ProjectServiceImpl implements ProjectService {
         logger.log(getLoggerLevel(), "Leaving removeUnitDtos()");
     }
 
-    @Override
-    public Map<Long, Integer> getWorkCountPerProject() {
 
-        // get projects by name
-        List<Project> projects = projectRepo.findAll();
-        HashMap<Long, Integer> workCountMap = new LinkedHashMap<Long, Integer>();
-        projects.forEach(prj -> workCountMap.put(prj.getId(), workRepo.findByProjectId(prj.getId()).size()));
-
-        if (workCountMap.isEmpty())
-            return Collections.emptyMap();
-        else
-            return workCountMap;
-    }
-
-    /**
-     * PROJECT ends
-     */    
 }

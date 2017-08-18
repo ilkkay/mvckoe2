@@ -45,6 +45,21 @@ public class ProjectMapper extends ModelMapper {
         }
     };
 
+    PropertyMap<WorkDto, Work> workDtoMap = new PropertyMap<WorkDto, Work>() {
+        @Override
+        protected void configure() {
+            //map().setTarget_locale(destination.getLocale());
+        }
+    };
+
+    PropertyMap<Work, WorkDto> workMap = new PropertyMap<Work, WorkDto>() {
+        @Override
+        protected void configure() {
+            // TODO Auto-generated method stub
+            //map().setTarget_locale(source.getTarget_locale());
+        }
+    };
+    
     PropertyMap<FileInfoDto, FileInfo> fileInfoDtoMap = new PropertyMap<FileInfoDto, FileInfo>() {
         @Override
         protected void configure() {
@@ -65,6 +80,8 @@ public class ProjectMapper extends ModelMapper {
         addMappings(projectDtoMap);
         addMappings(fileInfoMap);
         addMappings(fileInfoDtoMap);
+        //addMappings(workMap);
+        //addMappings(workDtoMap);
     }
 
 }

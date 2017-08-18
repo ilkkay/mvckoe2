@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.service.ProjectService;
@@ -40,30 +40,30 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     private WorkService workService;
 
     @Override
-    public void checkEmptyFile(Path uploadedLngFile, long workId) throws FileLoaderException {
+    public void checkEmptyFile(Path uploadedLngFile, long workId) throws TranslateIt2Exception {
         Charset charset = getCharSet(workId);
         LinkedHashMap<String, String> segments = null;
         try {
             segments = (LinkedHashMap<String, String>) getPropSegments(uploadedLngFile, charset);
         } catch (IOException e) { //
-            throw new FileLoaderException((messages.get("FileStorageService.not_read_properties_file")) + " "
+            throw new TranslateIt2Exception((messages.get("FileStorageService.not_read_properties_file")) + " "
                     + uploadedLngFile.getFileName());
         }
         if (segments.isEmpty())
             // Errors instanssi
-            throw new FileLoaderException(
+            throw new TranslateIt2Exception(
                     (messages.get("FileStorageService.empty_properties_file")) + " " + uploadedLngFile.getFileName());
 
     }
 
     @Override
-    public void checkFileCharSet(Path uploadedLngFile, long workId) throws FileLoaderException {
+    public void checkFileCharSet(Path uploadedLngFile, long workId) throws TranslateIt2Exception {
         LanguageFileType typeExpected = getExpectedFiletype(workId);
 
         boolean isUploadedUTF_8 = true;
         try {
             isUploadedUTF_8 = isCorrectCharset(uploadedLngFile, StandardCharsets.UTF_8);
-        } catch (FileLoaderException e) {
+        } catch (TranslateIt2Exception e) {
             throw e;
         }
 
@@ -71,7 +71,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
         if (!isUploadedUTF_8)
             try {
                 isUploadedISO8859 = isCorrectCharset(uploadedLngFile, StandardCharsets.ISO_8859_1);
-            } catch (FileLoaderException e) {
+            } catch (TranslateIt2Exception e) {
                 throw e;
             }
 
@@ -83,40 +83,40 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
 
         // if typeExpected == ISO8859 and uploaded is UTF-8 => reject
         if (typeExpected.equals(LanguageFileType.ISO8859_1) && isUploadedUTF_8)
-            throw new FileLoaderException(messages.get("FileStorageService.false_ISO8859_encoding"));
+            throw new TranslateIt2Exception(messages.get("FileStorageService.false_ISO8859_encoding"));
         // ("The encoding is not same as defined for the version. It should be
         // ISO8859.");
 
         // if typeExpected == UTF-8 and uploaded is ISO8859 => reject
         if (typeExpected.equals(LanguageFileType.UTF_8) && isUploadedISO8859)
-            throw new FileLoaderException(messages.get("FileStorageService.false_UTF8_encoding"));
+            throw new TranslateIt2Exception(messages.get("FileStorageService.false_UTF8_encoding"));
         // ("The encoding is not same as defined for the version. It should be
         // UTF-8.");
     }
 
     @Override
-    public void checkFileExtension(Path uploadedLngFile) throws FileLoaderException {
+    public void checkFileExtension(Path uploadedLngFile) throws TranslateIt2Exception {
         // check extension
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.properties");
 
         if (!(matcher.matches(uploadedLngFile.getFileName())))
-            throw new FileLoaderException(
+            throw new TranslateIt2Exception(
                     (messages.get("FileStorageService.not_properties_file")) + " " + uploadedLngFile.getFileName());
     }
 
     @Override
-    public String checkFileNameFormat(Path uploadedLngFile) throws FileLoaderException {
+    public String checkFileNameFormat(Path uploadedLngFile) throws TranslateIt2Exception {
         String appName = null;
         // check file name format i.e. appName_region_language*.properties
         // or just appName_language*.properties => reject
         appName = sanityCheck(uploadedLngFile.getFileName().toString());
         if (appName == null)
-            throw new FileLoaderException(
+            throw new TranslateIt2Exception(
                     (messages.get("FileStorageService.code_missing")) + " " + uploadedLngFile.getFileName());
 
         Locale locale = getLocaleFromString(uploadedLngFile.getFileName().toString(), ext -> ext.equals("properties"));
         if (locale == null)
-            throw new FileLoaderException(
+            throw new TranslateIt2Exception(
                     (messages.get("FileStorageService.code_missing")) + " " + uploadedLngFile.getFileName());
 
         return appName;
@@ -274,13 +274,13 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
         return map;
     }
 
-    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws FileLoaderException {
+    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws TranslateIt2Exception {
         try {
             Files.readAllLines(uploadedLngFile, charset);
         } catch (MalformedInputException e) {
             return false; // do nothing is OK
         } catch (IOException e) {
-            throw new FileLoaderException("Unexpected exception thrown while testing charset of a properties file");
+            throw new TranslateIt2Exception("Unexpected exception thrown while testing charset of a properties file");
         }
         return true; // if charset == UTF8 and no exceptions => file is UTF8
         // encoded

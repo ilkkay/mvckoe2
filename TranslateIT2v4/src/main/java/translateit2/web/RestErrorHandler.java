@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import translateit2.fileloader.FileLoadError;
-import translateit2.fileloader.FileLoaderException;
-import translateit2.fileloader.FileLoaderServiceException;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
+import translateit2.exception.TranslateIt2ServiceException;
 import translateit2.restapi.CustomErrorType;
 import translateit2.util.Messages;
 
@@ -65,10 +65,10 @@ public class RestErrorHandler {
     }
 
     // custom error messages Client may have done somtinh wrong
-    @ExceptionHandler(FileLoaderException.class)
+    @ExceptionHandler(TranslateIt2Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public CustomErrorType handleLoadingClientExceptions(FileLoaderException ex) {
+    public CustomErrorType handleLoadingClientExceptions(TranslateIt2Exception ex) {
 
         CustomErrorType customError = new CustomErrorType(
                 messages.get(ex.getErrorCode().getDescription()),
@@ -79,10 +79,10 @@ public class RestErrorHandler {
     }
 
     // custom error messages. Something went wrong on the server. Client should informa adminstrator
-    @ExceptionHandler(FileLoaderServiceException.class)
+    @ExceptionHandler(TranslateIt2ServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public CustomErrorType handleLoadingServerExceptions(FileLoaderException ex) {
+    public CustomErrorType handleLoadingServerExceptions(TranslateIt2Exception ex) {
 
         CustomErrorType customError = new CustomErrorType(
                 messages.get(ex.getErrorCode().getDescription()),
@@ -93,10 +93,10 @@ public class RestErrorHandler {
     }
 
     // all the other exceptions
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(value = { RuntimeException.class, IllegalArgumentException.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public CustomErrorType handleOtherExceptions(HttpServletRequest request, Exception ex){
-        return new CustomErrorType(ex.getLocalizedMessage(),FileLoadError.UNDEFINED_ERROR);        
+        return new CustomErrorType(ex.getLocalizedMessage(),TranslateIt2Error.UNDEFINED_ERROR);        
     }
 }

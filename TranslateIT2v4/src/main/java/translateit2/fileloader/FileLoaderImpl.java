@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.service.LoadingContractorImpl;
 
 @Component // oli service mutta miksi
@@ -65,7 +67,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Stream <Path> storeToDownloadDirectory(Path temporaryFilePath,String downloadFilename) throws FileLoaderException {
+    public Stream <Path> storeToDownloadDirectory(Path temporaryFilePath,String downloadFilename) throws TranslateIt2Exception {
 
         Path downloadFilePath = getDownloadPath(downloadFilename);   
         Path dir = downloadFilePath.getParent();
@@ -73,7 +75,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             try {
                 Files.createDirectory(dir);
             } catch (IOException e1) {
-                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
 
         if (Files.exists(temporaryFilePath))
@@ -81,25 +83,25 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
                 Files.move(temporaryFilePath, downloadFilePath,StandardCopyOption.REPLACE_EXISTING );
                 return Files.walk(downloadFilePath);
             } catch (IOException e) {
-                throw new FileLoaderException(e.getCause());
+                throw new TranslateIt2Exception(e.getCause());
             }        
         else
-            throw new FileLoaderException(FileLoadError.FILE_NOT_FOUND);
+            throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND);
     }
 
     @Override
-    public Stream<Path> getPathsOfDownloadableFiles() throws FileLoaderException { 
+    public Stream<Path> getPathsOfDownloadableFiles() throws TranslateIt2Exception { 
         try {
             return Files.walk(this.downloadLocation, 1).filter(path -> !path.equals(this.downloadLocation))
                     .map(path -> this.downloadLocation.relativize(path));
         } catch (IOException e) {
             //throw new CannotReadFileException(e.getCause());
-            throw new FileLoaderException(e.getCause());
+            throw new TranslateIt2Exception(e.getCause());
         }
     }
 
     @Override
-    public Resource loadAsResource(String filename) throws FileLoaderException {
+    public Resource loadAsResource(String filename) throws TranslateIt2Exception {
         try {
             Path file = getUploadPath(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -112,12 +114,12 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
                 return resource;
             } else {
                 //throw new LoadedFileNotFoundException(filename);
-                throw new FileLoaderException(FileLoadError.FILE_NOT_FOUND);
+                throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND);
             }
 
         } catch (MalformedURLException e) {
             //throw new LoadedFileNotFoundException(filename, e.getCause());
-            throw new FileLoaderException(FileLoadError.FILE_NOT_FOUND, e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND, e.getCause());
         }        
     }
 
@@ -127,11 +129,11 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Path storeToUploadDirectory(MultipartFile file) throws FileLoaderException {
+    public Path storeToUploadDirectory(MultipartFile file) throws TranslateIt2Exception {
         if (file.isEmpty()) 
             //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
             //throw new LoadedFileNotFoundException(file.getOriginalFilename());
-            throw new FileLoaderException(FileLoadError.FILE_TOBELOADED_IS_EMPTY);
+            throw new TranslateIt2Exception(TranslateIt2Error.FILE_TOBELOADED_IS_EMPTY);
 
         Path outFilePath;
         try(InputStream in = file.getInputStream()) {    
@@ -140,13 +142,13 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);
             if (Files.notExists(uploadLocation)) 
                 //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
-                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_UPLOAD_DIRECTORY);
 
             outFilePath = this.uploadLocation.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             //throw new CannotUploadFileException(file.getOriginalFilename(), e);
-            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE,e.getCause());
         }
 
         return outFilePath;
@@ -154,14 +156,14 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
 
     @PostConstruct
-    private void init() throws FileLoaderException {
+    private void init() throws TranslateIt2Exception {
         try {
             deleteUploadedFiles();
 
             if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);            
         } catch (IOException e) {
             //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
-            throw new FileLoaderException(FileLoadError.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
         }
     }
 }

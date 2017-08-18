@@ -5,22 +5,22 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoadError;
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 
 @Component
 public class FileNameResolverImpl implements FileNameResolver{
     @Override
-    public String getApplicationName(String filename) throws FileLoaderException {
+    public String getApplicationName(String filename) throws TranslateIt2Exception {
         if (filename == null)
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
 
         // Extract application name
         int appIndex = filename.indexOf('_');
         if (appIndex == -1) {
             // No further "_" so this is "{application}" only file
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
         } else
             return filename.substring(0, appIndex);
     }
@@ -34,17 +34,17 @@ public class FileNameResolverImpl implements FileNameResolver{
      */
     @Override
     public Locale getLocaleFromFilename(String fileName, Predicate<String> p) 
-            throws FileLoaderException {
+            throws TranslateIt2Exception {
 
         // check extension
         int extPos = fileName.lastIndexOf('.');
         if ((extPos > 0) && (!p.test(fileName.substring(extPos + 1).toLowerCase()))) 
-            throw new FileLoaderException(FileLoadError.IMPROPER_EXTENSION_IN_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_EXTENSION_IN_FILE_NAME);
 
         // get application name end position
         int appIndex = fileName.indexOf('_');
         if (appIndex == -1)
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_APPLICATION_NAME_FROM_FILE_NAME);            
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_APPLICATION_NAME_FROM_FILE_NAME);            
 
         // language can be found between two underscores (i.e. appname_fi_FI.extension)
         // OR between language code and extension (i.e. appname_fi.extension)
@@ -63,7 +63,7 @@ public class FileNameResolverImpl implements FileNameResolver{
                     return new Locale(language.toLowerCase(), language.toUpperCase());
                 }
                 else
-                    throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+                    throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
             }
             else {
                 language = fileName.substring(appIndex + 1, appIndex + 3);
@@ -75,7 +75,7 @@ public class FileNameResolverImpl implements FileNameResolver{
 
         // Extract language which is exactly two characters long
         if (languageIndex - appIndex != 3) 
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_LANGUAGE_FROM_FILE_NAME);
 
         // Extract country
         int countryIndex = fileName.indexOf('_', languageIndex + 1);

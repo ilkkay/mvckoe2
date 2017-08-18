@@ -1,5 +1,7 @@
 package translateit2.validator;
 
+import java.util.Optional;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -9,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.WorkRepository;
 import translateit2.persistence.dto.WorkDto;
+import translateit2.persistence.model.Project;
+import translateit2.persistence.model.Work;
 import translateit2.util.Messages;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
@@ -18,25 +22,8 @@ import translateit2.util.Messages;
 @ConfigurationProperties(prefix = "translateit2.validator")
 public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDto> {
 
-    private WorkRepository workRepo;
-
     @Autowired
-    public WorkValidator(WorkRepository workRepo) {
-        this.workRepo = workRepo;
-    }
-
-    // autowired validation settings object
-    // private Integer projectNameMinSize=5; // for testing purposes
-
-    // private Integer projectNameMaxSize=35; // for testing purposes
-
-    /*
-     * public void setProjectNameMinSize(Integer projectNameMinSize) {
-     * this.projectNameMinSize = projectNameMinSize; }
-     * 
-     * public void setProjectNameMaxSize(Integer projectNameMaxSize) {
-     * this.projectNameMaxSize = projectNameMaxSize; }
-     */
+    private WorkRepository workRepo;
 
     @Override
     public void initialize(WorkConstraint constraintAnnotation) {
@@ -46,13 +33,28 @@ public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDt
 
     @Override
     public boolean isValid(WorkDto value, ConstraintValidatorContext context) {
-        
+
         if (value == null)
             return true;
 
         boolean isValid = true;
 
-        // ....
+        boolean isExisitingWorkWithSameVersion;
+        if (value.getId() == null)
+            isExisitingWorkWithSameVersion = workRepo.
+            findByProjectIdAndVersion
+            (value.getProjectId(), value.getVersion()).isPresent();
+        else
+            isExisitingWorkWithSameVersion = workRepo.
+            findByProjectIdAndVersionAndIdNot
+            (value.getProjectId(), value.getVersion(), value.getId()).isPresent();
+
+        if (isExisitingWorkWithSameVersion) {
+            isValid = false;
+            context.disableDefaultConstraintViolation();
+            String s = "Version code exists already";
+            context.buildConstraintViolationWithTemplate(s).addPropertyNode("version").addConstraintViolation(); // $NON-NLS-1$                
+        }
 
         return isValid;
     }

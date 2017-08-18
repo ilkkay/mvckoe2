@@ -10,8 +10,8 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoadError;
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 
@@ -28,24 +28,24 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public void validateApplicationName(String appName, String expectedApplicationName) throws FileLoaderException {
+    public void validateApplicationName(String appName, String expectedApplicationName) throws TranslateIt2Exception {
         if (!(appName.equalsIgnoreCase(expectedApplicationName)))
-            throw new FileLoaderException(FileLoadError.IMPROPER_APPLICATION_NAME_IN_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_APPLICATION_NAME_IN_FILE_NAME);
     }
     
     @Override
-    public void validateLocale(Locale appLocale, Locale expectedLocale) throws FileLoaderException {
+    public void validateLocale(Locale appLocale, Locale expectedLocale) throws TranslateIt2Exception {
         if (!(appLocale.equals(expectedLocale)))
-            throw new FileLoaderException(FileLoadError.IMPROPER_LOCALE_IN_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_LOCALE_IN_FILE_NAME);
     }    
     
     @Override
-    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) throws FileLoaderException {
+    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) throws TranslateIt2Exception {
 
         boolean isUploadedUTF_8 = true;
         try {
             isUploadedUTF_8 = isCorrectCharset(uploadedLngFile, StandardCharsets.UTF_8);
-        } catch (FileLoaderException e) {
+        } catch (TranslateIt2Exception e) {
             throw e;
         }
 
@@ -53,7 +53,7 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
         if (!isUploadedUTF_8)
             try {
                 isUploadedISO8859 = isCorrectCharset(uploadedLngFile, StandardCharsets.ISO_8859_1);
-            } catch (FileLoaderException e) {
+            } catch (TranslateIt2Exception e) {
                 throw e;
             }
 
@@ -65,24 +65,24 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
 
         // if typeExpected == ISO8859 and uploaded is UTF-8 => reject
         if (typeExpected.equals(LanguageFileType.ISO8859_1) && isUploadedUTF_8)
-            throw new FileLoaderException(FileLoadError.IMPROPER_CHARACTERSET_IN_FILE);
+            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_CHARACTERSET_IN_FILE);
         // ("The encoding is not same as defined for the version. It should be
         // ISO8859.");
 
         // if typeExpected == UTF-8 and uploaded is ISO8859 => reject
         if (typeExpected.equals(LanguageFileType.UTF_8) && isUploadedISO8859)
-            throw new FileLoaderException(FileLoadError.IMPROPER_CHARACTERSET_IN_FILE);
+            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_CHARACTERSET_IN_FILE);
         // ("The encoding is not same as defined for the version. It should be
         // UTF-8.");
     }
     
-    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws FileLoaderException {
+    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws TranslateIt2Exception {
         try {
             Files.readAllLines(uploadedLngFile, charset);
         } catch (MalformedInputException e) {
             return false; // do nothing is OK
         } catch (IOException e) {
-            throw new FileLoaderException("Unexpected exception thrown while testing charset of a properties file");
+            throw new TranslateIt2Exception("Unexpected exception thrown while testing charset of a properties file");
         }
         return true; // if charset == UTF8 and no exceptions => file is UTF8
     }

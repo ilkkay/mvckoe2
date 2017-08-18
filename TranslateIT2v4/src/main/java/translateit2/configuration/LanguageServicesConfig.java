@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoadError;
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagebeancache.LanguageBeanCache;
 import translateit2.languagebeancache.LanguageBeanCacheImpl;
 import translateit2.languagebeancache.reader.LanguageFileReader;
@@ -64,19 +64,19 @@ public class LanguageServicesConfig {
         return priorities;
     }
     
-    private void checkServiceAvailability(LanguageFileFormat format) throws FileLoaderException {
+    private void checkServiceAvailability(LanguageFileFormat format) throws TranslateIt2Exception {
         if (!(fileValidatorCache.getService(format).isPresent())) {
             logger.error("Language file validator for format {} was missing", format);
         }      
 
         if (!(fileReaderCache.getService(format).isPresent())) {
             logger.error("Language file reader for format {} was missing", format);
-            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
         }
 
         if (!(fileWriterCache.getService(format).isPresent())) {
             logger.error("Language file writer for format {} was missing", format);
-            throw new FileLoaderException(FileLoadError.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
         }
     }
 }

@@ -21,7 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.util.FileSystemUtils;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.filelocator.FileLocator;
 import translateit2.filelocator.FileLocatorImpl;
 import translateit2.languagefile.LanguageFileFormat;
@@ -60,7 +60,7 @@ public class FileLocatorUnitTests {
         // THEN
         assertThatCode(() -> filelocator().moveUploadedFileIntoPermanentFileSystem(
                 uploadedFilePath, LanguageFileFormat.PROPERTIES))
-        .isExactlyInstanceOf(FileLoaderException.class);                
+        .isExactlyInstanceOf(TranslateIt2Exception.class);                
     }
 
     @Test
@@ -105,7 +105,7 @@ public class FileLocatorUnitTests {
     }
 
     @Test
-    public void createTemporaryFile_assertFileExists() throws FileLoaderException {
+    public void createTemporaryFile_assertFileExists() throws TranslateIt2Exception {
 
         List <String>  downloadFileAsList = new ArrayList<String>();
 

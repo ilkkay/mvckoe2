@@ -31,12 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
 
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.fileloader.FileLoader;
-import translateit2.fileloader.FileLoaderException;
 import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
 import translateit2.persistence.model.FileInfo;
+import translateit2.persistence.model.State;
 import translateit2.persistence.model.Unit;
 import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
@@ -140,7 +141,7 @@ public class LoadingContractorIntegrationTests {
         // THEN reload to the work ID
         // and ASSERT FileLoader exception
         assertThatCode(() -> { loadingContractor.uploadSource(multiPartFile, workId); } )
-        .isExactlyInstanceOf(FileLoaderException.class);
+        .isExactlyInstanceOf(TranslateIt2Exception.class);
 
         // remove file from disk, units and file info from database
         FileInfo info = fileInfoRepo.findByWorkId(workId).get();
@@ -201,7 +202,7 @@ public class LoadingContractorIntegrationTests {
     }
 
     @Test
-    public void downloadTarget_assertDownloadDirectoryName() {
+    public void downloadTarget_assertDownloadDirectoryName_and_AllHaveBeenTranslated() {
         long workId = 1;
 
         // WHEN source and target files have been uploaded
@@ -237,6 +238,10 @@ public class LoadingContractorIntegrationTests {
         String returnedDownloadDir = streamPaths.get(0).getParent().getFileName().toString();
         assertThat(expectedDownloadDir,equalTo(returnedDownloadDir));
 
+        long translated = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
+        long needsReview = unitRepo.countByWorkIdAndTargetState(workId, State.NEEDS_REVIEW);
+        assertThat(4140L, equalTo(translated + needsReview));
+        
         // remove file from disk and units from database
         FileInfo info = fileInfoRepo.findByWorkId(workId).get();
         fileInfoRepo.delete(info);

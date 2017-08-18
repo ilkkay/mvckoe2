@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagebeancache.reader.PropertiesFileReaderImpl;
 import translateit2.languagebeancache.writer.PropertiesFileWriterImpl;
 import translateit2.languagefile.LanguageFileFormat;

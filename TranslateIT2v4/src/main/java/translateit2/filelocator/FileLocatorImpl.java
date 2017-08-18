@@ -12,9 +12,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoadError;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.fileloader.FileLoader;
-import translateit2.fileloader.FileLoaderException;
 import translateit2.languagefile.LanguageFileFormat;
 
 @Component
@@ -37,7 +37,7 @@ public class FileLocatorImpl implements FileLocator {
 
     @Override
     public Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile, 
-            LanguageFileFormat format) throws FileLoaderException {
+            LanguageFileFormat format) throws TranslateIt2Exception {
         
         // create new path for permanent file storage
         Path outFilePath = getUniquePath(format, uploadDirectory);
@@ -46,14 +46,14 @@ public class FileLocatorImpl implements FileLocator {
             try {
                 Files.createDirectory(dir);
             } catch (IOException e1) {
-                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
         
         // and move the file from upload directory   
         try {
             Files.move(uploadedFile, outFilePath);
         } catch (IOException e) {
-            throw new FileLoaderException(FileLoadError.CANNOT_MOVE_FILE);
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_MOVE_FILE);
         }       
 
         return outFilePath;
@@ -85,7 +85,7 @@ public class FileLocatorImpl implements FileLocator {
     
     @Override
     public Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, 
-            LanguageFileFormat format, Charset charset) throws FileLoaderException {
+            LanguageFileFormat format, Charset charset) throws TranslateIt2Exception {
         
         // create new path for temporary file in permanent storage
         Path outFilePath = getUniquePath(format, uploadDirectory);
@@ -94,14 +94,14 @@ public class FileLocatorImpl implements FileLocator {
             try {
                 Files.createDirectory(dir);
             } catch (IOException e) {
-                throw new FileLoaderException(FileLoadError.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
         
         // and write contents to file   
         try {
             return Files.write(outFilePath,downloadFileAsList, charset);
         } catch (IOException e) {
-            throw new FileLoaderException(FileLoadError.CANNOT_CREATE_FILE);
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_FILE);
         }       
 
     }

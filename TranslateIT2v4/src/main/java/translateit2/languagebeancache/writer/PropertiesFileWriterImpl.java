@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.persistence.model.Work;
 
@@ -28,18 +28,18 @@ public class PropertiesFileWriterImpl implements LanguageFileWriter {
     public void write() { }
     
     @Override
-    public void createDownloadFile(Path tmpFilePath, List<String> downloadFileAsList) throws FileLoaderException {
+    public void createDownloadFile(Path tmpFilePath, List<String> downloadFileAsList) throws TranslateIt2Exception {
 
             try {
                 Files.write(tmpFilePath, downloadFileAsList);
             } catch (IOException e) {
-                throw new FileLoaderException("Could not create file for download");
+                throw new TranslateIt2Exception("Could not create file for download");
             }        
     }
     
 
     @Override
-    public  List<String> mergeWithOriginalFile(Map<String, String> map, List<String> inLines) throws FileLoaderException {
+    public  List<String> mergeWithOriginalFile(Map<String, String> map, List<String> inLines) throws TranslateIt2Exception {
         
         List<String> outLines = new ArrayList<String>();
         boolean isFirstLine = true; // <= optional byte order mark (BOM)
@@ -52,7 +52,7 @@ public class PropertiesFileWriterImpl implements LanguageFileWriter {
                 System.out.println(getKey(line) + "=" + map.get(key));
                 outLines.add(getKey(line) + "=" + map.get(key));
             } else
-                throw new FileLoaderException("Could not create file for download");
+                throw new TranslateIt2Exception("Could not create file for download");
         }
         
         return outLines;

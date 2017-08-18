@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import translateit2.persistence.model.Priority;
@@ -29,6 +31,9 @@ public class WorkDto {
     @NotNull
     private Locale locale;
 
+    
+    //private Locale target_locale;
+    
     private String originalFile;
 
     @NotNull
@@ -45,7 +50,8 @@ public class WorkDto {
     private Status status;
 
     @NotNull
-    @Size (min = 1, max = 5)
+    @Size (min = 1, max = 10)
+    @Pattern(regexp=".*[[0-9][\\.]]")
     private String version;
 
     public String getBackupFile() {
@@ -155,6 +161,15 @@ public class WorkDto {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    /*
+    public Locale getTarget_locale() {
+        return target_locale;
+    }
+
+    public void setTarget_locale(Locale target_locale) {
+        this.target_locale = target_locale;
+    }*/
 
     public void setVersion(String version) {
         this.version = version;

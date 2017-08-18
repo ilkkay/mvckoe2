@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.fileloader.FileLoader;
-import translateit2.fileloader.FileLoaderException;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
@@ -41,6 +43,7 @@ import translateit2.restapi.ViewUnits;
 import translateit2.service.LoadingContractor;
 import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
+import translateit2.util.Statistician;
 
 @RestController
 @RequestMapping("/api")
@@ -50,33 +53,33 @@ public class RestUnitController {
     private final FileLoader fileLoader;
     private WorkService workService;
     private LoadingContractor loadingContractor;
-
-    boolean isMockStatInitialized = false;
-    ViewStatistics mockStat = new ViewStatistics(); // TODO: this is a mock solution
+    private Statistician statistician;
 
     @Autowired
     public RestUnitController(FileLoader fileLoader,
             WorkService workService,
+            Statistician statistician,
             LoadingContractor loadingContractor) {
         this.workService = workService;
         this.loadingContractor = loadingContractor;
         this.fileLoader = fileLoader;
+        this.statistician = statistician;
     }
 
     // -------------------Get path to download file
     // ------------------------------------------
     @RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
-    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) throws FileLoaderException {
+    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) throws TranslateIt2Exception {
+        logger.info("Creating url path for workId {}", id);
 
         try {
-            logger.info("Creating url path for workId {}", id);
             Stream<Path> downloadStream = loadingContractor.downloadTarget(id);
             String filename = "/api/files/" + downloadStream.findFirst().get().getFileName().toString();
             UriComponents uriComponents = ucBuilder.scheme("http").host("localhost").path(filename).build();
 
             return new ResponseEntity<>(uriComponents, HttpStatus.OK);
 
-        } catch (FileLoaderException e) {
+        } catch (TranslateIt2Exception e) {
             throw e;
         } 
     }
@@ -90,97 +93,55 @@ public class RestUnitController {
 
         UnitDto unt = workService.getUnitDtoById(id);
 
-        if (unt == null) {
-            logger.error("Unit with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unit with id " + id + " not found"), HttpStatus.NOT_FOUND);
-        }
-
         return new ResponseEntity<>(unt, HttpStatus.OK);
     }
 
     // -------------------Retrieve the Units by pages
     // ---------------------------------------------
-    @RequestMapping(value = "/work/{workId}/unit/{pageNum}", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId, @PathVariable("pageNum") int pageNum) {
+    // /work/{workId}/units?pageNum=1&pageSize=4
+    @RequestMapping(value = "/work/{workId}/units", method = RequestMethod.GET)
+    public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId, 
+            @RequestParam Map<String,String> allRequestParams) {
 
-        int pageSize = 4;
-        int pageIndex = pageNum - 1;
-        long pageCount = workService.getUnitDtoCount(workId);
-        List<UnitDto> workUnits = workService.getPage(workId, pageIndex, pageSize);
-
-        if (workUnits.isEmpty()) {
-            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
-        }
+        logger.info("Getting Units for workId {}", workId);
+        
+        int pageSize = Integer.parseInt(allRequestParams.get("pageSize"));
+        int pageNumber = Integer.parseInt(allRequestParams.get("pageNum"));
 
         ViewUnits viewUnits = new ViewUnits();
-        viewUnits.setUnits(workUnits);
-        viewUnits.setPageCount(pageCount / 4 + 1);
-
-        if (!(isMockStatInitialized))
-            InitMockStat(workId);
-        viewUnits.setStatistics(mockStat);
+        
+        viewUnits.setUnits(workService.getPage(workId, pageNumber, pageSize));
+        viewUnits.setPageCount(workService.getUnitDtoCount(workId) / pageSize + 1);
+        viewUnits.setStatistics(statistician.getStatistics(workId));
 
         return new ResponseEntity<>(viewUnits, HttpStatus.OK);
     }
 
- // ------------------- download file
+    // ------------------- download file
     @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws FileLoaderException {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws TranslateIt2Exception {
 
-        Resource file = null;
+        logger.info("Downloading file {}", filename);
+        
         try {
-            file = fileLoader.loadAsResource(filename);
-        } catch (FileLoaderException e) {
+            Resource file = fileLoader.loadAsResource(filename);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                    .body(file);
+        } catch (TranslateIt2Exception e) {
             throw e;
         }
-        ResponseEntity<Resource> response = null;
-        response = ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-        return response;
+
     }
 
     // ------------------- Update a Unit
     // ------------------------------------------------
     @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUnit(@PathVariable("id") long id, @RequestBody UnitDto unit) {
-        logger.info("Updating Work with id {}", id);
+    public ResponseEntity<?> updateUnit(@PathVariable("id") long workId, @RequestBody UnitDto unit) {
 
-        if (unit.getId() == null) {
-            logger.error("Unable to update unit. Unit with id {} not found.", unit.getId());
-            return new ResponseEntity<>(
-                    new CustomErrorType("Unable to update. Unit with id " + unit.getId() + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
+        unit = workService.updateTranslatedUnitDto(unit, workId);        
+        workService.updateProgress(workId);
 
-        // TODO: update mock statistics
-        // IF the target.Text is != empty AND current state is untranslated,
-        // THEN increment translated value and set state translated
-        if ((unit.getTarget().getText().trim().length() > 0)
-                && ((unit.getTarget().getState() == State.NEEDS_TRANSLATION))
-                || (unit.getTarget().getState() == State.NEW)) {
-            Target t = unit.getTarget();
-            t.setState(State.TRANSLATED);
-            mockStat.setTranslated(mockStat.getTranslated() + 1);
-        } else { // ELSE do nothing (state == translated)
-            int j = 1;
-        }
-
-        // IF target.Text.Trim() == empty AND current state is translated,
-        // THEN decrement translated value and set state untranslated
-        if ((unit.getTarget().getText().trim().length() == 0) && (unit.getTarget().getState() == State.TRANSLATED)) {
-            Target t = unit.getTarget();
-            t.setState(State.NEEDS_TRANSLATION);
-            mockStat.setTranslated(mockStat.getTranslated() - 1);
-        } else { // ELSE do nothing (state == untranslated)
-            int j = 1;
-        }
-
-        List<UnitDto> newUnitDtos = new ArrayList<UnitDto>();
-        newUnitDtos.add(unit);
-        workService.updateUnitDtos(newUnitDtos, id);
-
-        unit = workService.getUnitDtoById(unit.getId());
         return new ResponseEntity<>(unit, HttpStatus.OK);
     }
 
@@ -189,34 +150,19 @@ public class RestUnitController {
     @RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
-            , UriComponentsBuilder ucBuilder) throws FileLoaderException {
+            , UriComponentsBuilder ucBuilder) throws TranslateIt2Exception {
 
         try {
             loadingContractor.uploadTarget(file, id);
-            return new ResponseEntity<>(workService.getWorkDtoById(id), HttpStatus.OK); 
+            WorkDto dto = workService.updateProgress(id);
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(ucBuilder.path("/api/{id}/units").buildAndExpand(dto.getId()).toUri());
+            return new ResponseEntity<Void>(headers, HttpStatus.CREATED);            
 
-        } catch (FileLoaderException e) {
+        } catch (TranslateIt2Exception e) {
             throw e;
         }  
     }
-
-    private void InitMockStat(final long workId) {
-        isMockStatInitialized = true;
-
-        List<UnitDto> units = workService.listUnitDtos(workId);
-        long total = units.size();
-        long translated = 0;
-        for (UnitDto unit : units) {
-            if ((unit.getTarget().getState() == State.TRANSLATED)
-                    || ((unit.getTarget().getState() == State.NEEDS_REVIEW)))
-                translated++;
-        }
-
-        mockStat.setReviewed(0L);
-        mockStat.setTotal(total);
-        mockStat.setTranslated(translated);
-        mockStat.setWorkId(workId);
-    }
-
 
 }

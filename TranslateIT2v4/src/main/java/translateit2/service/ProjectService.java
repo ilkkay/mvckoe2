@@ -35,6 +35,8 @@ public interface ProjectService {
     void removePersonDto(final long personId);
     
     TranslatorGroupDto getGroupDtoByName(String name);
+    
+    void removeGroupDto(final long groupId);
 
     PersonDto getPersonDtoByPersonName(String personName);
 
@@ -46,7 +48,7 @@ public interface ProjectService {
 
     long getProjectDtoCountByPerson( long personId);
     
-    Map<Long, Integer> getWorkCountPerProject();
+    Map<Long, Integer> getWorkCountPerProject(String personName);
 
     List<ProjectDto> listAllProjectDtos();
 

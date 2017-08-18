@@ -135,20 +135,21 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 61) korjaa createProjectDto(project,"Ilkka","No info text yet") DONE
 
-62)View-tasolle toimitettavat oliot tulisi nimetä kuvaavasti =>esim. viewProjects DONE
+62) View-tasolle toimitettavat oliot tulisi nimetä kuvaavasti =>esim. viewProjects DONE
+
+63) Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla DONE
+
+64) cleanappiin poista koodit jotka eivät ole käytössä, koska ne löytyvät gitistä DONE
+
 
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
 
 + tutki method reference :: (<= lambda)
 
-+ cleanappiin poista koodit jotka eivät ole käytössä, koska ne löytyvät gitistä
-
 + annotoinnit gettereihin riittää koska ensi tungetaan ja validointi lukee ne ??
 
 + käytä final virheiden getCharset oma resolver tms. ??
-
-+ Älä laita useampaa transaktiota saman rest tms. tason kutsuun esim. createProjectDto Rest-tasolla
 
 
 ================================================================================
@@ -179,9 +180,6 @@ public class Name {
 
   + poistuvatko kaikki info kentät kun projekti poistetaan
   
-  
-  
-   
-        
+         
         
        

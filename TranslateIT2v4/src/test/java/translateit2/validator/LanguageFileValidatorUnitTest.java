@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagebeancache.validator.LanguageFileValidator;
 import translateit2.languagebeancache.validator.PropertiesFileValidatorImpl;
 import translateit2.languagefile.LanguageFileType;
@@ -56,7 +56,7 @@ public class LanguageFileValidatorUnitTest {
 
         assertThatCode(() -> validator().validateCharacterSet(uploadedLngFile,  
                 expectedType))
-        .isExactlyInstanceOf(FileLoaderException.class);        
+        .isExactlyInstanceOf(TranslateIt2Exception.class);        
 
     }
 
@@ -71,7 +71,7 @@ public class LanguageFileValidatorUnitTest {
         // THEN throw exception if the upload file is ISO8859
         assertThatCode(() -> validator().validateCharacterSet(uploadedLngFile,  
                 expectedType))
-        .isExactlyInstanceOf(FileLoaderException.class);         
+        .isExactlyInstanceOf(TranslateIt2Exception.class);         
 
     }
 

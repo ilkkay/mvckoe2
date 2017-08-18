@@ -1,11 +1,5 @@
 package translateit2.web;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -14,40 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.configuration.LanguageServicesConfig;
-import translateit2.fileloader.FileLoaderException;
-import translateit2.languagefile.LanguageFileFormat;
-import translateit2.languagefile.LanguageFileType;
-import translateit2.persistence.dto.InfoDto;
-import translateit2.persistence.dto.PersonDto;
 import translateit2.persistence.dto.ProjectDto;
-import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.ViewProjects;
 import translateit2.service.ProjectService;
-import translateit2.service.WorkService;
-
-/* A popular solution to this problem is the use of Cross-Origin Resource Sharing 
- * (CORS). CORS is a W3C Recommendation, supported by all modern browsers, 
- * that involves a set of procedures and HTTP headers that together allow a 
- * browser to access data (notably Ajax requests) from a site other than the one 
- * from which the current page was served.'*/
-
-//https://github.com/angular-ui/ui-router/wiki/Quick-Reference#ui-view
-//https://angular.io/docs/ts/latest/guide/style-guide.html
-//http://f1angular.com/angular-js/file-upload-using-angularjs-and-spring-mvc-example/
 
 @RestController
 @RequestMapping("/api")
@@ -67,20 +38,11 @@ public class RestProjectController {
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project : {}", project);
 
-        ProjectDto prj = projectService.getProjectDtoById(project.getId());
-        if (prj != null) {
-            logger.error("Unable to create. A Project with name {} already exist", project.getName());
-            return new ResponseEntity<>(
-                    new CustomErrorType(
-                            "Unable to create. A Project with name " + project.getName() + " already exist."),
-                    HttpStatus.CONFLICT);
-        }
-
-        prj = projectService.createProjectDto(project,"Ilkka");
+        ProjectDto prj = projectService.createProjectDto(project,"Ilkka");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/project/{id}").buildAndExpand(prj.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.OK);
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Delete a Project
@@ -89,14 +51,8 @@ public class RestProjectController {
     public ResponseEntity<?> deleteProject(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Project with id {}", id);
 
-        ProjectDto prj = projectService.getProjectDtoById(id);
-        if (prj == null) {
-            logger.error("Unable to delete. project with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Project with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
-
         projectService.removeProjectDto(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -108,23 +64,18 @@ public class RestProjectController {
 
         ProjectDto prj = projectService.getProjectDtoById(id);
 
-        if (prj == null) {
-            logger.error("Project with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Project with id " + id + " not found"),
-                    HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
 
     // -------------------Retrieve All Projects
     // ---------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllProjects() {
+    public ResponseEntity<?> listAllProjects(UriComponentsBuilder ucBuilder) {
 
         ViewProjects viewPrjs = new ViewProjects();
 
         viewPrjs.setProjects(projectService.listAllProjectDtos());
-        viewPrjs.setProjectWorkMap(projectService.getWorkCountPerProject());
+        viewPrjs.setProjectWorkMap(projectService.getWorkCountPerProject("Ilkka"));
         viewPrjs.setSupportedFormats(languageServices.listSupportedFormats());
         viewPrjs.setSupportedCharacterSets(languageServices.listSupportedCharacterSets());
 
@@ -133,19 +84,14 @@ public class RestProjectController {
 
     // ------------------- Update a Project
     // ------------------------------------------------
-    // @RequestMapping(value = "/project/{id:\\d+}", method = RequestMethod.PUT)
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateProject(@PathVariable("id") long id, @Valid @RequestBody ProjectDto project) {
-        ProjectDto prj = projectService.getProjectDtoById(id);
-        if (prj == null) {
-            logger.error("Unable to update. Project with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Project with id " + id + " not found."),
-                    HttpStatus.NOT_FOUND);
-        }
 
         logger.info("Updating Project with id {}", project.getId());
-
+        
+        ProjectDto prj = projectService.getProjectDtoById(id);
         prj = projectService.updateProjectDto(project);
+        
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
 

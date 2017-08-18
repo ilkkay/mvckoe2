@@ -21,7 +21,7 @@ public interface WorkService {
      */
     WorkDto createWorkDto(@Valid final WorkDto entity, String groupName);
 
-    List<UnitDto> getPage(final long workId, int pageIndex, int pageSize);
+    List<UnitDto> getPage(final long workId, int pageNumber, int pageSize);
 
     long getTranslatedLinesCount(final long workId);
 
@@ -46,6 +46,11 @@ public interface WorkService {
     void removeWorkDtos(List<WorkDto> entities);
 
     void updateUnitDtos(@Valid List<UnitDto> unitDtos, final long workId);
+    
+    UnitDto updateTranslatedUnitDto(UnitDto translatedUnitDto, final long workId);
 
     WorkDto updateWorkDto(@Valid final WorkDto entity);
+    
+    WorkDto updateProgress(final long workId);
+        
 }

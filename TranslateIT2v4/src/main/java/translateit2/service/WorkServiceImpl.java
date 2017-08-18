@@ -1,6 +1,7 @@
 package translateit2.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
@@ -23,12 +26,14 @@ import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.TranslatorGroupRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
+import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.ProjectMapper;
 import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.State;
+import translateit2.persistence.model.Target;
 import translateit2.persistence.model.TranslatorGroup;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
@@ -97,12 +102,14 @@ public class WorkServiceImpl implements WorkService {
 
     // https://www.javacodegeeks.com/2013/05/spring-data-solr-tutorial-pagination.html
     @Override
-    public List<UnitDto> getPage(final long workId, int pageIndex, int pageSize) {
+    public List<UnitDto> getPage(final long workId, int pageNumber, int pageSize) {
         // TODO: not working Page<Unit> p =
         // unitRepo.getUnitsByWorkId(Long.valueOf(workId), req);
 
-        logger.log(getLoggerLevel(), "Entering getPage with  id: {}, pageIndex {} and pageSize {}", workId, pageIndex,
+        logger.log(getLoggerLevel(), "Entering getPage with  id: {}, page number {} and pageSize {}", workId, pageNumber,
                 pageSize);
+
+        int pageIndex = pageNumber - 1;
         PageRequest req = new PageRequest(pageIndex, pageSize, Sort.Direction.ASC, "serialNumber");
         Page<Unit> p = unitRepo.findByWorkId(workId, req);
 
@@ -110,27 +117,39 @@ public class WorkServiceImpl implements WorkService {
         p.forEach(unit -> unitDtos.add(convertToDto(unit)));
 
         logger.log(getLoggerLevel(), "Leaving getPage with unit list size {}", unitDtos.size());
-        return unitDtos;
+        if (unitDtos.isEmpty()) 
+            return Collections.emptyList();
+        else 
+            return unitDtos;
+
     }
 
     @Override
     public long getTranslatedLinesCount(long workId) {
         logger.log(getLoggerLevel(), "Entering getStatistics with  id: {} ", workId);
 
-        long translated = unitRepo.countStates(Long.valueOf(workId), State.TRANSLATED);
-        translated = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
+        long translated1 = unitRepo.countStates(Long.valueOf(workId), State.TRANSLATED);
+        long translated2 = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
 
-        logger.log(getLoggerLevel(), "Leaving getStatistics with {} ", translated);
+        long needsReview1 = unitRepo.countStates(Long.valueOf(workId), State.NEEDS_REVIEW);
+        long needsReview2 = unitRepo.countByWorkIdAndTargetState(workId, State.NEEDS_REVIEW);
 
-        return translated;
+        logger.log(getLoggerLevel(), "Leaving getStatistics with {} ", translated2 + needsReview2);
+
+        return translated2 + needsReview2;
     }
 
     @Override
-    public UnitDto getUnitDtoById(long unitId) {
-        logger.log(getLoggerLevel(), "Entering getUnitDtoById with id: {} ", unitId);
-        UnitDto unitDto = convertToDto(unitRepo.findOne(unitId));
-        logger.log(getLoggerLevel(), "Leaving getUnitDtoById with id: {} ", unitDto.toString());
-        return unitDto;
+    public UnitDto getUnitDtoById(long unitId) {        
+        if (unitRepo.exists(unitId)) {
+            UnitDto unitDto = convertToDto(unitRepo.findOne(unitId));
+            logger.log(getLoggerLevel(), "Leaving getUnitDtoById with id: {} ", unitDto.toString());
+            return unitDto;         
+        }
+        else{
+            logger.log(getLoggerLevel(), "Failure in getUnitDtoById with {}", unitId);
+            throw new IllegalArgumentException("Could not read unit. No such work having id = " + unitId);
+        }
     }
 
     @Override
@@ -143,10 +162,16 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public WorkDto getWorkDtoById(long workId) {
-        logger.log(getLoggerLevel(), "Entering getWorkDtoById with id: {} ", workId);
-        WorkDto workDto = convertToDto(workRepo.findOne(workId));
-        logger.log(getLoggerLevel(), "Leaving getWorkDtoById with {} ", workDto.toString());
-        return workDto;
+        if (workRepo.exists(workId)) {
+            WorkDto workDto = convertToDto(workRepo.findOne(workId));
+            logger.log(getLoggerLevel(), "Leaving getWorkDtoById with {} ", workDto.toString());
+            return workDto;
+        }
+        else{
+            logger.log(getLoggerLevel(), "Failure in getWorkDtoById with {}", workId);
+            throw new IllegalArgumentException("Could not read work. No such work having id = " + workId);
+        }
+
     }
 
     @Override
@@ -207,7 +232,7 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public void removeWorkDto(final long workId) {
         logger.log(getLoggerLevel(), "Entering removeWorkDto with id: {} ", workId);
-       
+
         if (workRepo.exists(workId)) {
             removeUnitDtos(workId);
             workRepo.delete(workId);
@@ -295,5 +320,60 @@ public class WorkServiceImpl implements WorkService {
     private Level getLoggerLevel() {
         return Level.forName("NOTICE", 450);
     }
-}
 
+    @Transactional
+    @Override
+    public UnitDto updateTranslatedUnitDto(UnitDto unitDto, long workId) {
+
+        logger.log(getLoggerLevel(), "Entering updateTranslatedUnitDto() with unit {} and workId {}", unitDto.toString(), workId);
+        
+        if (!(workRepo.exists(workId))) {
+            logger.log(getLoggerLevel(), "Failure in updateTranslatedUnitDto() with unit {} and workId {}", unitDto.toString(), workId);
+            throw new IllegalArgumentException("Could not remove work. No such work having id = " + workId);
+        }
+
+        // IF the target.Text is != empty AND current state is untranslated,
+        // THEN increment translated value and set state translated
+        if ((unitDto.getTarget().getText().trim().length() > 0)
+                && ((unitDto.getTarget().getState() == State.NEEDS_TRANSLATION))
+                || (unitDto.getTarget().getState() == State.NEW)) {
+            Target t = unitDto.getTarget();
+            t.setState(State.TRANSLATED);
+        } // if ELSE do nothing (state == translated)
+
+
+        // IF target.Text.Trim() == empty AND current state is translated,
+        // THEN decrement translated value and set state untranslated
+        if ((unitDto.getTarget().getText().trim().length() == 0) && (unitDto.getTarget().getState() == State.TRANSLATED)) {
+            Target t = unitDto.getTarget();
+            t.setState(State.NEEDS_TRANSLATION);
+        }  // if ELSE do nothing (state == untranslated)
+
+
+        Unit perUnit = unitRepo.findOne(unitDto.getId());
+        convertToEntity(unitDto, perUnit);
+        perUnit = unitRepo.save(perUnit);
+
+        logger.log(getLoggerLevel(), "Leaving updateTranslatedUnitDto() with unit {} and workId {}", perUnit.toString(), workId);
+
+        return convertToDto(perUnit);
+
+    }
+
+    @Transactional
+    @Override
+    public WorkDto updateProgress(final long workId) {
+
+        long translated = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
+        long needsReview = unitRepo.countByWorkIdAndTargetState(workId, State.NEEDS_REVIEW);
+        long total = unitRepo.countByWorkId(workId);
+
+        double progress = 1.0 * (translated + needsReview ) / total;
+
+        Work work = workRepo.findOne(workId);
+        work.setProgress(progress);
+        work = workRepo.save(work);
+        
+        return convertToDto(work);
+    }
+}

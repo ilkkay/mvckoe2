@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -38,7 +39,8 @@ public class Work implements Serializable {
     private String backup_file;
 
     @NotNull
-    @Size (min = 1, max = 5)
+    @Size (min = 1, max = 10)
+    @Pattern(regexp=".*[[0-9][\\.]]")
     private String version;
     
     @DateTimeFormat(iso = ISO.DATE)
@@ -50,8 +52,12 @@ public class Work implements Serializable {
     @ManyToOne
     private TranslatorGroup group;
 
+    @NotNull
     private Locale locale;
 
+  
+    //private Locale target_locale;
+    
     private String original_file;
 
     @Enumerated(EnumType.STRING)
@@ -178,6 +184,14 @@ public class Work implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    /*public Locale getTarget_locale() {
+        return target_locale;
+    }
+
+    public void setTarget_locale(Locale target_locale) {
+        this.target_locale = target_locale;
+    }*/
 
     public void setVersion(String version) {
         this.version = version;

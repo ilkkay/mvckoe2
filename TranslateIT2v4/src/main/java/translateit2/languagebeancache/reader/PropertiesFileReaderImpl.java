@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.fileloader.FileLoadError;
-import translateit2.fileloader.FileLoaderException;
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.persistence.model.Work;
 import translateit2.util.OrderedProperties;
@@ -35,7 +35,7 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
     }
 
     @Override
-    public HashMap<String, String> getSegments(Path inputPath, Charset charset) throws FileLoaderException {
+    public HashMap<String, String> getSegments(Path inputPath, Charset charset) throws TranslateIt2Exception {
         HashMap<String, String> map = new LinkedHashMap<String, String>();
         OrderedProperties srcProp = new OrderedProperties();
 
@@ -50,19 +50,19 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
             //map.forEach((k, v) -> System.out.println(k + "\n" + v));
 
         } catch (IOException e) {
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_FILE,e.getCause());
         }
 
         return map;
     }
 
     @Override
-    public List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) throws FileLoaderException {
+    public List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) throws TranslateIt2Exception {
 
         try {
             return Files.readAllLines(storedOriginalFile, charSet);
         } catch (IOException e) {
-            throw new FileLoaderException(FileLoadError.CANNOT_READ_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_FILE,e.getCause());
         }
     }
 }
