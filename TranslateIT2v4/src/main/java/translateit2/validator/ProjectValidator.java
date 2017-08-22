@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.model.Project;
-import translateit2.util.Messages;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
 
@@ -20,16 +19,12 @@ import translateit2.util.Messages;
 @ConfigurationProperties(prefix = "translateit2.validator")
 public class ProjectValidator implements ConstraintValidator<ProjectConstraint, ProjectDto> {
 
-    private Integer projectNameMaxSize = 35; // for testing purposes
+    private Integer projectNameMaxSize; 
 
-    // TODO: autowired validation => settings object
-    private Integer projectNameMinSize = 5; // for testing purposes
+    private Integer projectNameMinSize;
 
     @Autowired
     private ProjectRepository projectRepo;
-
-    @Autowired
-    Messages messages;
 
     public void setProjectNameMaxSize(Integer projectNameMaxSize) {
         this.projectNameMaxSize = projectNameMaxSize;
@@ -47,9 +42,8 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         return projectNameMinSize;
     }
 
-    public ProjectValidator(ProjectRepository projectRepo, Messages messages) {
+    public ProjectValidator(ProjectRepository projectRepo) {
         this.projectRepo = projectRepo;
-        this.messages = messages;
     }
 
     @Override
@@ -68,23 +62,21 @@ public class ProjectValidator implements ConstraintValidator<ProjectConstraint, 
         if ((value.getName() != null) && ((value.getName().length() < projectNameMinSize)
                 || (value.getName().length() > projectNameMaxSize))) {
             isValid = false;
-            String[] args = { value.getName(), projectNameMinSize.toString(), projectNameMaxSize.toString() };
             context.disableDefaultConstraintViolation();
-            // TODO: what if messages.get(..) does not find any string ....
-            String s = messages.get("ProjectDto.projectName.size", args);
-            context.buildConstraintViolationWithTemplate(s).addPropertyNode("name").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("ProjectDto.projectName.size")
+                .addPropertyNode("name").addConstraintViolation();
         }
 
         // project name is unique but if you do an update
         // then project name will be the same
         Optional<Project> project = projectRepo.findByName(value.getName());
         if (project == null)
-            return false;
+            return true; // no such project
         else if (project.isPresent() && (project.get().getId() != value.getId())) {
             isValid = false;
             context.disableDefaultConstraintViolation();
-            String s = messages.get("ProjectValidator.project_exists_already");
-            context.buildConstraintViolationWithTemplate(s).addPropertyNode("name").addConstraintViolation(); // $NON-NLS-1$
+            context.buildConstraintViolationWithTemplate("ProjectValidator.project_exists_already").
+                addPropertyNode("name").addConstraintViolation(); // $NON-NLS-1$
         }
 
         return isValid;

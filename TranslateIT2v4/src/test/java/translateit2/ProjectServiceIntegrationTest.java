@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -146,7 +145,7 @@ public class ProjectServiceIntegrationTest {
         unitDtos.clear();
 
         // giwen
-        List<UnitDto> newUnitDtos = workService.listUnitDtos(work.getId());
+        List<UnitDto> newUnitDtos = workService.getUnitDtos(work.getId());
         newUnitDtos.forEach(dto -> dto.setSegmentKey("new " + dto.getSegmentKey()));
         newUnitDtos.forEach(dto -> dto.getSource().setText("new " + dto.getSource().getText()));
 
@@ -173,7 +172,7 @@ public class ProjectServiceIntegrationTest {
         assertThat(0L, is(equalTo(unitCount)));
 
         // remove all
-        projectService.removeProjectDtos(projectService.listAllProjectDtos());
+        projectService.removeProjectDtos(projectService.getAllProjectDtos());
         curCount = projectService.getProjectDtoCount();
         assertThat(curCount, is(equalTo(0L)));
         
@@ -217,7 +216,7 @@ public class ProjectServiceIntegrationTest {
         assertThat(curCount, is(equalTo(startCount + 1)));
 
         // remove all for a person
-        List<ProjectDto> personPrjs = projectService.listProjectDtos(testPersonId);
+        List<ProjectDto> personPrjs = projectService.getProjectDtos(testPersonId);
         projectService.removeProjectDtos(personPrjs);
         curCount = projectService.getProjectDtoCountByPerson(testPersonId);
         assertThat(curCount, is(equalTo(0L)));
@@ -227,7 +226,7 @@ public class ProjectServiceIntegrationTest {
         assertThat(startCount, is(equalTo(returnedProjectCount)));
         
         // remove all
-        projectService.removeProjectDtos(projectService.listAllProjectDtos());
+        projectService.removeProjectDtos(projectService.getAllProjectDtos());
         curCount = projectService.getProjectDtoCount();
         assertThat(curCount, is(equalTo(0L)));
         
@@ -296,12 +295,12 @@ public class ProjectServiceIntegrationTest {
         assertThat(expected, is(equalTo(wrk1.getDeadLine())));
         assertThat(1L, is(equalTo(workService.getWorkDtoCount(testGroupId))));
 
-        List<WorkDto> works = workService.listWorkDtos(testGroupId);
+        List<WorkDto> works = workService.getWorkDtos(testGroupId);
         assertThat(1, is(equalTo(works.size())));
 
         // assert the work count of the two projects
         Map<Long, Integer> workMap = projectService.getWorkCountPerProject("James Bond");
-        List <ProjectDto> dtos = projectService.listProjectDtos(testPersonId);
+        List <ProjectDto> dtos = projectService.getProjectDtos(testPersonId);
         assertThat(workMap.get(dtos.get(0).getId()), equalTo(0));
         assertThat(workMap.get(dtos.get(1).getId()), equalTo(1));
         
@@ -312,7 +311,7 @@ public class ProjectServiceIntegrationTest {
         assertThat(0L, is(equalTo(workService.getWorkDtoCount(testGroupId))));
 
         // remove all
-        projectService.removeProjectDtos(projectService.listAllProjectDtos());
+        projectService.removeProjectDtos(projectService.getAllProjectDtos());
         curCount = projectService.getProjectDtoCount();
         assertThat(curCount, is(equalTo(0L)));
         

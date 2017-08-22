@@ -7,13 +7,14 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.validator.ProjectConstraint;
 
 @ProjectConstraint
+@ConfigurationProperties(prefix = "test")
 public class ProjectDto {
     /*
      * @NotEmpty The CharSequence, Collection, Map or Array object cannot be
@@ -24,7 +25,7 @@ public class ProjectDto {
 
     private long id;
 
-    @NotBlank // The string is not null and the length is greater than zero
+    @NotNull 
     private String name;
 
     private long personId;

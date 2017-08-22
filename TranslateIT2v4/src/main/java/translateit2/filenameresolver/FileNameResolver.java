@@ -8,9 +8,9 @@ import translateit2.languagefile.LanguageFileFormat;
 
 public interface FileNameResolver {
     
-    public String getApplicationName(String filename) throws TranslateIt2Exception;
+    public String getApplicationName(String filename);
         
-    Locale getLocaleFromFilename(String fileName, Predicate<String> p) throws TranslateIt2Exception;
+    Locale getLocaleFromFilename(String fileName, Predicate<String> p);
     
     String getDownloadFilename(String originalFileName,Locale locale,LanguageFileFormat format);
 

@@ -1,10 +1,6 @@
 package translateit2.web;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -17,7 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,19 +26,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.fileloader.FileLoader;
-import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
-import translateit2.persistence.model.State;
-import translateit2.persistence.model.Status;
-import translateit2.persistence.model.Target;
-import translateit2.restapi.CustomErrorType;
-import translateit2.restapi.ViewStatistics;
 import translateit2.restapi.ViewUnits;
 import translateit2.service.LoadingContractor;
-import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
-import translateit2.util.Statistician;
+import translateit2.util.WorkStatisticsLogic;
 
 @RestController
 @RequestMapping("/api")
@@ -53,23 +41,23 @@ public class RestUnitController {
     private final FileLoader fileLoader;
     private WorkService workService;
     private LoadingContractor loadingContractor;
-    private Statistician statistician;
+    private WorkStatisticsLogic workStatisticsLogic;
 
     @Autowired
     public RestUnitController(FileLoader fileLoader,
             WorkService workService,
-            Statistician statistician,
+            WorkStatisticsLogic workStatisticsLogic,
             LoadingContractor loadingContractor) {
         this.workService = workService;
         this.loadingContractor = loadingContractor;
         this.fileLoader = fileLoader;
-        this.statistician = statistician;
+        this.workStatisticsLogic = workStatisticsLogic;
     }
 
     // -------------------Get path to download file
     // ------------------------------------------
     @RequestMapping(value = "/work/{id}/downloadUrl", method = RequestMethod.GET)
-    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) throws TranslateIt2Exception {
+    public ResponseEntity<?> getDownloadPath(@PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
         logger.info("Creating url path for workId {}", id);
 
         try {
@@ -83,7 +71,6 @@ public class RestUnitController {
             throw e;
         } 
     }
-
 
     // -------------------Retrieve Single unit
     // ------------------------------------------
@@ -100,7 +87,7 @@ public class RestUnitController {
     // ---------------------------------------------
     // /work/{workId}/units?pageNum=1&pageSize=4
     @RequestMapping(value = "/work/{workId}/units", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllUnits(@PathVariable("workId") long workId, 
+    public ResponseEntity<?> getAllUnits(@PathVariable("workId") long workId, 
             @RequestParam Map<String,String> allRequestParams) {
 
         logger.info("Getting Units for workId {}", workId);
@@ -112,14 +99,14 @@ public class RestUnitController {
         
         viewUnits.setUnits(workService.getPage(workId, pageNumber, pageSize));
         viewUnits.setPageCount(workService.getUnitDtoCount(workId) / pageSize + 1);
-        viewUnits.setStatistics(statistician.getStatistics(workId));
+        viewUnits.setStatistics(workStatisticsLogic.getStatistics(workId));
 
         return new ResponseEntity<>(viewUnits, HttpStatus.OK);
     }
 
     // ------------------- download file
     @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws TranslateIt2Exception {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
         logger.info("Downloading file {}", filename);
         
@@ -134,23 +121,25 @@ public class RestUnitController {
 
     }
 
-    // ------------------- Update a Unit
+    // ------------------- Update a Unit => 
+    // TODO: => /units/{id} vai /unit
     // ------------------------------------------------
     @RequestMapping(value = "/work/unit/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUnit(@PathVariable("id") long workId, @RequestBody UnitDto unit) {
 
-        unit = workService.updateTranslatedUnitDto(unit, workId);        
-        workService.updateProgress(workId);
+        UnitDto updatedUnit = workService.updateTranslatedUnitDto(unit, unit.getWorkId());        
+        workService.updateProgress(updatedUnit.getWorkId());
 
-        return new ResponseEntity<>(unit, HttpStatus.OK);
+        return new ResponseEntity<>(updatedUnit, HttpStatus.OK);
     }
 
-    // -------------------Upload target file
+    // -------------------Upload target file 
+    // TODO: => target-file
     // ---------------------------------------------
     @RequestMapping(value = "/work/{id}/targetFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadTargetFile(@RequestParam(value = "workId") Long id,
             @RequestParam(value = "file") MultipartFile file, HttpServletRequest request // ({
-            , UriComponentsBuilder ucBuilder) throws TranslateIt2Exception {
+            , UriComponentsBuilder ucBuilder) {
 
         try {
             loadingContractor.uploadTarget(file, id);

@@ -11,8 +11,8 @@ import translateit2.languagefile.LanguageFileFormat;
 
 public interface LanguageFileReader extends LanguageFile <LanguageFileFormat> {   
     
-    HashMap<String, String> getSegments(Path inputPath, Charset charset) throws TranslateIt2Exception;
+    HashMap<String, String> getSegments(Path inputPath, Charset charset);
     
-    List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) throws TranslateIt2Exception;
+    List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet);
 
 }

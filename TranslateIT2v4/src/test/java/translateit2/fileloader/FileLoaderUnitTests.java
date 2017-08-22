@@ -26,6 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileLoaderUnitTests {
 
+    private String testUploadDir="upload-dir";
+
+    private String testDownloadDir="download-dir";
+    
     @Test
     public void storeMultipartFile_assertUploadedFile() throws IOException {
 
@@ -57,7 +61,7 @@ public class FileLoaderUnitTests {
     public void deleteUploadDirectory_assertDirectoryNotExists() throws IOException {
 
         // when upload exists
-        Path uploadDir = Paths.get("upload-dir4");
+        Path uploadDir = Paths.get(testUploadDir);
         if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
 
         // then remove it with contents
@@ -73,7 +77,7 @@ public class FileLoaderUnitTests {
     public void deleteUploadedFile_assertFileNotExists() throws IOException {
 
         // when file exists
-        Path uploadDir = Paths.get("upload-dir4");
+        Path uploadDir = Paths.get(testUploadDir);
         if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
         Path filePath = uploadDir.resolve("testfile.txt"); 
         if (Files.notExists(filePath)) Files.createFile(filePath);
@@ -90,7 +94,7 @@ public class FileLoaderUnitTests {
     @Test
     public void listFilesInUploadDirectory_assertFileCount() throws IOException {
         // when two files exists
-        Path uploadDir = Paths.get("upload-dir4");
+        Path uploadDir = Paths.get(testUploadDir);
         FileSystemUtils.deleteRecursively(uploadDir.toFile());
         if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
         Path filePath1 = uploadDir.resolve("first.txt"); 
@@ -133,13 +137,12 @@ public class FileLoaderUnitTests {
         String expectedDownloadDir = fileloader().getDownloadPath("test.txt").getParent().getFileName().toString();
         String returnedDownloadDir = streamPaths.get(0).getParent().getFileName().toString();
         assertThat(expectedDownloadDir,equalTo(returnedDownloadDir));
-
-
     }
 
     private FileLoader fileloader() {
         FileLoaderProperties props = new FileLoaderProperties();
-        props.setLocation("upload-dir4");
+        props.setUploadLocation(testUploadDir);
+        props.setDownloadLocation(testDownloadDir);
         return new FileLoaderImpl(props); 
     }
 }

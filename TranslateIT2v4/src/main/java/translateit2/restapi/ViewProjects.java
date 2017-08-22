@@ -1,6 +1,5 @@
 package translateit2.restapi;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

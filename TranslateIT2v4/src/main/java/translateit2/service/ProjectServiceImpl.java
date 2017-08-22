@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
 
+import translateit2.exception.TranslateIt2ErrorCode;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.persistence.dao.FileInfoRepository;
 import translateit2.persistence.dao.InfoRepository;
 import translateit2.persistence.dao.PersonRepository;
@@ -200,7 +202,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         else{
             logger.log(getLoggerLevel(), "Failure in getProjectDtoById with {}", projectId);
-            throw new IllegalArgumentException("Could not read project. No such project having id = " + projectId);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
         }
     }
 
@@ -229,7 +231,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectDto> listAllProjectDtos() {
+    public List<ProjectDto> getAllProjectDtos() {
         logger.log(getLoggerLevel(), "Entering listAllProjectDtos()");
         List<ProjectDto> projectDtos = new ArrayList<ProjectDto>();
         projectRepo.findAll().forEach(l -> projectDtos.add(convertToDto(l)));
@@ -241,7 +243,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectDto> listProjectDtos(long personId) {
+    public List<ProjectDto> getProjectDtos(long personId) {
         logger.log(getLoggerLevel(), "Entering listProjectDtos with id: {}", personId);
         List<ProjectDto> projectDtos = new ArrayList<ProjectDto>();
         List<Project> projects = projectRepo.findAll().stream().filter(prj -> personId == prj.getPerson().getId())
@@ -267,7 +269,7 @@ public class ProjectServiceImpl implements ProjectService {
             logger.log(getLoggerLevel(), "Leaving removeProjectDto()");
         } else{
             logger.log(getLoggerLevel(), "Could not remove project. No such project having id = " + projectId);
-            throw new IllegalArgumentException("Could not remove project. No such project having id = " + projectId);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
         }
     }
 
@@ -275,7 +277,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void removeProjectDtos(List<ProjectDto> entities) {
         logger.log(getLoggerLevel(), "Entering removeProjectDtos with list size: {}", entities.size());
-        entities.stream().forEach(prj -> removeProjectDto(prj.getId()));
+        entities.stream().forEach(prj -> {
+            try {
+                removeProjectDto(prj.getId());
+            } catch (TranslateIt2Exception e) {
+                try {
+                    throw e;
+                } catch (TranslateIt2Exception e1) {}
+            }
+        });
         logger.log(getLoggerLevel(), "Leaving removeProjectDtos()");
     }
 

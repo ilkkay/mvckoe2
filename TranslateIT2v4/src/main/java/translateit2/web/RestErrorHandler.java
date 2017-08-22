@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.exception.TranslateIt2ServiceException;
 import translateit2.restapi.CustomErrorType;
@@ -53,7 +53,7 @@ public class RestErrorHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public CustomErrorType handleOtherExceptions(HttpServletRequest request,ConstraintViolationException ex){
+    public CustomErrorType handleOtherViolationExceptions(HttpServletRequest request,ConstraintViolationException ex){
 
         List<String> errors = new ArrayList<String>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
@@ -97,6 +97,6 @@ public class RestErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public CustomErrorType handleOtherExceptions(HttpServletRequest request, Exception ex){
-        return new CustomErrorType(ex.getLocalizedMessage(),TranslateIt2Error.UNDEFINED_ERROR);        
+        return new CustomErrorType(ex.getLocalizedMessage(),TranslateIt2ErrorCode.UNDEFINED_ERROR);        
     }
 }

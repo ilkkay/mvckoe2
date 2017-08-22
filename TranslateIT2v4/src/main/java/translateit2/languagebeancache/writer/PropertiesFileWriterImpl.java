@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
-import translateit2.persistence.model.Work;
 
 @Component
 public class PropertiesFileWriterImpl implements LanguageFileWriter {
@@ -28,7 +25,7 @@ public class PropertiesFileWriterImpl implements LanguageFileWriter {
     public void write() { }
     
     @Override
-    public void createDownloadFile(Path tmpFilePath, List<String> downloadFileAsList) throws TranslateIt2Exception {
+    public void createDownloadFile(Path tmpFilePath, List<String> downloadFileAsList) {
 
             try {
                 Files.write(tmpFilePath, downloadFileAsList);
@@ -39,7 +36,7 @@ public class PropertiesFileWriterImpl implements LanguageFileWriter {
     
 
     @Override
-    public  List<String> mergeWithOriginalFile(Map<String, String> map, List<String> inLines) throws TranslateIt2Exception {
+    public  List<String> mergeWithOriginalFile(Map<String, String> map, List<String> inLines) {
         
         List<String> outLines = new ArrayList<String>();
         boolean isFirstLine = true; // <= optional byte order mark (BOM)

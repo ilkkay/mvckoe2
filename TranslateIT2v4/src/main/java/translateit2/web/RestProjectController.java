@@ -32,7 +32,8 @@ public class RestProjectController {
     @Autowired
     private LanguageServicesConfig languageServices;
 
-    // -------------------Create a new Project
+    // -------------------Create a new Project 
+    // TODO: validation should be on the service side
     // ------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.POST)
     public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
@@ -56,7 +57,8 @@ public class RestProjectController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // -------------------Get a Project
+    // -------------------Get a Project => 
+    // TODO: /projects/1/
     // -------------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getProject(@PathVariable("id") long id) {
@@ -67,17 +69,19 @@ public class RestProjectController {
         return new ResponseEntity<>(prj, HttpStatus.OK);
     }
 
-    // -------------------Retrieve All Projects
+    // -------------------Retrieve All Projects => 
+    // TODO: => /projects/ correct all if you correct this one !!!
     // ---------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllProjects(UriComponentsBuilder ucBuilder) {
-
+    public ResponseEntity<?> getAllProjects(UriComponentsBuilder ucBuilder) {
+        logger.info("Gettting all projects for cuurent user");
+        
         ViewProjects viewPrjs = new ViewProjects();
 
-        viewPrjs.setProjects(projectService.listAllProjectDtos());
+        viewPrjs.setProjects(projectService.getAllProjectDtos());
         viewPrjs.setProjectWorkMap(projectService.getWorkCountPerProject("Ilkka"));
-        viewPrjs.setSupportedFormats(languageServices.listSupportedFormats());
-        viewPrjs.setSupportedCharacterSets(languageServices.listSupportedCharacterSets());
+        viewPrjs.setSupportedFormats(languageServices.getSupportedFormats());
+        viewPrjs.setSupportedCharacterSets(languageServices.getSupportedCharacterSets());
 
         return new ResponseEntity<>(viewPrjs, HttpStatus.OK);
     }
@@ -86,13 +90,11 @@ public class RestProjectController {
     // ------------------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateProject(@PathVariable("id") long id, @Valid @RequestBody ProjectDto project) {
-
         logger.info("Updating Project with id {}", project.getId());
         
-        ProjectDto prj = projectService.getProjectDtoById(id);
-        prj = projectService.updateProjectDto(project);
+        ProjectDto updatedProject = projectService.updateProjectDto(project);
         
-        return new ResponseEntity<>(prj, HttpStatus.OK);
+        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
 
 }

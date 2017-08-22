@@ -7,8 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import translateit2.persistence.model.Project;
-import translateit2.persistence.model.State;
 import translateit2.persistence.model.Work;
 
 //@RepositoryRestResource(collectionResourceRel = "work", path = "work")

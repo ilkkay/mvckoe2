@@ -5,55 +5,46 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
-import translateit2.fileloader.FileLoader;
+import translateit2.fileloader.FileLoaderProperties;
 import translateit2.languagefile.LanguageFileFormat;
 
 @Component
 public class FileLocatorImpl implements FileLocator {
     
-    private String uploadDirectory = "D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4";
-    
-    private String downloadDirectory = "D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4";
+    private String permanentDirectory; 
 
     @Autowired
-    private FileLoader fileLoaderService;
+    public FileLocatorImpl(FileLoaderProperties properties) {
+        this.permanentDirectory = properties.getPermanentDirectory(); //Paths.get(properties.getPermanentDirectory());
+    }
     
-    public void setUploadDirectory(String uploadDirectory) {
-        this.uploadDirectory = uploadDirectory;
-    }
-
-    public void setDownloadDirectory(String downloadDirectory) {
-        this.downloadDirectory = downloadDirectory;
-    }
-
     @Override
     public Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile, 
-            LanguageFileFormat format) throws TranslateIt2Exception {
+            LanguageFileFormat format) {
         
         // create new path for permanent file storage
-        Path outFilePath = getUniquePath(format, uploadDirectory);
+        Path outFilePath = getUniquePath(format, permanentDirectory);
         Path dir = outFilePath.getParent();
         if (Files.notExists(dir))
             try {
                 Files.createDirectory(dir);
             } catch (IOException e1) {
-                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
         
         // and move the file from upload directory   
         try {
             Files.move(uploadedFile, outFilePath);
         } catch (IOException e) {
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_MOVE_FILE);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_MOVE_FILE);
         }       
 
         return outFilePath;
@@ -85,23 +76,23 @@ public class FileLocatorImpl implements FileLocator {
     
     @Override
     public Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, 
-            LanguageFileFormat format, Charset charset) throws TranslateIt2Exception {
+            LanguageFileFormat format, Charset charset) {
         
         // create new path for temporary file in permanent storage
-        Path outFilePath = getUniquePath(format, uploadDirectory);
+        Path outFilePath = getUniquePath(format, permanentDirectory);
         Path dir = outFilePath.getParent();
         if (Files.notExists(dir))
             try {
                 Files.createDirectory(dir);
             } catch (IOException e) {
-                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
         
         // and write contents to file   
         try {
             return Files.write(outFilePath,downloadFileAsList, charset);
         } catch (IOException e) {
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_FILE);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_FILE);
         }       
 
     }

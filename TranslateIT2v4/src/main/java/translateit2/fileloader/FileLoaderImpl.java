@@ -22,11 +22,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.service.LoadingContractorImpl;
 
-@Component // oli service mutta miksi
+@Component 
 public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     static final Logger logger = LogManager.getLogger(LoadingContractorImpl.class);
 
@@ -38,8 +38,8 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
     @Autowired
     public FileLoaderImpl(FileLoaderProperties properties) {
-        this.uploadLocation = Paths.get(properties.getLocation());
-        this.downloadLocation = Paths.get(properties.getLocation());
+        this.uploadLocation = Paths.get(properties.getUploadLocation());
+        this.downloadLocation = Paths.get(properties.getDownloadLocation());
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Stream <Path> storeToDownloadDirectory(Path temporaryFilePath,String downloadFilename) throws TranslateIt2Exception {
+    public Stream <Path> storeToDownloadDirectory(Path temporaryFilePath,String downloadFilename) {
 
         Path downloadFilePath = getDownloadPath(downloadFilename);   
         Path dir = downloadFilePath.getParent();
@@ -75,7 +75,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             try {
                 Files.createDirectory(dir);
             } catch (IOException e1) {
-                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_PERMANENT_DIRECTORY);
             }
 
         if (Files.exists(temporaryFilePath))
@@ -86,11 +86,11 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
                 throw new TranslateIt2Exception(e.getCause());
             }        
         else
-            throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_NOT_FOUND);
     }
 
     @Override
-    public Stream<Path> getPathsOfDownloadableFiles() throws TranslateIt2Exception { 
+    public Stream<Path> getPathsOfDownloadableFiles() { 
         try {
             return Files.walk(this.downloadLocation, 1).filter(path -> !path.equals(this.downloadLocation))
                     .map(path -> this.downloadLocation.relativize(path));
@@ -101,7 +101,7 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Resource loadAsResource(String filename) throws TranslateIt2Exception {
+    public Resource loadAsResource(String filename) {
         try {
             Path file = getUploadPath(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -114,12 +114,12 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
                 return resource;
             } else {
                 //throw new LoadedFileNotFoundException(filename);
-                throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND);
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_NOT_FOUND);
             }
 
         } catch (MalformedURLException e) {
             //throw new LoadedFileNotFoundException(filename, e.getCause());
-            throw new TranslateIt2Exception(TranslateIt2Error.FILE_NOT_FOUND, e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_NOT_FOUND, e.getCause());
         }        
     }
 
@@ -129,11 +129,11 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     }
 
     @Override
-    public Path storeToUploadDirectory(MultipartFile file) throws TranslateIt2Exception {
+    public Path storeToUploadDirectory(MultipartFile file) {
         if (file.isEmpty()) 
             //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
             //throw new LoadedFileNotFoundException(file.getOriginalFilename());
-            throw new TranslateIt2Exception(TranslateIt2Error.FILE_TOBELOADED_IS_EMPTY);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_TOBELOADED_IS_EMPTY);
 
         Path outFilePath;
         try(InputStream in = file.getInputStream()) {    
@@ -142,13 +142,13 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);
             if (Files.notExists(uploadLocation)) 
                 //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
-                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_UPLOAD_DIRECTORY);
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_UPLOAD_DIRECTORY);
 
             outFilePath = this.uploadLocation.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             //throw new CannotUploadFileException(file.getOriginalFilename(), e);
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE,e.getCause());
         }
 
         return outFilePath;
@@ -156,14 +156,14 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
 
     @PostConstruct
-    private void init() throws TranslateIt2Exception {
+    private void init() {
         try {
             deleteUploadedFiles();
 
             if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);            
         } catch (IOException e) {
             //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
         }
     }
 }

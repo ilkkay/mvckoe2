@@ -1,9 +1,5 @@
 package translateit2.web;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -24,14 +20,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import translateit2.configuration.LanguageServicesConfig;
 import translateit2.exception.TranslateIt2Exception;
-import translateit2.fileloader.FileLoader;
-import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.WorkDto;
-import translateit2.persistence.model.Priority;
-import translateit2.restapi.CustomErrorType;
 import translateit2.restapi.ViewWorks;
 import translateit2.service.LoadingContractor;
-import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 
 @RestController
@@ -69,7 +60,7 @@ public class RestWorkController {
     // ------------------- Delete a work
     // -----------------------------------------
     @RequestMapping(value = "/work/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) throws TranslateIt2Exception {
+    public ResponseEntity<?> deleteWork(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting Work with id {}", id);
 
         workService.removeWorkDto(id);
@@ -92,13 +83,13 @@ public class RestWorkController {
     // -------------------Retrieve All works
     // ---------------------------------------------
     @RequestMapping(value = "/project/{projectId}/work/", method = RequestMethod.GET)
-    public ResponseEntity<?> listAllWorks(@PathVariable("projectId") long projectId) {
+    public ResponseEntity<?> getAllWorks(@PathVariable("projectId") long projectId) {
 
         logger.info("Listing all Works having project id {}", projectId);
 
         ViewWorks viewWorks = new ViewWorks();
-        viewWorks.setSupportedPriorities(languageServices.listSupportedPriorities());
-        viewWorks.setWorks(workService.listProjectWorkDtos(projectId));
+        viewWorks.setSupportedPriorities(languageServices.getSupportedPriorities());
+        viewWorks.setWorks(workService.getProjectWorkDtos(projectId));
 
         return new ResponseEntity<>(viewWorks, HttpStatus.OK);
     }
@@ -109,9 +100,9 @@ public class RestWorkController {
     public ResponseEntity<?> updateWork(@PathVariable("id") long id, @RequestBody WorkDto work) {
         logger.info("Updating Work with id {}", id);
 
-        WorkDto wrk = workService.updateWorkDto(work);
+        WorkDto updatedWork = workService.updateWorkDto(work);
 
-        return new ResponseEntity<>(wrk, HttpStatus.OK);              
+        return new ResponseEntity<>(updatedWork, HttpStatus.OK);              
     }
 
     // -------------------Upload source file
@@ -119,8 +110,7 @@ public class RestWorkController {
     // TODO: upload /work/1/file?format=...
     @RequestMapping(value = "/work/{id}/sourceFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadSourceFile(@RequestParam(value = "workId") Long id,
-            @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) 
-                    throws TranslateIt2Exception {
+            @RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
         try {
             loadingContractor.uploadSource(file, id);
             return new ResponseEntity<>(workService.getWorkDtoById(id), HttpStatus.OK); 

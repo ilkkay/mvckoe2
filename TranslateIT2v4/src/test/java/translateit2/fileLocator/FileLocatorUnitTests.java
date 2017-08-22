@@ -2,7 +2,9 @@ package translateit2.fileLocator;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,14 +24,16 @@ import org.junit.Test;
 import org.springframework.util.FileSystemUtils;
 
 import translateit2.exception.TranslateIt2Exception;
+import translateit2.fileloader.FileLoaderProperties;
 import translateit2.filelocator.FileLocator;
 import translateit2.filelocator.FileLocatorImpl;
 import translateit2.languagefile.LanguageFileFormat;
-import translateit2.languagefile.LanguageFileType;
 
 public class FileLocatorUnitTests {
-    List<Path> newLocation = null;
+    List<Path> newLocation = new ArrayList<Path>();
 
+    private String testPermanentDir = "D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\permanentDir"; 
+    
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
     }
@@ -52,14 +56,14 @@ public class FileLocatorUnitTests {
     public void moveFile_failIfFileMissing() {
 
         // initialize
-        Path uploadedPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
-        Path uploadedFilePath = uploadedPath.resolve("messages_fi.properties");
+        Path permanentPath = Paths.get(testPermanentDir);
+        Path permanentFilePath = permanentPath.resolve("messages_fi.properties");
 
         // WHEN upload file has no path
 
         // THEN
         assertThatCode(() -> filelocator().moveUploadedFileIntoPermanentFileSystem(
-                uploadedFilePath, LanguageFileFormat.PROPERTIES))
+                permanentFilePath, LanguageFileFormat.PROPERTIES))
         .isExactlyInstanceOf(TranslateIt2Exception.class);                
     }
 
@@ -67,18 +71,18 @@ public class FileLocatorUnitTests {
     public void moveFile_assertFileExists() {
 
         // WHEN
-        Path uploadedPath = Paths.get("D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\upload-dir4");
-        if (Files.notExists(uploadedPath))
+        Path permanentPath = Paths.get(testPermanentDir);
+        if (Files.notExists(permanentPath))
             try {
-                Files.createDirectory(uploadedPath);
+                Files.createDirectory(permanentPath);
             } catch (IOException e1) {
                 fail ("Could not copy test directory.");
             }
 
         Path srcFilePath = Paths.get("D:\\messages_fi.properties");
-        Path uploadedFilePath = uploadedPath.resolve("messages_fi.properties");        
+        Path permanentFilePath = permanentPath.resolve("messages_fi.properties");        
         try {
-            Files.copy(srcFilePath, uploadedFilePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(srcFilePath, permanentFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             fail ("Could not copy test file.");
         }
@@ -86,7 +90,7 @@ public class FileLocatorUnitTests {
         // THEN
         List<Path> newLocation = new ArrayList<Path> ();
         assertThatCode(() -> { newLocation.add(filelocator().moveUploadedFileIntoPermanentFileSystem(
-                uploadedFilePath, LanguageFileFormat.PROPERTIES)); } )
+                permanentFilePath, LanguageFileFormat.PROPERTIES)); } )
         .doesNotThrowAnyException();        
 
         // the permanent file exists
@@ -105,7 +109,7 @@ public class FileLocatorUnitTests {
     }
 
     @Test
-    public void createTemporaryFile_assertFileExists() throws TranslateIt2Exception {
+    public void createTemporaryFile_assertFileExists() {
 
         List <String>  downloadFileAsList = new ArrayList<String>();
 
@@ -140,6 +144,8 @@ public class FileLocatorUnitTests {
     }
 
     private FileLocator filelocator() {
-        return new FileLocatorImpl(); 
+        FileLoaderProperties props = new FileLoaderProperties();
+        props.setPermanentDirectory(testPermanentDir);
+        return new FileLocatorImpl(props); 
     }
 }

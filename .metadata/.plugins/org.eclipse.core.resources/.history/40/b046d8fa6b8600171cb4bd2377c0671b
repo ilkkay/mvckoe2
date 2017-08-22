@@ -1,0 +1,99 @@
+package translateit2.filelocator;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2Exception;
+import translateit2.fileloader.FileLoaderProperties;
+import translateit2.languagefile.LanguageFileFormat;
+
+@Component
+public class FileLocatorImpl implements FileLocator {
+    
+    private String permanentDirectory; 
+
+    @Autowired
+    public FileLocatorImpl(FileLoaderProperties properties) {
+        this.permanentDirectory = properties.getPermanentDirectory(); //Paths.get(properties.getPermanentDirectory());
+    }
+    
+    @Override
+    public Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile, 
+            LanguageFileFormat format) throws TranslateIt2Exception {
+        
+        // create new path for permanent file storage
+        Path outFilePath = getUniquePath(format, permanentDirectory);
+        Path dir = outFilePath.getParent();
+        if (Files.notExists(dir))
+            try {
+                Files.createDirectory(dir);
+            } catch (IOException e1) {
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
+            }
+        
+        // and move the file from upload directory   
+        try {
+            Files.move(uploadedFile, outFilePath);
+        } catch (IOException e) {
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_MOVE_FILE);
+        }       
+
+        return outFilePath;
+    }
+
+    private Path getUniquePath(LanguageFileFormat format, String rootDirectrory) {
+        //Path test = fileLoaderService
+                
+        Path rootPath = Paths.get(rootDirectrory);
+        
+        Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
+        Path dirPath = Paths.get(LocalDate.now().toString());
+        Path path = dirPath.resolve(fnamePath);
+        path = path.resolveSibling(path.getFileName() + "." + format.toString());
+        
+        Path uniquePath = rootPath.resolve(path);
+        
+        return uniquePath;
+    }
+
+    @Override
+    public void deleteFileFromPermanentFileSystem(Path fileToDeletePath) {
+        try {
+            Files.deleteIfExists(fileToDeletePath);
+        } catch (IOException e) {
+            //logger.warn("Could not remove file: {}", fileToDeletePath.toAbsolutePath().toString());
+        }
+    }
+    
+    @Override
+    public Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, 
+            LanguageFileFormat format, Charset charset) throws TranslateIt2Exception {
+        
+        // create new path for temporary file in permanent storage
+        Path outFilePath = getUniquePath(format, permanentDirectory);
+        Path dir = outFilePath.getParent();
+        if (Files.notExists(dir))
+            try {
+                Files.createDirectory(dir);
+            } catch (IOException e) {
+                throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_PERMANENT_DIRECTORY);
+            }
+        
+        // and write contents to file   
+        try {
+            return Files.write(outFilePath,downloadFileAsList, charset);
+        } catch (IOException e) {
+            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_CREATE_FILE);
+        }       
+
+    }
+}

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -27,16 +28,20 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NotNull
     private String name;
 
     @ManyToOne
     private Person person;
 
+    @NotNull
     private Locale source_locale;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private LanguageFileType charset;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private LanguageFileFormat format;
 

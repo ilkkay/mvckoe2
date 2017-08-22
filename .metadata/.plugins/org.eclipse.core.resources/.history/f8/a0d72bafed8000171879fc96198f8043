@@ -1,8 +1,0 @@
-package translateit2.languagebeancache;
-
-import translateit2.languagefileservice.factory.AbstractLanguageFile;
-
-public interface LanguageBeanCache <T extends AbstractLanguageFile <FORMAT>, FORMAT> 
-    extends AbstractFactory <T, FORMAT> {
-    
-}

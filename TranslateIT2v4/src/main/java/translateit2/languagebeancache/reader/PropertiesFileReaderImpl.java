@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,10 +15,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
-import translateit2.persistence.model.Work;
 import translateit2.util.OrderedProperties;
 
 @Component
@@ -35,7 +33,7 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
     }
 
     @Override
-    public HashMap<String, String> getSegments(Path inputPath, Charset charset) throws TranslateIt2Exception {
+    public HashMap<String, String> getSegments(Path inputPath, Charset charset) {
         HashMap<String, String> map = new LinkedHashMap<String, String>();
         OrderedProperties srcProp = new OrderedProperties();
 
@@ -50,19 +48,19 @@ public class PropertiesFileReaderImpl implements LanguageFileReader {
             //map.forEach((k, v) -> System.out.println(k + "\n" + v));
 
         } catch (IOException e) {
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_READ_FILE,e.getCause());
         }
 
         return map;
     }
 
     @Override
-    public List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) throws TranslateIt2Exception {
+    public List<String> getOriginalFileAsList(Path storedOriginalFile, Charset charSet) {
 
         try {
             return Files.readAllLines(storedOriginalFile, charSet);
         } catch (IOException e) {
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_READ_FILE,e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_READ_FILE,e.getCause());
         }
     }
 }

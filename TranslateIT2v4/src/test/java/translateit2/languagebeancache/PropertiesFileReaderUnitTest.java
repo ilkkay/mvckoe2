@@ -2,14 +2,12 @@ package translateit2.languagebeancache;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,7 +19,6 @@ import org.junit.Test;
 
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagebeancache.reader.PropertiesFileReaderImpl;
-import translateit2.languagefile.LanguageFileFormat;
 
 public class PropertiesFileReaderUnitTest {
 

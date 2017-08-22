@@ -1,19 +1,13 @@
 package translateit2.validator;
 
-import java.util.Optional;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.WorkRepository;
 import translateit2.persistence.dto.WorkDto;
-import translateit2.persistence.model.Project;
-import translateit2.persistence.model.Work;
-import translateit2.util.Messages;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
 
@@ -27,8 +21,6 @@ public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDt
 
     @Override
     public void initialize(WorkConstraint constraintAnnotation) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

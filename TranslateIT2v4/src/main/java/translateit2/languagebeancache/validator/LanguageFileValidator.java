@@ -9,10 +9,10 @@ import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 
 public interface LanguageFileValidator extends LanguageFile <LanguageFileFormat> {   
-    void validateCharacterSet(Path uploadedFile, LanguageFileType expectedType) throws TranslateIt2Exception;
+    void validateCharacterSet(Path uploadedFile, LanguageFileType expectedType);
 
-    void validateApplicationName(String appName, String expectedApplicationName) throws TranslateIt2Exception;
+    void validateApplicationName(String appName, String expectedApplicationName);
 
-    void validateLocale(Locale appLocale, Locale expectedLocale) throws TranslateIt2Exception;
+    void validateLocale(Locale appLocale, Locale expectedLocale);
 
 }

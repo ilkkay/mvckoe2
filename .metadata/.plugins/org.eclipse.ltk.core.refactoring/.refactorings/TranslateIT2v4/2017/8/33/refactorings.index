@@ -31,3 +31,7 @@
 1503033991254	Move compilation units
 1503034138272	Rename type 'FileLoadError'
 1503034150606	Move compilation unit
+1503159871913	Rename field 'location'
+1503159901800	Rename method 'getLocation'
+1503159918791	Rename method 'setLocation'
+1503160559381	Rename field 'uploadDirectory'

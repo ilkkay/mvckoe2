@@ -1,6 +1,5 @@
 package translateit2.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.persistence.dto.FileInfoDto;
 import translateit2.persistence.dto.InfoDto;
 import translateit2.persistence.dto.PersonDto;
@@ -50,9 +50,9 @@ public interface ProjectService {
     
     Map<Long, Integer> getWorkCountPerProject(String personName);
 
-    List<ProjectDto> listAllProjectDtos();
+    List<ProjectDto> getAllProjectDtos();
 
-    List<ProjectDto> listProjectDtos(long personId);
+    List<ProjectDto> getProjectDtos(long personId);
 
     void removeProjectDto(final long projectId);
     

@@ -1,10 +1,8 @@
 package translateit2.service;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,7 +16,6 @@ import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -26,7 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import translateit2.configuration.CharSetResolver;
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.fileloader.FileLoader;
 import translateit2.filelocator.FileLocator;
@@ -90,10 +87,10 @@ public class LoadingContractorImpl implements LoadingContractor {
     private UnitRepository unitRepo;
 
     @Override
-    public Stream <Path> downloadTarget(long workId) throws TranslateIt2Exception {
+    public Stream <Path> downloadTarget(long workId) {
         if (!(workRepo.exists(workId))) {
             logger.error("Work with id {} not found.", workId);
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
 
         Work work = workRepo.findOne(workId);
@@ -131,10 +128,10 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Override
-    public void uploadTarget(MultipartFile multipartFile, long workId) throws TranslateIt2Exception {
+    public void uploadTarget(MultipartFile multipartFile, long workId) {
         if (!(workRepo.exists(workId))) {
             logger.error("Work with id {} not found.", workId);
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
 
         // move file from server to temporary location i.e. to upload directory
@@ -168,15 +165,15 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Override
-    public void uploadSource(MultipartFile multipartFile, long workId) throws TranslateIt2Exception {        
+    public void uploadSource(MultipartFile multipartFile, long workId) {        
         if (!(workRepo.exists(workId))) {
             logger.error("Work with id {} not found.", workId);
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
 
         if (isSourceFileReload(workId)){
             logger.error("Trying to reload source file.", workId);
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
 
         // check that availability of validator, reader and writer service for this format
@@ -319,11 +316,11 @@ public class LoadingContractorImpl implements LoadingContractor {
     }
 
     @Transactional
-    private String getBackupFileName(final long workId) throws TranslateIt2Exception {
+    private String getBackupFileName(final long workId) {
         if (fileInfoRepo.findByWorkId(workId).isPresent())
             return fileInfoRepo.findByWorkId(workId).get().getBackup_file();
         else
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
     }
     
     @Transactional
@@ -390,25 +387,25 @@ public class LoadingContractorImpl implements LoadingContractor {
         return savedUnits.size();
     }
 
-    private void checkServiceAvailability(long workId) throws TranslateIt2Exception {
+    private void checkServiceAvailability(long workId) {
         if (!(fileValidatorCache.getService(getFormat(workId)).isPresent())) {
             logger.error("Language file validator for format {} was missing", getFormat(workId));
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }      
 
         if (!(fileReaderCache.getService(getFormat(workId)).isPresent())) {
             logger.error("Language file reader for format {} was missing", getFormat(workId));
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
 
         if (!(fileWriterCache.getService(getFormat(workId)).isPresent())) {
             logger.error("Language file writer for format {} was missing", getFormat(workId));
-            throw new TranslateIt2Exception(TranslateIt2Error.CANNOT_UPLOAD_FILE); // or something
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE); // or something
         }
     }
 
     @Override
-    public void removeUploadedSource(long workId) throws TranslateIt2Exception {
+    public void removeUploadedSource(long workId) {
         
         if (fileInfoRepo.findByWorkId(workId).isPresent()){
             FileInfo fileInfo = fileInfoRepo.findByWorkId(workId).get();

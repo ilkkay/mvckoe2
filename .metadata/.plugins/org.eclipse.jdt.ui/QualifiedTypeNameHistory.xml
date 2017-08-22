@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.springframework.test.web.servlet.result.MockMvcResultHandlers"/>
-<fullyQualifiedTypeName name="org.springframework.test.web.servlet.MvcResult"/>
-<fullyQualifiedTypeName name="translateit2.persistence.dto.WorkDto"/>
-<fullyQualifiedTypeName name="org.springframework.transaction.interceptor.TransactionAspectSupport"/>
 <fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
 <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
-<fullyQualifiedTypeName name="javax.validation.constraints.NotNull"/>
 <fullyQualifiedTypeName name="javax.validation.constraints.Size"/>
 <fullyQualifiedTypeName name="javax.validation.ConstraintViolationException"/>
 <fullyQualifiedTypeName name="javax.validation.ConstraintViolation"/>
@@ -27,7 +22,6 @@
 <fullyQualifiedTypeName name="org.springframework.data.rest.core.annotation.RepositoryRestResource"/>
 <fullyQualifiedTypeName name="translateit2.lngfileservice.LanguageFileFormat"/>
 <fullyQualifiedTypeName name="translateit2.configuration.CharSetResolver"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.springframework.validation.ObjectError"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoadError"/>
@@ -35,7 +29,6 @@
 <fullyQualifiedTypeName name="org.junit.After"/>
 <fullyQualifiedTypeName name="translateit2.languagebeancache.LanguageBeanCacheImpl"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="translateit2.configuration.LanguageServicesConfig"/>
 <fullyQualifiedTypeName name="translateit2.languagefile.LanguageFileFormat"/>
 <fullyQualifiedTypeName name="translateit2.languagefile.LanguageFileType"/>
@@ -60,4 +53,11 @@
 <fullyQualifiedTypeName name="javax.validation.constraints.Pattern"/>
 <fullyQualifiedTypeName name="org.hibernate.validator.constraints.NotBlank"/>
 <fullyQualifiedTypeName name="translateit2.persistence.model.Work"/>
+<fullyQualifiedTypeName name="translateit2.fileloader.FileLoaderProperties"/>
+<fullyQualifiedTypeName name="org.springframework.boot.context.properties.ConfigurationProperties"/>
+<fullyQualifiedTypeName name="org.springframework.data.mapping.PropertyPath"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.hamcrest.collection.IsIterableContainingInOrder"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.NotNull"/>
 </qualifiedTypeNameHistroy>

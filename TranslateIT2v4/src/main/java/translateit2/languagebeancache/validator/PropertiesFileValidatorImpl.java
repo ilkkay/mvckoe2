@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
-import translateit2.exception.TranslateIt2Error;
+import translateit2.exception.TranslateIt2ErrorCode;
 import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
@@ -28,19 +28,19 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public void validateApplicationName(String appName, String expectedApplicationName) throws TranslateIt2Exception {
+    public void validateApplicationName(String appName, String expectedApplicationName) {
         if (!(appName.equalsIgnoreCase(expectedApplicationName)))
-            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_APPLICATION_NAME_IN_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_APPLICATION_NAME_IN_FILE_NAME);
     }
     
     @Override
-    public void validateLocale(Locale appLocale, Locale expectedLocale) throws TranslateIt2Exception {
+    public void validateLocale(Locale appLocale, Locale expectedLocale) {
         if (!(appLocale.equals(expectedLocale)))
-            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_LOCALE_IN_FILE_NAME);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_LOCALE_IN_FILE_NAME);
     }    
     
     @Override
-    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) throws TranslateIt2Exception {
+    public void validateCharacterSet(Path uploadedLngFile, LanguageFileType typeExpected) {
 
         boolean isUploadedUTF_8 = true;
         try {
@@ -65,18 +65,18 @@ public class PropertiesFileValidatorImpl implements LanguageFileValidator {
 
         // if typeExpected == ISO8859 and uploaded is UTF-8 => reject
         if (typeExpected.equals(LanguageFileType.ISO8859_1) && isUploadedUTF_8)
-            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_CHARACTERSET_IN_FILE);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_CHARACTERSET_IN_FILE);
         // ("The encoding is not same as defined for the version. It should be
         // ISO8859.");
 
         // if typeExpected == UTF-8 and uploaded is ISO8859 => reject
         if (typeExpected.equals(LanguageFileType.UTF_8) && isUploadedISO8859)
-            throw new TranslateIt2Exception(TranslateIt2Error.IMPROPER_CHARACTERSET_IN_FILE);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_CHARACTERSET_IN_FILE);
         // ("The encoding is not same as defined for the version. It should be
         // UTF-8.");
     }
     
-    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws TranslateIt2Exception {
+    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) {
         try {
             Files.readAllLines(uploadedLngFile, charset);
         } catch (MalformedInputException e) {

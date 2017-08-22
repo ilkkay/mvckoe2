@@ -40,7 +40,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     private WorkService workService;
 
     @Override
-    public void checkEmptyFile(Path uploadedLngFile, long workId) throws TranslateIt2Exception {
+    public void checkEmptyFile(Path uploadedLngFile, long workId) {
         Charset charset = getCharSet(workId);
         LinkedHashMap<String, String> segments = null;
         try {
@@ -57,7 +57,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public void checkFileCharSet(Path uploadedLngFile, long workId) throws TranslateIt2Exception {
+    public void checkFileCharSet(Path uploadedLngFile, long workId) {
         LanguageFileType typeExpected = getExpectedFiletype(workId);
 
         boolean isUploadedUTF_8 = true;
@@ -95,7 +95,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public void checkFileExtension(Path uploadedLngFile) throws TranslateIt2Exception {
+    public void checkFileExtension(Path uploadedLngFile) {
         // check extension
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.properties");
 
@@ -105,7 +105,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
     }
 
     @Override
-    public String checkFileNameFormat(Path uploadedLngFile) throws TranslateIt2Exception {
+    public String checkFileNameFormat(Path uploadedLngFile) {
         String appName = null;
         // check file name format i.e. appName_region_language*.properties
         // or just appName_language*.properties => reject
@@ -274,7 +274,7 @@ public class Iso8859ValidatorImpl implements LanguageFileValidator {
         return map;
     }
 
-    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) throws TranslateIt2Exception {
+    private boolean isCorrectCharset(Path uploadedLngFile, Charset charset) {
         try {
             Files.readAllLines(uploadedLngFile, charset);
         } catch (MalformedInputException e) {

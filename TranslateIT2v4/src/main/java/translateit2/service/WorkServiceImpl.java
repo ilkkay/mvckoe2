@@ -15,26 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.annotation.Validated;
 
-import translateit2.persistence.dao.FileInfoRepository;
+import translateit2.exception.TranslateIt2ErrorCode;
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.TranslatorGroupRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dao.WorkRepository;
-import translateit2.persistence.dto.ProjectDto;
 import translateit2.persistence.dto.ProjectMapper;
-import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
-import translateit2.persistence.model.FileInfo;
 import translateit2.persistence.model.State;
 import translateit2.persistence.model.Target;
-import translateit2.persistence.model.TranslatorGroup;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
 
@@ -43,9 +38,6 @@ import translateit2.persistence.model.Work;
 @Service
 public class WorkServiceImpl implements WorkService {
     static final Logger logger = LogManager.getLogger(ProjectServiceImpl.class);
-
-    @Autowired
-    private FileInfoRepository fileInfoRepo;
 
     @Autowired
     private ProjectMapper modelMapper;
@@ -95,7 +87,7 @@ public class WorkServiceImpl implements WorkService {
         }
         else {
             logger.log(getLoggerLevel(), "Failed to create WorkDto with {} for group {} ", entity.toString(),groupName);
-            throw new IllegalArgumentException("Could not create work. No such group with name " + groupName);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
         }
 
     }
@@ -103,8 +95,6 @@ public class WorkServiceImpl implements WorkService {
     // https://www.javacodegeeks.com/2013/05/spring-data-solr-tutorial-pagination.html
     @Override
     public List<UnitDto> getPage(final long workId, int pageNumber, int pageSize) {
-        // TODO: not working Page<Unit> p =
-        // unitRepo.getUnitsByWorkId(Long.valueOf(workId), req);
 
         logger.log(getLoggerLevel(), "Entering getPage with  id: {}, page number {} and pageSize {}", workId, pageNumber,
                 pageSize);
@@ -128,15 +118,12 @@ public class WorkServiceImpl implements WorkService {
     public long getTranslatedLinesCount(long workId) {
         logger.log(getLoggerLevel(), "Entering getStatistics with  id: {} ", workId);
 
-        long translated1 = unitRepo.countStates(Long.valueOf(workId), State.TRANSLATED);
-        long translated2 = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
+        long translated = unitRepo.countByWorkIdAndTargetState(workId, State.TRANSLATED);
+        long needsReview = unitRepo.countByWorkIdAndTargetState(workId, State.NEEDS_REVIEW);
 
-        long needsReview1 = unitRepo.countStates(Long.valueOf(workId), State.NEEDS_REVIEW);
-        long needsReview2 = unitRepo.countByWorkIdAndTargetState(workId, State.NEEDS_REVIEW);
+        logger.log(getLoggerLevel(), "Leaving getStatistics with {} ", translated + needsReview);
 
-        logger.log(getLoggerLevel(), "Leaving getStatistics with {} ", translated2 + needsReview2);
-
-        return translated2 + needsReview2;
+        return translated + needsReview;
     }
 
     @Override
@@ -148,7 +135,7 @@ public class WorkServiceImpl implements WorkService {
         }
         else{
             logger.log(getLoggerLevel(), "Failure in getUnitDtoById with {}", unitId);
-            throw new IllegalArgumentException("Could not read unit. No such work having id = " + unitId);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
         }
     }
 
@@ -169,7 +156,7 @@ public class WorkServiceImpl implements WorkService {
         }
         else{
             logger.log(getLoggerLevel(), "Failure in getWorkDtoById with {}", workId);
-            throw new IllegalArgumentException("Could not read work. No such work having id = " + workId);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
         }
 
     }
@@ -183,7 +170,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkDto> listProjectWorkDtos(long projectId) {
+    public List<WorkDto> getProjectWorkDtos(long projectId) {
         logger.log(getLoggerLevel(), "Entering listProjectWorkDtos with id: {} ", projectId);
         List<WorkDto> workDtos = new ArrayList<WorkDto>();
         List<Work> works = workRepo.findAll().stream().filter(wrk -> projectId == wrk.getProject().getId())
@@ -195,7 +182,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<UnitDto> listUnitDtos(final long workId) {
+    public List<UnitDto> getUnitDtos(final long workId) {
         logger.log(getLoggerLevel(), "Entering listUnitDtos with id: {} ", workId);
         List<UnitDto> unitDtos = new ArrayList<UnitDto>();
         List<Unit> units = unitRepo.findAll().stream().filter(unit -> workId == unit.getWork().getId())
@@ -207,7 +194,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkDto> listWorkDtos(long groupId) {
+    public List<WorkDto> getWorkDtos(long groupId) {
         logger.log(getLoggerLevel(), "Entering listWorkDtos with id: {} ", groupId);
         List<WorkDto> workDtos = new ArrayList<WorkDto>();
         List<Work> works = workRepo.findAll().stream().filter(wrk -> groupId == wrk.getGroup().getId())
@@ -237,15 +224,25 @@ public class WorkServiceImpl implements WorkService {
             removeUnitDtos(workId);
             workRepo.delete(workId);
             logger.log(getLoggerLevel(), "Leaving removeWorkDto()");
-        } else
-            throw new IllegalArgumentException("Could not remove work. No such work having id = " + workId);
+        } else {
+            logger.log(getLoggerLevel(), "Failure in removeWorkDto(). Improper work id", workId);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
+        }
     }
 
     @Transactional
     @Override
-    public void removeWorkDtos(List<WorkDto> entities) {
+    public void removeWorkDtos(List<WorkDto> entities){
         logger.log(getLoggerLevel(), "Entering removeWorkDtos with list size {} ", entities.size());
-        entities.stream().forEach(wrk -> removeWorkDto(wrk.getId()));
+        entities.stream().forEach(wrk -> {
+                try {
+                    removeWorkDto(wrk.getId());
+                } catch (TranslateIt2Exception e) {
+                    try {
+                        throw e;
+                    } catch (TranslateIt2Exception e1) {} 
+                }
+        });
         logger.log(getLoggerLevel(), "Leaving removeWorkDtos()");
     }
 
@@ -326,7 +323,7 @@ public class WorkServiceImpl implements WorkService {
     public UnitDto updateTranslatedUnitDto(UnitDto unitDto, long workId) {
 
         logger.log(getLoggerLevel(), "Entering updateTranslatedUnitDto() with unit {} and workId {}", unitDto.toString(), workId);
-        
+
         if (!(workRepo.exists(workId))) {
             logger.log(getLoggerLevel(), "Failure in updateTranslatedUnitDto() with unit {} and workId {}", unitDto.toString(), workId);
             throw new IllegalArgumentException("Could not remove work. No such work having id = " + workId);
@@ -373,7 +370,7 @@ public class WorkServiceImpl implements WorkService {
         Work work = workRepo.findOne(workId);
         work.setProgress(progress);
         work = workRepo.save(work);
-        
+
         return convertToDto(work);
     }
 }

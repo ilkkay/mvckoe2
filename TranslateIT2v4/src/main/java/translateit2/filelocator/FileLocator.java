@@ -10,10 +10,10 @@ import translateit2.languagefile.LanguageFileFormat;
 public interface FileLocator {
     
     Path createFileIntoPermanentFileSystem(List<String> downloadFileAsList, LanguageFileFormat format,  
-            Charset charset) throws TranslateIt2Exception;
+            Charset charset);
     
     Path moveUploadedFileIntoPermanentFileSystem(Path uploadedFile,
-            LanguageFileFormat format) throws TranslateIt2Exception;
+            LanguageFileFormat format);
     
     void deleteFileFromPermanentFileSystem(Path fileToDeletePath);
     

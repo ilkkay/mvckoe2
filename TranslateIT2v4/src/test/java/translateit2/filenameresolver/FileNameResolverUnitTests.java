@@ -17,7 +17,7 @@ import translateit2.exception.TranslateIt2Exception;
 public class FileNameResolverUnitTests {
 
     @Test
-    public void resolveFileName_assertAppName() throws TranslateIt2Exception {
+    public void resolveFileName_assertAppName() {
         // when
         String returnAppName = fileNameResolver().getApplicationName("dotCMS_fi.properties");      
         // then
@@ -30,7 +30,7 @@ public class FileNameResolverUnitTests {
     }
 
     @Test
-    public void resolveFileName_assertLocale() throws TranslateIt2Exception {
+    public void resolveFileName_assertLocale() {
         
         // initialize
         String expected = "fi_FI";

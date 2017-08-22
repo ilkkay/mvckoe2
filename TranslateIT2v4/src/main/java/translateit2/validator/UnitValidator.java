@@ -6,10 +6,8 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import translateit2.persistence.dao.ProjectRepository;
 import translateit2.persistence.dao.UnitRepository;
 import translateit2.persistence.dto.UnitDto;
-import translateit2.util.Messages;
 
 // http://dolszewski.com/spring/custom-validation-annotation-in-spring/
 
