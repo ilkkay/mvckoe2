@@ -1,5 +1,6 @@
 package translateit2;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.PersonDto;
@@ -291,8 +293,84 @@ public class ProjectServiceIntegrationTest {
 
     @After
     public void reset() {
+        // remove all for a person
+        List<ProjectDto> personPrjs = projectService.getProjectDtos(testPersonId);
+        projectService.removeProjectDtos(personPrjs);
+
         projectService.removePersonDto(testPersonId);
 
         projectService.removeGroupDto(testGroupId);
+    }
+    
+    @Test
+    public void AddProject_assertAllFields() {
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Translate IT 333");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj = projectService.createProjectDto(prj,"James Bond");
+        
+        assertThat("Translate IT 333",equalTo(prj.getName()));
+        assertThat("fi_FI".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
+        assertThat(LanguageFileFormat.PROPERTIES,equalTo(prj.getFormat()));
+        assertThat(LanguageFileType.UTF_8,equalTo(prj.getType()));
+        
+        projectService.removeProjectDto(prj.getId());
+        
+    }
+    
+    @Test
+    public void RemoveProject_assertTranslateIt2Exception() {
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Translate IT 333");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+        prj = projectService.createProjectDto(prj,"James Bond");      
+        
+        projectService.removeProjectDto(prj.getId());
+        
+        assertThatCode(() -> projectService.getProjectDtoByProjectName("Translate IT 333"))
+        .isExactlyInstanceOf(TranslateIt2Exception.class);        
+        
+    }
+    
+    @Test
+    public void RemoveProjectHavingWorks_assert_WorkCount() {
+        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
+        WorkDto work = new WorkDto();
+        work.setProjectId(prj.getId());
+        work.setLocale(new Locale("en_EN"));
+        work.setVersion("0.073");
+        work.setPriority(Priority.HIGH);
+        LocalDate currentDate = LocalDate.now();
+        LocalDate deadLine = currentDate.plusMonths(2L);
+        deadLine = deadLine.plusDays(5L);
+        work.setDeadLine(deadLine);
+        work = workService.createWorkDto(work,"Group name 2");   
+        
+        projectService.removeProjectDto(prj.getId());
+        
+        // assert that no works left
+        assertThat(0L, is(equalTo(workService.getWorkDtoCount(testGroupId))));        
+    }
+    
+    @Test
+    public void UpdateProject_assertAllFields() {
+        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
+        prj.setName("Translate IT 333");
+        prj.setSourceLocale(new Locale("en_EN"));
+        prj.setFormat(LanguageFileFormat.XLIFF);
+        prj.setType(LanguageFileType.ISO8859_1);
+        prj = projectService.updateProjectDto(prj);
+        
+        assertThat("Translate IT 333",equalTo(prj.getName()));
+        assertThat("en_EN".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
+        assertThat(LanguageFileFormat.XLIFF,equalTo(prj.getFormat()));
+        assertThat(LanguageFileType.ISO8859_1,equalTo(prj.getType()));
+        
+        projectService.removeProjectDto(prj.getId());
+        
     }
 }
