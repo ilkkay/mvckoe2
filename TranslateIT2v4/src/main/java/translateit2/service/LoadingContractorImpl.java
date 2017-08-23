@@ -47,7 +47,6 @@ import translateit2.persistence.model.Target;
 import translateit2.persistence.model.Unit;
 import translateit2.persistence.model.Work;
 
-@Validated
 @EnableTransactionManagement
 @Service
 public class LoadingContractorImpl implements LoadingContractor {

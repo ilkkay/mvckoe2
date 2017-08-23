@@ -26,7 +26,7 @@ public interface WorkService {
 
     List<UnitDto> getUnitDtos(final long workId);
 
-    UnitDto updateTranslatedUnitDto(UnitDto translatedUnitDto, final long workId);
+    UnitDto updateTranslatedUnitDto(@Valid UnitDto translatedUnitDto, final long workId);
 
     void removeUnitDtos(final long workId);
 
@@ -50,7 +50,7 @@ public interface WorkService {
 
     void removeWorkDto(final long workId);
 
-    void removeWorkDtos(List<WorkDto> entities);
+    void removeWorkDtos(@Valid List<WorkDto> entities);
     
     WorkDto updateWorkDto(@Valid final WorkDto entity);
     

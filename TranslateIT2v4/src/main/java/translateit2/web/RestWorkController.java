@@ -47,7 +47,7 @@ public class RestWorkController {
     // -------------------Create a work
     // -------------------------------------------
     @RequestMapping(value = "/work/", method = RequestMethod.POST)
-    public ResponseEntity<?> createWork(@Valid @RequestBody WorkDto work, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createWork(@RequestBody WorkDto work, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project : {}", work);
 
         WorkDto wrk = workService.createWorkDto(work,"Group name 1");

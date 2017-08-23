@@ -56,7 +56,7 @@ public interface ProjectService {
 
     void removeProjectDto(final long projectId);
     
-    void removeProjectDtos(List<ProjectDto> entities);
+    void removeProjectDtos(@Valid List<ProjectDto> entities);
 
     ProjectDto updateProjectDto(@Valid final ProjectDto entity);
 }

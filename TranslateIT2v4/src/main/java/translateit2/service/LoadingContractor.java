@@ -15,9 +15,9 @@ public interface LoadingContractor {
 
     Stream <Path> downloadTarget(long workId);
     
-    void uploadSource(@Valid MultipartFile file, long workId);
+    void uploadSource(MultipartFile file, long workId);
     
     void removeUploadedSource(long workId);
     
-    void uploadTarget(@Valid MultipartFile file, long workId);
+    void uploadTarget(MultipartFile file, long workId);
 }
