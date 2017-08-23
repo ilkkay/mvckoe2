@@ -22,22 +22,6 @@ import translateit2.languagebeancache.reader.PropertiesFileReaderImpl;
 
 public class PropertiesFileReaderUnitTest {
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void readImproperFile_assertFileLoaderException() {
         // WHEN permanent properties is not a proper properties file

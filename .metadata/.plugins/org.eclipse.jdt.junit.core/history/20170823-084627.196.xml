@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="LanguageFileValidatorUnitTest" project="TranslateIT2v4" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.validator.LanguageFileValidatorUnitTest" time="0.281">
+    <testcase name="readUTF8File_notFailIfExpectUTF8" classname="translateit2.validator.LanguageFileValidatorUnitTest" time="0.218"/>
+    <testcase name="readIso8859File_notFailIfExpectIso8859" classname="translateit2.validator.LanguageFileValidatorUnitTest" time="0.016"/>
+    <testcase name="readIso8859File_failIfExpectIso8859" classname="translateit2.validator.LanguageFileValidatorUnitTest" time="0.016"/>
+    <testcase name="readUTF8File_failIfExpectIso8859" classname="translateit2.validator.LanguageFileValidatorUnitTest" time="0.031"/>
+  </testsuite>
+</testrun>

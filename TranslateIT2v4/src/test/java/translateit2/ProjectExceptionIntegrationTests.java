@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Locale;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
@@ -135,9 +136,10 @@ public class ProjectExceptionIntegrationTests {
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations().stream()
-                    .filter(v -> v.getMessage().contains(messages.getPart("ProjectValidator.project_exists_already")))
+                    .filter(v -> v.getMessageTemplate().contains("ProjectValidator.project_exists_already"))
                     .count(), is(equalTo(1L)));
         }
+        
     }
 
     // @Test

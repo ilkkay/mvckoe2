@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="PropertiesFileReaderUnitTest" project="TranslateIT2v4" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.languagebeancache.PropertiesFileReaderUnitTest" time="0.25">
+    <testcase name="getOriginalFileAsList_assertStringCount" classname="translateit2.languagebeancache.PropertiesFileReaderUnitTest" time="0.203"/>
+    <testcase name="readImproperFile_assertFileLoaderException" classname="translateit2.languagebeancache.PropertiesFileReaderUnitTest" time="0.0"/>
+    <testcase name="readPropertiesFile_assertSegmentCount" classname="translateit2.languagebeancache.PropertiesFileReaderUnitTest" time="0.047"/>
+  </testsuite>
+</testrun>

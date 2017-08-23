@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.FileSystemUtils;
@@ -29,7 +31,27 @@ public class FileLoaderUnitTests {
     private String testUploadDir="upload-dir";
 
     private String testDownloadDir="download-dir";
-    
+
+    @Before
+    public void setUp() throws Exception {
+
+        if (!(Files.exists(Paths.get(testUploadDir)))) 
+            Files.createDirectory(Paths.get(testUploadDir));  
+        else
+            FileSystemUtils.deleteRecursively(Paths.get(testUploadDir).toFile()); 
+        
+        if (!(Files.exists(Paths.get(testDownloadDir)))) 
+            Files.createDirectory(Paths.get(testDownloadDir));  
+        else
+            FileSystemUtils.deleteRecursively(Paths.get(testDownloadDir).toFile()); 
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        FileSystemUtils.deleteRecursively(Paths.get(testUploadDir).toFile()); 
+        FileSystemUtils.deleteRecursively(Paths.get(testDownloadDir).toFile()); 
+    }
+
     @Test
     public void storeMultipartFile_assertUploadedFile() throws IOException {
 
@@ -92,14 +114,14 @@ public class FileLoaderUnitTests {
     }
 
     @Test
-    public void listFilesInUploadDirectory_assertFileCount() throws IOException {
+    public void getFilesInDownloadDirectory_assertFileCount() throws IOException {
         // when two files exists
-        Path uploadDir = Paths.get(testUploadDir);
-        FileSystemUtils.deleteRecursively(uploadDir.toFile());
-        if (Files.notExists(uploadDir)) Files.createDirectory(uploadDir);
-        Path filePath1 = uploadDir.resolve("first.txt"); 
+        Path downDir = Paths.get(testDownloadDir);
+        FileSystemUtils.deleteRecursively(downDir.toFile());
+        if (Files.notExists(downDir)) Files.createDirectory(downDir);
+        Path filePath1 = downDir.resolve("first.txt"); 
         if (Files.notExists(filePath1)) Files.createFile(filePath1);
-        Path filePath2 = uploadDir.resolve("second.txt"); 
+        Path filePath2 = downDir.resolve("second.txt"); 
         if (Files.notExists(filePath2)) Files.createFile(filePath2);
 
         // then get paths of files in upload directory

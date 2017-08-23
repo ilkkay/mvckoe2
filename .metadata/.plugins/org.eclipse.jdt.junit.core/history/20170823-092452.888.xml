@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.fileloader.FileLoaderUnitTests.listFilesInUploadDirectory_assertFileCount" project="TranslateIT2v4" tests="1" started="1" failures="0" errors="1" ignored="0">
+  <testcase name="initializationError" classname="org.junit.runner.manipulation.Filter" time="0.0">
+    <error>java.lang.Exception: No tests found matching [{ExactMatcher:fDisplayName=listFilesInUploadDirectory_assertFileCount], {ExactMatcher:fDisplayName=listFilesInUploadDirectory_assertFileCount(translateit2.fileloader.FileLoaderUnitTests)], {LeadingIdentifierMatcher:fClassName=translateit2.fileloader.FileLoaderUnitTests,fLeadingIdentifier=listFilesInUploadDirectory_assertFileCount]] from org.junit.internal.requests.ClassRequest@1175e2db&#13;
+	at org.junit.internal.requests.FilterRequest.getRunner(FilterRequest.java:40)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createFilteredTest(JUnit4TestLoader.java:77)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createTest(JUnit4TestLoader.java:68)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.loadTests(JUnit4TestLoader.java:43)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:444)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</error>
+  </testcase>
+</testrun>

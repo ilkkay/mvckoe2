@@ -32,8 +32,8 @@ import translateit2.languagefile.LanguageFileFormat;
 public class FileLocatorUnitTests {
     List<Path> newLocation = new ArrayList<Path>();
 
-    private String testPermanentDir = "D:\\sw-tools\\STS\\translateit2testi\\TranslateIT2v4\\permanentDir"; 
-    
+    private String testPermanentDir = "D:\\sw-tools\\STS\\TranslateIT2v4\\TranslateIT2v4\\permanentDir"; 
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
     }
@@ -45,11 +45,17 @@ public class FileLocatorUnitTests {
     @Before
     public void setUp() throws Exception {
         newLocation = new ArrayList<Path> ();
+
+        if (!(Files.isDirectory(Paths.get(testPermanentDir)))) 
+            //if (!(Files.exists(Paths.get(testPermanentDir)))) 
+            Files.createDirectory(Paths.get(testPermanentDir));  
+        else
+            FileSystemUtils.deleteRecursively(Paths.get(testPermanentDir).toFile()); 
     }
 
     @After
     public void tearDown() throws Exception {
-
+        FileSystemUtils.deleteRecursively(Paths.get(testPermanentDir).toFile()); 
     }
 
     @Test
