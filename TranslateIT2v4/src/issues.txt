@@ -141,6 +141,7 @@ java.lang.NullPointerException: null <= ModelAndView container is null
 
 64) cleanappiin poista koodit jotka eivät ole käytössä, koska ne löytyvät gitistä DONE
 
+65) validator => service-tasolle
 
 + testauksen koodikirjaston scopeiksi test ??? 
     vrt. https://blog.pragmasphere.com/2014/06/05/maven-and-test-dependencies/
