@@ -2,6 +2,7 @@ package translateit2.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -13,6 +14,7 @@ public class Source {
 
     private String skeleton_tag;
 
+    @NotNull
     @Column(length=10000)
     private String text;
 
