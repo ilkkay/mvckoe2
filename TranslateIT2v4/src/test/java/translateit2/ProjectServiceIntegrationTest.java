@@ -5,15 +5,26 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +32,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mapping.PropertyPath;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -33,6 +45,7 @@ import translateit2.persistence.dto.TranslatorGroupDto;
 import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Priority;
+import translateit2.persistence.model.Project;
 import translateit2.persistence.model.Source;
 import translateit2.persistence.model.Status;
 import translateit2.persistence.model.Target;
@@ -152,7 +165,7 @@ public class ProjectServiceIntegrationTest {
 
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
         assertEquals("Translate IT 22", prj.getName());
-        
+
         prj.setName("Translate IT 4");
         prj = projectService.updateProjectDto(prj);
         prj = projectService.getProjectDtoById(prj.getId());
@@ -231,14 +244,14 @@ public class ProjectServiceIntegrationTest {
         // WHEN update deadline
         work.setDeadLine(LocalDate.parse("2017-11-11"));
         work = workService.updateWorkDto(work);
-        
+
         // THEN retrieve it into new entity
         wrk1 = workService.getWorkDtoById(work.getId());
 
         // assert that date is OK
         LocalDate expected = LocalDate.parse("2017-11-11");
         assertThat(expected, equalTo(wrk1.getDeadLine()));
-        
+
         // assert that work count is one
         assertThat(1L, equalTo(workService.getWorkDtoCount(testGroupId)));
         List<WorkDto> works = workService.getWorkDtos(testGroupId);
@@ -254,7 +267,7 @@ public class ProjectServiceIntegrationTest {
 
         // THEN remove created project and remove all works of its parent project
         projectService.removeProjectDto(wrk1.getProjectId());
-        
+
         // assert that no works left
         assertThat(0L, is(equalTo(workService.getWorkDtoCount(testGroupId))));
 
@@ -270,7 +283,7 @@ public class ProjectServiceIntegrationTest {
         Locale.setDefault(Locale.ENGLISH); // for javax validation
         messages.resetLocale(Locale.ENGLISH); // for custom validation
 
-        
+
         PersonDto personDto = new PersonDto();
         personDto.setFullName("James Bond");
         personDto = projectService.createPersonDto(personDto);
@@ -301,7 +314,7 @@ public class ProjectServiceIntegrationTest {
 
         projectService.removeGroupDto(testGroupId);
     }
-    
+
     @Test
     public void AddProject_assertAllFields() {
         ProjectDto prj = new ProjectDto();
@@ -310,16 +323,90 @@ public class ProjectServiceIntegrationTest {
         prj.setFormat(LanguageFileFormat.PROPERTIES);
         prj.setType(LanguageFileType.UTF_8);
         prj = projectService.createProjectDto(prj,"James Bond");
-        
+
         assertThat("Translate IT 333",equalTo(prj.getName()));
         assertThat("fi_FI".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
         assertThat(LanguageFileFormat.PROPERTIES,equalTo(prj.getFormat()));
         assertThat(LanguageFileType.UTF_8,equalTo(prj.getType()));
-        
+
         projectService.removeProjectDto(prj.getId());
-        
+
+    }
+
+    @Test
+    public void AddProject_assertViolation_ShortProjectName() {
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Tr.");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+
+        try {
+            prj = projectService.createProjectDto(prj,"James Bond");
+            projectService.removeProjectDto(prj.getId());
+            fail("No Constraint Violation Exception thrown");
+        } catch (ConstraintViolationException e) {                        
+            ConstraintViolation<ProjectDto> constraintViolation = (ConstraintViolation<ProjectDto>) e.getConstraintViolations().stream().findFirst().get();
+            String messageTemplate = constraintViolation.getMessageTemplate();
+            assert("ProjectDto.projectName.size".equals(messageTemplate));                        
+        }
     }
     
+    @Test
+    public void AddProject_assertViolation_LongProjectName() {
+        ProjectDto prj = new ProjectDto();
+        prj.setName("Tr..........................................................");
+        prj.setSourceLocale(new Locale("fi_FI"));
+        prj.setFormat(LanguageFileFormat.PROPERTIES);
+        prj.setType(LanguageFileType.UTF_8);
+
+        try {
+            prj = projectService.createProjectDto(prj,"James Bond");
+            projectService.removeProjectDto(prj.getId());
+            fail("No Constraint Violation Exception thrown");
+        } catch (ConstraintViolationException e) {                        
+            ConstraintViolation<ProjectDto> constraintViolation = (ConstraintViolation<ProjectDto>) e.getConstraintViolations().stream().findFirst().get();
+            String messageTemplate = constraintViolation.getMessageTemplate();
+            assert("ProjectDto.projectName.size".equals(messageTemplate));                        
+        }
+    }
+    
+    @Test
+    public void AddEmptyProject_assertViolation_Name_SourceLocale_Format_and_Type() {
+
+        try {
+            ProjectDto prj = new ProjectDto();
+            prj = projectService.createProjectDto(prj,"James Bond");
+            projectService.removeProjectDto(prj.getId());
+            fail("No Constraint Violation Exception thrown");
+        } catch (ConstraintViolationException e) {
+
+            List <Path> returnedPropertyPaths = new ArrayList<Path>();
+            List <String> returnedFields = new ArrayList<String>();
+
+            e.getConstraintViolations().stream()
+            .forEach(v -> returnedPropertyPaths.add(v.getPropertyPath()));
+
+            for(Path p : returnedPropertyPaths) {
+                Iterator<Path.Node> nodeIterator = p.iterator();
+                String lastNode = "";
+                while (nodeIterator.hasNext()) {
+                    Path.Node node = nodeIterator.next();
+                    lastNode = node.toString();
+                }
+                returnedFields.add(lastNode);
+            }
+
+            List <String> expectedFields = Arrays.asList("format","name","sourceLocale","charset");
+
+            Collections.sort(returnedFields);
+            Collections.sort(expectedFields);
+            assertThat(returnedFields, 
+                    IsIterableContainingInOrder.contains(expectedFields.toArray()));
+        }
+
+    }
+
     @Test
     public void RemoveProject_assertTranslateIt2Exception() {
         ProjectDto prj = new ProjectDto();
@@ -328,14 +415,14 @@ public class ProjectServiceIntegrationTest {
         prj.setFormat(LanguageFileFormat.PROPERTIES);
         prj.setType(LanguageFileType.UTF_8);
         prj = projectService.createProjectDto(prj,"James Bond");      
-        
+
         projectService.removeProjectDto(prj.getId());
-        
+
         assertThatCode(() -> projectService.getProjectDtoByProjectName("Translate IT 333"))
         .isExactlyInstanceOf(TranslateIt2Exception.class);        
-        
+
     }
-    
+
     @Test
     public void RemoveProjectHavingWorks_assert_WorkCount() {
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
@@ -349,13 +436,13 @@ public class ProjectServiceIntegrationTest {
         deadLine = deadLine.plusDays(5L);
         work.setDeadLine(deadLine);
         work = workService.createWorkDto(work,"Group name 2");   
-        
+
         projectService.removeProjectDto(prj.getId());
-        
+
         // assert that no works left
         assertThat(0L, is(equalTo(workService.getWorkDtoCount(testGroupId))));        
     }
-    
+
     @Test
     public void UpdateProject_assertAllFields() {
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
@@ -364,13 +451,13 @@ public class ProjectServiceIntegrationTest {
         prj.setFormat(LanguageFileFormat.XLIFF);
         prj.setType(LanguageFileType.ISO8859_1);
         prj = projectService.updateProjectDto(prj);
-        
+
         assertThat("Translate IT 333",equalTo(prj.getName()));
         assertThat("en_EN".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
         assertThat(LanguageFileFormat.XLIFF,equalTo(prj.getFormat()));
         assertThat(LanguageFileType.ISO8859_1,equalTo(prj.getType()));
-        
+
         projectService.removeProjectDto(prj.getId());
-        
+
     }
 }
