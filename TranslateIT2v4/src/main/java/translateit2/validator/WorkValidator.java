@@ -44,8 +44,7 @@ public class WorkValidator implements ConstraintValidator<WorkConstraint, WorkDt
         if (isExisitingWorkWithSameVersion) {
             isValid = false;
             context.disableDefaultConstraintViolation();
-            String s = "Version code exists already";
-            context.buildConstraintViolationWithTemplate(s).addPropertyNode("version").addConstraintViolation(); // $NON-NLS-1$                
+            context.buildConstraintViolationWithTemplate("WorkDto.work_version_exists_already").addPropertyNode("version").addConstraintViolation(); // $NON-NLS-1$                
         }
 
         return isValid;

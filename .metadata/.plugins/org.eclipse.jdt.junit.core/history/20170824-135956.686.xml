@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ProjectValidatorTest" project="TranslateIT2v4" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.validator.ProjectValidatorTest" time="0.486">
+    <testcase name="CreateProject_FailIfProjectNameExists" classname="translateit2.validator.ProjectValidatorTest" time="0.45"/>
+    <testcase name="test_messages" classname="translateit2.validator.ProjectValidatorTest" time="0.016"/>
+    <testcase name="CreateEntity_FailIfProjectNameShort" classname="translateit2.validator.ProjectValidatorTest" time="0.005"/>
+    <testcase name="UpdateExistingProject_assertNoViolation" classname="translateit2.validator.ProjectValidatorTest" time="0.0"/>
+    <testcase name="UpdateEntity_FailIfSourceLocale_Name_Format_And_Charset_Null" classname="translateit2.validator.ProjectValidatorTest" time="0.015"/>
+  </testsuite>
+</testrun>

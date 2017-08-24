@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ProjectServiceIntegrationTest" project="TranslateIT2v4" tests="7" started="7" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.ProjectServiceIntegrationTest" time="0.621">
+    <testcase name="AddEmptyProject_assertViolation_Name_SourceLocale_Format_and_Type" classname="translateit2.ProjectServiceIntegrationTest" time="0.125"/>
+    <testcase name="AddProjectLongProjectName_assertViolation_ProjectNameSize" classname="translateit2.ProjectServiceIntegrationTest" time="0.23"/>
+    <testcase name="AddProjectHavingShortProjectName_assertViolation__ProjectNameSize" classname="translateit2.ProjectServiceIntegrationTest" time="0.032"/>
+    <testcase name="RemoveProject_assertTranslateIt2Exception" classname="translateit2.ProjectServiceIntegrationTest" time="0.093"/>
+    <testcase name="UpdateProject_assertAllFields" classname="translateit2.ProjectServiceIntegrationTest" time="0.063"/>
+    <testcase name="AddProject_assertAllFields" classname="translateit2.ProjectServiceIntegrationTest" time="0.031"/>
+    <testcase name="RemoveProjectHavingWorks_assertWorkCount" classname="translateit2.ProjectServiceIntegrationTest" time="0.047"/>
+  </testsuite>
+</testrun>

@@ -66,8 +66,8 @@ import translateit2.util.Messages;
 // 666","ProjectNameMinSize = 3"})
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
-public class ProjectServiceIntegrationTest {
-    static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTest.class.getName());
+public class ProjectServiceIntegrationTestOld {
+    static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTestOld.class.getName());
 
     private long testPersonId;
 

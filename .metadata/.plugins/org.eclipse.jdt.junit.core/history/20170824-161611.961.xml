@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.WorkServiceIntegrationTest" project="TranslateIT2v4" tests="11" started="11" failures="0" errors="0" ignored="0">
+  <testsuite name="translateit2.WorkServiceIntegrationTest" time="0.769">
+    <testcase name="RemoveProjectHavingWorks_assert_WorkCount" classname="translateit2.WorkServiceIntegrationTest" time="0.297"/>
+    <testcase name="AddEmptyProject_assertViolation_Name_SourceLocale_Format_and_Type" classname="translateit2.WorkServiceIntegrationTest" time="0.066"/>
+    <testcase name="createWork_assertFields_and_WorkCount" classname="translateit2.WorkServiceIntegrationTest" time="0.078"/>
+    <testcase name="CreateEmptyWork_assertViolation_Name_SourceLocale_Format_and_Type" classname="translateit2.WorkServiceIntegrationTest" time="0.031"/>
+    <testcase name="AddWorkWithExistingVersionNumber_assertViolation" classname="translateit2.WorkServiceIntegrationTest" time="0.031"/>
+    <testcase name="upateWork_assertFields_and_WorkCount" classname="translateit2.WorkServiceIntegrationTest" time="0.078"/>
+    <testcase name="AddProject_assertViolation_ShortProjectName" classname="translateit2.WorkServiceIntegrationTest" time="0.032"/>
+    <testcase name="RemoveProject_assertTranslateIt2Exception" classname="translateit2.WorkServiceIntegrationTest" time="0.078"/>
+    <testcase name="AddProject_assertViolation_LongProjectName" classname="translateit2.WorkServiceIntegrationTest" time="0.031"/>
+    <testcase name="UpdateProject_assertAllFields" classname="translateit2.WorkServiceIntegrationTest" time="0.031"/>
+    <testcase name="AddProject_assertAllFields" classname="translateit2.WorkServiceIntegrationTest" time="0.016"/>
+  </testsuite>
+</testrun>

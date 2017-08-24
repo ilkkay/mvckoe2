@@ -46,7 +46,7 @@ import translateit2.service.LoadingContractor;;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TranslateIt2v4Application.class)
 public class LoadingContractorIntegrationTests {
-    static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTest.class.getName());
+    static final Logger logger = LogManager.getLogger(ProjectServiceIntegrationTestOld.class.getName());
 
     @Autowired
     private FileInfoRepository fileInfoRepo;
