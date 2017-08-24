@@ -2,6 +2,8 @@ package translateit2.exception;
 
 public enum TranslateIt2ErrorCode {
     CANNOT_CREATE_UPLOAD_DIRECTORY(""),
+    CANNOT_CREATE_DOWNLOAD_DIRECTORY(""),
+    CANNOT_CREATE_ROOT_DIRECTORY(""),
     CANNOT_CREATE_PERMANENT_DIRECTORY(""),
     CANNOT_CREATE_FILE(""),
     CANNOT_MOVE_FILE(""),

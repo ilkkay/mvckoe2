@@ -35,9 +35,12 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     private final Path uploadLocation;
 
     private final Path downloadLocation;
+    
+    private final Path rootTemporaryLocation;
 
     @Autowired
     public FileLoaderImpl(FileLoaderProperties properties) {
+        this.rootTemporaryLocation = Paths.get(properties.getRootTemporaryDirectory());
         this.uploadLocation = Paths.get(properties.getUploadLocation());
         this.downloadLocation = Paths.get(properties.getDownloadLocation());
     }
@@ -58,12 +61,26 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
     @Override
     public Path getUploadPath(String filename) {
-        return uploadLocation.resolve(filename);
+        if (Files.notExists(getFullPath(uploadLocation)))
+            try {
+                Files.createDirectory(getFullPath(uploadLocation));
+            } catch (IOException e) {
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_UPLOAD_DIRECTORY);
+            }
+        
+        return getFullPath(uploadLocation).resolve(filename);
     }
 
     @Override
     public Path getDownloadPath(String filename) {
-        return downloadLocation.resolve(filename);
+        if (Files.notExists(getFullPath(downloadLocation)))
+            try {
+                Files.createDirectory(getFullPath(downloadLocation));
+            } catch (IOException e) {
+                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_DOWNLOAD_DIRECTORY);
+            }
+        
+        return getFullPath(downloadLocation).resolve(filename);
     }
 
     @Override
@@ -95,7 +112,6 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             return Files.walk(this.downloadLocation, 1).filter(path -> !path.equals(this.downloadLocation))
                     .map(path -> this.downloadLocation.relativize(path));
         } catch (IOException e) {
-            //throw new CannotReadFileException(e.getCause());
             throw new TranslateIt2Exception(e.getCause());
         }
     }
@@ -113,7 +129,6 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                //throw new LoadedFileNotFoundException(filename);
                 throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_NOT_FOUND);
             }
 
@@ -131,23 +146,15 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
     @Override
     public Path storeToUploadDirectory(MultipartFile file) {
         if (file.isEmpty()) 
-            //throw new FileToLoadIsEmptyException(file.getOriginalFilename());
-            //throw new LoadedFileNotFoundException(file.getOriginalFilename());
             throw new TranslateIt2Exception(TranslateIt2ErrorCode.FILE_TOBELOADED_IS_EMPTY);
 
         Path outFilePath;
         try(InputStream in = file.getInputStream()) {    
 
-            // make sure that you have a directory where to upload
-            if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);
-            if (Files.notExists(uploadLocation)) 
-                //throw new CannotCreateUploadDirectoryException(rootLocation.toString());
-                throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_UPLOAD_DIRECTORY);
-
-            outFilePath = this.uploadLocation.resolve(file.getOriginalFilename());
+            outFilePath = getUploadPath(file.getOriginalFilename());
+            
             Files.copy(file.getInputStream(), outFilePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            //throw new CannotUploadFileException(file.getOriginalFilename(), e);
             throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_UPLOAD_FILE,e.getCause());
         }
 
@@ -157,13 +164,17 @@ public class FileLoaderImpl implements FileLoader, ResourceLoaderAware {
 
     @PostConstruct
     private void init() {
-        try {
-            deleteUploadedFiles();
+        deleteUploadedFiles();
 
-            if (Files.notExists(uploadLocation)) Files.createDirectory(uploadLocation);            
+        try {
+            if (Files.notExists(rootTemporaryLocation)) Files.createDirectory(rootTemporaryLocation);
         } catch (IOException e) {
-            //throw new CannotCreateUploadDirectoryException(rootLocation.toString(), e.getCause());
-            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_UPLOAD_DIRECTORY, e.getCause());
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_ROOT_DIRECTORY, e.getCause());
         }
+        
+    }
+    
+    private Path getFullPath(Path p) {
+        return rootTemporaryLocation.resolve(p);
     }
 }

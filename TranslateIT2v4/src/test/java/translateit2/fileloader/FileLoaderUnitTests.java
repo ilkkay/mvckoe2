@@ -31,6 +31,8 @@ public class FileLoaderUnitTests {
     private String testUploadDir="upload-dir";
 
     private String testDownloadDir="download-dir";
+    
+    private String testRootTemporaryDirectory ="D:\\sw-tools\\STS\\TranslateIT2v4";
 
     @Before
     public void setUp() throws Exception {
@@ -165,6 +167,7 @@ public class FileLoaderUnitTests {
         FileLoaderProperties props = new FileLoaderProperties();
         props.setUploadLocation(testUploadDir);
         props.setDownloadLocation(testDownloadDir);
+        props.setRootTemporaryDirectory(testRootTemporaryDirectory);
         return new FileLoaderImpl(props); 
     }
 }
