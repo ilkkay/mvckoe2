@@ -1,7 +1,0 @@
-1501568705970	Delete resource 'TranslateIT2v4/src/test.txt'
-1501593132191	Delete resource 'TranslateIT2v4/src/main/java/translateit2/fileloader/storage'
-1501594583253	Delete resource 'TranslateIT2v4/src/main/resources/testfile.sql'
-1501675441510	Delete resource 'TranslateIT2v4/src/main/java/translateit2/lngfileservice/LanguageFileStorageConfiguration.java'
-1501738904698	Delete resource 'TranslateIT2v4/src/main/java/translateit2/factory'
-1501757697078	Delete resource 'TranslateIT2v4/src/test/java/translateit2/fileloader/LanguageFileLoaderIntegrationTest.java'
-1501847505460	Delete resource 'TranslateIT2v4/src/main/java/translateit2/validator/TestClass.java'

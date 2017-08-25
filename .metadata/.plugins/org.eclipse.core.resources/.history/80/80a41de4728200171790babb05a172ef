@@ -1,5 +1,0 @@
-package translateit2.lngfileservice;
-
-public interface LanguageFile <F> {
-    F getFileFormat(); 
-}
