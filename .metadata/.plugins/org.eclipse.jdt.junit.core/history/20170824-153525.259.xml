@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="UnitServiceIntegrationTest" project="TranslateIT2v4" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="translateit2.UnitServiceIntegrationTest" time="0.629">
-    <testcase name="createUnit_assertAllFields" classname="translateit2.UnitServiceIntegrationTest" time="0.161"/>
-    <testcase name="CreateEmptyUnit_assertViolation" classname="translateit2.UnitServiceIntegrationTest" time="0.281"/>
-    <testcase name="updatateUnit_assertAllFields" classname="translateit2.UnitServiceIntegrationTest" time="0.062"/>
-    <testcase name="loadUnits_assertPagePagination" classname="translateit2.UnitServiceIntegrationTest" time="0.125"/>
-  </testsuite>
-</testrun>

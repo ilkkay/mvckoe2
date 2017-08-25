@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="PropertiesFileWriterUnitTest" project="TranslateIT2v4" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="translateit2.languagebeancache.PropertiesFileWriterUnitTest" time="0.093">
-    <testcase name="readCommentLine_EmptyLine_And_ProperSegmentLine_assertLineCount" classname="translateit2.languagebeancache.PropertiesFileWriterUnitTest" time="0.093"/>
-  </testsuite>
-</testrun>

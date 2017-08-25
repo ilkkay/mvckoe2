@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.ProjectExceptionIntegrationTests" project="TranslateIT2v4" tests="2" started="2" failures="0" errors="0" ignored="0">
-  <testsuite name="translateit2.ProjectExceptionIntegrationTests" time="0.093">
-    <testcase name="failCreateProject_ifProjectNameExists" classname="translateit2.ProjectExceptionIntegrationTests" time="0.078"/>
-    <testcase name="parameterTest" classname="translateit2.ProjectExceptionIntegrationTests" time="0.015"/>
-  </testsuite>
-</testrun>

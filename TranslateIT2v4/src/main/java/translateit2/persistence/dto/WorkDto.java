@@ -37,7 +37,7 @@ public class WorkDto {
     @NotNull
     private Priority priority;
 
-    private double progress;
+    private int progress;
 
     private long projectId;
 
@@ -84,7 +84,7 @@ public class WorkDto {
         return priority;
     }
 
-    public double getProgress() {
+    public int getProgress() {
         return progress;
     }
 
@@ -140,7 +140,7 @@ public class WorkDto {
         this.priority = priority;
     }
 
-    public void setProgress(double progress) {
+    public void setProgress(int progress) {
         this.progress = progress;
     }
 

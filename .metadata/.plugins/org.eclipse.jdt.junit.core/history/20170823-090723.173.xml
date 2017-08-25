@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun translateit2.fileLocator.FileLocatorUnitTests" project="TranslateIT2v4" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="translateit2.fileLocator.FileLocatorUnitTests" time="0.157">
-    <testcase name="moveFile_assertFileExists" classname="translateit2.fileLocator.FileLocatorUnitTests" time="0.157"/>
-    <testcase name="moveFile_failIfFileMissing" classname="translateit2.fileLocator.FileLocatorUnitTests" time="0.0"/>
-    <testcase name="createTemporaryFile_assertFileExists" classname="translateit2.fileLocator.FileLocatorUnitTests" time="0.0"/>
-  </testsuite>
-</testrun>

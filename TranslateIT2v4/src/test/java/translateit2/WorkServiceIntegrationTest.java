@@ -121,7 +121,7 @@ public class WorkServiceIntegrationTest {
         work.setPriority(Priority.HIGH);
         work.setStarted(LocalDate.now());
         work.setDeadLine(LocalDate.parse("2017-10-10"));
-        work.setProgress(0.666);
+        work.setProgress(66);
 
         work = workService.createWorkDto(work,"Group name 2");
         
@@ -135,7 +135,7 @@ public class WorkServiceIntegrationTest {
         assertEquals(Priority.HIGH,wrk1.getPriority());
         assertEquals(LocalDate.now(),wrk1.getStarted());
         assertEquals(LocalDate.parse("2017-10-10"),wrk1.getDeadLine());
-        assertThat(0.666,equalTo(wrk1.getProgress()));
+        assertThat(66,equalTo(wrk1.getProgress()));
 
         // assert that work count is one
         assertThat(1L, equalTo(workService.getWorkDtoCount(testGroupId)));
@@ -164,7 +164,7 @@ public class WorkServiceIntegrationTest {
         work.setPriority(Priority.HIGH);
         work.setStarted(LocalDate.now());
         work.setDeadLine(LocalDate.parse("2017-10-10"));
-        work.setProgress(0.666);
+        work.setProgress(66);
 
         work = workService.createWorkDto(work,"Group name 2");
         
@@ -250,7 +250,7 @@ public class WorkServiceIntegrationTest {
         work.setPriority(Priority.HIGH);
         work.setStarted(LocalDate.now());
         work.setDeadLine(LocalDate.parse("2017-10-10"));
-        work.setProgress(0.666);
+        work.setProgress(66);
         work = workService.createWorkDto(work,"Group name 2");
         long allWorksCount = workService.getWorkDtoCount(testGroupId);
 
@@ -265,7 +265,7 @@ public class WorkServiceIntegrationTest {
             wrk.setPriority(Priority.LOW);
             wrk.setStarted(LocalDate.parse("2017-10-10"));
             wrk.setDeadLine(LocalDate.parse("2017-11-11"));
-            wrk.setProgress(0.999);
+            wrk.setProgress(99);
             wrk = workService.updateWorkDto(wrk);
         } catch (ConstraintViolationException e) {                        
             fail("Constraint Violation Exception was thrown");
@@ -282,7 +282,7 @@ public class WorkServiceIntegrationTest {
         assertEquals(Priority.LOW,wrk1.getPriority());
         assertEquals(LocalDate.parse("2017-10-10"),wrk1.getStarted());
         assertEquals(LocalDate.parse("2017-11-11"),wrk1.getDeadLine());
-        assertThat(0.999,equalTo(wrk1.getProgress()));
+        assertThat(99,equalTo(wrk1.getProgress()));
 
         // and assert work count has remained the same
         assertThat(allWorksCount, equalTo(workService.getWorkDtoCount(testGroupId)));

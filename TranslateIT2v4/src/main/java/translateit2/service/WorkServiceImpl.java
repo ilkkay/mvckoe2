@@ -367,8 +367,10 @@ public class WorkServiceImpl implements WorkService {
 
         double progress = 1.0 * (translated + needsReview ) / total;
 
+        int procents = (int) Math.round(100 * progress);
+        
         Work work = workRepo.findOne(workId);
-        work.setProgress(progress);
+        work.setProgress(procents);
         work = workRepo.save(work);
 
         return convertToDto(work);

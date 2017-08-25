@@ -225,7 +225,7 @@ public class ProjectServiceIntegrationTestOld {
         work.setPriority(Priority.HIGH);
         work.setStarted(LocalDate.now());
         work.setDeadLine(LocalDate.parse("2017-10-10"));
-        work.setProgress(0.666);
+        work.setProgress(66);
 
         work = workService.createWorkDto(work,"Group name 2");
 
@@ -239,7 +239,7 @@ public class ProjectServiceIntegrationTestOld {
         assertEquals(Priority.HIGH,wrk1.getPriority());
         assertEquals(LocalDate.now(),wrk1.getStarted());
         assertEquals(LocalDate.parse("2017-10-10"),wrk1.getDeadLine());
-        assertThat(0.666,equalTo(wrk1.getProgress()));
+        assertThat(66,equalTo(wrk1.getProgress()));
 
         // WHEN update deadline
         work.setDeadLine(LocalDate.parse("2017-11-11"));

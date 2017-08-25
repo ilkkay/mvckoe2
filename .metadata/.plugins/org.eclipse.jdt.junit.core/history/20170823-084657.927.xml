@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="ProjectMapperTest" project="TranslateIT2v4" tests="5" started="5" failures="0" errors="0" ignored="0">
-  <testsuite name="translateit2.persistence.ProjectMapperTest" time="0.047">
-    <testcase name="map_unit_return_source_target" classname="translateit2.persistence.ProjectMapperTest" time="0.032"/>
-    <testcase name="map_project3_return_name_projectname" classname="translateit2.persistence.ProjectMapperTest" time="0.015"/>
-    <testcase name="test" classname="translateit2.persistence.ProjectMapperTest" time="0.0"/>
-    <testcase name="map_unitdto_return_source_target" classname="translateit2.persistence.ProjectMapperTest" time="0.0"/>
-    <testcase name="shouldInstantiateMapper" classname="translateit2.persistence.ProjectMapperTest" time="0.0"/>
-  </testsuite>
-</testrun>

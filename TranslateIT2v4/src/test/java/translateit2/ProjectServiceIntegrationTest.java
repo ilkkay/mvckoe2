@@ -53,13 +53,6 @@ import translateit2.service.ProjectService;
 import translateit2.service.WorkService;
 import translateit2.util.Messages;
 
-//https://springframework.guru/integration-testing-with-spring-and-junit/
-//https://springframework.guru/mockito-mock-vs-spy-in-spring-boot-tests/
-//https://dzone.com/articles/mockito-mock-vs-spy-in-spring-boot-tests
-//https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm
-// http://www.journaldev.com/2668/spring-validation-example-mvc-validator
-// https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-adding-validation-to-a-rest-api/
-
 @ConfigurationProperties(prefix = "test.translateit2")
 @TestPropertySource("test.properties")
 @RunWith(SpringRunner.class)
@@ -119,14 +112,14 @@ public class ProjectServiceIntegrationTest {
         prj.setSourceLocale(new Locale("fi_FI"));
         prj.setFormat(LanguageFileFormat.PROPERTIES);
         prj.setType(LanguageFileType.UTF_8);
-        
+
         // WHEN create it
         try {
             prj = projectService.createProjectDto(prj,"James Bond");
         } catch (ConstraintViolationException e) { 
             fail("A Constraint Violation Exception was thrown");            
         }
-        
+
         // THEN assert properties
         assertThat("Translate IT 333",equalTo(prj.getName()));
         assertThat("fi_FI".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
@@ -151,37 +144,37 @@ public class ProjectServiceIntegrationTest {
             projectService.removeProjectDto(prj.getId());
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {
-            
+
             // THEN assert size violation
             ConstraintViolation<?> constraintViolation =  e.getConstraintViolations().stream().findFirst().get();
             String messageTemplate = constraintViolation.getMessageTemplate();
             assert("ProjectDto.projectName.size".equals(messageTemplate));                        
         }
     }
-    
+
     @Test
     public void AddProjectLongProjectName_assertViolation_ProjectNameSize() {
-     // GIVEN a new project
+        // GIVEN a new project
         ProjectDto prj = new ProjectDto();
         prj.setSourceLocale(new Locale("fi_FI"));
         prj.setFormat(LanguageFileFormat.PROPERTIES);
         prj.setType(LanguageFileType.UTF_8);
 
-     // WHEN create project with short name
+        // WHEN create project with short name
         try {
             prj.setName("Tr..........................................................");
             prj = projectService.createProjectDto(prj,"James Bond");
             projectService.removeProjectDto(prj.getId());
             fail("No Constraint Violation Exception thrown");
         } catch (ConstraintViolationException e) {          
-            
+
             // THEN assert size violation
             ConstraintViolation<?> constraintViolation = e.getConstraintViolations().stream().findFirst().get();
             String messageTemplate = constraintViolation.getMessageTemplate();
             assert("ProjectDto.projectName.size".equals(messageTemplate));                        
         }
     }
-    
+
     @Test
     public void AddEmptyProject_assertViolation_Name_SourceLocale_Format_and_Type() {
 
@@ -196,7 +189,7 @@ public class ProjectServiceIntegrationTest {
             // THEN assert violations for null properties
             List <String> expectedFields = Arrays.asList("format","name","sourceLocale","charset");
             List <String> returnedFields = getViolatedFields( e);
-            
+
             Collections.sort(returnedFields);
             Collections.sort(expectedFields);
             assertThat(returnedFields, 
@@ -239,13 +232,13 @@ public class ProjectServiceIntegrationTest {
         work.setDeadLine(deadLine);
         work = workService.createWorkDto(work,"Group name 2");   
         long workId = work.getId();
-        
+
         // WHEN remove the project
         projectService.removeProjectDto(prj.getId());
 
         // THEN assert that no works left for the that projectId
         assertThat(0, equalTo(workService.getProjectWorkDtos(prj.getId()).size()));
-        
+
         // and assert exception if work reread
         assertThatCode(() -> workService.getWorkDtoById(workId) )
         .isExactlyInstanceOf(TranslateIt2Exception.class);  
@@ -255,7 +248,7 @@ public class ProjectServiceIntegrationTest {
     public void UpdateProject_assertAllFields() {
         // GIVEN a existing project
         ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
-        
+
         // WHEN update it
         prj.setName("Translate IT 333");
         prj.setSourceLocale(new Locale("en_EN"));
@@ -266,7 +259,7 @@ public class ProjectServiceIntegrationTest {
         } catch (ConstraintViolationException e) { 
             fail("A Constraint Violation Exception was thrown");            
         }
-        
+
         // THEN assert new property values
         assertThat("Translate IT 333",equalTo(prj.getName()));
         assertThat("en_EN".toLowerCase(),equalTo(prj.getSourceLocale().toString()));
@@ -276,7 +269,7 @@ public class ProjectServiceIntegrationTest {
         projectService.removeProjectDto(prj.getId());
 
     }
-    
+
     private List <String> getViolatedFields(ConstraintViolationException e) {
         List <Path> propertyPaths = new ArrayList<Path>();
 

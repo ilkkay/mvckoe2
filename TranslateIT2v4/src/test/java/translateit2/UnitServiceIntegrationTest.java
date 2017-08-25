@@ -1,5 +1,6 @@
 package translateit2;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -29,6 +30,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import translateit2.exception.TranslateIt2Exception;
 import translateit2.languagefile.LanguageFileFormat;
 import translateit2.languagefile.LanguageFileType;
 import translateit2.persistence.dto.PersonDto;
@@ -38,6 +40,7 @@ import translateit2.persistence.dto.UnitDto;
 import translateit2.persistence.dto.WorkDto;
 import translateit2.persistence.model.Priority;
 import translateit2.persistence.model.Source;
+import translateit2.persistence.model.State;
 import translateit2.persistence.model.Status;
 import translateit2.persistence.model.Target;
 import translateit2.service.ProjectService;
@@ -89,7 +92,7 @@ public class UnitServiceIntegrationTest {
         work.setPriority(Priority.HIGH);
         work.setStarted(LocalDate.now());
         work.setDeadLine(LocalDate.parse("2017-10-10"));
-        work.setProgress(0.666);
+        work.setProgress(66);
         work = workService.createWorkDto(work,"Group name 2");        
     }
 
@@ -122,6 +125,7 @@ public class UnitServiceIntegrationTest {
         s.setPlural("source texts");
         final Target t = new Target();
         t.setText("target text");
+        t.setState(State.NEW);
         unit.setSource(s);
         unit.setTarget(t);
 
@@ -148,6 +152,7 @@ public class UnitServiceIntegrationTest {
 
         Target returnedTarget = returnedUnitDto.getTarget();
         assertThat("target text",equalTo(returnedTarget.getText()));
+        assertThat(State.NEW,equalTo(returnedTarget.getState()));
 
     }
 
@@ -215,20 +220,24 @@ public class UnitServiceIntegrationTest {
         List<UnitDto> newUnitDtos = workService.getUnitDtos(work.getId());
         newUnitDtos.forEach(dto -> dto.setSegmentKey("new " + dto.getSegmentKey()));
         newUnitDtos.forEach(dto -> dto.getSource().setText("new " + dto.getSource().getText()));
-        newUnitDtos.forEach(dto -> dto.getTarget().setText("new " + dto.getTarget().getText()));
-
+        newUnitDtos.forEach(dto -> {
+            dto.getTarget().setText("new " + dto.getTarget().getText());   
+            dto.getTarget().setState(State.TRANSLATED);   
+        });
+        
         workService.updateUnitDtos(newUnitDtos, work.getId());
 
         // THEN assert unit count
         List<UnitDto> returnedUnitDtos = workService.getUnitDtos(work.getId());
         assertThat(1, equalTo(returnedUnitDtos.size()));
-        
+
         // and assert updated key and texts
         UnitDto returnedUnitDto = newUnitDtos.get(0);
         assertThat("new segmentKey",equalTo(returnedUnitDto.getSegmentKey()));
         assertThat(666,equalTo(returnedUnitDto.getSerialNumber()));
         assertThat("new source text",equalTo(returnedUnitDto.getSource().getText())); 
         assertThat("new target text",equalTo(returnedUnitDto.getTarget().getText()));  
+        assertThat(State.TRANSLATED,equalTo(returnedUnitDto.getTarget().getState()));
     }
 
     @Test
@@ -266,11 +275,49 @@ public class UnitServiceIntegrationTest {
             final UnitDto unit = unitPage.get(0);
             assertThat((pageNumber - 1) * pageSize + 1, equalTo(unit.getSerialNumber()));
         }
-        
+
 
         workService.removeUnitDtos(work.getId());
     }
 
+    @Test
+    public void removeWorkWithUnits_assertException_Units() {
+
+        // GIVEN a project and a work
+        ProjectDto prj = projectService.getProjectDtoByProjectName("Translate IT 22");
+        List<WorkDto> wrks = workService.getProjectWorkDtos(prj.getId());
+        WorkDto work = wrks.get(0);
+
+        // and GIVEN a number of units
+        List<UnitDto> unitDtos = new ArrayList<UnitDto>();
+        for (int i = 1; i <= 50; i++ ) {
+            final UnitDto unit = new UnitDto();
+            unit.setSegmentKey("segmentKey");
+            unit.setSerialNumber(i);
+            final Source s = new Source();
+            s.setText("source text");
+            final Target t = new Target();
+            unit.setSource(s);
+            unit.setTarget(t);
+
+            unitDtos.add(unit);
+        }
+        long workId = work.getId();
+        workService.createUnitDtos(unitDtos, work.getId());
+
+        List<Long> ids = new ArrayList<>();
+        workService.getUnitDtos(workId).stream().forEach(u -> ids.add((u.getId())));
+
+        // WHEN remove work
+        workService.removeWorkDto(workId);
+        
+        // THEN assert exception is thrown for every unit removed
+        for (long unitId : ids) {
+            assertThatCode(() -> workService.getUnitDtoById(unitId))
+            .isExactlyInstanceOf(TranslateIt2Exception.class); 
+        }
+
+    }
 
     private List <String> getViolatedFields(ConstraintViolationException e) {
         List <Path> propertyPaths = new ArrayList<Path>();
