@@ -61,7 +61,7 @@ public class Work implements Serializable {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    private double progress;
+    private int progress;
 
     @ManyToOne
     private Project project;
@@ -163,7 +163,7 @@ public class Work implements Serializable {
         this.priority = priority;
     }
 
-    public void setProgress(double progress) {
+    public void setProgress(int progress) {
         this.progress = progress;
     }
 

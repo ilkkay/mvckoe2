@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
-<fullyQualifiedTypeName name="java.util.stream.Collectors"/>
 <fullyQualifiedTypeName name="javax.validation.constraints.Size"/>
 <fullyQualifiedTypeName name="javax.validation.ConstraintViolationException"/>
 <fullyQualifiedTypeName name="javax.validation.ConstraintViolation"/>
@@ -40,7 +38,6 @@
 <fullyQualifiedTypeName name="translateit2.persistence.model.FileInfo"/>
 <fullyQualifiedTypeName name="translateit2.fileloader.FileLoader"/>
 <fullyQualifiedTypeName name="java.nio.file.Files"/>
-<fullyQualifiedTypeName name="translateit2.restapi.ViewStatistics"/>
 <fullyQualifiedTypeName name="translateit2.persistence.dao.UnitRepository"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="translateit2.util.Statistician"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="org.hamcrest.collection.IsIterableContainingInOrder"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="javax.validation.constraints.NotNull"/>
+<fullyQualifiedTypeName name="translateit2.restapi.ViewStatistics"/>
+<fullyQualifiedTypeName name="translateit2.service.WorkService"/>
+<fullyQualifiedTypeName name="translateit2.service.ProjectService"/>
 </qualifiedTypeNameHistroy>

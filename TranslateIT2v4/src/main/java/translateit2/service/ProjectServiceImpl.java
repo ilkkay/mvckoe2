@@ -120,7 +120,7 @@ public class ProjectServiceImpl implements ProjectService {
         logger.log(getLoggerLevel(), "Leaving getGroupDtoByName with {}", groupDto.toString());
         return groupDto;
     }
-    
+
     @Override
     public void removeGroupDto(final long groupId) {
         if (groupRepo.exists(groupId)) {
@@ -210,9 +210,15 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto getProjectDtoByProjectName(String projectName) {
         logger.log(getLoggerLevel(), "Entering getProjectDtoByProjectName with {}", projectName);
         Optional<Project> project = projectRepo.findByName(projectName);
-        ProjectDto projectDto = convertToDto(project.get());
-        logger.log(getLoggerLevel(), "Leaving getProjectDtoByProjectName with {}", projectDto.toString());
-        return projectDto;
+        if (project.isPresent()) {
+            ProjectDto projectDto = convertToDto(project.get());
+            logger.log(getLoggerLevel(), "Leaving getProjectDtoByProjectName with {}", projectDto.toString());
+            return projectDto;
+        }
+        else{
+            logger.log(getLoggerLevel(), "Failure in getProjectDtoByProjectName with name {}", projectName);
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.IMPROPER_IDENTIFIER_IN_DATA_OBJECT); 
+        }
     }
 
     @Override

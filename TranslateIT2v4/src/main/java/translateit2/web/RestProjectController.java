@@ -36,7 +36,7 @@ public class RestProjectController {
     // TODO: validation should be on the service side
     // ------------------------------------------
     @RequestMapping(value = "/project/", method = RequestMethod.POST)
-    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createProject(@RequestBody ProjectDto project, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project : {}", project);
 
         ProjectDto prj = projectService.createProjectDto(project,"Ilkka");
@@ -89,7 +89,7 @@ public class RestProjectController {
     // ------------------- Update a Project
     // ------------------------------------------------
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateProject(@PathVariable("id") long id, @Valid @RequestBody ProjectDto project) {
+    public ResponseEntity<?> updateProject(@PathVariable("id") long id, @RequestBody ProjectDto project) {
         logger.info("Updating Project with id {}", project.getId());
         
         ProjectDto updatedProject = projectService.updateProjectDto(project);

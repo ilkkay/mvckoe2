@@ -32,7 +32,8 @@ import translateit2.languagefile.LanguageFileFormat;
 public class FileLocatorUnitTests {
     List<Path> newLocation = new ArrayList<Path>();
 
-    private String testPermanentDir = "D:\\sw-tools\\STS\\TranslateIT2v4\\TranslateIT2v4\\permanentDir"; 
+    private String testPermanentDir = "permanentDir"; 
+    private String testRootPermanentDir = "D:\\sw-tools\\STS\\TranslateIT2v4\\TranslateIT2v4";
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -151,7 +152,9 @@ public class FileLocatorUnitTests {
 
     private FileLocator filelocator() {
         FileLoaderProperties props = new FileLoaderProperties();
-        props.setPermanentDirectory(testPermanentDir);
+        props.setPermanentLocation(testPermanentDir);
+        props.setRootPermanentDirectory(testRootPermanentDir);
+
         return new FileLocatorImpl(props); 
     }
 }

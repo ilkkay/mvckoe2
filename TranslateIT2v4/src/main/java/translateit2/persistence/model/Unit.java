@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -24,14 +27,17 @@ public class Unit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(length=10000)
     private String segment_key;
 
+    @Max(10000) 
+    @Min(1) 
     private int serialNumber;
 
     @Embedded // @Column(columnDefinition="TEXT")
     @AttributeOverrides({
-            @AttributeOverride(name = "text", column = @Column(name = "source_text", length=10000)),
+            @AttributeOverride(name = "text", column = @Column(name = "source_text", length=10000, nullable=false)),
             @AttributeOverride(name = "plural", column = @Column(name = "source_plural", length=10000)),
             @AttributeOverride(name = "skeleton_tag", column = @Column(name = "source_skeleton_tag")) })
     private Source source;

@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +21,14 @@ import translateit2.languagefile.LanguageFileFormat;
 @Component
 public class FileLocatorImpl implements FileLocator {
     
-    private String permanentDirectory; 
+    private final Path rootPermanentDirectory; 
+    
+    private final Path permanentLocation;
 
     @Autowired
     public FileLocatorImpl(FileLoaderProperties properties) {
-        this.permanentDirectory = properties.getPermanentDirectory(); //Paths.get(properties.getPermanentDirectory());
+        this.permanentLocation = Paths.get(properties.getPermanentLocation());
+        this.rootPermanentDirectory = Paths.get(properties.getRootPermanentDirectory());
     }
     
     @Override
@@ -31,7 +36,7 @@ public class FileLocatorImpl implements FileLocator {
             LanguageFileFormat format) {
         
         // create new path for permanent file storage
-        Path outFilePath = getUniquePath(format, permanentDirectory);
+        Path outFilePath = getUniquePath(format, getFullPath(rootPermanentDirectory));
         Path dir = outFilePath.getParent();
         if (Files.notExists(dir))
             try {
@@ -50,11 +55,9 @@ public class FileLocatorImpl implements FileLocator {
         return outFilePath;
     }
 
-    private Path getUniquePath(LanguageFileFormat format, String rootDirectrory) {
+    private Path getUniquePath(LanguageFileFormat format, Path rootPath) {
         //Path test = fileLoaderService
                 
-        Path rootPath = Paths.get(rootDirectrory);
-        
         Path fnamePath = Paths.get(java.util.UUID.randomUUID().toString());
         Path dirPath = Paths.get(LocalDate.now().toString());
         Path path = dirPath.resolve(fnamePath);
@@ -79,7 +82,7 @@ public class FileLocatorImpl implements FileLocator {
             LanguageFileFormat format, Charset charset) {
         
         // create new path for temporary file in permanent storage
-        Path outFilePath = getUniquePath(format, permanentDirectory);
+        Path outFilePath = getUniquePath(format, getFullPath(rootPermanentDirectory));
         Path dir = outFilePath.getParent();
         if (Files.notExists(dir))
             try {
@@ -95,5 +98,18 @@ public class FileLocatorImpl implements FileLocator {
             throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_FILE);
         }       
 
+    }
+    
+    @PostConstruct
+    private void init() {        
+        try {
+            if (Files.notExists(permanentLocation)) Files.createDirectory(permanentLocation);
+        } catch (IOException e) {
+            throw new TranslateIt2Exception(TranslateIt2ErrorCode.CANNOT_CREATE_ROOT_DIRECTORY, e.getCause());
+        }
+    }
+    
+    private Path getFullPath(Path p) {
+        return permanentLocation.resolve(p);
     }
 }
